@@ -1,0 +1,53 @@
+rank,market,index,usd_per_watt
+1,Tokyo,1.26,15.15
+2,Singapore,1.21,14.53
+3,Zurich,1.19,14.24
+4,Osaka,1.18,14.12
+5,Silicon Valley,1.11,13.31
+6,New Jersey,1.07,12.90
+7,Oslo,1.03,12.41
+8,Auckland,1.02,12.30
+9,Stockholm,1.02,12.29
+10,Helsinki,1.02,12.29
+11,Copenhagen,1.00,12.02
+12,London,1.00,12.02
+13,Vienna,0.98,11.81
+14,Cardiff,0.98,11.74
+15,Frankfurt,0.97,11.60
+16,Berlin,0.96,11.49
+17,Kuala Lumpur,0.95,11.37
+18,Kingdom of Saudi Arabia,0.94,11.34
+19,Chicago,0.93,11.23
+20,Jakarta,0.93,11.21
+21,North Virginia,0.91,10.92
+22,Portland,0.90,10.87
+23,Paris,0.90,10.81
+24,Amsterdam,0.90,10.81
+25,São Paulo,0.89,10.75
+26,Sydney,0.88,10.96
+27,Lagos,0.87,10.50
+28,Melbourne,0.87,10.40
+29,Querétaro,0.87,10.40
+30,Cape Town,0.86,10.33
+31,Lisbon,0.85,10.25
+32,Seoul,0.84,10.07
+33,Johannesburg,0.84,10.06
+34,Bordeaux,0.84,10.05
+35,Dublin,0.84,10.05
+36,Madrid,0.84,10.04
+37,Atlanta,0.82,9.90
+38,Montevideo,0.82,9.89
+39,Phoenix,0.82,9.82
+40,Columbus,0.81,9.79
+41,Milan,0.81,9.79
+42,Nairobi,0.81,9.74
+43,Dallas,0.79,9.54
+44,Charlotte,0.79,9.50
+45,Toronto,0.78,9.39
+46,UAE,0.77,9.24
+47,Warsaw,0.76,9.16
+48,Santiago,0.72,8.61
+49,Athens,0.65,7.84
+50,Bogotá,0.62,7.49
+51,Mumbai,0.55,6.64
+52,Shanghai,0.51,6.12

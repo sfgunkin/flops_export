@@ -1,0 +1,176 @@
+iso3,country,temp_annual_C,temp_summer_peak_C,n_grid_cells
+ATA,Antarctica,-34.32,-21.07,5995
+GRL,Greenland,-17.36,-3.08,678
+CAN,Canada,-2.76,14.63,1735
+RUS,Russia,-2.41,16.91,2939
+KGZ,Kyrgyzstan,0.97,13.34,24
+NOR,Norway,1.5,14.5,0
+ISL,Iceland,1.81,8.72,21
+MNG,Mongolia,2.14,20.09,182
+TJK,Tajikistan,3.08,16.84,14
+FIN,Finland,3.58,16.38,65
+ATF,Fr. S. Antarctic Lands,3.78,6.31,2
+SWE,Sweden,4.37,15.17,77
+BTN,Bhutan,5.7,12.84,3
+CHE,Switzerland,6.26,15.71,6
+FLK,Falkland Is.,7.13,10.78,2
+EST,Estonia,7.25,18.21,6
+CHN,China,7.81,20.91,951
+KAZ,Kazakhstan,7.91,24.93,332
+LIE,Liechtenstein,8.0,18.0,0
+LVA,Latvia,8.04,18.36,10
+PRK,North Korea,8.23,22.79,13
+GEO,Georgia,8.31,19.41,7
+ARM,Armenia,8.41,19.77,3
+LTU,Lithuania,8.45,18.8,9
+BLR,Belarus,8.49,19.82,30
+AUT,Austria,8.73,18.59,9
+CHL,Chile,8.95,13.44,85
+LUX,Luxembourg,9.5,18.0,0
+CZE,Czechia,9.56,19.15,10
+DNK,Denmark,9.71,17.21,7
+POL,Poland,9.81,19.74,42
+XKX,Kosovo,10.0,21.0,0
+SVK,Slovakia,10.12,20.94,5
+GBR,United Kingdom,10.19,15.89,32
+USA,United States of America,10.28,22.94,1119
+IRL,Ireland,10.29,15.32,7
+DEU,Germany,10.34,19.01,48
+UKR,Ukraine,10.4,22.48,68
+LSO,Lesotho,10.76,15.73,1
+ROU,Romania,10.88,22.08,26
+MNE,Montenegro,11.01,21.66,1
+NZL,New Zealand,11.2,15.95,30
+BIH,Bosnia and Herz.,11.28,21.57,6
+SVN,Slovenia,11.39,21.73,3
+BEL,Belgium,11.4,19.0,3
+NLD,Netherlands,11.44,18.92,4
+MDA,Moldova,12.12,24.23,4
+SRB,Serbia,12.21,23.2,10
+HUN,Hungary,12.37,23.63,9
+FRA,France,12.5,21.0,0
+MKD,North Macedonia,12.55,23.96,2
+BGR,Bulgaria,12.71,23.95,14
+TUR,Turkey,12.87,24.44,82
+AZE,Azerbaijan,13.14,24.42,11
+AFG,Afghanistan,13.24,26.02,62
+JPN,Japan,13.24,25.25,41
+HRV,Croatia,13.38,23.7,7
+NPL,Nepal,13.44,20.3,13
+KOR,South Korea,13.48,25.98,11
+ALB,Albania,13.71,23.72,3
+UZB,Uzbekistan,14.21,29.85,51
+ITA,Italy,14.23,24.01,34
+ESP,Spain,15.05,24.9,49
+ARG,Argentina,15.3,22.27,279
+GRC,Greece,15.78,26.09,13
+PRT,Portugal,15.82,22.95,11
+TKM,Turkmenistan,17.55,32.25,51
+URY,Uruguay,17.68,24.36,18
+ZAF,South Africa,18.25,23.54,117
+MLT,Malta,19.0,27.0,0
+PER,Peru,19.25,20.52,106
+LBN,Lebanon,19.33,26.57,1
+SWZ,eSwatini,19.44,22.88,1
+IRN,Iran,19.45,31.25,154
+CYP,Cyprus,19.5,28.0,0
+SYR,Syria,20.1,31.56,21
+MAR,Morocco,20.52,28.54,53
+ISR,Israel,20.63,28.19,1
+JOR,Jordan,20.66,30.1,8
+PAK,Pakistan,20.67,29.92,83
+RWA,Rwanda,20.93,21.93,3
+TUN,Tunisia,20.99,30.97,17
+BOL,Bolivia,21.26,23.75,94
+ECU,Ecuador,21.33,22.15,23
+MEX,Mexico,21.43,26.65,173
+PSE,Palestine,21.43,29.28,1
+BDI,Burundi,21.71,22.87,3
+TWN,Taiwan,21.73,26.34,4
+NAM,Namibia,21.9,26.31,74
+ZWE,Zimbabwe,21.94,25.6,32
+MWI,Malawi,22.08,25.7,10
+ZMB,Zambia,22.29,26.31,64
+BWA,Botswana,22.3,27.11,51
+AUS,Australia,22.36,28.81,692
+AGO,Angola,22.68,25.24,103
+TZA,Tanzania,23.02,25.17,76
+MDG,Madagascar,23.09,25.61,50
+LBY,Libya,23.1,31.64,146
+EGY,Egypt,23.48,31.74,89
+LAO,Laos,23.62,26.61,20
+NCL,New Caledonia,23.74,26.31,2
+MMR,Myanmar,23.96,27.39,59
+PNG,Papua New Guinea,23.96,24.52,33
+UGA,Uganda,23.97,25.5,20
+ETH,Ethiopia,24.05,26.48,93
+IND,India,24.09,30.2,274
+IRQ,Iraq,24.11,36.91,42
+GTM,Guatemala,24.12,26.73,11
+GNQ,Eq. Guinea,24.15,24.98,1
+VNM,Vietnam,24.31,27.99,28
+MOZ,Mozambique,24.47,27.8,70
+COL,Colombia,24.48,25.48,90
+HND,Honduras,24.61,26.61,9
+CRI,Costa Rica,24.62,25.55,7
+PRY,Paraguay,24.62,28.75,35
+DZA,Algeria,24.95,35.76,218
+COD,Dem. Rep. Congo,24.99,26.65,188
+CMR,Cameroon,25.0,27.56,37
+GAB,Gabon,25.12,26.04,22
+BHS,Bahamas,25.14,28.4,1
+PAN,Panama,25.18,25.98,5
+DOM,Dominican Rep.,25.25,26.86,6
+BRA,Brazil,25.26,27.34,708
+COG,Congo,25.39,26.4,27
+FJI,Fiji,25.39,26.65,1
+GUY,Guyana,25.69,27.07,16
+KEN,Kenya,25.72,27.35,45
+IDN,Indonesia,25.78,26.36,148
+BGD,Bangladesh,25.79,29.61,11
+ESH,W. Sahara,25.83,33.69,8
+LBR,Liberia,25.86,27.34,9
+NIC,Nicaragua,25.88,27.4,12
+VEN,Venezuela,25.9,27.24,73
+BRN,Brunei,25.91,26.65,2
+MYS,Malaysia,26.03,26.86,29
+CUB,Cuba,26.09,28.31,8
+HTI,Haiti,26.16,27.79,1
+VUT,Vanuatu,26.23,27.38,1
+SUR,Suriname,26.27,28.04,14
+SLE,Sierra Leone,26.39,28.64,6
+YEM,Yemen,26.42,31.58,39
+BLZ,Belize,26.45,28.33,2
+GIN,Guinea,26.66,29.95,20
+PHL,Philippines,26.68,27.81,27
+TTO,Trinidad and Tobago,26.77,27.88,1
+CAF,Central African Rep.,26.78,29.93,50
+SLV,El Salvador,26.85,28.02,2
+CIV,Côte d'Ivoire,26.88,29.06,25
+SAU,Saudi Arabia,26.91,35.99,169
+THA,Thailand,26.93,29.32,46
+LKA,Sri Lanka,26.95,28.36,6
+KWT,Kuwait,27.16,38.7,2
+ERI,Eritrea,27.17,31.35,12
+SLB,Solomon Is.,27.32,27.75,3
+NGA,Nigeria,27.45,31.39,75
+SGP,Singapore,27.5,28.5,0
+SDN,Sudan,27.61,33.6,157
+KHM,Cambodia,27.63,29.74,14
+GNB,Guinea-Bissau,27.69,29.77,2
+SOM,Somalia,27.72,29.76,39
+TCD,Chad,27.75,33.84,107
+TGO,Togo,27.8,30.84,6
+GHA,Ghana,27.89,30.68,21
+NER,Niger,28.04,34.8,99
+QAT,Qatar,28.08,36.07,2
+BEN,Benin,28.25,31.89,9
+OMN,Oman,28.35,34.55,28
+MRT,Mauritania,28.47,35.77,93
+SSD,S. Sudan,28.72,32.35,53
+SEN,Senegal,28.82,32.44,19
+ARE,United Arab Emirates,29.06,37.11,6
+DJI,Djibouti,29.14,34.65,1
+BFA,Burkina Faso,29.22,33.89,21
+MLI,Mali,29.4,35.86,103
+GMB,Gambia,29.54,33.25,1

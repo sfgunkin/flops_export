@@ -1,0 +1,1489 @@
+period,stateid,stateDescription,sectorid,sectorName,price,price-units
+2024,AK,Alaska,IND,industrial,19.31,cents per kilowatt-hour
+2024,AL,Alabama,IND,industrial,7.25,cents per kilowatt-hour
+2024,AR,Arkansas,IND,industrial,6.61,cents per kilowatt-hour
+2024,AZ,Arizona,IND,industrial,7.9,cents per kilowatt-hour
+2024,CA,California,IND,industrial,21.53,cents per kilowatt-hour
+2024,CO,Colorado,IND,industrial,8.62,cents per kilowatt-hour
+2024,CT,Connecticut,IND,industrial,17.12,cents per kilowatt-hour
+2024,DC,District of Columbia,IND,industrial,10.8,cents per kilowatt-hour
+2024,DE,Delaware,IND,industrial,8.49,cents per kilowatt-hour
+2024,ENC,East North Central,IND,industrial,8.08,cents per kilowatt-hour
+2024,ESC,East South Central,IND,industrial,6.72,cents per kilowatt-hour
+2024,FL,Florida,IND,industrial,8.5,cents per kilowatt-hour
+2024,GA,Georgia,IND,industrial,7.21,cents per kilowatt-hour
+2024,HI,Hawaii,IND,industrial,34.13,cents per kilowatt-hour
+2024,IA,Iowa,IND,industrial,6.8,cents per kilowatt-hour
+2024,ID,Idaho,IND,industrial,7.69,cents per kilowatt-hour
+2024,IL,Illinois,IND,industrial,8.83,cents per kilowatt-hour
+2024,IN,Indiana,IND,industrial,8.15,cents per kilowatt-hour
+2024,KS,Kansas,IND,industrial,7.73,cents per kilowatt-hour
+2024,KY,Kentucky,IND,industrial,6.5,cents per kilowatt-hour
+2024,LA,Louisiana,IND,industrial,5.61,cents per kilowatt-hour
+2024,MA,Massachusetts,IND,industrial,18.19,cents per kilowatt-hour
+2024,MAT,Middle Atlantic,IND,industrial,8.52,cents per kilowatt-hour
+2024,MD,Maryland,IND,industrial,10.01,cents per kilowatt-hour
+2024,ME,Maine,IND,industrial,12.46,cents per kilowatt-hour
+2024,MI,Michigan,IND,industrial,8.26,cents per kilowatt-hour
+2024,MN,Minnesota,IND,industrial,9.15,cents per kilowatt-hour
+2024,MO,Missouri,IND,industrial,7.87,cents per kilowatt-hour
+2024,MS,Mississippi,IND,industrial,6.81,cents per kilowatt-hour
+2024,MT,Montana,IND,industrial,7.59,cents per kilowatt-hour
+2024,MTN,Mountain,IND,industrial,7.7,cents per kilowatt-hour
+2024,NC,North Carolina,IND,industrial,7.77,cents per kilowatt-hour
+2024,ND,North Dakota,IND,industrial,7.25,cents per kilowatt-hour
+2024,NE,Nebraska,IND,industrial,7.66,cents per kilowatt-hour
+2024,NEW,New England,IND,industrial,16.28,cents per kilowatt-hour
+2024,NH,New Hampshire,IND,industrial,16.21,cents per kilowatt-hour
+2024,NJ,New Jersey,IND,industrial,11.93,cents per kilowatt-hour
+2024,NM,New Mexico,IND,industrial,5.43,cents per kilowatt-hour
+2024,NV,Nevada,IND,industrial,8.64,cents per kilowatt-hour
+2024,NY,New York,IND,industrial,9.17,cents per kilowatt-hour
+2024,OH,Ohio,IND,industrial,7.1,cents per kilowatt-hour
+2024,OK,Oklahoma,IND,industrial,5.84,cents per kilowatt-hour
+2024,OR,Oregon,IND,industrial,8.05,cents per kilowatt-hour
+2024,PA,Pennsylvania,IND,industrial,7.87,cents per kilowatt-hour
+2024,PACC,Pacific Contiguous,IND,industrial,15.38,cents per kilowatt-hour
+2024,PACN,Pacific Noncontiguous,IND,industrial,29.93,cents per kilowatt-hour
+2024,RI,Rhode Island,IND,industrial,19.7,cents per kilowatt-hour
+2024,SAT,South Atlantic,IND,industrial,7.76,cents per kilowatt-hour
+2024,SC,South Carolina,IND,industrial,6.84,cents per kilowatt-hour
+2024,SD,South Dakota,IND,industrial,8.28,cents per kilowatt-hour
+2024,TN,Tennessee,IND,industrial,6.21,cents per kilowatt-hour
+2024,TX,Texas,IND,industrial,6.12,cents per kilowatt-hour
+2024,US,U.S. Total,IND,industrial,8.13,cents per kilowatt-hour
+2024,UT,Utah,IND,industrial,7.86,cents per kilowatt-hour
+2024,VA,Virginia,IND,industrial,8.99,cents per kilowatt-hour
+2024,VT,Vermont,IND,industrial,11.58,cents per kilowatt-hour
+2024,WA,Washington,IND,industrial,6.61,cents per kilowatt-hour
+2024,WI,Wisconsin,IND,industrial,8.54,cents per kilowatt-hour
+2024,WNC,West North Central,IND,industrial,7.72,cents per kilowatt-hour
+2024,WSC,West South Central,IND,industrial,6.05,cents per kilowatt-hour
+2024,WV,West Virginia,IND,industrial,7.81,cents per kilowatt-hour
+2024,WY,Wyoming,IND,industrial,7.96,cents per kilowatt-hour
+2023,AK,Alaska,IND,industrial,18.7,cents per kilowatt-hour
+2023,AL,Alabama,IND,industrial,7.1,cents per kilowatt-hour
+2023,AR,Arkansas,IND,industrial,6.87,cents per kilowatt-hour
+2023,AZ,Arizona,IND,industrial,8.11,cents per kilowatt-hour
+2023,CA,California,IND,industrial,18.64,cents per kilowatt-hour
+2023,CO,Colorado,IND,industrial,8.5,cents per kilowatt-hour
+2023,CT,Connecticut,IND,industrial,15.69,cents per kilowatt-hour
+2023,DC,District of Columbia,IND,industrial,10.85,cents per kilowatt-hour
+2023,DE,Delaware,IND,industrial,7.85,cents per kilowatt-hour
+2023,ENC,East North Central,IND,industrial,7.94,cents per kilowatt-hour
+2023,ESC,East South Central,IND,industrial,6.72,cents per kilowatt-hour
+2023,FL,Florida,IND,industrial,9.39,cents per kilowatt-hour
+2023,GA,Georgia,IND,industrial,6.88,cents per kilowatt-hour
+2023,HI,Hawaii,IND,industrial,35.28,cents per kilowatt-hour
+2023,IA,Iowa,IND,industrial,6.91,cents per kilowatt-hour
+2023,ID,Idaho,IND,industrial,7.17,cents per kilowatt-hour
+2023,IL,Illinois,IND,industrial,8.2,cents per kilowatt-hour
+2023,IN,Indiana,IND,industrial,8.24,cents per kilowatt-hour
+2023,KS,Kansas,IND,industrial,7.64,cents per kilowatt-hour
+2023,KY,Kentucky,IND,industrial,6.55,cents per kilowatt-hour
+2023,LA,Louisiana,IND,industrial,5.88,cents per kilowatt-hour
+2023,MA,Massachusetts,IND,industrial,17.88,cents per kilowatt-hour
+2023,MAT,Middle Atlantic,IND,industrial,7.91,cents per kilowatt-hour
+2023,MD,Maryland,IND,industrial,9.94,cents per kilowatt-hour
+2023,ME,Maine,IND,industrial,12.3,cents per kilowatt-hour
+2023,MI,Michigan,IND,industrial,8.16,cents per kilowatt-hour
+2023,MN,Minnesota,IND,industrial,9.2,cents per kilowatt-hour
+2023,MO,Missouri,IND,industrial,7.9,cents per kilowatt-hour
+2023,MS,Mississippi,IND,industrial,6.96,cents per kilowatt-hour
+2023,MT,Montana,IND,industrial,7.8,cents per kilowatt-hour
+2023,MTN,Mountain,IND,industrial,7.84,cents per kilowatt-hour
+2023,NC,North Carolina,IND,industrial,7.15,cents per kilowatt-hour
+2023,ND,North Dakota,IND,industrial,7.37,cents per kilowatt-hour
+2023,NE,Nebraska,IND,industrial,7.63,cents per kilowatt-hour
+2023,NEW,New England,IND,industrial,15.81,cents per kilowatt-hour
+2023,NH,New Hampshire,IND,industrial,15.76,cents per kilowatt-hour
+2023,NJ,New Jersey,IND,industrial,11.68,cents per kilowatt-hour
+2023,NM,New Mexico,IND,industrial,5.75,cents per kilowatt-hour
+2023,NV,Nevada,IND,industrial,10.36,cents per kilowatt-hour
+2023,NY,New York,IND,industrial,6.87,cents per kilowatt-hour
+2023,OH,Ohio,IND,industrial,7.03,cents per kilowatt-hour
+2023,OK,Oklahoma,IND,industrial,6.26,cents per kilowatt-hour
+2023,OR,Oregon,IND,industrial,7.52,cents per kilowatt-hour
+2023,PA,Pennsylvania,IND,industrial,7.75,cents per kilowatt-hour
+2023,PACC,Pacific Contiguous,IND,industrial,13.38,cents per kilowatt-hour
+2023,PACN,Pacific Noncontiguous,IND,industrial,30.55,cents per kilowatt-hour
+2023,RI,Rhode Island,IND,industrial,18.98,cents per kilowatt-hour
+2023,SAT,South Atlantic,IND,industrial,7.58,cents per kilowatt-hour
+2023,SC,South Carolina,IND,industrial,6.68,cents per kilowatt-hour
+2023,SD,South Dakota,IND,industrial,8.01,cents per kilowatt-hour
+2023,TN,Tennessee,IND,industrial,6.23,cents per kilowatt-hour
+2023,TX,Texas,IND,industrial,6.6,cents per kilowatt-hour
+2023,US,U.S. Total,IND,industrial,8.04,cents per kilowatt-hour
+2023,UT,Utah,IND,industrial,6.99,cents per kilowatt-hour
+2023,VA,Virginia,IND,industrial,8.92,cents per kilowatt-hour
+2023,VT,Vermont,IND,industrial,11.27,cents per kilowatt-hour
+2023,WA,Washington,IND,industrial,6.35,cents per kilowatt-hour
+2023,WI,Wisconsin,IND,industrial,8.68,cents per kilowatt-hour
+2023,WNC,West North Central,IND,industrial,7.77,cents per kilowatt-hour
+2023,WSC,West South Central,IND,industrial,6.47,cents per kilowatt-hour
+2023,WV,West Virginia,IND,industrial,7.24,cents per kilowatt-hour
+2023,WY,Wyoming,IND,industrial,7.06,cents per kilowatt-hour
+2022,AK,Alaska,IND,industrial,18.43,cents per kilowatt-hour
+2022,AL,Alabama,IND,industrial,7.72,cents per kilowatt-hour
+2022,AR,Arkansas,IND,industrial,7.38,cents per kilowatt-hour
+2022,AZ,Arizona,IND,industrial,7.86,cents per kilowatt-hour
+2022,CA,California,IND,industrial,17.09,cents per kilowatt-hour
+2022,CO,Colorado,IND,industrial,8.63,cents per kilowatt-hour
+2022,CT,Connecticut,IND,industrial,15.07,cents per kilowatt-hour
+2022,DC,District of Columbia,IND,industrial,7.74,cents per kilowatt-hour
+2022,DE,Delaware,IND,industrial,8.79,cents per kilowatt-hour
+2022,ENC,East North Central,IND,industrial,8.24,cents per kilowatt-hour
+2022,ESC,East South Central,IND,industrial,7.2,cents per kilowatt-hour
+2022,FL,Florida,IND,industrial,9.16,cents per kilowatt-hour
+2022,GA,Georgia,IND,industrial,8.65,cents per kilowatt-hour
+2022,HI,Hawaii,IND,industrial,36.71,cents per kilowatt-hour
+2022,IA,Iowa,IND,industrial,7.06,cents per kilowatt-hour
+2022,ID,Idaho,IND,industrial,6.71,cents per kilowatt-hour
+2022,IL,Illinois,IND,industrial,8.57,cents per kilowatt-hour
+2022,IN,Indiana,IND,industrial,8.65,cents per kilowatt-hour
+2022,KS,Kansas,IND,industrial,8.3,cents per kilowatt-hour
+2022,KY,Kentucky,IND,industrial,7.41,cents per kilowatt-hour
+2022,LA,Louisiana,IND,industrial,7.54,cents per kilowatt-hour
+2022,MA,Massachusetts,IND,industrial,17.06,cents per kilowatt-hour
+2022,MAT,Middle Atlantic,IND,industrial,8.42,cents per kilowatt-hour
+2022,MD,Maryland,IND,industrial,10.01,cents per kilowatt-hour
+2022,ME,Maine,IND,industrial,11.03,cents per kilowatt-hour
+2022,MI,Michigan,IND,industrial,8.33,cents per kilowatt-hour
+2022,MN,Minnesota,IND,industrial,9.25,cents per kilowatt-hour
+2022,MO,Missouri,IND,industrial,7.67,cents per kilowatt-hour
+2022,MS,Mississippi,IND,industrial,6.71,cents per kilowatt-hour
+2022,MT,Montana,IND,industrial,7.49,cents per kilowatt-hour
+2022,MTN,Mountain,IND,industrial,7.56,cents per kilowatt-hour
+2022,NC,North Carolina,IND,industrial,6.54,cents per kilowatt-hour
+2022,ND,North Dakota,IND,industrial,7.28,cents per kilowatt-hour
+2022,NE,Nebraska,IND,industrial,7.21,cents per kilowatt-hour
+2022,NEW,New England,IND,industrial,15.02,cents per kilowatt-hour
+2022,NH,New Hampshire,IND,industrial,15.15,cents per kilowatt-hour
+2022,NJ,New Jersey,IND,industrial,12.12,cents per kilowatt-hour
+2022,NM,New Mexico,IND,industrial,6.56,cents per kilowatt-hour
+2022,NV,Nevada,IND,industrial,8.5,cents per kilowatt-hour
+2022,NY,New York,IND,industrial,7.55,cents per kilowatt-hour
+2022,OH,Ohio,IND,industrial,7.45,cents per kilowatt-hour
+2022,OK,Oklahoma,IND,industrial,6.96,cents per kilowatt-hour
+2022,OR,Oregon,IND,industrial,6.81,cents per kilowatt-hour
+2022,PA,Pennsylvania,IND,industrial,8.21,cents per kilowatt-hour
+2022,PACC,Pacific Contiguous,IND,industrial,12.22,cents per kilowatt-hour
+2022,PACN,Pacific Noncontiguous,IND,industrial,31.5,cents per kilowatt-hour
+2022,RI,Rhode Island,IND,industrial,17.96,cents per kilowatt-hour
+2022,SAT,South Atlantic,IND,industrial,7.79,cents per kilowatt-hour
+2022,SC,South Carolina,IND,industrial,7.13,cents per kilowatt-hour
+2022,SD,South Dakota,IND,industrial,8.04,cents per kilowatt-hour
+2022,TN,Tennessee,IND,industrial,6.55,cents per kilowatt-hour
+2022,TX,Texas,IND,industrial,7.13,cents per kilowatt-hour
+2022,US,U.S. Total,IND,industrial,8.32,cents per kilowatt-hour
+2022,UT,Utah,IND,industrial,6.84,cents per kilowatt-hour
+2022,VA,Virginia,IND,industrial,7.99,cents per kilowatt-hour
+2022,VT,Vermont,IND,industrial,11.88,cents per kilowatt-hour
+2022,WA,Washington,IND,industrial,6.17,cents per kilowatt-hour
+2022,WI,Wisconsin,IND,industrial,8.49,cents per kilowatt-hour
+2022,WNC,West North Central,IND,industrial,7.82,cents per kilowatt-hour
+2022,WSC,West South Central,IND,industrial,7.21,cents per kilowatt-hour
+2022,WV,West Virginia,IND,industrial,6.74,cents per kilowatt-hour
+2022,WY,Wyoming,IND,industrial,6.89,cents per kilowatt-hour
+2021,AK,Alaska,IND,industrial,16.85,cents per kilowatt-hour
+2021,AL,Alabama,IND,industrial,6.33,cents per kilowatt-hour
+2021,AR,Arkansas,IND,industrial,6.57,cents per kilowatt-hour
+2021,AZ,Arizona,IND,industrial,6.79,cents per kilowatt-hour
+2021,CA,California,IND,industrial,14.82,cents per kilowatt-hour
+2021,CO,Colorado,IND,industrial,8.01,cents per kilowatt-hour
+2021,CT,Connecticut,IND,industrial,9.63,cents per kilowatt-hour
+2021,DC,District of Columbia,IND,industrial,7.87,cents per kilowatt-hour
+2021,DE,Delaware,IND,industrial,7.6,cents per kilowatt-hour
+2021,ENC,East North Central,IND,industrial,7.22,cents per kilowatt-hour
+2021,ESC,East South Central,IND,industrial,5.97,cents per kilowatt-hour
+2021,FL,Florida,IND,industrial,7.65,cents per kilowatt-hour
+2021,GA,Georgia,IND,industrial,6.49,cents per kilowatt-hour
+2021,HI,Hawaii,IND,industrial,27.12,cents per kilowatt-hour
+2021,IA,Iowa,IND,industrial,6.63,cents per kilowatt-hour
+2021,ID,Idaho,IND,industrial,6.39,cents per kilowatt-hour
+2021,IL,Illinois,IND,industrial,7.3,cents per kilowatt-hour
+2021,IN,Indiana,IND,industrial,7.39,cents per kilowatt-hour
+2021,KS,Kansas,IND,industrial,7.38,cents per kilowatt-hour
+2021,KY,Kentucky,IND,industrial,5.95,cents per kilowatt-hour
+2021,LA,Louisiana,IND,industrial,6.21,cents per kilowatt-hour
+2021,MA,Massachusetts,IND,industrial,15.18,cents per kilowatt-hour
+2021,MAT,Middle Atlantic,IND,industrial,6.87,cents per kilowatt-hour
+2021,MD,Maryland,IND,industrial,8.46,cents per kilowatt-hour
+2021,ME,Maine,IND,industrial,9.55,cents per kilowatt-hour
+2021,MI,Michigan,IND,industrial,7.69,cents per kilowatt-hour
+2021,MN,Minnesota,IND,industrial,8.29,cents per kilowatt-hour
+2021,MO,Missouri,IND,industrial,7.11,cents per kilowatt-hour
+2021,MS,Mississippi,IND,industrial,5.95,cents per kilowatt-hour
+2021,MT,Montana,IND,industrial,6.24,cents per kilowatt-hour
+2021,MTN,Mountain,IND,industrial,6.68,cents per kilowatt-hour
+2021,NC,North Carolina,IND,industrial,6.14,cents per kilowatt-hour
+2021,ND,North Dakota,IND,industrial,7.37,cents per kilowatt-hour
+2021,NE,Nebraska,IND,industrial,7.26,cents per kilowatt-hour
+2021,NEW,New England,IND,industrial,12.8,cents per kilowatt-hour
+2021,NH,New Hampshire,IND,industrial,13.81,cents per kilowatt-hour
+2021,NJ,New Jersey,IND,industrial,10.7,cents per kilowatt-hour
+2021,NM,New Mexico,IND,industrial,6.16,cents per kilowatt-hour
+2021,NV,Nevada,IND,industrial,6.02,cents per kilowatt-hour
+2021,NY,New York,IND,industrial,6.34,cents per kilowatt-hour
+2021,OH,Ohio,IND,industrial,6.55,cents per kilowatt-hour
+2021,OK,Oklahoma,IND,industrial,5.5,cents per kilowatt-hour
+2021,OR,Oregon,IND,industrial,5.97,cents per kilowatt-hour
+2021,PA,Pennsylvania,IND,industrial,6.54,cents per kilowatt-hour
+2021,PACC,Pacific Contiguous,IND,industrial,10.81,cents per kilowatt-hour
+2021,PACN,Pacific Noncontiguous,IND,industrial,24.19,cents per kilowatt-hour
+2021,RI,Rhode Island,IND,industrial,16.06,cents per kilowatt-hour
+2021,SAT,South Atlantic,IND,industrial,6.51,cents per kilowatt-hour
+2021,SC,South Carolina,IND,industrial,6.07,cents per kilowatt-hour
+2021,SD,South Dakota,IND,industrial,8.02,cents per kilowatt-hour
+2021,TN,Tennessee,IND,industrial,5.51,cents per kilowatt-hour
+2021,TX,Texas,IND,industrial,6.12,cents per kilowatt-hour
+2021,US,U.S. Total,IND,industrial,7.18,cents per kilowatt-hour
+2021,UT,Utah,IND,industrial,6.19,cents per kilowatt-hour
+2021,VA,Virginia,IND,industrial,6.49,cents per kilowatt-hour
+2021,VT,Vermont,IND,industrial,11.38,cents per kilowatt-hour
+2021,WA,Washington,IND,industrial,5.81,cents per kilowatt-hour
+2021,WI,Wisconsin,IND,industrial,7.63,cents per kilowatt-hour
+2021,WNC,West North Central,IND,industrial,7.35,cents per kilowatt-hour
+2021,WSC,West South Central,IND,industrial,6.12,cents per kilowatt-hour
+2021,WV,West Virginia,IND,industrial,6.07,cents per kilowatt-hour
+2021,WY,Wyoming,IND,industrial,6.83,cents per kilowatt-hour
+2020,AK,Alaska,IND,industrial,15.88,cents per kilowatt-hour
+2020,AL,Alabama,IND,industrial,5.87,cents per kilowatt-hour
+2020,AR,Arkansas,IND,industrial,5.89,cents per kilowatt-hour
+2020,AZ,Arizona,IND,industrial,6.07,cents per kilowatt-hour
+2020,CA,California,IND,industrial,14.27,cents per kilowatt-hour
+2020,CO,Colorado,IND,industrial,7.48,cents per kilowatt-hour
+2020,CT,Connecticut,IND,industrial,13.07,cents per kilowatt-hour
+2020,DC,District of Columbia,IND,industrial,7.99,cents per kilowatt-hour
+2020,DE,Delaware,IND,industrial,6.7,cents per kilowatt-hour
+2020,ENC,East North Central,IND,industrial,6.78,cents per kilowatt-hour
+2020,ESC,East South Central,IND,industrial,5.55,cents per kilowatt-hour
+2020,FL,Florida,IND,industrial,7.15,cents per kilowatt-hour
+2020,GA,Georgia,IND,industrial,5.77,cents per kilowatt-hour
+2020,HI,Hawaii,IND,industrial,24.45,cents per kilowatt-hour
+2020,IA,Iowa,IND,industrial,6.43,cents per kilowatt-hour
+2020,ID,Idaho,IND,industrial,6.23,cents per kilowatt-hour
+2020,IL,Illinois,IND,industrial,6.7,cents per kilowatt-hour
+2020,IN,Indiana,IND,industrial,6.98,cents per kilowatt-hour
+2020,KS,Kansas,IND,industrial,7.3,cents per kilowatt-hour
+2020,KY,Kentucky,IND,industrial,5.31,cents per kilowatt-hour
+2020,LA,Louisiana,IND,industrial,4.88,cents per kilowatt-hour
+2020,MA,Massachusetts,IND,industrial,14.51,cents per kilowatt-hour
+2020,MAT,Middle Atlantic,IND,industrial,6.38,cents per kilowatt-hour
+2020,MD,Maryland,IND,industrial,7.81,cents per kilowatt-hour
+2020,ME,Maine,IND,industrial,8.86,cents per kilowatt-hour
+2020,MI,Michigan,IND,industrial,7.24,cents per kilowatt-hour
+2020,MN,Minnesota,IND,industrial,7.67,cents per kilowatt-hour
+2020,MO,Missouri,IND,industrial,6.84,cents per kilowatt-hour
+2020,MS,Mississippi,IND,industrial,5.63,cents per kilowatt-hour
+2020,MT,Montana,IND,industrial,5.18,cents per kilowatt-hour
+2020,MTN,Mountain,IND,industrial,6.25,cents per kilowatt-hour
+2020,NC,North Carolina,IND,industrial,6.31,cents per kilowatt-hour
+2020,ND,North Dakota,IND,industrial,7.26,cents per kilowatt-hour
+2020,NE,Nebraska,IND,industrial,7.38,cents per kilowatt-hour
+2020,NEW,New England,IND,industrial,12.89,cents per kilowatt-hour
+2020,NH,New Hampshire,IND,industrial,13.11,cents per kilowatt-hour
+2020,NJ,New Jersey,IND,industrial,10.01,cents per kilowatt-hour
+2020,NM,New Mexico,IND,industrial,5.58,cents per kilowatt-hour
+2020,NV,Nevada,IND,industrial,5.61,cents per kilowatt-hour
+2020,NY,New York,IND,industrial,5.54,cents per kilowatt-hour
+2020,OH,Ohio,IND,industrial,6.16,cents per kilowatt-hour
+2020,OK,Oklahoma,IND,industrial,4.61,cents per kilowatt-hour
+2020,OR,Oregon,IND,industrial,5.7,cents per kilowatt-hour
+2020,PA,Pennsylvania,IND,industrial,6.16,cents per kilowatt-hour
+2020,PACC,Pacific Contiguous,IND,industrial,10.3,cents per kilowatt-hour
+2020,PACN,Pacific Noncontiguous,IND,industrial,22.01,cents per kilowatt-hour
+2020,RI,Rhode Island,IND,industrial,15.76,cents per kilowatt-hour
+2020,SAT,South Atlantic,IND,industrial,6.25,cents per kilowatt-hour
+2020,SC,South Carolina,IND,industrial,5.98,cents per kilowatt-hour
+2020,SD,South Dakota,IND,industrial,7.79,cents per kilowatt-hour
+2020,TN,Tennessee,IND,industrial,5.33,cents per kilowatt-hour
+2020,TX,Texas,IND,industrial,5.07,cents per kilowatt-hour
+2020,US,U.S. Total,IND,industrial,6.67,cents per kilowatt-hour
+2020,UT,Utah,IND,industrial,5.9,cents per kilowatt-hour
+2020,VA,Virginia,IND,industrial,6.28,cents per kilowatt-hour
+2020,VT,Vermont,IND,industrial,11.2,cents per kilowatt-hour
+2020,WA,Washington,IND,industrial,5.08,cents per kilowatt-hour
+2020,WI,Wisconsin,IND,industrial,7.29,cents per kilowatt-hour
+2020,WNC,West North Central,IND,industrial,7.11,cents per kilowatt-hour
+2020,WSC,West South Central,IND,industrial,5.06,cents per kilowatt-hour
+2020,WV,West Virginia,IND,industrial,6.09,cents per kilowatt-hour
+2020,WY,Wyoming,IND,industrial,6.88,cents per kilowatt-hour
+2019,AK,Alaska,IND,industrial,16.94,cents per kilowatt-hour
+2019,AL,Alabama,IND,industrial,5.95,cents per kilowatt-hour
+2019,AR,Arkansas,IND,industrial,6.13,cents per kilowatt-hour
+2019,AZ,Arizona,IND,industrial,6.28,cents per kilowatt-hour
+2019,CA,California,IND,industrial,13.4,cents per kilowatt-hour
+2019,CO,Colorado,IND,industrial,7.4,cents per kilowatt-hour
+2019,CT,Connecticut,IND,industrial,13.44,cents per kilowatt-hour
+2019,DC,District of Columbia,IND,industrial,8.22,cents per kilowatt-hour
+2019,DE,Delaware,IND,industrial,7.7,cents per kilowatt-hour
+2019,ENC,East North Central,IND,industrial,6.91,cents per kilowatt-hour
+2019,ESC,East South Central,IND,industrial,5.76,cents per kilowatt-hour
+2019,FL,Florida,IND,industrial,7.65,cents per kilowatt-hour
+2019,GA,Georgia,IND,industrial,6.17,cents per kilowatt-hour
+2019,HI,Hawaii,IND,industrial,25.76,cents per kilowatt-hour
+2019,IA,Iowa,IND,industrial,6.6,cents per kilowatt-hour
+2019,ID,Idaho,IND,industrial,6.08,cents per kilowatt-hour
+2019,IL,Illinois,IND,industrial,6.52,cents per kilowatt-hour
+2019,IN,Indiana,IND,industrial,7.36,cents per kilowatt-hour
+2019,KS,Kansas,IND,industrial,7.35,cents per kilowatt-hour
+2019,KY,Kentucky,IND,industrial,5.57,cents per kilowatt-hour
+2019,LA,Louisiana,IND,industrial,5.23,cents per kilowatt-hour
+2019,MA,Massachusetts,IND,industrial,14.76,cents per kilowatt-hour
+2019,MAT,Middle Atlantic,IND,industrial,6.57,cents per kilowatt-hour
+2019,MD,Maryland,IND,industrial,7.8,cents per kilowatt-hour
+2019,ME,Maine,IND,industrial,9.22,cents per kilowatt-hour
+2019,MI,Michigan,IND,industrial,7.07,cents per kilowatt-hour
+2019,MN,Minnesota,IND,industrial,7.53,cents per kilowatt-hour
+2019,MO,Missouri,IND,industrial,7.11,cents per kilowatt-hour
+2019,MS,Mississippi,IND,industrial,5.85,cents per kilowatt-hour
+2019,MT,Montana,IND,industrial,5.45,cents per kilowatt-hour
+2019,MTN,Mountain,IND,industrial,6.33,cents per kilowatt-hour
+2019,NC,North Carolina,IND,industrial,6.3,cents per kilowatt-hour
+2019,ND,North Dakota,IND,industrial,7.94,cents per kilowatt-hour
+2019,NE,Nebraska,IND,industrial,7.65,cents per kilowatt-hour
+2019,NEW,New England,IND,industrial,13.07,cents per kilowatt-hour
+2019,NH,New Hampshire,IND,industrial,13.09,cents per kilowatt-hour
+2019,NJ,New Jersey,IND,industrial,10.16,cents per kilowatt-hour
+2019,NM,New Mexico,IND,industrial,5.48,cents per kilowatt-hour
+2019,NV,Nevada,IND,industrial,6.14,cents per kilowatt-hour
+2019,NY,New York,IND,industrial,5.61,cents per kilowatt-hour
+2019,OH,Ohio,IND,industrial,6.55,cents per kilowatt-hour
+2019,OK,Oklahoma,IND,industrial,5.07,cents per kilowatt-hour
+2019,OR,Oregon,IND,industrial,5.86,cents per kilowatt-hour
+2019,PA,Pennsylvania,IND,industrial,6.41,cents per kilowatt-hour
+2019,PACC,Pacific Contiguous,IND,industrial,9.67,cents per kilowatt-hour
+2019,PACN,Pacific Noncontiguous,IND,industrial,23.5,cents per kilowatt-hour
+2019,RI,Rhode Island,IND,industrial,15.59,cents per kilowatt-hour
+2019,SAT,South Atlantic,IND,industrial,6.5,cents per kilowatt-hour
+2019,SC,South Carolina,IND,industrial,6.11,cents per kilowatt-hour
+2019,SD,South Dakota,IND,industrial,7.81,cents per kilowatt-hour
+2019,TN,Tennessee,IND,industrial,5.68,cents per kilowatt-hour
+2019,TX,Texas,IND,industrial,5.45,cents per kilowatt-hour
+2019,US,U.S. Total,IND,industrial,6.81,cents per kilowatt-hour
+2019,UT,Utah,IND,industrial,5.98,cents per kilowatt-hour
+2019,VA,Virginia,IND,industrial,6.85,cents per kilowatt-hour
+2019,VT,Vermont,IND,industrial,11.05,cents per kilowatt-hour
+2019,WA,Washington,IND,industrial,4.8,cents per kilowatt-hour
+2019,WI,Wisconsin,IND,industrial,7.31,cents per kilowatt-hour
+2019,WNC,West North Central,IND,industrial,7.27,cents per kilowatt-hour
+2019,WSC,West South Central,IND,industrial,5.43,cents per kilowatt-hour
+2019,WV,West Virginia,IND,industrial,6.02,cents per kilowatt-hour
+2019,WY,Wyoming,IND,industrial,6.73,cents per kilowatt-hour
+2018,AK,Alaska,IND,industrial,17.1,cents per kilowatt-hour
+2018,AL,Alabama,IND,industrial,6.01,cents per kilowatt-hour
+2018,AR,Arkansas,IND,industrial,5.64,cents per kilowatt-hour
+2018,AZ,Arizona,IND,industrial,6.55,cents per kilowatt-hour
+2018,CA,California,IND,industrial,13.2,cents per kilowatt-hour
+2018,CO,Colorado,IND,industrial,7.47,cents per kilowatt-hour
+2018,CT,Connecticut,IND,industrial,13.77,cents per kilowatt-hour
+2018,DC,District of Columbia,IND,industrial,8.3,cents per kilowatt-hour
+2018,DE,Delaware,IND,industrial,7.95,cents per kilowatt-hour
+2018,ENC,East North Central,IND,industrial,7.1,cents per kilowatt-hour
+2018,ESC,East South Central,IND,industrial,5.85,cents per kilowatt-hour
+2018,FL,Florida,IND,industrial,7.65,cents per kilowatt-hour
+2018,GA,Georgia,IND,industrial,6,cents per kilowatt-hour
+2018,HI,Hawaii,IND,industrial,26.1,cents per kilowatt-hour
+2018,IA,Iowa,IND,industrial,6.45,cents per kilowatt-hour
+2018,ID,Idaho,IND,industrial,6.47,cents per kilowatt-hour
+2018,IL,Illinois,IND,industrial,6.8,cents per kilowatt-hour
+2018,IN,Indiana,IND,industrial,7.38,cents per kilowatt-hour
+2018,KS,Kansas,IND,industrial,7.6,cents per kilowatt-hour
+2018,KY,Kentucky,IND,industrial,5.68,cents per kilowatt-hour
+2018,LA,Louisiana,IND,industrial,5.35,cents per kilowatt-hour
+2018,MA,Massachusetts,IND,industrial,14.89,cents per kilowatt-hour
+2018,MAT,Middle Atlantic,IND,industrial,6.96,cents per kilowatt-hour
+2018,MD,Maryland,IND,industrial,8.23,cents per kilowatt-hour
+2018,ME,Maine,IND,industrial,9.32,cents per kilowatt-hour
+2018,MI,Michigan,IND,industrial,7.1,cents per kilowatt-hour
+2018,MN,Minnesota,IND,industrial,7.52,cents per kilowatt-hour
+2018,MO,Missouri,IND,industrial,7.22,cents per kilowatt-hour
+2018,MS,Mississippi,IND,industrial,6,cents per kilowatt-hour
+2018,MT,Montana,IND,industrial,5.19,cents per kilowatt-hour
+2018,MTN,Mountain,IND,industrial,6.45,cents per kilowatt-hour
+2018,NC,North Carolina,IND,industrial,6.33,cents per kilowatt-hour
+2018,ND,North Dakota,IND,industrial,7.98,cents per kilowatt-hour
+2018,NE,Nebraska,IND,industrial,7.6,cents per kilowatt-hour
+2018,NEW,New England,IND,industrial,13.19,cents per kilowatt-hour
+2018,NH,New Hampshire,IND,industrial,13.42,cents per kilowatt-hour
+2018,NJ,New Jersey,IND,industrial,10.07,cents per kilowatt-hour
+2018,NM,New Mexico,IND,industrial,5.84,cents per kilowatt-hour
+2018,NV,Nevada,IND,industrial,6.1,cents per kilowatt-hour
+2018,NY,New York,IND,industrial,6.02,cents per kilowatt-hour
+2018,OH,Ohio,IND,industrial,7.01,cents per kilowatt-hour
+2018,OK,Oklahoma,IND,industrial,5.34,cents per kilowatt-hour
+2018,OR,Oregon,IND,industrial,5.86,cents per kilowatt-hour
+2018,PA,Pennsylvania,IND,industrial,6.84,cents per kilowatt-hour
+2018,PACC,Pacific Contiguous,IND,industrial,9.64,cents per kilowatt-hour
+2018,PACN,Pacific Noncontiguous,IND,industrial,23.64,cents per kilowatt-hour
+2018,RI,Rhode Island,IND,industrial,15.39,cents per kilowatt-hour
+2018,SAT,South Atlantic,IND,industrial,6.52,cents per kilowatt-hour
+2018,SC,South Carolina,IND,industrial,6.1,cents per kilowatt-hour
+2018,SD,South Dakota,IND,industrial,7.77,cents per kilowatt-hour
+2018,TN,Tennessee,IND,industrial,5.68,cents per kilowatt-hour
+2018,TX,Texas,IND,industrial,5.39,cents per kilowatt-hour
+2018,US,U.S. Total,IND,industrial,6.92,cents per kilowatt-hour
+2018,UT,Utah,IND,industrial,5.9,cents per kilowatt-hour
+2018,VA,Virginia,IND,industrial,6.86,cents per kilowatt-hour
+2018,VT,Vermont,IND,industrial,10.66,cents per kilowatt-hour
+2018,WA,Washington,IND,industrial,4.71,cents per kilowatt-hour
+2018,WI,Wisconsin,IND,industrial,7.33,cents per kilowatt-hour
+2018,WNC,West North Central,IND,industrial,7.28,cents per kilowatt-hour
+2018,WSC,West South Central,IND,industrial,5.4,cents per kilowatt-hour
+2018,WV,West Virginia,IND,industrial,6.4,cents per kilowatt-hour
+2018,WY,Wyoming,IND,industrial,6.71,cents per kilowatt-hour
+2017,AK,Alaska,IND,industrial,16.34,cents per kilowatt-hour
+2017,AL,Alabama,IND,industrial,6.16,cents per kilowatt-hour
+2017,AR,Arkansas,IND,industrial,6.07,cents per kilowatt-hour
+2017,AZ,Arizona,IND,industrial,6.45,cents per kilowatt-hour
+2017,CA,California,IND,industrial,12.73,cents per kilowatt-hour
+2017,CO,Colorado,IND,industrial,7.5,cents per kilowatt-hour
+2017,CT,Connecticut,IND,industrial,13.1,cents per kilowatt-hour
+2017,DC,District of Columbia,IND,industrial,8.23,cents per kilowatt-hour
+2017,DE,Delaware,IND,industrial,7.78,cents per kilowatt-hour
+2017,ENC,East North Central,IND,industrial,7.08,cents per kilowatt-hour
+2017,ESC,East South Central,IND,industrial,5.93,cents per kilowatt-hour
+2017,FL,Florida,IND,industrial,7.83,cents per kilowatt-hour
+2017,GA,Georgia,IND,industrial,5.96,cents per kilowatt-hour
+2017,HI,Hawaii,IND,industrial,22.92,cents per kilowatt-hour
+2017,IA,Iowa,IND,industrial,6.21,cents per kilowatt-hour
+2017,ID,Idaho,IND,industrial,6.66,cents per kilowatt-hour
+2017,IL,Illinois,IND,industrial,6.47,cents per kilowatt-hour
+2017,IN,Indiana,IND,industrial,7.54,cents per kilowatt-hour
+2017,KS,Kansas,IND,industrial,7.54,cents per kilowatt-hour
+2017,KY,Kentucky,IND,industrial,5.72,cents per kilowatt-hour
+2017,LA,Louisiana,IND,industrial,5.48,cents per kilowatt-hour
+2017,MA,Massachusetts,IND,industrial,13.88,cents per kilowatt-hour
+2017,MAT,Middle Atlantic,IND,industrial,6.9,cents per kilowatt-hour
+2017,MD,Maryland,IND,industrial,8.37,cents per kilowatt-hour
+2017,ME,Maine,IND,industrial,9.2,cents per kilowatt-hour
+2017,MI,Michigan,IND,industrial,7.19,cents per kilowatt-hour
+2017,MN,Minnesota,IND,industrial,7.37,cents per kilowatt-hour
+2017,MO,Missouri,IND,industrial,7.33,cents per kilowatt-hour
+2017,MS,Mississippi,IND,industrial,5.99,cents per kilowatt-hour
+2017,MT,Montana,IND,industrial,5.25,cents per kilowatt-hour
+2017,MTN,Mountain,IND,industrial,6.55,cents per kilowatt-hour
+2017,NC,North Carolina,IND,industrial,6.2,cents per kilowatt-hour
+2017,ND,North Dakota,IND,industrial,7.63,cents per kilowatt-hour
+2017,NE,Nebraska,IND,industrial,7.66,cents per kilowatt-hour
+2017,NEW,New England,IND,industrial,12.54,cents per kilowatt-hour
+2017,NH,New Hampshire,IND,industrial,12.34,cents per kilowatt-hour
+2017,NJ,New Jersey,IND,industrial,10.12,cents per kilowatt-hour
+2017,NM,New Mexico,IND,industrial,6.15,cents per kilowatt-hour
+2017,NV,Nevada,IND,industrial,6.15,cents per kilowatt-hour
+2017,NY,New York,IND,industrial,5.92,cents per kilowatt-hour
+2017,OH,Ohio,IND,industrial,6.92,cents per kilowatt-hour
+2017,OK,Oklahoma,IND,industrial,5.42,cents per kilowatt-hour
+2017,OR,Oregon,IND,industrial,5.98,cents per kilowatt-hour
+2017,PA,Pennsylvania,IND,industrial,6.77,cents per kilowatt-hour
+2017,PACC,Pacific Contiguous,IND,industrial,9.36,cents per kilowatt-hour
+2017,PACN,Pacific Noncontiguous,IND,industrial,21.06,cents per kilowatt-hour
+2017,RI,Rhode Island,IND,industrial,14.57,cents per kilowatt-hour
+2017,SAT,South Atlantic,IND,industrial,6.5,cents per kilowatt-hour
+2017,SC,South Carolina,IND,industrial,6.19,cents per kilowatt-hour
+2017,SD,South Dakota,IND,industrial,7.84,cents per kilowatt-hour
+2017,TN,Tennessee,IND,industrial,5.83,cents per kilowatt-hour
+2017,TX,Texas,IND,industrial,5.35,cents per kilowatt-hour
+2017,US,U.S. Total,IND,industrial,6.88,cents per kilowatt-hour
+2017,UT,Utah,IND,industrial,6.13,cents per kilowatt-hour
+2017,VA,Virginia,IND,industrial,6.51,cents per kilowatt-hour
+2017,VT,Vermont,IND,industrial,10.21,cents per kilowatt-hour
+2017,WA,Washington,IND,industrial,4.6,cents per kilowatt-hour
+2017,WI,Wisconsin,IND,industrial,7.49,cents per kilowatt-hour
+2017,WNC,West North Central,IND,industrial,7.17,cents per kilowatt-hour
+2017,WSC,West South Central,IND,industrial,5.45,cents per kilowatt-hour
+2017,WV,West Virginia,IND,industrial,6.64,cents per kilowatt-hour
+2017,WY,Wyoming,IND,industrial,6.92,cents per kilowatt-hour
+2016,AK,Alaska,IND,industrial,15.22,cents per kilowatt-hour
+2016,AL,Alabama,IND,industrial,6.04,cents per kilowatt-hour
+2016,AR,Arkansas,IND,industrial,6.08,cents per kilowatt-hour
+2016,AZ,Arizona,IND,industrial,6.07,cents per kilowatt-hour
+2016,CA,California,IND,industrial,11.92,cents per kilowatt-hour
+2016,CO,Colorado,IND,industrial,7.35,cents per kilowatt-hour
+2016,CT,Connecticut,IND,industrial,12.81,cents per kilowatt-hour
+2016,DC,District of Columbia,IND,industrial,8.8,cents per kilowatt-hour
+2016,DE,Delaware,IND,industrial,8.11,cents per kilowatt-hour
+2016,ENC,East North Central,IND,industrial,6.92,cents per kilowatt-hour
+2016,ESC,East South Central,IND,industrial,5.81,cents per kilowatt-hour
+2016,FL,Florida,IND,industrial,7.69,cents per kilowatt-hour
+2016,GA,Georgia,IND,industrial,5.84,cents per kilowatt-hour
+2016,HI,Hawaii,IND,industrial,20.69,cents per kilowatt-hour
+2016,IA,Iowa,IND,industrial,6.05,cents per kilowatt-hour
+2016,ID,Idaho,IND,industrial,6.55,cents per kilowatt-hour
+2016,IL,Illinois,IND,industrial,6.51,cents per kilowatt-hour
+2016,IN,Indiana,IND,industrial,6.97,cents per kilowatt-hour
+2016,KS,Kansas,IND,industrial,7.49,cents per kilowatt-hour
+2016,KY,Kentucky,IND,industrial,5.67,cents per kilowatt-hour
+2016,LA,Louisiana,IND,industrial,5.08,cents per kilowatt-hour
+2016,MA,Massachusetts,IND,industrial,13.38,cents per kilowatt-hour
+2016,MAT,Middle Atlantic,IND,industrial,7.03,cents per kilowatt-hour
+2016,MD,Maryland,IND,industrial,7.89,cents per kilowatt-hour
+2016,ME,Maine,IND,industrial,8.96,cents per kilowatt-hour
+2016,MI,Michigan,IND,industrial,6.91,cents per kilowatt-hour
+2016,MN,Minnesota,IND,industrial,7.37,cents per kilowatt-hour
+2016,MO,Missouri,IND,industrial,7.12,cents per kilowatt-hour
+2016,MS,Mississippi,IND,industrial,5.79,cents per kilowatt-hour
+2016,MT,Montana,IND,industrial,5.06,cents per kilowatt-hour
+2016,MTN,Mountain,IND,industrial,6.38,cents per kilowatt-hour
+2016,NC,North Carolina,IND,industrial,6.31,cents per kilowatt-hour
+2016,ND,North Dakota,IND,industrial,7.98,cents per kilowatt-hour
+2016,NE,Nebraska,IND,industrial,7.69,cents per kilowatt-hour
+2016,NEW,New England,IND,industrial,12.2,cents per kilowatt-hour
+2016,NH,New Hampshire,IND,industrial,12.34,cents per kilowatt-hour
+2016,NJ,New Jersey,IND,industrial,10.16,cents per kilowatt-hour
+2016,NM,New Mexico,IND,industrial,5.84,cents per kilowatt-hour
+2016,NV,Nevada,IND,industrial,5.88,cents per kilowatt-hour
+2016,NY,New York,IND,industrial,6.03,cents per kilowatt-hour
+2016,OH,Ohio,IND,industrial,6.98,cents per kilowatt-hour
+2016,OK,Oklahoma,IND,industrial,5.02,cents per kilowatt-hour
+2016,OR,Oregon,IND,industrial,6.05,cents per kilowatt-hour
+2016,PA,Pennsylvania,IND,industrial,6.92,cents per kilowatt-hour
+2016,PACC,Pacific Contiguous,IND,industrial,8.94,cents per kilowatt-hour
+2016,PACN,Pacific Noncontiguous,IND,industrial,19.21,cents per kilowatt-hour
+2016,RI,Rhode Island,IND,industrial,13.48,cents per kilowatt-hour
+2016,SAT,South Atlantic,IND,industrial,6.45,cents per kilowatt-hour
+2016,SC,South Carolina,IND,industrial,6.09,cents per kilowatt-hour
+2016,SD,South Dakota,IND,industrial,7.57,cents per kilowatt-hour
+2016,TN,Tennessee,IND,industrial,5.68,cents per kilowatt-hour
+2016,TX,Texas,IND,industrial,5.33,cents per kilowatt-hour
+2016,US,U.S. Total,IND,industrial,6.76,cents per kilowatt-hour
+2016,UT,Utah,IND,industrial,6.33,cents per kilowatt-hour
+2016,VA,Virginia,IND,industrial,6.56,cents per kilowatt-hour
+2016,VT,Vermont,IND,industrial,10.23,cents per kilowatt-hour
+2016,WA,Washington,IND,industrial,4.43,cents per kilowatt-hour
+2016,WI,Wisconsin,IND,industrial,7.49,cents per kilowatt-hour
+2016,WNC,West North Central,IND,industrial,7.12,cents per kilowatt-hour
+2016,WSC,West South Central,IND,industrial,5.31,cents per kilowatt-hour
+2016,WV,West Virginia,IND,industrial,6.57,cents per kilowatt-hour
+2016,WY,Wyoming,IND,industrial,6.92,cents per kilowatt-hour
+2015,AK,Alaska,IND,industrial,14.53,cents per kilowatt-hour
+2015,AL,Alabama,IND,industrial,6.03,cents per kilowatt-hour
+2015,AR,Arkansas,IND,industrial,6.23,cents per kilowatt-hour
+2015,AZ,Arizona,IND,industrial,6.26,cents per kilowatt-hour
+2015,CA,California,IND,industrial,12.17,cents per kilowatt-hour
+2015,CO,Colorado,IND,industrial,7.4,cents per kilowatt-hour
+2015,CT,Connecticut,IND,industrial,12.95,cents per kilowatt-hour
+2015,DC,District of Columbia,IND,industrial,8.78,cents per kilowatt-hour
+2015,DE,Delaware,IND,industrial,8.28,cents per kilowatt-hour
+2015,ENC,East North Central,IND,industrial,6.97,cents per kilowatt-hour
+2015,ESC,East South Central,IND,industrial,5.98,cents per kilowatt-hour
+2015,FL,Florida,IND,industrial,8.22,cents per kilowatt-hour
+2015,GA,Georgia,IND,industrial,5.87,cents per kilowatt-hour
+2015,HI,Hawaii,IND,industrial,23.06,cents per kilowatt-hour
+2015,IA,Iowa,IND,industrial,5.9,cents per kilowatt-hour
+2015,ID,Idaho,IND,industrial,6.6,cents per kilowatt-hour
+2015,IL,Illinois,IND,industrial,6.67,cents per kilowatt-hour
+2015,IN,Indiana,IND,industrial,6.86,cents per kilowatt-hour
+2015,KS,Kansas,IND,industrial,7.61,cents per kilowatt-hour
+2015,KY,Kentucky,IND,industrial,5.48,cents per kilowatt-hour
+2015,LA,Louisiana,IND,industrial,5.41,cents per kilowatt-hour
+2015,MA,Massachusetts,IND,industrial,13.54,cents per kilowatt-hour
+2015,MAT,Middle Atlantic,IND,industrial,7.32,cents per kilowatt-hour
+2015,MD,Maryland,IND,industrial,8.53,cents per kilowatt-hour
+2015,ME,Maine,IND,industrial,9.05,cents per kilowatt-hour
+2015,MI,Michigan,IND,industrial,7.02,cents per kilowatt-hour
+2015,MN,Minnesota,IND,industrial,7.02,cents per kilowatt-hour
+2015,MO,Missouri,IND,industrial,6.44,cents per kilowatt-hour
+2015,MS,Mississippi,IND,industrial,6.56,cents per kilowatt-hour
+2015,MT,Montana,IND,industrial,5.32,cents per kilowatt-hour
+2015,MTN,Mountain,IND,industrial,6.59,cents per kilowatt-hour
+2015,NC,North Carolina,IND,industrial,6.51,cents per kilowatt-hour
+2015,ND,North Dakota,IND,industrial,8.07,cents per kilowatt-hour
+2015,NE,Nebraska,IND,industrial,7.59,cents per kilowatt-hour
+2015,NEW,New England,IND,industrial,12.34,cents per kilowatt-hour
+2015,NH,New Hampshire,IND,industrial,12.74,cents per kilowatt-hour
+2015,NJ,New Jersey,IND,industrial,10.64,cents per kilowatt-hour
+2015,NM,New Mexico,IND,industrial,6.33,cents per kilowatt-hour
+2015,NV,Nevada,IND,industrial,6.75,cents per kilowatt-hour
+2015,NY,New York,IND,industrial,6.31,cents per kilowatt-hour
+2015,OH,Ohio,IND,industrial,7.02,cents per kilowatt-hour
+2015,OK,Oklahoma,IND,industrial,5.35,cents per kilowatt-hour
+2015,OR,Oregon,IND,industrial,5.97,cents per kilowatt-hour
+2015,PA,Pennsylvania,IND,industrial,7.2,cents per kilowatt-hour
+2015,PACC,Pacific Contiguous,IND,industrial,9.03,cents per kilowatt-hour
+2015,PACN,Pacific Noncontiguous,IND,industrial,20.77,cents per kilowatt-hour
+2015,RI,Rhode Island,IND,industrial,13.76,cents per kilowatt-hour
+2015,SAT,South Atlantic,IND,industrial,6.58,cents per kilowatt-hour
+2015,SC,South Carolina,IND,industrial,6.05,cents per kilowatt-hour
+2015,SD,South Dakota,IND,industrial,7.37,cents per kilowatt-hour
+2015,TN,Tennessee,IND,industrial,6.17,cents per kilowatt-hour
+2015,TX,Texas,IND,industrial,5.59,cents per kilowatt-hour
+2015,US,U.S. Total,IND,industrial,6.91,cents per kilowatt-hour
+2015,UT,Utah,IND,industrial,6.17,cents per kilowatt-hour
+2015,VA,Virginia,IND,industrial,6.95,cents per kilowatt-hour
+2015,VT,Vermont,IND,industrial,10.27,cents per kilowatt-hour
+2015,WA,Washington,IND,industrial,4.35,cents per kilowatt-hour
+2015,WI,Wisconsin,IND,industrial,7.58,cents per kilowatt-hour
+2015,WNC,West North Central,IND,industrial,6.88,cents per kilowatt-hour
+2015,WSC,West South Central,IND,industrial,5.59,cents per kilowatt-hour
+2015,WV,West Virginia,IND,industrial,6.09,cents per kilowatt-hour
+2015,WY,Wyoming,IND,industrial,6.76,cents per kilowatt-hour
+2014,AK,Alaska,IND,industrial,15.66,cents per kilowatt-hour
+2014,AL,Alabama,IND,industrial,6.15,cents per kilowatt-hour
+2014,AR,Arkansas,IND,industrial,6.02,cents per kilowatt-hour
+2014,AZ,Arizona,IND,industrial,6.46,cents per kilowatt-hour
+2014,CA,California,IND,industrial,12.34,cents per kilowatt-hour
+2014,CO,Colorado,IND,industrial,7.47,cents per kilowatt-hour
+2014,CT,Connecticut,IND,industrial,12.92,cents per kilowatt-hour
+2014,DC,District of Columbia,IND,industrial,8.41,cents per kilowatt-hour
+2014,DE,Delaware,IND,industrial,8.58,cents per kilowatt-hour
+2014,ENC,East North Central,IND,industrial,7.07,cents per kilowatt-hour
+2014,ESC,East South Central,IND,industrial,6.13,cents per kilowatt-hour
+2014,FL,Florida,IND,industrial,7.9,cents per kilowatt-hour
+2014,GA,Georgia,IND,industrial,6.64,cents per kilowatt-hour
+2014,HI,Hawaii,IND,industrial,30.22,cents per kilowatt-hour
+2014,IA,Iowa,IND,industrial,5.71,cents per kilowatt-hour
+2014,ID,Idaho,IND,industrial,6.4,cents per kilowatt-hour
+2014,IL,Illinois,IND,industrial,6.85,cents per kilowatt-hour
+2014,IN,Indiana,IND,industrial,6.97,cents per kilowatt-hour
+2014,KS,Kansas,IND,industrial,7.8,cents per kilowatt-hour
+2014,KY,Kentucky,IND,industrial,5.68,cents per kilowatt-hour
+2014,LA,Louisiana,IND,industrial,6.05,cents per kilowatt-hour
+2014,MA,Massachusetts,IND,industrial,12.74,cents per kilowatt-hour
+2014,MAT,Middle Atlantic,IND,industrial,7.61,cents per kilowatt-hour
+2014,MD,Maryland,IND,industrial,9.04,cents per kilowatt-hour
+2014,ME,Maine,IND,industrial,8.95,cents per kilowatt-hour
+2014,MI,Michigan,IND,industrial,7.68,cents per kilowatt-hour
+2014,MN,Minnesota,IND,industrial,6.72,cents per kilowatt-hour
+2014,MO,Missouri,IND,industrial,6.36,cents per kilowatt-hour
+2014,MS,Mississippi,IND,industrial,6.6,cents per kilowatt-hour
+2014,MT,Montana,IND,industrial,5.49,cents per kilowatt-hour
+2014,MTN,Mountain,IND,industrial,6.68,cents per kilowatt-hour
+2014,NC,North Carolina,IND,industrial,6.5,cents per kilowatt-hour
+2014,ND,North Dakota,IND,industrial,7.62,cents per kilowatt-hour
+2014,NE,Nebraska,IND,industrial,7.47,cents per kilowatt-hour
+2014,NEW,New England,IND,industrial,11.84,cents per kilowatt-hour
+2014,NH,New Hampshire,IND,industrial,11.93,cents per kilowatt-hour
+2014,NJ,New Jersey,IND,industrial,11.38,cents per kilowatt-hour
+2014,NM,New Mexico,IND,industrial,6.61,cents per kilowatt-hour
+2014,NV,Nevada,IND,industrial,7.12,cents per kilowatt-hour
+2014,NY,New York,IND,industrial,6.58,cents per kilowatt-hour
+2014,OH,Ohio,IND,industrial,6.77,cents per kilowatt-hour
+2014,OK,Oklahoma,IND,industrial,5.85,cents per kilowatt-hour
+2014,OR,Oregon,IND,industrial,5.97,cents per kilowatt-hour
+2014,PA,Pennsylvania,IND,industrial,7.41,cents per kilowatt-hour
+2014,PACC,Pacific Contiguous,IND,industrial,9.08,cents per kilowatt-hour
+2014,PACN,Pacific Noncontiguous,IND,industrial,26.3,cents per kilowatt-hour
+2014,RI,Rhode Island,IND,industrial,12.86,cents per kilowatt-hour
+2014,SAT,South Atlantic,IND,industrial,6.75,cents per kilowatt-hour
+2014,SC,South Carolina,IND,industrial,6.29,cents per kilowatt-hour
+2014,SD,South Dakota,IND,industrial,6.99,cents per kilowatt-hour
+2014,TN,Tennessee,IND,industrial,6.4,cents per kilowatt-hour
+2014,TX,Texas,IND,industrial,6.16,cents per kilowatt-hour
+2014,US,U.S. Total,IND,industrial,7.1,cents per kilowatt-hour
+2014,UT,Utah,IND,industrial,6.08,cents per kilowatt-hour
+2014,VA,Virginia,IND,industrial,6.89,cents per kilowatt-hour
+2014,VT,Vermont,IND,industrial,10.23,cents per kilowatt-hour
+2014,WA,Washington,IND,industrial,4.32,cents per kilowatt-hour
+2014,WI,Wisconsin,IND,industrial,7.52,cents per kilowatt-hour
+2014,WNC,West North Central,IND,industrial,6.73,cents per kilowatt-hour
+2014,WSC,West South Central,IND,industrial,6.1,cents per kilowatt-hour
+2014,WV,West Virginia,IND,industrial,5.87,cents per kilowatt-hour
+2014,WY,Wyoming,IND,industrial,6.61,cents per kilowatt-hour
+2013,AK,Alaska,IND,industrial,15.83,cents per kilowatt-hour
+2013,AL,Alabama,IND,industrial,5.95,cents per kilowatt-hour
+2013,AR,Arkansas,IND,industrial,6.04,cents per kilowatt-hour
+2013,AZ,Arizona,IND,industrial,6.66,cents per kilowatt-hour
+2013,CA,California,IND,industrial,11.44,cents per kilowatt-hour
+2013,CO,Colorado,IND,industrial,7.34,cents per kilowatt-hour
+2013,CT,Connecticut,IND,industrial,12.61,cents per kilowatt-hour
+2013,DC,District of Columbia,IND,industrial,5.54,cents per kilowatt-hour
+2013,DE,Delaware,IND,industrial,8.43,cents per kilowatt-hour
+2013,ENC,East North Central,IND,industrial,6.65,cents per kilowatt-hour
+2013,ESC,East South Central,IND,industrial,5.98,cents per kilowatt-hour
+2013,FL,Florida,IND,industrial,7.61,cents per kilowatt-hour
+2013,GA,Georgia,IND,industrial,6.27,cents per kilowatt-hour
+2013,HI,Hawaii,IND,industrial,29.87,cents per kilowatt-hour
+2013,IA,Iowa,IND,industrial,5.62,cents per kilowatt-hour
+2013,ID,Idaho,IND,industrial,6.09,cents per kilowatt-hour
+2013,IL,Illinois,IND,industrial,5.94,cents per kilowatt-hour
+2013,IN,Indiana,IND,industrial,6.7,cents per kilowatt-hour
+2013,KS,Kansas,IND,industrial,7.39,cents per kilowatt-hour
+2013,KY,Kentucky,IND,industrial,5.66,cents per kilowatt-hour
+2013,LA,Louisiana,IND,industrial,5.92,cents per kilowatt-hour
+2013,MA,Massachusetts,IND,industrial,13.18,cents per kilowatt-hour
+2013,MAT,Middle Atlantic,IND,industrial,7.27,cents per kilowatt-hour
+2013,MD,Maryland,IND,industrial,8.36,cents per kilowatt-hour
+2013,ME,Maine,IND,industrial,8.34,cents per kilowatt-hour
+2013,MI,Michigan,IND,industrial,7.72,cents per kilowatt-hour
+2013,MN,Minnesota,IND,industrial,6.98,cents per kilowatt-hour
+2013,MO,Missouri,IND,industrial,6.29,cents per kilowatt-hour
+2013,MS,Mississippi,IND,industrial,6.34,cents per kilowatt-hour
+2013,MT,Montana,IND,industrial,5.43,cents per kilowatt-hour
+2013,MTN,Mountain,IND,industrial,6.48,cents per kilowatt-hour
+2013,NC,North Carolina,IND,industrial,6.45,cents per kilowatt-hour
+2013,ND,North Dakota,IND,industrial,7.13,cents per kilowatt-hour
+2013,NE,Nebraska,IND,industrial,7.44,cents per kilowatt-hour
+2013,NEW,New England,IND,industrial,12.25,cents per kilowatt-hour
+2013,NH,New Hampshire,IND,industrial,11.4,cents per kilowatt-hour
+2013,NJ,New Jersey,IND,industrial,10.8,cents per kilowatt-hour
+2013,NM,New Mexico,IND,industrial,6.36,cents per kilowatt-hour
+2013,NV,Nevada,IND,industrial,6.52,cents per kilowatt-hour
+2013,NY,New York,IND,industrial,6.58,cents per kilowatt-hour
+2013,OH,Ohio,IND,industrial,6.22,cents per kilowatt-hour
+2013,OK,Oklahoma,IND,industrial,5.49,cents per kilowatt-hour
+2013,OR,Oregon,IND,industrial,5.8,cents per kilowatt-hour
+2013,PA,Pennsylvania,IND,industrial,6.97,cents per kilowatt-hour
+2013,PACC,Pacific Contiguous,IND,industrial,8.61,cents per kilowatt-hour
+2013,PACN,Pacific Noncontiguous,IND,industrial,26.08,cents per kilowatt-hour
+2013,RI,Rhode Island,IND,industrial,11.82,cents per kilowatt-hour
+2013,SAT,South Atlantic,IND,industrial,6.55,cents per kilowatt-hour
+2013,SC,South Carolina,IND,industrial,6.01,cents per kilowatt-hour
+2013,SD,South Dakota,IND,industrial,6.97,cents per kilowatt-hour
+2013,TN,Tennessee,IND,industrial,6.29,cents per kilowatt-hour
+2013,TX,Texas,IND,industrial,5.81,cents per kilowatt-hour
+2013,US,U.S. Total,IND,industrial,6.89,cents per kilowatt-hour
+2013,UT,Utah,IND,industrial,5.87,cents per kilowatt-hour
+2013,VA,Virginia,IND,industrial,6.63,cents per kilowatt-hour
+2013,VT,Vermont,IND,industrial,10.84,cents per kilowatt-hour
+2013,WA,Washington,IND,industrial,4.23,cents per kilowatt-hour
+2013,WI,Wisconsin,IND,industrial,7.4,cents per kilowatt-hour
+2013,WNC,West North Central,IND,industrial,6.67,cents per kilowatt-hour
+2013,WSC,West South Central,IND,industrial,5.82,cents per kilowatt-hour
+2013,WV,West Virginia,IND,industrial,6.2,cents per kilowatt-hour
+2013,WY,Wyoming,IND,industrial,6.42,cents per kilowatt-hour
+2012,AK,Alaska,IND,industrial,16.82,cents per kilowatt-hour
+2012,AL,Alabama,IND,industrial,6.22,cents per kilowatt-hour
+2012,AR,Arkansas,IND,industrial,5.76,cents per kilowatt-hour
+2012,AZ,Arizona,IND,industrial,6.53,cents per kilowatt-hour
+2012,CA,California,IND,industrial,10.49,cents per kilowatt-hour
+2012,CO,Colorado,IND,industrial,6.95,cents per kilowatt-hour
+2012,CT,Connecticut,IND,industrial,12.67,cents per kilowatt-hour
+2012,DC,District of Columbia,IND,industrial,5.46,cents per kilowatt-hour
+2012,DE,Delaware,IND,industrial,8.36,cents per kilowatt-hour
+2012,ENC,East North Central,IND,industrial,6.51,cents per kilowatt-hour
+2012,ESC,East South Central,IND,industrial,6.11,cents per kilowatt-hour
+2012,FL,Florida,IND,industrial,8.04,cents per kilowatt-hour
+2012,GA,Georgia,IND,industrial,5.98,cents per kilowatt-hour
+2012,HI,Hawaii,IND,industrial,30.82,cents per kilowatt-hour
+2012,IA,Iowa,IND,industrial,5.3,cents per kilowatt-hour
+2012,ID,Idaho,IND,industrial,5.48,cents per kilowatt-hour
+2012,IL,Illinois,IND,industrial,5.8,cents per kilowatt-hour
+2012,IN,Indiana,IND,industrial,6.34,cents per kilowatt-hour
+2012,KS,Kansas,IND,industrial,7.09,cents per kilowatt-hour
+2012,KY,Kentucky,IND,industrial,5.35,cents per kilowatt-hour
+2012,LA,Louisiana,IND,industrial,4.76,cents per kilowatt-hour
+2012,MA,Massachusetts,IND,industrial,12.57,cents per kilowatt-hour
+2012,MAT,Middle Atlantic,IND,industrial,7.49,cents per kilowatt-hour
+2012,MD,Maryland,IND,industrial,8.09,cents per kilowatt-hour
+2012,ME,Maine,IND,industrial,7.98,cents per kilowatt-hour
+2012,MI,Michigan,IND,industrial,7.62,cents per kilowatt-hour
+2012,MN,Minnesota,IND,industrial,6.54,cents per kilowatt-hour
+2012,MO,Missouri,IND,industrial,5.89,cents per kilowatt-hour
+2012,MS,Mississippi,IND,industrial,6.24,cents per kilowatt-hour
+2012,MT,Montana,IND,industrial,5.1,cents per kilowatt-hour
+2012,MTN,Mountain,IND,industrial,6.18,cents per kilowatt-hour
+2012,NC,North Carolina,IND,industrial,6.42,cents per kilowatt-hour
+2012,ND,North Dakota,IND,industrial,6.55,cents per kilowatt-hour
+2012,NE,Nebraska,IND,industrial,7.01,cents per kilowatt-hour
+2012,NEW,New England,IND,industrial,11.83,cents per kilowatt-hour
+2012,NH,New Hampshire,IND,industrial,11.83,cents per kilowatt-hour
+2012,NJ,New Jersey,IND,industrial,10.52,cents per kilowatt-hour
+2012,NM,New Mexico,IND,industrial,5.83,cents per kilowatt-hour
+2012,NV,Nevada,IND,industrial,6.48,cents per kilowatt-hour
+2012,NY,New York,IND,industrial,6.7,cents per kilowatt-hour
+2012,OH,Ohio,IND,industrial,6.24,cents per kilowatt-hour
+2012,OK,Oklahoma,IND,industrial,5.09,cents per kilowatt-hour
+2012,OR,Oregon,IND,industrial,5.59,cents per kilowatt-hour
+2012,PA,Pennsylvania,IND,industrial,7.23,cents per kilowatt-hour
+2012,PACC,Pacific Contiguous,IND,industrial,7.78,cents per kilowatt-hour
+2012,PACN,Pacific Noncontiguous,IND,industrial,26.99,cents per kilowatt-hour
+2012,RI,Rhode Island,IND,industrial,10.68,cents per kilowatt-hour
+2012,SAT,South Atlantic,IND,industrial,6.55,cents per kilowatt-hour
+2012,SC,South Carolina,IND,industrial,6.02,cents per kilowatt-hour
+2012,SD,South Dakota,IND,industrial,6.57,cents per kilowatt-hour
+2012,TN,Tennessee,IND,industrial,7.08,cents per kilowatt-hour
+2012,TX,Texas,IND,industrial,5.57,cents per kilowatt-hour
+2012,US,U.S. Total,IND,industrial,6.67,cents per kilowatt-hour
+2012,UT,Utah,IND,industrial,5.62,cents per kilowatt-hour
+2012,VA,Virginia,IND,industrial,6.72,cents per kilowatt-hour
+2012,VT,Vermont,IND,industrial,9.98,cents per kilowatt-hour
+2012,WA,Washington,IND,industrial,4.13,cents per kilowatt-hour
+2012,WI,Wisconsin,IND,industrial,7.34,cents per kilowatt-hour
+2012,WNC,West North Central,IND,industrial,6.28,cents per kilowatt-hour
+2012,WSC,West South Central,IND,industrial,5.39,cents per kilowatt-hour
+2012,WV,West Virginia,IND,industrial,6.33,cents per kilowatt-hour
+2012,WY,Wyoming,IND,industrial,6.03,cents per kilowatt-hour
+2011,AK,Alaska,IND,industrial,15.71,cents per kilowatt-hour
+2011,AL,Alabama,IND,industrial,6.25,cents per kilowatt-hour
+2011,AR,Arkansas,IND,industrial,5.63,cents per kilowatt-hour
+2011,AZ,Arizona,IND,industrial,6.55,cents per kilowatt-hour
+2011,CA,California,IND,industrial,10.11,cents per kilowatt-hour
+2011,CO,Colorado,IND,industrial,7.06,cents per kilowatt-hour
+2011,CT,Connecticut,IND,industrial,13.24,cents per kilowatt-hour
+2011,DC,District of Columbia,IND,industrial,6.89,cents per kilowatt-hour
+2011,DE,Delaware,IND,industrial,8.91,cents per kilowatt-hour
+2011,ENC,East North Central,IND,industrial,6.53,cents per kilowatt-hour
+2011,ESC,East South Central,IND,industrial,6.19,cents per kilowatt-hour
+2011,FL,Florida,IND,industrial,8.55,cents per kilowatt-hour
+2011,GA,Georgia,IND,industrial,6.6,cents per kilowatt-hour
+2011,HI,Hawaii,IND,industrial,28.4,cents per kilowatt-hour
+2011,IA,Iowa,IND,industrial,5.21,cents per kilowatt-hour
+2011,ID,Idaho,IND,industrial,5.1,cents per kilowatt-hour
+2011,IL,Illinois,IND,industrial,6.42,cents per kilowatt-hour
+2011,IN,Indiana,IND,industrial,6.17,cents per kilowatt-hour
+2011,KS,Kansas,IND,industrial,6.71,cents per kilowatt-hour
+2011,KY,Kentucky,IND,industrial,5.33,cents per kilowatt-hour
+2011,LA,Louisiana,IND,industrial,5.69,cents per kilowatt-hour
+2011,MA,Massachusetts,IND,industrial,13.38,cents per kilowatt-hour
+2011,MAT,Middle Atlantic,IND,industrial,8.17,cents per kilowatt-hour
+2011,MD,Maryland,IND,industrial,8.76,cents per kilowatt-hour
+2011,ME,Maine,IND,industrial,8.88,cents per kilowatt-hour
+2011,MI,Michigan,IND,industrial,7.32,cents per kilowatt-hour
+2011,MN,Minnesota,IND,industrial,6.47,cents per kilowatt-hour
+2011,MO,Missouri,IND,industrial,5.85,cents per kilowatt-hour
+2011,MS,Mississippi,IND,industrial,6.53,cents per kilowatt-hour
+2011,MT,Montana,IND,industrial,5.27,cents per kilowatt-hour
+2011,MTN,Mountain,IND,industrial,6.08,cents per kilowatt-hour
+2011,NC,North Carolina,IND,industrial,6.01,cents per kilowatt-hour
+2011,ND,North Dakota,IND,industrial,6.24,cents per kilowatt-hour
+2011,NE,Nebraska,IND,industrial,6.43,cents per kilowatt-hour
+2011,NEW,New England,IND,industrial,12.55,cents per kilowatt-hour
+2011,NH,New Hampshire,IND,industrial,12.27,cents per kilowatt-hour
+2011,NJ,New Jersey,IND,industrial,11.43,cents per kilowatt-hour
+2011,NM,New Mexico,IND,industrial,6.06,cents per kilowatt-hour
+2011,NV,Nevada,IND,industrial,6.65,cents per kilowatt-hour
+2011,NY,New York,IND,industrial,7.83,cents per kilowatt-hour
+2011,OH,Ohio,IND,industrial,6.12,cents per kilowatt-hour
+2011,OK,Oklahoma,IND,industrial,5.46,cents per kilowatt-hour
+2011,OR,Oregon,IND,industrial,5.47,cents per kilowatt-hour
+2011,PA,Pennsylvania,IND,industrial,7.73,cents per kilowatt-hour
+2011,PACC,Pacific Contiguous,IND,industrial,7.62,cents per kilowatt-hour
+2011,PACN,Pacific Noncontiguous,IND,industrial,25.02,cents per kilowatt-hour
+2011,RI,Rhode Island,IND,industrial,11.27,cents per kilowatt-hour
+2011,SAT,South Atlantic,IND,industrial,6.66,cents per kilowatt-hour
+2011,SC,South Carolina,IND,industrial,5.94,cents per kilowatt-hour
+2011,SD,South Dakota,IND,industrial,6.2,cents per kilowatt-hour
+2011,TN,Tennessee,IND,industrial,7.23,cents per kilowatt-hour
+2011,TX,Texas,IND,industrial,6.24,cents per kilowatt-hour
+2011,US,U.S. Total,IND,industrial,6.82,cents per kilowatt-hour
+2011,UT,Utah,IND,industrial,5.1,cents per kilowatt-hour
+2011,VA,Virginia,IND,industrial,6.49,cents per kilowatt-hour
+2011,VT,Vermont,IND,industrial,9.83,cents per kilowatt-hour
+2011,WA,Washington,IND,industrial,4.09,cents per kilowatt-hour
+2011,WI,Wisconsin,IND,industrial,7.33,cents per kilowatt-hour
+2011,WNC,West North Central,IND,industrial,6.08,cents per kilowatt-hour
+2011,WSC,West South Central,IND,industrial,6,cents per kilowatt-hour
+2011,WV,West Virginia,IND,industrial,6.18,cents per kilowatt-hour
+2011,WY,Wyoming,IND,industrial,5.41,cents per kilowatt-hour
+2010,AK,Alaska,IND,industrial,14.14,cents per kilowatt-hour
+2010,AL,Alabama,IND,industrial,6.01,cents per kilowatt-hour
+2010,AR,Arkansas,IND,industrial,5.44,cents per kilowatt-hour
+2010,AZ,Arizona,IND,industrial,6.63,cents per kilowatt-hour
+2010,CA,California,IND,industrial,9.8,cents per kilowatt-hour
+2010,CO,Colorado,IND,industrial,6.9,cents per kilowatt-hour
+2010,CT,Connecticut,IND,industrial,14.51,cents per kilowatt-hour
+2010,DC,District of Columbia,IND,industrial,7.74,cents per kilowatt-hour
+2010,DE,Delaware,IND,industrial,9.57,cents per kilowatt-hour
+2010,ENC,East North Central,IND,industrial,6.53,cents per kilowatt-hour
+2010,ESC,East South Central,IND,industrial,5.83,cents per kilowatt-hour
+2010,FL,Florida,IND,industrial,8.85,cents per kilowatt-hour
+2010,GA,Georgia,IND,industrial,6.22,cents per kilowatt-hour
+2010,HI,Hawaii,IND,industrial,21.94,cents per kilowatt-hour
+2010,IA,Iowa,IND,industrial,5.36,cents per kilowatt-hour
+2010,ID,Idaho,IND,industrial,5.15,cents per kilowatt-hour
+2010,IL,Illinois,IND,industrial,6.82,cents per kilowatt-hour
+2010,IN,Indiana,IND,industrial,5.87,cents per kilowatt-hour
+2010,KS,Kansas,IND,industrial,6.23,cents per kilowatt-hour
+2010,KY,Kentucky,IND,industrial,5.05,cents per kilowatt-hour
+2010,LA,Louisiana,IND,industrial,5.84,cents per kilowatt-hour
+2010,MA,Massachusetts,IND,industrial,13.71,cents per kilowatt-hour
+2010,MAT,Middle Atlantic,IND,industrial,8.4,cents per kilowatt-hour
+2010,MD,Maryland,IND,industrial,9.58,cents per kilowatt-hour
+2010,ME,Maine,IND,industrial,9.17,cents per kilowatt-hour
+2010,MI,Michigan,IND,industrial,7.08,cents per kilowatt-hour
+2010,MN,Minnesota,IND,industrial,6.29,cents per kilowatt-hour
+2010,MO,Missouri,IND,industrial,5.5,cents per kilowatt-hour
+2010,MS,Mississippi,IND,industrial,6.32,cents per kilowatt-hour
+2010,MT,Montana,IND,industrial,5.55,cents per kilowatt-hour
+2010,MTN,Mountain,IND,industrial,6.13,cents per kilowatt-hour
+2010,NC,North Carolina,IND,industrial,6.17,cents per kilowatt-hour
+2010,ND,North Dakota,IND,industrial,5.81,cents per kilowatt-hour
+2010,NE,Nebraska,IND,industrial,6,cents per kilowatt-hour
+2010,NEW,New England,IND,industrial,12.98,cents per kilowatt-hour
+2010,NH,New Hampshire,IND,industrial,12.76,cents per kilowatt-hour
+2010,NJ,New Jersey,IND,industrial,11.81,cents per kilowatt-hour
+2010,NM,New Mexico,IND,industrial,6.01,cents per kilowatt-hour
+2010,NV,Nevada,IND,industrial,7.37,cents per kilowatt-hour
+2010,NY,New York,IND,industrial,8.79,cents per kilowatt-hour
+2010,OH,Ohio,IND,industrial,6.4,cents per kilowatt-hour
+2010,OK,Oklahoma,IND,industrial,5.35,cents per kilowatt-hour
+2010,OR,Oregon,IND,industrial,5.4,cents per kilowatt-hour
+2010,PA,Pennsylvania,IND,industrial,7.66,cents per kilowatt-hour
+2010,PACC,Pacific Contiguous,IND,industrial,7.47,cents per kilowatt-hour
+2010,PACN,Pacific Noncontiguous,IND,industrial,19.88,cents per kilowatt-hour
+2010,RI,Rhode Island,IND,industrial,11.83,cents per kilowatt-hour
+2010,SAT,South Atlantic,IND,industrial,6.66,cents per kilowatt-hour
+2010,SC,South Carolina,IND,industrial,5.74,cents per kilowatt-hour
+2010,SD,South Dakota,IND,industrial,6.07,cents per kilowatt-hour
+2010,TN,Tennessee,IND,industrial,6.58,cents per kilowatt-hour
+2010,TX,Texas,IND,industrial,6.44,cents per kilowatt-hour
+2010,US,U.S. Total,IND,industrial,6.77,cents per kilowatt-hour
+2010,UT,Utah,IND,industrial,4.93,cents per kilowatt-hour
+2010,VA,Virginia,IND,industrial,6.66,cents per kilowatt-hour
+2010,VT,Vermont,IND,industrial,9.53,cents per kilowatt-hour
+2010,WA,Washington,IND,industrial,4.08,cents per kilowatt-hour
+2010,WI,Wisconsin,IND,industrial,6.85,cents per kilowatt-hour
+2010,WNC,West North Central,IND,industrial,5.86,cents per kilowatt-hour
+2010,WSC,West South Central,IND,industrial,6.12,cents per kilowatt-hour
+2010,WV,West Virginia,IND,industrial,5.86,cents per kilowatt-hour
+2010,WY,Wyoming,IND,industrial,4.98,cents per kilowatt-hour
+2009,AK,Alaska,IND,industrial,13.15,cents per kilowatt-hour
+2009,AL,Alabama,IND,industrial,5.96,cents per kilowatt-hour
+2009,AR,Arkansas,IND,industrial,5.76,cents per kilowatt-hour
+2009,AZ,Arizona,IND,industrial,6.65,cents per kilowatt-hour
+2009,CA,California,IND,industrial,10.42,cents per kilowatt-hour
+2009,CO,Colorado,IND,industrial,6.39,cents per kilowatt-hour
+2009,CT,Connecticut,IND,industrial,14.99,cents per kilowatt-hour
+2009,DC,District of Columbia,IND,industrial,8.38,cents per kilowatt-hour
+2009,DE,Delaware,IND,industrial,9.51,cents per kilowatt-hour
+2009,ENC,East North Central,IND,industrial,6.61,cents per kilowatt-hour
+2009,ESC,East South Central,IND,industrial,5.83,cents per kilowatt-hour
+2009,FL,Florida,IND,industrial,9.32,cents per kilowatt-hour
+2009,GA,Georgia,IND,industrial,6.12,cents per kilowatt-hour
+2009,HI,Hawaii,IND,industrial,18.14,cents per kilowatt-hour
+2009,IA,Iowa,IND,industrial,5.27,cents per kilowatt-hour
+2009,ID,Idaho,IND,industrial,5.17,cents per kilowatt-hour
+2009,IL,Illinois,IND,industrial,7.01,cents per kilowatt-hour
+2009,IN,Indiana,IND,industrial,5.81,cents per kilowatt-hour
+2009,KS,Kansas,IND,industrial,6.1,cents per kilowatt-hour
+2009,KY,Kentucky,IND,industrial,4.92,cents per kilowatt-hour
+2009,LA,Louisiana,IND,industrial,5.25,cents per kilowatt-hour
+2009,MA,Massachusetts,IND,industrial,14.07,cents per kilowatt-hour
+2009,MAT,Middle Atlantic,IND,industrial,8.04,cents per kilowatt-hour
+2009,MD,Maryland,IND,industrial,9.96,cents per kilowatt-hour
+2009,ME,Maine,IND,industrial,10.03,cents per kilowatt-hour
+2009,MI,Michigan,IND,industrial,6.98,cents per kilowatt-hour
+2009,MN,Minnesota,IND,industrial,6.26,cents per kilowatt-hour
+2009,MO,Missouri,IND,industrial,5.42,cents per kilowatt-hour
+2009,MS,Mississippi,IND,industrial,6.61,cents per kilowatt-hour
+2009,MT,Montana,IND,industrial,5.46,cents per kilowatt-hour
+2009,MTN,Mountain,IND,industrial,6.09,cents per kilowatt-hour
+2009,NC,North Carolina,IND,industrial,5.99,cents per kilowatt-hour
+2009,ND,North Dakota,IND,industrial,5.25,cents per kilowatt-hour
+2009,NE,Nebraska,IND,industrial,5.75,cents per kilowatt-hour
+2009,NEW,New England,IND,industrial,13.44,cents per kilowatt-hour
+2009,NH,New Hampshire,IND,industrial,13.73,cents per kilowatt-hour
+2009,NJ,New Jersey,IND,industrial,11.89,cents per kilowatt-hour
+2009,NM,New Mexico,IND,industrial,5.72,cents per kilowatt-hour
+2009,NV,Nevada,IND,industrial,7.97,cents per kilowatt-hour
+2009,NY,New York,IND,industrial,8.37,cents per kilowatt-hour
+2009,OH,Ohio,IND,industrial,6.72,cents per kilowatt-hour
+2009,OK,Oklahoma,IND,industrial,4.82,cents per kilowatt-hour
+2009,OR,Oregon,IND,industrial,5.4,cents per kilowatt-hour
+2009,PA,Pennsylvania,IND,industrial,7.21,cents per kilowatt-hour
+2009,PACC,Pacific Contiguous,IND,industrial,8.01,cents per kilowatt-hour
+2009,PACN,Pacific Noncontiguous,IND,industrial,16.83,cents per kilowatt-hour
+2009,RI,Rhode Island,IND,industrial,12.22,cents per kilowatt-hour
+2009,SAT,South Atlantic,IND,industrial,6.69,cents per kilowatt-hour
+2009,SC,South Carolina,IND,industrial,5.79,cents per kilowatt-hour
+2009,SD,South Dakota,IND,industrial,5.65,cents per kilowatt-hour
+2009,TN,Tennessee,IND,industrial,6.76,cents per kilowatt-hour
+2009,TX,Texas,IND,industrial,6.74,cents per kilowatt-hour
+2009,US,U.S. Total,IND,industrial,6.83,cents per kilowatt-hour
+2009,UT,Utah,IND,industrial,4.81,cents per kilowatt-hour
+2009,VA,Virginia,IND,industrial,6.91,cents per kilowatt-hour
+2009,VT,Vermont,IND,industrial,9.21,cents per kilowatt-hour
+2009,WA,Washington,IND,industrial,4.4,cents per kilowatt-hour
+2009,WI,Wisconsin,IND,industrial,6.73,cents per kilowatt-hour
+2009,WNC,West North Central,IND,industrial,5.72,cents per kilowatt-hour
+2009,WSC,West South Central,IND,industrial,6.21,cents per kilowatt-hour
+2009,WV,West Virginia,IND,industrial,5.24,cents per kilowatt-hour
+2009,WY,Wyoming,IND,industrial,4.83,cents per kilowatt-hour
+2008,AK,Alaska,IND,industrial,14.17,cents per kilowatt-hour
+2008,AL,Alabama,IND,industrial,6.11,cents per kilowatt-hour
+2008,AR,Arkansas,IND,industrial,5.89,cents per kilowatt-hour
+2008,AZ,Arizona,IND,industrial,6.57,cents per kilowatt-hour
+2008,CA,California,IND,industrial,10.09,cents per kilowatt-hour
+2008,CO,Colorado,IND,industrial,6.65,cents per kilowatt-hour
+2008,CT,Connecticut,IND,industrial,14.93,cents per kilowatt-hour
+2008,DC,District of Columbia,IND,industrial,10.65,cents per kilowatt-hour
+2008,DE,Delaware,IND,industrial,10.49,cents per kilowatt-hour
+2008,ENC,East North Central,IND,industrial,6.39,cents per kilowatt-hour
+2008,ESC,East South Central,IND,industrial,5.75,cents per kilowatt-hour
+2008,FL,Florida,IND,industrial,8.25,cents per kilowatt-hour
+2008,GA,Georgia,IND,industrial,6.67,cents per kilowatt-hour
+2008,HI,Hawaii,IND,industrial,26.05,cents per kilowatt-hour
+2008,IA,Iowa,IND,industrial,4.81,cents per kilowatt-hour
+2008,ID,Idaho,IND,industrial,4.48,cents per kilowatt-hour
+2008,IL,Illinois,IND,industrial,7.34,cents per kilowatt-hour
+2008,IN,Indiana,IND,industrial,5.46,cents per kilowatt-hour
+2008,KS,Kansas,IND,industrial,5.69,cents per kilowatt-hour
+2008,KY,Kentucky,IND,industrial,4.82,cents per kilowatt-hour
+2008,LA,Louisiana,IND,industrial,7.94,cents per kilowatt-hour
+2008,MA,Massachusetts,IND,industrial,14.14,cents per kilowatt-hour
+2008,MAT,Middle Atlantic,IND,industrial,8.3,cents per kilowatt-hour
+2008,MD,Maryland,IND,industrial,10.38,cents per kilowatt-hour
+2008,ME,Maine,IND,industrial,11.56,cents per kilowatt-hour
+2008,MI,Michigan,IND,industrial,6.73,cents per kilowatt-hour
+2008,MN,Minnesota,IND,industrial,5.87,cents per kilowatt-hour
+2008,MO,Missouri,IND,industrial,4.92,cents per kilowatt-hour
+2008,MS,Mississippi,IND,industrial,6.56,cents per kilowatt-hour
+2008,MT,Montana,IND,industrial,5.9,cents per kilowatt-hour
+2008,MTN,Mountain,IND,industrial,6.05,cents per kilowatt-hour
+2008,NC,North Carolina,IND,industrial,5.54,cents per kilowatt-hour
+2008,ND,North Dakota,IND,industrial,5.59,cents per kilowatt-hour
+2008,NE,Nebraska,IND,industrial,5.16,cents per kilowatt-hour
+2008,NEW,New England,IND,industrial,13.47,cents per kilowatt-hour
+2008,NH,New Hampshire,IND,industrial,13.13,cents per kilowatt-hour
+2008,NJ,New Jersey,IND,industrial,12.54,cents per kilowatt-hour
+2008,NM,New Mexico,IND,industrial,6.38,cents per kilowatt-hour
+2008,NV,Nevada,IND,industrial,7.98,cents per kilowatt-hour
+2008,NY,New York,IND,industrial,9.39,cents per kilowatt-hour
+2008,OH,Ohio,IND,industrial,6.2,cents per kilowatt-hour
+2008,OK,Oklahoma,IND,industrial,5.9,cents per kilowatt-hour
+2008,OR,Oregon,IND,industrial,5.26,cents per kilowatt-hour
+2008,PA,Pennsylvania,IND,industrial,7.03,cents per kilowatt-hour
+2008,PACC,Pacific Contiguous,IND,industrial,7.97,cents per kilowatt-hour
+2008,PACN,Pacific Noncontiguous,IND,industrial,22.95,cents per kilowatt-hour
+2008,RI,Rhode Island,IND,industrial,14.23,cents per kilowatt-hour
+2008,SAT,South Atlantic,IND,industrial,6.28,cents per kilowatt-hour
+2008,SC,South Carolina,IND,industrial,5.37,cents per kilowatt-hour
+2008,SD,South Dakota,IND,industrial,5.31,cents per kilowatt-hour
+2008,TN,Tennessee,IND,industrial,6.29,cents per kilowatt-hour
+2008,TX,Texas,IND,industrial,8.79,cents per kilowatt-hour
+2008,US,U.S. Total,IND,industrial,6.96,cents per kilowatt-hour
+2008,UT,Utah,IND,industrial,4.59,cents per kilowatt-hour
+2008,VA,Virginia,IND,industrial,5.82,cents per kilowatt-hour
+2008,VT,Vermont,IND,industrial,9.19,cents per kilowatt-hour
+2008,WA,Washington,IND,industrial,4.52,cents per kilowatt-hour
+2008,WI,Wisconsin,IND,industrial,6.51,cents per kilowatt-hour
+2008,WNC,West North Central,IND,industrial,5.32,cents per kilowatt-hour
+2008,WSC,West South Central,IND,industrial,8.08,cents per kilowatt-hour
+2008,WV,West Virginia,IND,industrial,4.2,cents per kilowatt-hour
+2008,WY,Wyoming,IND,industrial,4.47,cents per kilowatt-hour
+2007,AK,Alaska,IND,industrial,12.63,cents per kilowatt-hour
+2007,AL,Alabama,IND,industrial,5.27,cents per kilowatt-hour
+2007,AR,Arkansas,IND,industrial,5.25,cents per kilowatt-hour
+2007,AZ,Arizona,IND,industrial,6.05,cents per kilowatt-hour
+2007,CA,California,IND,industrial,9.98,cents per kilowatt-hour
+2007,CO,Colorado,IND,industrial,5.97,cents per kilowatt-hour
+2007,CT,Connecticut,IND,industrial,12.92,cents per kilowatt-hour
+2007,DC,District of Columbia,IND,industrial,9.32,cents per kilowatt-hour
+2007,DE,Delaware,IND,industrial,8.93,cents per kilowatt-hour
+2007,ENC,East North Central,IND,industrial,5.9,cents per kilowatt-hour
+2007,ESC,East South Central,IND,industrial,5.04,cents per kilowatt-hour
+2007,FL,Florida,IND,industrial,7.76,cents per kilowatt-hour
+2007,GA,Georgia,IND,industrial,5.53,cents per kilowatt-hour
+2007,HI,Hawaii,IND,industrial,18.38,cents per kilowatt-hour
+2007,IA,Iowa,IND,industrial,4.74,cents per kilowatt-hour
+2007,ID,Idaho,IND,industrial,3.87,cents per kilowatt-hour
+2007,IL,Illinois,IND,industrial,6.61,cents per kilowatt-hour
+2007,IN,Indiana,IND,industrial,4.89,cents per kilowatt-hour
+2007,KS,Kansas,IND,industrial,5.13,cents per kilowatt-hour
+2007,KY,Kentucky,IND,industrial,4.47,cents per kilowatt-hour
+2007,LA,Louisiana,IND,industrial,6.77,cents per kilowatt-hour
+2007,MA,Massachusetts,IND,industrial,13.03,cents per kilowatt-hour
+2007,MAT,Middle Atlantic,IND,industrial,7.78,cents per kilowatt-hour
+2007,MD,Maryland,IND,industrial,9.41,cents per kilowatt-hour
+2007,ME,Maine,IND,industrial,14.11,cents per kilowatt-hour
+2007,MI,Michigan,IND,industrial,6.47,cents per kilowatt-hour
+2007,MN,Minnesota,IND,industrial,5.69,cents per kilowatt-hour
+2007,MO,Missouri,IND,industrial,4.76,cents per kilowatt-hour
+2007,MS,Mississippi,IND,industrial,5.75,cents per kilowatt-hour
+2007,MT,Montana,IND,industrial,5.16,cents per kilowatt-hour
+2007,MTN,Mountain,IND,industrial,5.68,cents per kilowatt-hour
+2007,NC,North Carolina,IND,industrial,5.47,cents per kilowatt-hour
+2007,ND,North Dakota,IND,industrial,5.24,cents per kilowatt-hour
+2007,NE,Nebraska,IND,industrial,4.78,cents per kilowatt-hour
+2007,NEW,New England,IND,industrial,12.74,cents per kilowatt-hour
+2007,NH,New Hampshire,IND,industrial,12.27,cents per kilowatt-hour
+2007,NJ,New Jersey,IND,industrial,10.08,cents per kilowatt-hour
+2007,NM,New Mexico,IND,industrial,5.6,cents per kilowatt-hour
+2007,NV,Nevada,IND,industrial,8.28,cents per kilowatt-hour
+2007,NY,New York,IND,industrial,8.71,cents per kilowatt-hour
+2007,OH,Ohio,IND,industrial,5.76,cents per kilowatt-hour
+2007,OK,Oklahoma,IND,industrial,5.41,cents per kilowatt-hour
+2007,OR,Oregon,IND,industrial,5.06,cents per kilowatt-hour
+2007,PA,Pennsylvania,IND,industrial,6.87,cents per kilowatt-hour
+2007,PACC,Pacific Contiguous,IND,industrial,7.89,cents per kilowatt-hour
+2007,PACN,Pacific Noncontiguous,IND,industrial,16.86,cents per kilowatt-hour
+2007,RI,Rhode Island,IND,industrial,12.04,cents per kilowatt-hour
+2007,SAT,South Atlantic,IND,industrial,5.67,cents per kilowatt-hour
+2007,SC,South Carolina,IND,industrial,4.83,cents per kilowatt-hour
+2007,SD,South Dakota,IND,industrial,5.09,cents per kilowatt-hour
+2007,TN,Tennessee,IND,industrial,5.19,cents per kilowatt-hour
+2007,TX,Texas,IND,industrial,7.79,cents per kilowatt-hour
+2007,US,U.S. Total,IND,industrial,6.39,cents per kilowatt-hour
+2007,UT,Utah,IND,industrial,4.52,cents per kilowatt-hour
+2007,VA,Virginia,IND,industrial,5.07,cents per kilowatt-hour
+2007,VT,Vermont,IND,industrial,8.92,cents per kilowatt-hour
+2007,WA,Washington,IND,industrial,4.57,cents per kilowatt-hour
+2007,WI,Wisconsin,IND,industrial,6.16,cents per kilowatt-hour
+2007,WNC,West North Central,IND,industrial,5.08,cents per kilowatt-hour
+2007,WSC,West South Central,IND,industrial,7.14,cents per kilowatt-hour
+2007,WV,West Virginia,IND,industrial,3.95,cents per kilowatt-hour
+2007,WY,Wyoming,IND,industrial,4.1,cents per kilowatt-hour
+2006,AK,Alaska,IND,industrial,11.54,cents per kilowatt-hour
+2006,AL,Alabama,IND,industrial,4.9,cents per kilowatt-hour
+2006,AR,Arkansas,IND,industrial,5.24,cents per kilowatt-hour
+2006,AZ,Arizona,IND,industrial,5.69,cents per kilowatt-hour
+2006,CA,California,IND,industrial,10.09,cents per kilowatt-hour
+2006,CO,Colorado,IND,industrial,5.88,cents per kilowatt-hour
+2006,CT,Connecticut,IND,industrial,11.71,cents per kilowatt-hour
+2006,DC,District of Columbia,IND,industrial,17.43,cents per kilowatt-hour
+2006,DE,Delaware,IND,industrial,7.67,cents per kilowatt-hour
+2006,ENC,East North Central,IND,industrial,5.36,cents per kilowatt-hour
+2006,ESC,East South Central,IND,industrial,4.81,cents per kilowatt-hour
+2006,FL,Florida,IND,industrial,7.71,cents per kilowatt-hour
+2006,GA,Georgia,IND,industrial,5.38,cents per kilowatt-hour
+2006,HI,Hawaii,IND,industrial,17.96,cents per kilowatt-hour
+2006,IA,Iowa,IND,industrial,4.92,cents per kilowatt-hour
+2006,ID,Idaho,IND,industrial,3.61,cents per kilowatt-hour
+2006,IL,Illinois,IND,industrial,4.69,cents per kilowatt-hour
+2006,IN,Indiana,IND,industrial,4.95,cents per kilowatt-hour
+2006,KS,Kansas,IND,industrial,5.2,cents per kilowatt-hour
+2006,KY,Kentucky,IND,industrial,4.05,cents per kilowatt-hour
+2006,LA,Louisiana,IND,industrial,6.87,cents per kilowatt-hour
+2006,MA,Massachusetts,IND,industrial,13.04,cents per kilowatt-hour
+2006,MAT,Middle Atlantic,IND,industrial,7.77,cents per kilowatt-hour
+2006,MD,Maryland,IND,industrial,8.14,cents per kilowatt-hour
+2006,ME,Maine,IND,industrial,8.83,cents per kilowatt-hour
+2006,MI,Michigan,IND,industrial,6.05,cents per kilowatt-hour
+2006,MN,Minnesota,IND,industrial,5.29,cents per kilowatt-hour
+2006,MO,Missouri,IND,industrial,4.58,cents per kilowatt-hour
+2006,MS,Mississippi,IND,industrial,5.94,cents per kilowatt-hour
+2006,MT,Montana,IND,industrial,5.12,cents per kilowatt-hour
+2006,MTN,Mountain,IND,industrial,5.51,cents per kilowatt-hour
+2006,NC,North Carolina,IND,industrial,5.23,cents per kilowatt-hour
+2006,ND,North Dakota,IND,industrial,5,cents per kilowatt-hour
+2006,NE,Nebraska,IND,industrial,4.56,cents per kilowatt-hour
+2006,NEW,New England,IND,industrial,11.58,cents per kilowatt-hour
+2006,NH,New Hampshire,IND,industrial,11.62,cents per kilowatt-hour
+2006,NJ,New Jersey,IND,industrial,10.42,cents per kilowatt-hour
+2006,NM,New Mexico,IND,industrial,5.57,cents per kilowatt-hour
+2006,NV,Nevada,IND,industrial,8.03,cents per kilowatt-hour
+2006,NY,New York,IND,industrial,9.39,cents per kilowatt-hour
+2006,OH,Ohio,IND,industrial,5.61,cents per kilowatt-hour
+2006,OK,Oklahoma,IND,industrial,5.46,cents per kilowatt-hour
+2006,OR,Oregon,IND,industrial,4.85,cents per kilowatt-hour
+2006,PA,Pennsylvania,IND,industrial,6.63,cents per kilowatt-hour
+2006,PACC,Pacific Contiguous,IND,industrial,7.85,cents per kilowatt-hour
+2006,PACN,Pacific Noncontiguous,IND,industrial,16.41,cents per kilowatt-hour
+2006,RI,Rhode Island,IND,industrial,12.51,cents per kilowatt-hour
+2006,SAT,South Atlantic,IND,industrial,5.45,cents per kilowatt-hour
+2006,SC,South Carolina,IND,industrial,4.71,cents per kilowatt-hour
+2006,SD,South Dakota,IND,industrial,4.84,cents per kilowatt-hour
+2006,TN,Tennessee,IND,industrial,5.17,cents per kilowatt-hour
+2006,TX,Texas,IND,industrial,7.82,cents per kilowatt-hour
+2006,US,U.S. Total,IND,industrial,6.16,cents per kilowatt-hour
+2006,UT,Utah,IND,industrial,4.21,cents per kilowatt-hour
+2006,VA,Virginia,IND,industrial,4.69,cents per kilowatt-hour
+2006,VT,Vermont,IND,industrial,8.33,cents per kilowatt-hour
+2006,WA,Washington,IND,industrial,4.44,cents per kilowatt-hour
+2006,WI,Wisconsin,IND,industrial,5.85,cents per kilowatt-hour
+2006,WNC,West North Central,IND,industrial,4.94,cents per kilowatt-hour
+2006,WSC,West South Central,IND,industrial,7.17,cents per kilowatt-hour
+2006,WV,West Virginia,IND,industrial,3.71,cents per kilowatt-hour
+2006,WY,Wyoming,IND,industrial,4.04,cents per kilowatt-hour
+2005,AK,Alaska,IND,industrial,9.29,cents per kilowatt-hour
+2005,AL,Alabama,IND,industrial,4.52,cents per kilowatt-hour
+2005,AR,Arkansas,IND,industrial,4.74,cents per kilowatt-hour
+2005,AZ,Arizona,IND,industrial,5.85,cents per kilowatt-hour
+2005,CA,California,IND,industrial,9.55,cents per kilowatt-hour
+2005,CO,Colorado,IND,industrial,5.74,cents per kilowatt-hour
+2005,CT,Connecticut,IND,industrial,9.4,cents per kilowatt-hour
+2005,DC,District of Columbia,IND,industrial,14.13,cents per kilowatt-hour
+2005,DE,Delaware,IND,industrial,6.21,cents per kilowatt-hour
+2005,ENC,East North Central,IND,industrial,4.91,cents per kilowatt-hour
+2005,ESC,East South Central,IND,industrial,4.37,cents per kilowatt-hour
+2005,FL,Florida,IND,industrial,6.46,cents per kilowatt-hour
+2005,GA,Georgia,IND,industrial,5.28,cents per kilowatt-hour
+2005,HI,Hawaii,IND,industrial,15.79,cents per kilowatt-hour
+2005,IA,Iowa,IND,industrial,4.56,cents per kilowatt-hour
+2005,ID,Idaho,IND,industrial,3.91,cents per kilowatt-hour
+2005,IL,Illinois,IND,industrial,4.61,cents per kilowatt-hour
+2005,IN,Indiana,IND,industrial,4.42,cents per kilowatt-hour
+2005,KS,Kansas,IND,industrial,4.85,cents per kilowatt-hour
+2005,KY,Kentucky,IND,industrial,3.6,cents per kilowatt-hour
+2005,LA,Louisiana,IND,industrial,6.71,cents per kilowatt-hour
+2005,MA,Massachusetts,IND,industrial,9.22,cents per kilowatt-hour
+2005,MAT,Middle Atlantic,IND,industrial,7.29,cents per kilowatt-hour
+2005,MD,Maryland,IND,industrial,7.01,cents per kilowatt-hour
+2005,ME,Maine,IND,industrial,7.28,cents per kilowatt-hour
+2005,MI,Michigan,IND,industrial,5.32,cents per kilowatt-hour
+2005,MN,Minnesota,IND,industrial,5.02,cents per kilowatt-hour
+2005,MO,Missouri,IND,industrial,4.54,cents per kilowatt-hour
+2005,MS,Mississippi,IND,industrial,5.37,cents per kilowatt-hour
+2005,MT,Montana,IND,industrial,4.83,cents per kilowatt-hour
+2005,MTN,Mountain,IND,industrial,5.46,cents per kilowatt-hour
+2005,NC,North Carolina,IND,industrial,5.04,cents per kilowatt-hour
+2005,ND,North Dakota,IND,industrial,4.32,cents per kilowatt-hour
+2005,NE,Nebraska,IND,industrial,4.43,cents per kilowatt-hour
+2005,NEW,New England,IND,industrial,9.1,cents per kilowatt-hour
+2005,NH,New Hampshire,IND,industrial,11.48,cents per kilowatt-hour
+2005,NJ,New Jersey,IND,industrial,9.76,cents per kilowatt-hour
+2005,NM,New Mexico,IND,industrial,5.61,cents per kilowatt-hour
+2005,NV,Nevada,IND,industrial,7.71,cents per kilowatt-hour
+2005,NY,New York,IND,industrial,8.23,cents per kilowatt-hour
+2005,OH,Ohio,IND,industrial,5.1,cents per kilowatt-hour
+2005,OK,Oklahoma,IND,industrial,5.11,cents per kilowatt-hour
+2005,OR,Oregon,IND,industrial,4.83,cents per kilowatt-hour
+2005,PA,Pennsylvania,IND,industrial,6.29,cents per kilowatt-hour
+2005,PACC,Pacific Contiguous,IND,industrial,7.47,cents per kilowatt-hour
+2005,PACN,Pacific Noncontiguous,IND,industrial,14.31,cents per kilowatt-hour
+2005,RI,Rhode Island,IND,industrial,10.01,cents per kilowatt-hour
+2005,SAT,South Atlantic,IND,industrial,5.3,cents per kilowatt-hour
+2005,SC,South Carolina,IND,industrial,4.55,cents per kilowatt-hour
+2005,SD,South Dakota,IND,industrial,4.95,cents per kilowatt-hour
+2005,TN,Tennessee,IND,industrial,4.73,cents per kilowatt-hour
+2005,TX,Texas,IND,industrial,7.14,cents per kilowatt-hour
+2005,US,U.S. Total,IND,industrial,5.73,cents per kilowatt-hour
+2005,UT,Utah,IND,industrial,4.24,cents per kilowatt-hour
+2005,VA,Virginia,IND,industrial,4.46,cents per kilowatt-hour
+2005,VT,Vermont,IND,industrial,7.77,cents per kilowatt-hour
+2005,WA,Washington,IND,industrial,4.27,cents per kilowatt-hour
+2005,WI,Wisconsin,IND,industrial,5.39,cents per kilowatt-hour
+2005,WNC,West North Central,IND,industrial,4.71,cents per kilowatt-hour
+2005,WSC,West South Central,IND,industrial,6.6,cents per kilowatt-hour
+2005,WV,West Virginia,IND,industrial,3.85,cents per kilowatt-hour
+2005,WY,Wyoming,IND,industrial,3.99,cents per kilowatt-hour
+2004,AK,Alaska,IND,industrial,8.33,cents per kilowatt-hour
+2004,AL,Alabama,IND,industrial,4.15,cents per kilowatt-hour
+2004,AR,Arkansas,IND,industrial,4.16,cents per kilowatt-hour
+2004,AZ,Arizona,IND,industrial,5.35,cents per kilowatt-hour
+2004,CA,California,IND,industrial,9.27,cents per kilowatt-hour
+2004,CO,Colorado,IND,industrial,5.11,cents per kilowatt-hour
+2004,CT,Connecticut,IND,industrial,7.89,cents per kilowatt-hour
+2004,DC,District of Columbia,IND,industrial,4.74,cents per kilowatt-hour
+2004,DE,Delaware,IND,industrial,6.06,cents per kilowatt-hour
+2004,ENC,East North Central,IND,industrial,4.68,cents per kilowatt-hour
+2004,ESC,East South Central,IND,industrial,4.04,cents per kilowatt-hour
+2004,FL,Florida,IND,industrial,5.84,cents per kilowatt-hour
+2004,GA,Georgia,IND,industrial,4.43,cents per kilowatt-hour
+2004,HI,Hawaii,IND,industrial,13.35,cents per kilowatt-hour
+2004,IA,Iowa,IND,industrial,4.33,cents per kilowatt-hour
+2004,ID,Idaho,IND,industrial,3.82,cents per kilowatt-hour
+2004,IL,Illinois,IND,industrial,4.65,cents per kilowatt-hour
+2004,IN,Indiana,IND,industrial,4.13,cents per kilowatt-hour
+2004,KS,Kansas,IND,industrial,4.69,cents per kilowatt-hour
+2004,KY,Kentucky,IND,industrial,3.34,cents per kilowatt-hour
+2004,LA,Louisiana,IND,industrial,5.82,cents per kilowatt-hour
+2004,MA,Massachusetts,IND,industrial,8.48,cents per kilowatt-hour
+2004,MAT,Middle Atlantic,IND,industrial,6.62,cents per kilowatt-hour
+2004,MD,Maryland,IND,industrial,5.99,cents per kilowatt-hour
+2004,ME,Maine,IND,industrial,6.56,cents per kilowatt-hour
+2004,MI,Michigan,IND,industrial,4.92,cents per kilowatt-hour
+2004,MN,Minnesota,IND,industrial,4.63,cents per kilowatt-hour
+2004,MO,Missouri,IND,industrial,4.62,cents per kilowatt-hour
+2004,MS,Mississippi,IND,industrial,4.83,cents per kilowatt-hour
+2004,MT,Montana,IND,industrial,4.15,cents per kilowatt-hour
+2004,MTN,Mountain,IND,industrial,5.05,cents per kilowatt-hour
+2004,NC,North Carolina,IND,industrial,4.88,cents per kilowatt-hour
+2004,ND,North Dakota,IND,industrial,4.13,cents per kilowatt-hour
+2004,NE,Nebraska,IND,industrial,4.28,cents per kilowatt-hour
+2004,NEW,New England,IND,industrial,8.22,cents per kilowatt-hour
+2004,NH,New Hampshire,IND,industrial,10.01,cents per kilowatt-hour
+2004,NJ,New Jersey,IND,industrial,9.03,cents per kilowatt-hour
+2004,NM,New Mexico,IND,industrial,5.22,cents per kilowatt-hour
+2004,NV,Nevada,IND,industrial,7.24,cents per kilowatt-hour
+2004,NY,New York,IND,industrial,7.04,cents per kilowatt-hour
+2004,OH,Ohio,IND,industrial,4.89,cents per kilowatt-hour
+2004,OK,Oklahoma,IND,industrial,4.76,cents per kilowatt-hour
+2004,OR,Oregon,IND,industrial,4.43,cents per kilowatt-hour
+2004,PA,Pennsylvania,IND,industrial,5.87,cents per kilowatt-hour
+2004,PACC,Pacific Contiguous,IND,industrial,7.35,cents per kilowatt-hour
+2004,PACN,Pacific Noncontiguous,IND,industrial,12.23,cents per kilowatt-hour
+2004,RI,Rhode Island,IND,industrial,9.37,cents per kilowatt-hour
+2004,SAT,South Atlantic,IND,industrial,4.78,cents per kilowatt-hour
+2004,SC,South Carolina,IND,industrial,4.13,cents per kilowatt-hour
+2004,SD,South Dakota,IND,industrial,4.59,cents per kilowatt-hour
+2004,TN,Tennessee,IND,industrial,4.46,cents per kilowatt-hour
+2004,TX,Texas,IND,industrial,5.87,cents per kilowatt-hour
+2004,US,U.S. Total,IND,industrial,5.25,cents per kilowatt-hour
+2004,UT,Utah,IND,industrial,4.01,cents per kilowatt-hour
+2004,VA,Virginia,IND,industrial,4.27,cents per kilowatt-hour
+2004,VT,Vermont,IND,industrial,7.96,cents per kilowatt-hour
+2004,WA,Washington,IND,industrial,4.28,cents per kilowatt-hour
+2004,WI,Wisconsin,IND,industrial,4.93,cents per kilowatt-hour
+2004,WNC,West North Central,IND,industrial,4.51,cents per kilowatt-hour
+2004,WSC,West South Central,IND,industrial,5.58,cents per kilowatt-hour
+2004,WV,West Virginia,IND,industrial,3.83,cents per kilowatt-hour
+2004,WY,Wyoming,IND,industrial,3.91,cents per kilowatt-hour
+2003,AK,Alaska,IND,industrial,7.86,cents per kilowatt-hour
+2003,AL,Alabama,IND,industrial,3.98,cents per kilowatt-hour
+2003,AR,Arkansas,IND,industrial,4.04,cents per kilowatt-hour
+2003,AZ,Arizona,IND,industrial,5.37,cents per kilowatt-hour
+2003,CA,California,IND,industrial,9.59,cents per kilowatt-hour
+2003,CO,Colorado,IND,industrial,5.1,cents per kilowatt-hour
+2003,CT,Connecticut,IND,industrial,7.99,cents per kilowatt-hour
+2003,DC,District of Columbia,IND,industrial,5.57,cents per kilowatt-hour
+2003,DE,Delaware,IND,industrial,5.15,cents per kilowatt-hour
+2003,ENC,East North Central,IND,industrial,4.63,cents per kilowatt-hour
+2003,ESC,East South Central,IND,industrial,3.86,cents per kilowatt-hour
+2003,FL,Florida,IND,industrial,5.41,cents per kilowatt-hour
+2003,GA,Georgia,IND,industrial,4.02,cents per kilowatt-hour
+2003,HI,Hawaii,IND,industrial,12.2,cents per kilowatt-hour
+2003,IA,Iowa,IND,industrial,4.16,cents per kilowatt-hour
+2003,ID,Idaho,IND,industrial,4.16,cents per kilowatt-hour
+2003,IL,Illinois,IND,industrial,4.86,cents per kilowatt-hour
+2003,IN,Indiana,IND,industrial,3.92,cents per kilowatt-hour
+2003,KS,Kansas,IND,industrial,4.61,cents per kilowatt-hour
+2003,KY,Kentucky,IND,industrial,3.21,cents per kilowatt-hour
+2003,LA,Louisiana,IND,industrial,5.57,cents per kilowatt-hour
+2003,MA,Massachusetts,IND,industrial,8.93,cents per kilowatt-hour
+2003,MAT,Middle Atlantic,IND,industrial,6.49,cents per kilowatt-hour
+2003,MD,Maryland,IND,industrial,4.89,cents per kilowatt-hour
+2003,ME,Maine,IND,industrial,6.35,cents per kilowatt-hour
+2003,MI,Michigan,IND,industrial,4.96,cents per kilowatt-hour
+2003,MN,Minnesota,IND,industrial,4.36,cents per kilowatt-hour
+2003,MO,Missouri,IND,industrial,4.49,cents per kilowatt-hour
+2003,MS,Mississippi,IND,industrial,4.48,cents per kilowatt-hour
+2003,MT,Montana,IND,industrial,4.03,cents per kilowatt-hour
+2003,MTN,Mountain,IND,industrial,5.01,cents per kilowatt-hour
+2003,NC,North Carolina,IND,industrial,4.79,cents per kilowatt-hour
+2003,ND,North Dakota,IND,industrial,3.96,cents per kilowatt-hour
+2003,NE,Nebraska,IND,industrial,4.18,cents per kilowatt-hour
+2003,NEW,New England,IND,industrial,8.34,cents per kilowatt-hour
+2003,NH,New Hampshire,IND,industrial,9.75,cents per kilowatt-hour
+2003,NJ,New Jersey,IND,industrial,7.99,cents per kilowatt-hour
+2003,NM,New Mexico,IND,industrial,4.95,cents per kilowatt-hour
+2003,NV,Nevada,IND,industrial,7.3,cents per kilowatt-hour
+2003,NY,New York,IND,industrial,7.14,cents per kilowatt-hour
+2003,OH,Ohio,IND,industrial,4.79,cents per kilowatt-hour
+2003,OK,Oklahoma,IND,industrial,4.59,cents per kilowatt-hour
+2003,OR,Oregon,IND,industrial,4.63,cents per kilowatt-hour
+2003,PA,Pennsylvania,IND,industrial,5.8,cents per kilowatt-hour
+2003,PACC,Pacific Contiguous,IND,industrial,7.75,cents per kilowatt-hour
+2003,PACN,Pacific Noncontiguous,IND,industrial,11.23,cents per kilowatt-hour
+2003,RI,Rhode Island,IND,industrial,8.88,cents per kilowatt-hour
+2003,SAT,South Atlantic,IND,industrial,4.47,cents per kilowatt-hour
+2003,SC,South Carolina,IND,industrial,4,cents per kilowatt-hour
+2003,SD,South Dakota,IND,industrial,4.51,cents per kilowatt-hour
+2003,TN,Tennessee,IND,industrial,4.29,cents per kilowatt-hour
+2003,TX,Texas,IND,industrial,5.27,cents per kilowatt-hour
+2003,US,U.S. Total,IND,industrial,5.11,cents per kilowatt-hour
+2003,UT,Utah,IND,industrial,3.79,cents per kilowatt-hour
+2003,VA,Virginia,IND,industrial,4.23,cents per kilowatt-hour
+2003,VT,Vermont,IND,industrial,8.05,cents per kilowatt-hour
+2003,WA,Washington,IND,industrial,4.76,cents per kilowatt-hour
+2003,WI,Wisconsin,IND,industrial,4.71,cents per kilowatt-hour
+2003,WNC,West North Central,IND,industrial,4.34,cents per kilowatt-hour
+2003,WSC,West South Central,IND,industrial,5.14,cents per kilowatt-hour
+2003,WV,West Virginia,IND,industrial,3.81,cents per kilowatt-hour
+2003,WY,Wyoming,IND,industrial,3.65,cents per kilowatt-hour
+2002,AK,Alaska,IND,industrial,7.65,cents per kilowatt-hour
+2002,AL,Alabama,IND,industrial,3.82,cents per kilowatt-hour
+2002,AR,Arkansas,IND,industrial,4.01,cents per kilowatt-hour
+2002,AZ,Arizona,IND,industrial,5.2,cents per kilowatt-hour
+2002,CA,California,IND,industrial,9.81,cents per kilowatt-hour
+2002,CO,Colorado,IND,industrial,4.52,cents per kilowatt-hour
+2002,CT,Connecticut,IND,industrial,7.68,cents per kilowatt-hour
+2002,DC,District of Columbia,IND,industrial,4.95,cents per kilowatt-hour
+2002,DE,Delaware,IND,industrial,4.85,cents per kilowatt-hour
+2002,ENC,East North Central,IND,industrial,4.63,cents per kilowatt-hour
+2002,ESC,East South Central,IND,industrial,3.71,cents per kilowatt-hour
+2002,FL,Florida,IND,industrial,5.23,cents per kilowatt-hour
+2002,GA,Georgia,IND,industrial,3.95,cents per kilowatt-hour
+2002,HI,Hawaii,IND,industrial,11.02,cents per kilowatt-hour
+2002,IA,Iowa,IND,industrial,4.06,cents per kilowatt-hour
+2002,ID,Idaho,IND,industrial,4.34,cents per kilowatt-hour
+2002,IL,Illinois,IND,industrial,4.89,cents per kilowatt-hour
+2002,IN,Indiana,IND,industrial,3.95,cents per kilowatt-hour
+2002,KS,Kansas,IND,industrial,4.53,cents per kilowatt-hour
+2002,KY,Kentucky,IND,industrial,3.09,cents per kilowatt-hour
+2002,LA,Louisiana,IND,industrial,4.42,cents per kilowatt-hour
+2002,MA,Massachusetts,IND,industrial,8.34,cents per kilowatt-hour
+2002,MAT,Middle Atlantic,IND,industrial,5.89,cents per kilowatt-hour
+2002,MD,Maryland,IND,industrial,4.01,cents per kilowatt-hour
+2002,ME,Maine,IND,industrial,7.05,cents per kilowatt-hour
+2002,MI,Michigan,IND,industrial,5.02,cents per kilowatt-hour
+2002,MN,Minnesota,IND,industrial,4.07,cents per kilowatt-hour
+2002,MO,Missouri,IND,industrial,4.42,cents per kilowatt-hour
+2002,MS,Mississippi,IND,industrial,4.4,cents per kilowatt-hour
+2002,MT,Montana,IND,industrial,3.71,cents per kilowatt-hour
+2002,MTN,Mountain,IND,industrial,4.86,cents per kilowatt-hour
+2002,NC,North Carolina,IND,industrial,4.7,cents per kilowatt-hour
+2002,ND,North Dakota,IND,industrial,3.98,cents per kilowatt-hour
+2002,NE,Nebraska,IND,industrial,3.89,cents per kilowatt-hour
+2002,NEW,New England,IND,industrial,8.02,cents per kilowatt-hour
+2002,NH,New Hampshire,IND,industrial,9.09,cents per kilowatt-hour
+2002,NJ,New Jersey,IND,industrial,7.72,cents per kilowatt-hour
+2002,NM,New Mexico,IND,industrial,4.48,cents per kilowatt-hour
+2002,NV,Nevada,IND,industrial,7.25,cents per kilowatt-hour
+2002,NY,New York,IND,industrial,5.18,cents per kilowatt-hour
+2002,OH,Ohio,IND,industrial,4.87,cents per kilowatt-hour
+2002,OK,Oklahoma,IND,industrial,3.81,cents per kilowatt-hour
+2002,OR,Oregon,IND,industrial,4.72,cents per kilowatt-hour
+2002,PA,Pennsylvania,IND,industrial,5.83,cents per kilowatt-hour
+2002,PACC,Pacific Contiguous,IND,industrial,7.97,cents per kilowatt-hour
+2002,PACN,Pacific Noncontiguous,IND,industrial,10.26,cents per kilowatt-hour
+2002,RI,Rhode Island,IND,industrial,7.96,cents per kilowatt-hour
+2002,SAT,South Atlantic,IND,industrial,4.25,cents per kilowatt-hour
+2002,SC,South Carolina,IND,industrial,3.85,cents per kilowatt-hour
+2002,SD,South Dakota,IND,industrial,4.54,cents per kilowatt-hour
+2002,TN,Tennessee,IND,industrial,4.15,cents per kilowatt-hour
+2002,TX,Texas,IND,industrial,4.66,cents per kilowatt-hour
+2002,US,U.S. Total,IND,industrial,4.88,cents per kilowatt-hour
+2002,UT,Utah,IND,industrial,3.84,cents per kilowatt-hour
+2002,VA,Virginia,IND,industrial,4.13,cents per kilowatt-hour
+2002,VT,Vermont,IND,industrial,7.9,cents per kilowatt-hour
+2002,WA,Washington,IND,industrial,4.88,cents per kilowatt-hour
+2002,WI,Wisconsin,IND,industrial,4.43,cents per kilowatt-hour
+2002,WNC,West North Central,IND,industrial,4.19,cents per kilowatt-hour
+2002,WSC,West South Central,IND,industrial,4.48,cents per kilowatt-hour
+2002,WV,West Virginia,IND,industrial,3.81,cents per kilowatt-hour
+2002,WY,Wyoming,IND,industrial,3.55,cents per kilowatt-hour
+2001,AK,Alaska,IND,industrial,7.61,cents per kilowatt-hour
+2001,AL,Alabama,IND,industrial,3.79,cents per kilowatt-hour
+2001,AR,Arkansas,IND,industrial,4.43,cents per kilowatt-hour
+2001,AZ,Arizona,IND,industrial,5.24,cents per kilowatt-hour
+2001,CA,California,IND,industrial,9.23,cents per kilowatt-hour
+2001,CO,Colorado,IND,industrial,4.48,cents per kilowatt-hour
+2001,CT,Connecticut,IND,industrial,7.62,cents per kilowatt-hour
+2001,DC,District of Columbia,IND,industrial,4.81,cents per kilowatt-hour
+2001,DE,Delaware,IND,industrial,4.81,cents per kilowatt-hour
+2001,ENC,East North Central,IND,industrial,4.46,cents per kilowatt-hour
+2001,ESC,East South Central,IND,industrial,3.69,cents per kilowatt-hour
+2001,FL,Florida,IND,industrial,5.18,cents per kilowatt-hour
+2001,GA,Georgia,IND,industrial,4.28,cents per kilowatt-hour
+2001,HI,Hawaii,IND,industrial,11.68,cents per kilowatt-hour
+2001,IA,Iowa,IND,industrial,4.18,cents per kilowatt-hour
+2001,ID,Idaho,IND,industrial,3.71,cents per kilowatt-hour
+2001,IL,Illinois,IND,industrial,4.65,cents per kilowatt-hour
+2001,IN,Indiana,IND,industrial,4.11,cents per kilowatt-hour
+2001,KS,Kansas,IND,industrial,4.55,cents per kilowatt-hour
+2001,KY,Kentucky,IND,industrial,3.04,cents per kilowatt-hour
+2001,LA,Louisiana,IND,industrial,5.58,cents per kilowatt-hour
+2001,MA,Massachusetts,IND,industrial,9.37,cents per kilowatt-hour
+2001,MAT,Middle Atlantic,IND,industrial,6.08,cents per kilowatt-hour
+2001,MD,Maryland,IND,industrial,4.37,cents per kilowatt-hour
+2001,ME,Maine,IND,industrial,7.15,cents per kilowatt-hour
+2001,MI,Michigan,IND,industrial,5.08,cents per kilowatt-hour
+2001,MN,Minnesota,IND,industrial,4.34,cents per kilowatt-hour
+2001,MO,Missouri,IND,industrial,4.39,cents per kilowatt-hour
+2001,MS,Mississippi,IND,industrial,4.4,cents per kilowatt-hour
+2001,MT,Montana,IND,industrial,6.59,cents per kilowatt-hour
+2001,MTN,Mountain,IND,industrial,4.84,cents per kilowatt-hour
+2001,NC,North Carolina,IND,industrial,4.61,cents per kilowatt-hour
+2001,ND,North Dakota,IND,industrial,3.98,cents per kilowatt-hour
+2001,NE,Nebraska,IND,industrial,3.76,cents per kilowatt-hour
+2001,NEW,New England,IND,industrial,8.48,cents per kilowatt-hour
+2001,NH,New Hampshire,IND,industrial,9.11,cents per kilowatt-hour
+2001,NJ,New Jersey,IND,industrial,8.33,cents per kilowatt-hour
+2001,NM,New Mexico,IND,industrial,5.45,cents per kilowatt-hour
+2001,NV,Nevada,IND,industrial,6.56,cents per kilowatt-hour
+2001,NY,New York,IND,industrial,5.56,cents per kilowatt-hour
+2001,OH,Ohio,IND,industrial,4.27,cents per kilowatt-hour
+2001,OK,Oklahoma,IND,industrial,4.29,cents per kilowatt-hour
+2001,OR,Oregon,IND,industrial,4.21,cents per kilowatt-hour
+2001,PA,Pennsylvania,IND,industrial,5.76,cents per kilowatt-hour
+2001,PACC,Pacific Contiguous,IND,industrial,7.64,cents per kilowatt-hour
+2001,PACN,Pacific Noncontiguous,IND,industrial,10.78,cents per kilowatt-hour
+2001,RI,Rhode Island,IND,industrial,9.36,cents per kilowatt-hour
+2001,SAT,South Atlantic,IND,industrial,4.34,cents per kilowatt-hour
+2001,SC,South Carolina,IND,industrial,3.86,cents per kilowatt-hour
+2001,SD,South Dakota,IND,industrial,4.46,cents per kilowatt-hour
+2001,TN,Tennessee,IND,industrial,4.05,cents per kilowatt-hour
+2001,TX,Texas,IND,industrial,5.27,cents per kilowatt-hour
+2001,US,U.S. Total,IND,industrial,5.05,cents per kilowatt-hour
+2001,UT,Utah,IND,industrial,3.53,cents per kilowatt-hour
+2001,VA,Virginia,IND,industrial,4.16,cents per kilowatt-hour
+2001,VT,Vermont,IND,industrial,7.89,cents per kilowatt-hour
+2001,WA,Washington,IND,industrial,4.75,cents per kilowatt-hour
+2001,WI,Wisconsin,IND,industrial,4.36,cents per kilowatt-hour
+2001,WNC,West North Central,IND,industrial,4.28,cents per kilowatt-hour
+2001,WSC,West South Central,IND,industrial,5.15,cents per kilowatt-hour
+2001,WV,West Virginia,IND,industrial,3.74,cents per kilowatt-hour
+2001,WY,Wyoming,IND,industrial,3.43,cents per kilowatt-hour

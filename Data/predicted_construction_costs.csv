@@ -1,0 +1,199 @@
+iso3,country,region,gdp_pcap_ppp,population,predicted_usd_per_watt,actual_usd_per_watt,source
+SGP,Singapore,East Asia & Pacific,143786.14,5917648,14.06,14.53,DCCI
+SYC,Seychelles,Sub-Saharan Africa ,31780.78,119773,13.98,,predicted
+MAC,"Macao SAR, China",East Asia & Pacific,116328.54,678800,13.96,,predicted
+MUS,Mauritius,Sub-Saharan Africa ,29560.71,1248647,13.36,,predicted
+LUX,Luxembourg,Europe & Central Asia,150508.22,666430,13.35,,predicted
+BRN,Brunei Darussalam,East Asia & Pacific,85032.6,458949,13.27,,predicted
+CYM,Cayman Islands,Latin America & Caribbean ,88427.79,73038,12.8,,predicted
+IRL,Ireland,Europe & Central Asia,129682.61,5311538,12.63,10.05,DCCI
+BWA,Botswana,Sub-Saharan Africa ,21012.1,2480244,12.46,,predicted
+GAB,Gabon,Sub-Saharan Africa ,20755.67,2484789,12.43,,predicted
+SMR,San Marino,Europe & Central Asia,78745.43,33860,12.4,,predicted
+HKG,"Hong Kong SAR, China",East Asia & Pacific,71512.32,7536100,12.38,,predicted
+FRO,Faroe Islands,Europe & Central Asia,79694.93,54414,12.35,,predicted
+GRL,Greenland,Europe & Central Asia,78840.6,56865,12.31,,predicted
+BMU,Bermuda,North America,114372.05,64698,12.26,,predicted
+AUS,Australia,East Asia & Pacific,72272.71,26659922,12.19,10.68,DCCI
+NOR,Norway,Europe & Central Asia,103637.52,5519601,12.13,12.41,DCCI
+GNQ,Equatorial Guinea,Sub-Saharan Africa ,17411.5,1847549,12.1,,predicted
+ISL,Iceland,Europe & Central Asia,81608.45,385663,12.07,,predicted
+AND,Andorra,Europe & Central Asia,71730.67,80856,12.05,,predicted
+NZL,New Zealand,East Asia & Pacific,54697.38,5200000,11.87,12.3,DCCI
+CHE,Switzerland,Europe & Central Asia,95141.6,8888822,11.87,14.24,DCCI
+QAT,Qatar,"Middle East, North Africa, Afghanistan & Pakistan",129367.87,2656032,11.75,,predicted
+SXM,Sint Maarten (Dutch part),Latin America & Caribbean ,51686.65,42749,11.72,,predicted
+KOR,"Korea, Rep.",East Asia & Pacific,57429.8,51712619,11.59,10.07,DCCI
+DNK,Denmark,Europe & Central Asia,77892.29,5946952,11.52,12.02,DCCI
+NLD,Netherlands,Europe & Central Asia,81728.69,17877117,11.44,10.81,DCCI
+GUY,Guyana,Latin America & Caribbean ,54729.04,826353,11.37,,predicted
+ABW,Aruba,Latin America & Caribbean ,46574.36,107359,11.36,,predicted
+AUT,Austria,Europe & Central Asia,73544.66,9131761,11.34,11.81,DCCI
+SWZ,Eswatini,Sub-Saharan Africa ,11299.88,1230506,11.27,,predicted
+BEL,Belgium,Europe & Central Asia,71946.14,11779946,11.25,,predicted
+ZAF,South Africa,Sub-Saharan Africa ,15199.73,63212384,11.24,10.2,DCCI
+CPV,Cabo Verde,Sub-Saharan Africa ,10242.15,522331,11.21,,predicted
+CYP,Cyprus,Europe & Central Asia,59422.9,1344976,11.21,,predicted
+JPN,Japan,East Asia & Pacific,50661.77,124516650,11.2,14.64,DCCI
+SWE,Sweden,Europe & Central Asia,69226.33,10536632,11.19,12.29,DCCI
+FIN,Finland,Europe & Central Asia,63414.99,5583911,11.12,12.29,DCCI
+NAM,Namibia,Sub-Saharan Africa ,11251.24,2963095,11.12,,predicted
+SVN,Slovenia,Europe & Central Asia,56064.1,2120461,11.02,,predicted
+TCA,Turks and Caicos Islands,Latin America & Caribbean ,35336.74,46198,10.95,,predicted
+DEU,Germany,Europe & Central Asia,71684.03,83287273,10.94,11.54,DCCI
+PRI,Puerto Rico (US),Latin America & Caribbean ,47543.39,3203792,10.88,,predicted
+KNA,St. Kitts and Nevis,Latin America & Caribbean ,33979.63,46758,10.87,,predicted
+LTU,Lithuania,Europe & Central Asia,52348.25,2871585,10.85,,predicted
+BHS,"Bahamas, The",Latin America & Caribbean ,39090.12,399440,10.82,,predicted
+EST,Estonia,Europe & Central Asia,48637.18,1370286,10.82,,predicted
+CZE,Czechia,Europe & Central Asia,55761.38,10864042,10.77,,predicted
+MYS,Malaysia,East Asia & Pacific,36466.89,35126298,10.76,11.37,DCCI
+MLT,Malta,"Middle East, North Africa, Afghanistan & Pakistan",66568.6,552747,10.67,,predicted
+FRA,France,Europe & Central Asia,60838.94,68372286,10.66,10.43,DCCI
+ITA,Italy,Europe & Central Asia,60029.87,58984216,10.65,9.79,DCCI
+ATG,Antigua and Barbuda,Latin America & Caribbean ,31601.75,93316,10.63,,predicted
+HRV,Croatia,Europe & Central Asia,47959.44,3859686,10.63,,predicted
+GBR,United Kingdom,Europe & Central Asia,59911.35,68492000,10.63,11.88,DCCI
+PLW,Palau,East Asia & Pacific,18230.27,17727,10.57,,predicted
+PRT,Portugal,Europe & Central Asia,49352.84,10578174,10.54,10.25,DCCI
+ESP,Spain,Europe & Central Asia,55682.24,48352528,10.54,10.04,DCCI
+ARE,United Arab Emirates,"Middle East, North Africa, Afghanistan & Pakistan",77955.3,10483751,10.54,9.24,DCCI
+LVA,Latvia,Europe & Central Asia,42576.41,1883710,10.52,,predicted
+CUW,Curacao,Latin America & Caribbean ,30651.59,154654,10.5,,predicted
+SVK,Slovak Republic,Europe & Central Asia,45973.94,5426740,10.5,,predicted
+PAN,Panama,Latin America & Caribbean ,39813.39,4458759,10.49,,predicted
+AGO,Angola,Sub-Saharan Africa ,9753.6,36749906,10.47,,predicted
+BHR,Bahrain,"Middle East, North Africa, Afghanistan & Pakistan",64171.09,1577059,10.45,,predicted
+HUN,Hungary,Europe & Central Asia,46592.39,9592186,10.45,,predicted
+TTO,Trinidad and Tobago,Latin America & Caribbean ,34623.37,1367510,10.41,,predicted
+ROU,Romania,Europe & Central Asia,47038.53,19061062,10.37,,predicted
+STP,Sao Tome and Principe,Sub-Saharan Africa ,6149.98,230871,10.35,,predicted
+POL,Poland,Europe & Central Asia,48473.09,36687353,10.33,9.16,DCCI
+GRC,Greece,Europe & Central Asia,42710.51,10407351,10.28,7.84,DCCI
+USA,United States,North America,82304.62,336806231,10.27,10.78,DCCI
+URY,Uruguay,Latin America & Caribbean ,34470.93,3388081,10.27,9.89,DCCI
+SAU,Saudi Arabia,"Middle East, North Africa, Afghanistan & Pakistan",71564.8,33702731,10.21,11.34,DCCI
+BGR,Bulgaria,Europe & Central Asia,38804.1,6446596,10.17,,predicted
+LCA,St. Lucia,Latin America & Caribbean ,25974.51,179285,10.17,,predicted
+MNE,Montenegro,Europe & Central Asia,32199.7,623529,10.16,,predicted
+MRT,Mauritania,Sub-Saharan Africa ,6965.91,5022441,10.14,,predicted
+CAN,Canada,North America,64219.32,40083484,10.12,9.39,DCCI
+NRU,Nauru,East Asia & Pacific,13731.57,11875,10.11,,predicted
+COG,"Congo, Rep.",Sub-Saharan Africa ,6850.28,6182885,10.08,,predicted
+GHA,Ghana,Sub-Saharan Africa ,7556.42,33787914,10.02,,predicted
+NGA,Nigeria,Sub-Saharan Africa ,8705.43,227882945,10.01,10.5,DCCI
+KAZ,Kazakhstan,Europe & Central Asia,38515.18,20330104,10.0,,predicted
+TUR,Turkiye,Europe & Central Asia,42786.2,85325965,9.98,,predicted
+RUS,Russian Federation,Europe & Central Asia,44268.73,143826130,9.97,,predicted
+CIV,Cote d'Ivoire,Sub-Saharan Africa ,7237.18,31165654,9.96,,predicted
+CHL,Chile,Latin America & Caribbean ,33145.4,19658835,9.95,8.61,DCCI
+KWT,Kuwait,"Middle East, North Africa, Afghanistan & Pakistan",53025.47,4853420,9.95,,predicted
+BRB,Barbados,Latin America & Caribbean ,23660.4,282336,9.94,,predicted
+ISR,Israel,"Middle East, North Africa, Afghanistan & Pakistan",55171.23,9849000,9.92,,predicted
+CRI,Costa Rica,Latin America & Caribbean ,28908.77,5105525,9.9,,predicted
+DMA,Dominica,Latin America & Caribbean ,20285.98,66510,9.87,,predicted
+THA,Thailand,East Asia & Pacific,23519.21,71702435,9.85,,predicted
+MNG,Mongolia,East Asia & Pacific,18004.85,3481145,9.8,,predicted
+VCT,St. Vincent and the Grenadines,Latin America & Caribbean ,19819.87,101323,9.77,,predicted
+BLR,Belarus,Europe & Central Asia,30834.18,9178298,9.72,,predicted
+SRB,Serbia,Europe & Central Asia,29800.06,6623183,9.7,,predicted
+ARG,Argentina,Latin America & Caribbean ,30221.5,45538401,9.68,,predicted
+GRD,Grenada,Latin America & Caribbean ,18970.74,117081,9.68,,predicted
+ZWE,Zimbabwe,Sub-Saharan Africa ,5791.19,16340822,9.66,,predicted
+KEN,Kenya,Sub-Saharan Africa ,6317.04,55339003,9.64,9.74,DCCI
+SUR,Suriname,Latin America & Caribbean ,21110.2,628886,9.64,,predicted
+FJI,Fiji,East Asia & Pacific,14644.18,924145,9.62,,predicted
+DOM,Dominican Republic,Latin America & Caribbean ,25839.94,11331265,9.6,,predicted
+MKD,North Macedonia,Europe & Central Asia,25429.09,1827816,9.6,,predicted
+CHN,China,East Asia & Pacific,25179.12,1410710000,9.57,6.12,DCCI
+ALB,Albania,Europe & Central Asia,25011.12,2414095,9.54,,predicted
+OMN,Oman,"Middle East, North Africa, Afghanistan & Pakistan",41945.03,5049269,9.54,,predicted
+GEO,Georgia,Europe & Central Asia,25071.97,3715483,9.48,,predicted
+CMR,Cameroon,Sub-Saharan Africa ,5410.77,28372687,9.47,,predicted
+BIH,Bosnia and Herzegovina,Europe & Central Asia,23335.6,3185073,9.38,,predicted
+COM,Comoros,Sub-Saharan Africa ,3811.65,850387,9.34,,predicted
+SEN,Senegal,Sub-Saharan Africa ,4777.61,18077573,9.32,,predicted
+ARM,Armenia,Europe & Central Asia,21534.03,2964300,9.26,,predicted
+AZE,Azerbaijan,Europe & Central Asia,23651.6,10153958,9.26,,predicted
+MEX,Mexico,Latin America & Caribbean ,25243.16,129739759,9.24,10.4,DCCI
+GIN,Guinea,Sub-Saharan Africa ,4333.75,14405468,9.19,,predicted
+BEN,Benin,Sub-Saharan Africa ,4129.97,14111034,9.11,,predicted
+COL,Colombia,Latin America & Caribbean ,21246.38,52321152,9.07,7.49,DCCI
+VNM,Viet Nam,East Asia & Pacific,15033.88,100352192,9.06,,predicted
+ZMB,Zambia,Sub-Saharan Africa ,4077.0,20723965,9.04,,predicted
+PRY,Paraguay,Latin America & Caribbean ,17564.49,6844146,9.02,,predicted
+TKM,Turkmenistan,Europe & Central Asia,19828.92,7364438,9.01,,predicted
+BLZ,Belize,Latin America & Caribbean ,13729.89,411106,8.98,,predicted
+IDN,Indonesia,East Asia & Pacific,15415.71,281190067,8.97,11.21,DCCI
+MDA,Moldova,Europe & Central Asia,17746.94,2457783,8.97,,predicted
+GMB,"Gambia, The",Sub-Saharan Africa ,3289.13,2697845,8.96,,predicted
+MHL,Marshall Islands,East Asia & Pacific,7548.73,38827,8.94,,predicted
+BRA,Brazil,Latin America & Caribbean ,21175.62,211140729,8.89,10.75,DCCI
+TZA,Tanzania,Sub-Saharan Africa ,4018.52,66617606,8.88,,predicted
+TON,Tonga,East Asia & Pacific,7802.67,104597,8.87,,predicted
+WSM,Samoa,East Asia & Pacific,8194.81,216663,8.86,,predicted
+SLE,Sierra Leone,Sub-Saharan Africa ,3368.32,8460512,8.85,,predicted
+XKX,Kosovo,Europe & Central Asia,15804.41,1682668,8.84,,predicted
+GNB,Guinea-Bissau,Sub-Saharan Africa ,2989.67,2153339,8.83,,predicted
+RWA,Rwanda,Sub-Saharan Africa ,3399.45,13954471,8.8,,predicted
+TUV,Tuvalu,East Asia & Pacific,6151.01,9816,8.79,,predicted
+PER,Peru,Latin America & Caribbean ,17011.23,33845617,8.78,,predicted
+LSO,Lesotho,Sub-Saharan Africa ,2880.97,2311472,8.77,,predicted
+MDV,Maldives,South Asia,24786.2,525994,8.77,,predicted
+ECU,Ecuador,Latin America & Caribbean ,15918.52,17980083,8.75,,predicted
+TGO,Togo,Sub-Saharan Africa ,3154.43,9304337,8.74,,predicted
+MLI,Mali,Sub-Saharan Africa ,3174.63,23769127,8.63,,predicted
+UKR,Ukraine,Europe & Central Asia,17665.34,37732836,8.63,,predicted
+JAM,Jamaica,Latin America & Caribbean ,12650.91,2839786,8.62,,predicted
+LAO,Lao PDR,East Asia & Pacific,9291.79,7664993,8.62,,predicted
+PHL,Philippines,East Asia & Pacific,10985.83,114891199,8.55,,predicted
+SLV,El Salvador,Latin America & Caribbean ,12679.58,6309624,8.53,,predicted
+GTM,Guatemala,Latin America & Caribbean ,13745.36,18124838,8.52,,predicted
+UGA,Uganda,Sub-Saharan Africa ,3097.64,48656601,8.51,,predicted
+BOL,Bolivia,Latin America & Caribbean ,12892.12,12244159,8.47,,predicted
+BFA,Burkina Faso,Sub-Saharan Africa ,2759.3,23025776,8.43,,predicted
+TCD,Chad,Sub-Saharan Africa ,2700.36,19319064,8.41,,predicted
+ETH,Ethiopia,Sub-Saharan Africa ,3060.91,128691692,8.38,,predicted
+KHM,Cambodia,East Asia & Pacific,7430.73,17423880,8.19,,predicted
+SDN,Sudan,Sub-Saharan Africa ,2420.66,50042791,8.14,,predicted
+BTN,Bhutan,South Asia,16215.15,786385,8.09,,predicted
+LBR,Liberia,Sub-Saharan Africa ,1794.53,5493031,7.96,,predicted
+UZB,Uzbekistan,Europe & Central Asia,11106.97,35652307,7.96,,predicted
+IRN,"Iran, Islamic Rep.","Middle East, North Africa, Afghanistan & Pakistan",18917.09,90608707,7.95,,predicted
+FSM,"Micronesia, Fed. Sts.",East Asia & Pacific,4233.74,112630,7.95,,predicted
+EGY,"Egypt, Arab Rep.","Middle East, North Africa, Afghanistan & Pakistan",18524.84,114535772,7.9,,predicted
+NIC,Nicaragua,Latin America & Caribbean ,8319.98,6823613,7.9,,predicted
+DZA,Algeria,"Middle East, North Africa, Afghanistan & Pakistan",16824.49,46164219,7.86,,predicted
+NER,Niger,Sub-Saharan Africa ,1875.15,26159867,7.85,,predicted
+TLS,Timor-Leste,East Asia & Pacific,4806.82,1384286,7.85,,predicted
+MWI,Malawi,Sub-Saharan Africa ,1830.46,21104482,7.84,,predicted
+LBY,Libya,"Middle East, North Africa, Afghanistan & Pakistan",13847.08,7305659,7.79,,predicted
+MDG,Madagascar,Sub-Saharan Africa ,1808.45,31195932,7.79,,predicted
+TUN,Tunisia,"Middle East, North Africa, Afghanistan & Pakistan",14040.6,12200431,7.76,,predicted
+MMR,Myanmar,East Asia & Pacific,5953.36,54133798,7.75,,predicted
+LBN,Lebanon,"Middle East, North Africa, Afghanistan & Pakistan",12574.83,5773493,7.69,,predicted
+IRQ,Iraq,"Middle East, North Africa, Afghanistan & Pakistan",14652.52,45074049,7.68,,predicted
+MOZ,Mozambique,Sub-Saharan Africa ,1678.39,33635160,7.67,,predicted
+KIR,Kiribati,East Asia & Pacific,3485.56,132530,7.66,,predicted
+HND,Honduras,Latin America & Caribbean ,7178.34,10644851,7.65,,predicted
+SOM,"Somalia, Fed. Rep.",Sub-Saharan Africa ,1555.61,18358615,7.64,,predicted
+PNG,Papua New Guinea,East Asia & Pacific,4667.84,10389635,7.6,,predicted
+VUT,Vanuatu,East Asia & Pacific,3567.82,320409,7.6,,predicted
+COD,"Congo, Dem. Rep.",Sub-Saharan Africa ,1730.62,105789731,7.59,,predicted
+LKA,Sri Lanka,South Asia,14455.65,22037000,7.57,,predicted
+KGZ,Kyrgyz Republic,Europe & Central Asia,7298.09,7099750,7.55,,predicted
+CAF,Central African Republic,Sub-Saharan Africa ,1257.09,5152421,7.48,,predicted
+JOR,Jordan,"Middle East, North Africa, Afghanistan & Pakistan",10411.84,11439213,7.36,,predicted
+BDI,Burundi,Sub-Saharan Africa ,1149.98,13689450,7.27,,predicted
+MAR,Morocco,"Middle East, North Africa, Afghanistan & Pakistan",9894.65,37712505,7.18,,predicted
+DJI,Djibouti,"Middle East, North Africa, Afghanistan & Pakistan",7225.84,1152944,7.13,,predicted
+SLB,Solomon Islands,East Asia & Pacific,2596.56,800005,7.1,,predicted
+TJK,Tajikistan,Europe & Central Asia,4963.58,10389799,7.02,,predicted
+BGD,Bangladesh,South Asia,9147.78,171466990,6.78,,predicted
+PSE,West Bank and Gaza,"Middle East, North Africa, Afghanistan & Pakistan",5950.02,5165775,6.74,,predicted
+IND,India,South Asia,10323.5,1438069596,6.73,6.64,DCCI
+HTI,Haiti,Latin America & Caribbean ,3291.74,11637398,6.66,,predicted
+PAK,Pakistan,"Middle East, North Africa, Afghanistan & Pakistan",6013.99,247504495,6.4,,predicted
+NPL,Nepal,South Asia,5395.21,29694614,6.33,,predicted
+AFG,Afghanistan,"Middle East, North Africa, Afghanistan & Pakistan",2201.72,41454761,5.49,,predicted
+TWN,Taiwan,East Asia & Pacific,73344.00,23893000,12.50,,predicted
