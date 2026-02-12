@@ -2170,6 +2170,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
     # Major consumer markets
     p, cur = mkp(doc, body, cur)
     add_italic(p, 'Major demand centers. ')
+    _iso_name = {'CAN': 'Canada', 'DZA': 'Algeria', 'KGZ': 'Kyrgyzstan'}
     usa_inf = reg.get('USA', {}).get('best_inf_source', 'CAN')
     usa_inf_cost = reg.get('USA', {}).get('best_inf_cost', '1.190')
     deu_inf = reg.get('DEU', {}).get('best_inf_source', 'DZA')
@@ -2185,15 +2186,15 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
         'The model\u2019s predictions vary across major AI demand centers because '
         'each faces a different latency geography. '
         f'For the United States, the pure-cost optimum sources training from the cheapest '
-        f'available producer and inference from {usa_inf} (${float(usa_inf_cost):.2f}/hr), reflecting Canada\u2019s '
+        f'available producer and inference from {_iso_name.get(usa_inf, usa_inf)} (${float(usa_inf_cost):.2f}/hr), reflecting Canada\u2019s '
         'combination of low cost and minimal cross-border latency. '
-        f'For major European demand centers, inference is sourced from {deu_inf}: '
-        f'Germany at ${float(deu_inf_cost):.2f}/hr, '
-        f'the United Kingdom at ${float(gbr_inf_cost):.2f}/hr, '
-        f'and France at ${float(fra_inf_cost):.2f}/hr; '
+        f'For major European demand centers, inference is sourced from {_iso_name.get(deu_inf, deu_inf)} '
+        f'at delivered costs of ${float(deu_inf_cost):.2f}/hr for Germany, '
+        f'${float(gbr_inf_cost):.2f}/hr for the United Kingdom, '
+        f'and ${float(fra_inf_cost):.2f}/hr for France. '
         'Algeria\u2019s subsidized electricity and moderate Mediterranean latency make it the '
         'European inference hub. '
-        f'For China, the cheapest inference source is {chn_inf} '
+        f'For China, the cheapest inference source is {_iso_name.get(chn_inf, chn_inf)} '
         f'(${float(chn_inf_cost):.2f}/hr), a bordering country with hydropower-based electricity. '
         f'Russia produces inference domestically even under pure cost minimization '
         f'(${float(rus_inf_cost):.2f}/hr), as its low energy costs offset moderate latency. '
@@ -2489,11 +2490,11 @@ def write_references(doc, body, refs):
             break
 
     new_refs = [
-        'Anderson, J. E., and E. van Wincoop. (2003). \u201CGravity with Gravitas: '
+        'Anderson, J., and E. van Wincoop. (2003). \u201CGravity with Gravitas: '
         'A Solution to the Border Puzzle.\u201D '
         'American Economic Review, 93(1): 170\u2013192.',
 
-        'Brainard, S. L. (1997). \u201CAn Empirical Assessment of the Proximity-Concentration '
+        'Brainard, S. (1997). \u201CAn Empirical Assessment of the Proximity-Concentration '
         'Trade-off.\u201D American Economic Review, 87(4): 520\u2013544.',
 
         'Deloitte. (2025). \u201CTechnology, Media, and Telecommunications Predictions 2026.\u201D '
@@ -2522,13 +2523,13 @@ def write_references(doc, body, refs):
         'In The Economics of Artificial Intelligence. Chicago: Univ. of Chicago Press, '
         'pp. 463\u2013492.',
 
-        'Grossman, G. M., and E. Rossi-Hansberg. (2008). \u201CTrading Tasks: A Simple Theory '
+        'Grossman, G., and E. Rossi-Hansberg. (2008). \u201CTrading Tasks: A Simple Theory '
         'of Offshoring.\u201D American Economic Review, 98(5): 1978\u20131997.',
 
         'Hausmann, R., J. Hwang, and D. Rodrik. (2007). \u201CWhat You Export Matters.\u201D '
         'Journal of Economic Growth, 12(1): 1\u201325.',
 
-        'Helpman, E., Melitz, M. J., and S. R. Yeaple. (2004). \u201CExport Versus FDI with '
+        'Helpman, E., M. Melitz, and S. Yeaple. (2004). \u201CExport Versus FDI with '
         'Heterogeneous Firms.\u201D American Economic Review, 94(1): 300\u2013316.',
 
         'Hersbach, H., et al. (2020). \u201CThe ERA5 Global Reanalysis.\u201D '
@@ -2545,7 +2546,7 @@ def write_references(doc, body, refs):
         'Krugman, P. (1991). \u201CIncreasing Returns and Economic Geography.\u201D '
         'Journal of Political Economy, 99(3): 483\u2013499.',
 
-        'Lim\u00E3o, N., and A. J. Venables. (2001). \u201CInfrastructure, Geographical '
+        'Lim\u00E3o, N., and A. Venables. (2001). \u201CInfrastructure, Geographical '
         'Disadvantage, Transport Costs, and Trade.\u201D '
         'World Bank Economic Review, 15(3): 451\u2013479.',
 
@@ -2573,7 +2574,7 @@ def write_references(doc, body, refs):
         'The Uneven Possibilities of Compute-Based AI Governance Around the Globe.\u201D '
         'Proceedings of the AAAI/ACM Conference on AI, Ethics, and Society, 7(1): 828\u2013838.',
 
-        'Pilz, K. F., Y. Mahmood, and L. Heim. (2025). AI\u2019s Power Requirements Under '
+        'Pilz, K., Y. Mahmood, and L. Heim. (2025). AI\u2019s Power Requirements Under '
         'Exponential Growth. Santa Monica, CA: RAND Corporation, RR-A3572-1.',
 
         'Sastry, G., L. Heim, et al. (2024). \u201CComputing Power and the Governance of '
