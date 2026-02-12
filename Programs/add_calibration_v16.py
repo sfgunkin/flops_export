@@ -448,7 +448,6 @@ CITATIONS = [
     ('Epoch AI', '2024', 'EpochAI2024', 'Epoch AI. (2024)'),
     ('Deloitte', '2025', 'Deloitte2025', 'Deloitte. (2025)'),
     ('IEA', '2025', 'IEA2025', 'IEA. (2025)'),
-    ('Goldman Sachs', '2024', 'GoldmanSachs2024', 'Goldman Sachs. (2024)'),
     ('EPRI', '2024', 'EPRI2024', 'EPRI. (2024)'),
     ('Hausmann, Hwang, and Rodrik', '2007', 'Hausmann2007', 'Hausmann, R.'),
     ('Uptime Institute', '2024', 'UptimeInstitute2024',
@@ -551,7 +550,6 @@ def link_citations_pass(body, cite_map, bm_id):
 # ═══════════════════════════════════════════════════════════════════════
 ITALIC_IN_REFS = {
     'Anderson': 'American Economic Review',
-    'Antr\u00E0s': 'Journal of Political Economy',
     'Brainard': 'American Economic Review',
     'Deloitte': 'Deloitte Insights',
     'EIA': 'Electric Power Monthly',
@@ -559,7 +557,6 @@ ITALIC_IN_REFS = {
     'Flucker': 'Building Services Engineering Research and Technology',
     'GlobalPetrolPrices': 'Electricity Prices Around the World',
     'Goldfarb': 'The Economics of Artificial Intelligence',
-    'Goldman': 'Goldman Sachs Research',
     'Grossman': 'American Economic Review',
     'Hausmann': 'Journal of Economic Growth',
     'Helpman': 'American Economic Review',
@@ -572,7 +569,6 @@ ITALIC_IN_REFS = {
     'NVIDIA': 'NVIDIA H100 Tensor Core GPU Datasheet',
     'Oltmanns': 'Journal of Property Investment & Finance',
     'Turner': 'Data Centre Construction Cost Index 2025',
-    'Samuelson': 'Economic Journal',
     'UNCTAD': 'Technology and Innovation Report 2025',
     'WonderNetwork': 'Global Ping Statistics',
     'World Bank': 'World Development Indicators',
@@ -804,7 +800,7 @@ def write_introduction(doc, body, hmap):
     # Para 1: AI compute demand + electricity footprint (consolidated)
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'The rapid expansion of artificial intelligence is creating a rapidly growing demand '
+        'The rapid expansion of artificial intelligence is creating surging demand '
         'for computational resources. The computation used to train frontier AI '
         'models has been doubling every six months (Epoch AI 2024), '
         'with inference workloads expected to account for roughly two-thirds of all compute '
@@ -1933,8 +1929,8 @@ def write_data_section(doc, body, hmap, demand_data):
         f'{top5[0][1]} ({top5[0][2] * 100:.0f}%), '
         f'{top5[1][1]} ({top5[1][2] * 100:.0f}%), '
         f'{top5[2][1]} ({top5[2][2] * 100:.1f}%), '
-        f'{top5[3][1]}, and '
-        f'{top5[4][1]}\u2014'
+        f'{top5[3][1]} ({top5[3][2] * 100:.0f}%), and '
+        f'{top5[4][1]} ({top5[4][2] * 100:.0f}%)\u2014'
         f'account for {demand_data["top5_share"] * 100:.0f}% of global demand. '
         'GDP is a rough proxy. Actual compute demand is probably more concentrated, since '
         'the United States and China have outsized technology sectors. Cloud revenue shares or '
@@ -2366,7 +2362,7 @@ def write_conclusion(doc, body, hmap, demand_data):
         'while inference organizes into regional hubs bounded by latency. '
         'The sovereignty premium rationalizes widespread domestic investment, shifting '
         'the majority of countries from import to domestic production, '
-        f'at a demand-weighted welfare cost of {demand_data["welfare_pct"]:.0f}% of '
+        f'at a demand-weighted welfare cost of {demand_data["welfare_pct"]:.1f}% of '
         'average compute spending. '
         'The model generates a country taxonomy (full importers, training exporters, '
         'inference hubs, and hybrid regimes) that maps onto observed investment patterns.'
@@ -2389,9 +2385,9 @@ def write_conclusion(doc, body, hmap, demand_data):
         'without a proximity benefit, since training is latency-insensitive. Supporting domestic '
         'inference has a genuine latency rationale, but is less justified for countries close '
         'to low-cost neighbors. For developing countries seeking to enter the compute export '
-        'market, the binding constraints are not technological but institutional, namely reliable power '
-        'grids, political stability, data governance frameworks, and international connectivity '
-        'determine whether cost advantages translate into actual exports.'
+        'market, the binding constraints are not technological but institutional. '
+        'Reliable power grids, political stability, data governance frameworks, '
+        'and international connectivity determine whether cost advantages translate into actual exports.'
     )
 
 
@@ -2497,9 +2493,6 @@ def write_references(doc, body, refs):
         'A Solution to the Border Puzzle.\u201D '
         'American Economic Review, 93(1): 170\u2013192.',
 
-        'Antr\u00E0s, P., and E. Helpman. (2004). \u201CGlobal Sourcing.\u201D '
-        'Journal of Political Economy, 112(3): 552\u2013580.',
-
         'Brainard, S. L. (1997). \u201CAn Empirical Assessment of the Proximity-Concentration '
         'Trade-off.\u201D American Economic Review, 87(4): 520\u2013544.',
 
@@ -2528,9 +2521,6 @@ def write_references(doc, body, refs):
         'Goldfarb, A., and D. Trefler. (2018). \u201CAI and International Trade.\u201D '
         'In The Economics of Artificial Intelligence. Chicago: Univ. of Chicago Press, '
         'pp. 463\u2013492.',
-
-        'Goldman Sachs. (2024). \u201CAI Is Poised to Drive 165% Increase in Data Center '
-        'Power Demand.\u201D Goldman Sachs Research.',
 
         'Grossman, G. M., and E. Rossi-Hansberg. (2008). \u201CTrading Tasks: A Simple Theory '
         'of Offshoring.\u201D American Economic Review, 98(5): 1978\u20131997.',
@@ -2568,9 +2558,6 @@ def write_references(doc, body, refs):
         'Oltmanns, J., D. Krcmarik, and R. Gatti. (2021). \u201CData Centre Site Selection.\u201D '
         'Journal of Property Investment & Finance, 39(1): 55\u201372.',
 
-        'Samuelson, P. (1954). \u201CThe Transfer Problem and Transport Costs, II.\u201D '
-        'Economic Journal, 64(254): 264\u2013289.',
-
         'Turner & Townsend. (2025). Data Centre Construction Cost Index 2025. '
         'turnerandtownsend.com.',
 
@@ -2593,12 +2580,7 @@ def write_references(doc, body, refs):
         'Artificial Intelligence.\u201D arXiv:2402.08797.',
     ]
 
-    existing_auth = {r.split(',')[0].split('.')[0].strip().lower() for r in ref_txts}
-    for r in new_refs:
-        a = r.split(',')[0].split('.')[0].strip().lower()
-        if a not in existing_auth:
-            ref_txts.append(r)
-    ref_txts.sort(key=lambda x: x.lower())
+    ref_txts = sorted(new_refs, key=lambda x: x.lower())
     for el in ref_els:
         body.remove(el)
 
