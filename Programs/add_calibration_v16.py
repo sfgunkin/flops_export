@@ -2200,7 +2200,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
         f'(${float(rus_inf_cost):.2f}/hr), as its low energy costs offset moderate latency. '
         f'The Gulf states present another pattern: Saudi Arabia (${float(sau_inf_cost):.2f}/hr) '
         f'and the UAE (${float(are_inf_cost):.2f}/hr) also produce inference domestically, '
-        'benefiting from subsidized energy and expanding datacenter capacity. '
+        'benefiting from subsidized energy and expanding data center capacity. '
         'These patterns illustrate the model\u2019s core prediction: inference organizes around '
         'latency-bounded regional hubs, and each major market has a distinct optimal supplier '
         'determined by geography. '
