@@ -884,7 +884,7 @@ def write_introduction(doc, body, hmap):
     p.add_run(
         ' The economic stakes are substantial: a single 40 MW data center in Kyrgyzstan could '
         'generate annual revenue of $630 million\u2013$950 million at wholesale contract rates, '
-        'adding over 15% to the country\u2019s export base (World Bank).'
+        'adding over 15% to the country\u2019s export base (World Bank 2024).'
     )
     make_footnote(p, 'At $0.038/kWh electricity, a 40 MW facility houses approximately '
                   '53,000 GPUs with production costs of $453 million per year. Gross revenue depends '
@@ -1969,8 +1969,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
     omath(p, [_v('j')])
     p.add_run(
         ', measured in dollars per GPU-hour ($/hr). It is the sum of hourly electricity '
-        'cost, amortized hardware cost ($1.06/hr), and amortized construction cost. '
-        'Table A1 in the Appendix reports the results for all countries, sorted by total cost.'
+        'cost, amortized hardware cost ($1.06/hr), and amortized construction cost.'
     )
 
     # Define regime column
@@ -2350,14 +2349,14 @@ def write_conclusion(doc, body, hmap, demand_data):
     p.add_run(
         'We develop a trade model for computing services (FLOPs) in which countries '
         'produce and export computing capacity based on their electricity prices, climate, and '
-        'construction costs. We distinguished two service types, latency-insensitive training '
-        'and latency-sensitive inference, and introduced a sovereignty premium to capture '
-        'governments\u2019 preference for domestic data processing. We derived buyers\u2019 optimal '
+        'construction costs. We distinguish two service types, latency-insensitive training '
+        'and latency-sensitive inference, and introduce a sovereignty premium to capture '
+        'governments\u2019 preference for domestic data processing. We derive buyers\u2019 optimal '
         'sourcing decisions and producers\u2019 entry conditions, '
-        'and established three comparative static results: country-specific sovereignty '
+        'and establish three comparative static results: country-specific sovereignty '
         'thresholds, the nesting of training exporters within inference exporters, '
         'and greater concentration in training than in inference markets. '
-        'We then calibrated the model for 86 countries using data on electricity '
+        'We calibrate the model for 86 countries using data on electricity '
         'prices, temperatures, construction costs, bilateral latencies, and GDP-based demand shares.'
     )
 
