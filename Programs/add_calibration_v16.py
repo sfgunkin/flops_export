@@ -23,6 +23,7 @@ import pathlib
 import sys
 import io
 import copy
+from datetime import datetime
 from lxml import etree
 from docx import Document
 from docx.shared import Pt, Inches, RGBColor
@@ -734,6 +735,15 @@ def write_title_and_abstract(doc, body, all_el, hmap):
                   'World Bank, its Executive Directors, or the countries they represent. '
                   'Michael Lokshin: mlokshin@worldbank.org', 1)
 
+    # Version stamp
+    ver_p, ver_el = mkp(doc, body, author_el, space_before=2)
+    ver_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    ver_p.paragraph_format.space_after = Pt(12)
+    r_ver = ver_p.add_run(f'v18  \u2014  {datetime.now().strftime("%B %d, %Y  %H:%M")}')
+    r_ver.font.size = Pt(9)
+    r_ver.font.color.rgb = RGBColor(128, 128, 128)
+    r_ver.font.name = TIMES_NEW_ROMAN
+
     # Replace Abstract heading + text with single paragraph
     # Remove old Abstract heading
     abs_heading = hmap['abs']
@@ -767,7 +777,7 @@ def write_title_and_abstract(doc, body, all_el, hmap):
     )
     el = p._element
     body.remove(el)
-    author_el.addnext(el)
+    ver_el.addnext(el)
     abs_text_el = el
 
     # JEL classification and keywords after abstract
@@ -1742,8 +1752,8 @@ def write_make_or_buy(doc, body, hmap, demand_data):
 
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Construction costs vary substantially across countries. '
-        'a data center in Norway costs more to build than one in Uzbekistan, even if Norway '
+        'Construction costs vary substantially across countries. A '
+        'data center in Norway costs more to build than one in Uzbekistan, even if Norway '
         'has cheaper electricity. The entry condition thus depends on both the operating margin '
         '(driven by '
     )
@@ -2132,9 +2142,14 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
     kgz_clients = demand_data["kgz_inf_clients"]
     kgz_total = sum(w for _, _, w in kgz_clients)
     kgz_client_names = [co for _, co, _ in sorted(kgz_clients, key=lambda x: -x[2]) if co != "Kyrgyzstan"]
+    names = kgz_client_names[:3]
+    if len(names) <= 2:
+        kgz_list = " and ".join(names)
+    else:
+        kgz_list = f'{", ".join(names[:-1])}, and {names[-1]}'
     p.add_run(
         f'Among developing countries, Kyrgyzstan captures {kgz_total:.0f}% of global '
-        f'inference demand by serving {", ".join(kgz_client_names[:3])}\u2014a striking '
+        f'inference demand by serving {kgz_list}\u2014a striking '
         'result for a country with GDP under $15 billion. '
         'Algeria serves as the inference hub for Western Europe, capturing '
         f'{ir.get("DZA", 0) * 100:.0f}% of global inference demand from 14 European '
