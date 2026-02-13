@@ -1,0 +1,40 @@
+Reference:
+  Epoch AI. (2024). "The Training Compute of Notable AI Models." epochai.org.
+
+Status:
+  Web-only dataset/article. No standalone PDF available for download.
+
+Primary Access URLs:
+  Dataset page:     https://epoch.ai/data/notable-ai-models
+  Documentation:    https://epoch.ai/data/ai-models-documentation
+  Trends overview:  https://epoch.ai/trends
+  CSV download:     https://epoch.ai/data/all_ai_models.csv (updated daily)
+
+Related Blog Post (May 2024):
+  "Training compute of frontier AI models grows by 4-5x per year"
+  Authors: Jaime Sevilla, Edu Roldan
+  URL: https://epoch.ai/blog/training-compute-of-frontier-ai-models-grows-by-4-5x-per-year
+
+Companion arXiv Paper:
+  Sevilla, J., Heim, L., Ho, A., Besiroglu, T., Hobbhahn, M., & Villalobos, P. (2022).
+  "Compute Trends Across Three Eras of Machine Learning."
+  2022 International Joint Conference on Neural Networks (IJCNN).
+  arXiv: https://arxiv.org/abs/2202.05924
+  PDF:   https://arxiv.org/pdf/2202.05924
+
+Recommended BibTeX Citation (from Epoch AI documentation):
+  @misc{epoch2022pcdtrends,
+    title  = "Parameter, Compute and Data Trends in Machine Learning",
+    author = {{Epoch AI}},
+    year   = 2022,
+    url    = {https://epoch.ai/data/ai-models},
+    note   = "Accessed: 2026-02-13"
+  }
+
+Notes:
+  The Epoch AI Notable AI Models dataset catalogues 3200+ ML models with
+  training compute estimates, parameter counts, and dataset sizes. It is a
+  continuously updated web resource (Creative Commons Attribution license)
+  and does not have a single canonical PDF publication. The 2022 arXiv paper
+  by Sevilla et al. is the closest formal academic reference describing the
+  methodology and initial findings.

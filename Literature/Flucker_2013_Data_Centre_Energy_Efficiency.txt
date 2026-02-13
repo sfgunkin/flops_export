@@ -1,0 +1,44 @@
+PDF NOT FREELY AVAILABLE -- Access information below.
+
+Citation:
+  Flucker, S. and R. Tozer. (2013). "Data Centre Energy Efficiency Analysis
+  to minimize total cost of ownership." Building Services Engineering
+  Research and Technology, 34(1): 103-117.
+
+DOI: 10.1177/0143624412467196
+
+Publisher page (SAGE):
+  https://journals.sagepub.com/doi/10.1177/0143624412467196
+
+DOI link:
+  https://doi.org/10.1177/0143624412467196
+
+Semantic Scholar:
+  https://api.semanticscholar.org/CorpusID:113343188
+
+Notes:
+  - Published online 12 December 2012; print issue February 2013.
+  - Authors: Sophia Flucker (MIMechE, Operational Intelligence Ltd.)
+             Robert Tozer (MCIBSE MASHRAE MIoR, Operational Intelligence Ltd.)
+  - The paper is behind the SAGE paywall (closed access).
+  - No open-access preprint, repository copy, or author manuscript was
+    found on ResearchGate, LSBU Open Research, Semantic Scholar, or other
+    open repositories as of February 2026.
+  - The user-supplied citation lists "R. Whitehead" as a third author, but
+    the Crossref metadata lists only Flucker and Tozer. Whitehead co-authored
+    their later 2018 paper in the same journal (DOI: 10.1177/0143624417753022).
+
+Abstract (from Crossref):
+  The data centre industry grows with our increasing demand for IT services;
+  energy forms a large part of data centre operating costs. Operators face
+  increasing pressure to reduce their environmental impact and deliver
+  competitively priced services to support users. However, many existing data
+  centres were designed without a 'green' design brief; priorities were
+  focussed around infrastructure redundancy. There are significant
+  opportunities to implement modifications to design and operation and reduce
+  operating costs, particularly to cooling systems, including managing data
+  hall air, operating at higher temperatures, using free cooling and
+  optimising for part load operation. Energy analysis can identify areas for
+  improvement, often with short payback periods. This enables operators to
+  realise massive reductions in energy (and sometimes capital) costs, whilst
+  still delivering a reliable service.

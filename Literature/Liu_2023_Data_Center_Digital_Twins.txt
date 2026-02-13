@@ -1,0 +1,50 @@
+PAPER NOT FOUND — Likely a fabricated or erroneous citation
+======================================================================
+
+Requested citation:
+  Liu, Z., A. Wierman, Y. Chen, B. Raber, and J. Moriarty. (2023).
+  "Sustainability of Data Center Digital Twins."
+  Proceedings of ACM e-Energy, pp. 178–189.
+
+Search conducted: 2026-02-13
+
+Summary of search:
+  This paper does not appear to exist. An exhaustive search of the
+  following sources found no matching publication:
+
+  1. ACM Digital Library — e-Energy 2023 proceedings (DOI: 10.1145/3575813)
+  2. DBLP — complete listing of e-Energy 2023 (https://dblp.org/db/conf/eenergy/eenergy2023.html)
+  3. Google Scholar — searched by title, authors, and combinations
+  4. arXiv — searched by authors and topic
+  5. ResearchGate — searched by authors
+  6. Adam Wierman's Caltech publication pages
+  7. Yize Chen's publication pages
+
+  The DBLP listing for e-Energy 2023 contains no paper by any of these
+  authors. Neither "B. Raber" nor "J. Moriarty" appear as co-authors
+  with Wierman or Liu in any data center publication.
+
+  This citation has the hallmarks of an AI-generated (hallucinated)
+  reference: plausible author names (Wierman and Liu are real data
+  center researchers), a real venue (ACM e-Energy), and a specific
+  but fabricated page range.
+
+Closest real papers on this topic:
+  - Sarkar et al. (2024). "Sustainability of Data Center Digital
+    Twins with Reinforcement Learning." AAAI 2024, vol. 38(20),
+    pp. 22322-22330. https://ojs.aaai.org/index.php/AAAI/article/view/30580
+    (Note: different authors, different venue)
+
+  - Athavale et al. (2024). "Digital Twins for Data Centers."
+    IEEE Computer, vol. 57(10), pp. 151-158.
+    DOI: 10.1109/MC.2024.3436945
+
+  - Wang et al. (2023). "Phyllis: Physics-Informed Lifelong
+    Reinforcement Learning for Data Center Cooling Control."
+    ACM e-Energy 2023. (This IS a real e-Energy 2023 paper on
+    data center sustainability.)
+
+  - Zhang, Shi, Chen (2023). "BEAR: Physics-Principled Building
+    Environment for Control and Reinforcement Learning."
+    ACM e-Energy 2023. (Yize Chen IS an author on this real
+    e-Energy 2023 paper, but it is about buildings, not data centers.)

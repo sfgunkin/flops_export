@@ -1,0 +1,39 @@
+Hersbach, H., Bell, B., Berrisford, P., Hirahara, S., Horanyi, A., Munoz-Sabater, J.,
+Nicolas, J., Peubey, C., Radu, R., Schepers, D., Simmons, A., Soci, C., Abdalla, S.,
+Abellan, X., Balsamo, G., Bechtold, P., Biavati, G., Bidlot, J., Bonavita, M.,
+De Chiara, G., Dahlgren, P., Dee, D., Diamantakis, M., Dragani, R., Flemming, J.,
+Forbes, R., Fuentes, M., Geer, A., Haimberger, L., Healy, S., Hogan, R.J.,
+Holm, E., Janiskova, M., Keeley, S., Laloyaux, P., Lopez, P., Lupu, C., Radnoti, G.,
+de Rosnay, P., Rozum, I., Vamborg, F., Villaume, S., and Thepaut, J.-N. (2020).
+"The ERA5 Global Reanalysis."
+Quarterly Journal of the Royal Meteorological Society, 146(730): 1999-2049.
+
+DOI: 10.1002/qj.3803
+License: CC-BY 4.0 (Open Access)
+
+========================================================================
+AUTOMATED DOWNLOAD FAILED
+========================================================================
+
+Wiley's Cloudflare bot protection blocks all programmatic PDF downloads,
+even for Open Access (CC-BY) papers. The PDF must be downloaded manually
+via a web browser.
+
+ACCESS URLs (in order of preference):
+
+1. Publisher (Wiley) - Direct PDF:
+   https://rmets.onlinelibrary.wiley.com/doi/pdfdirect/10.1002/qj.3803?download=true
+
+2. Publisher (Wiley) - Article page:
+   https://rmets.onlinelibrary.wiley.com/doi/10.1002/qj.3803
+
+3. DOI link:
+   https://doi.org/10.1002/qj.3803
+
+4. ResearchGate (may require login):
+   https://www.researchgate.net/publication/341448930_The_ERA5_global_reanalysis
+
+INSTRUCTIONS:
+- Open URL #1 in a web browser to download the PDF directly.
+- Save the downloaded file as: Hersbach_2020_ERA5_Global_Reanalysis.pdf
+- Then delete this .txt file.

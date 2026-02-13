@@ -1,0 +1,87 @@
+iso3,country,n_datacenters,source
+IRN,Iran,2,Cargoson/Cloudscene 2025
+TKM,Turkmenistan,1,DataCenterMap estimate
+KGZ,Kyrgyzstan,1,DataCenterMap estimate
+ETH,Ethiopia,2,Arizton MEA Portfolio 2024
+DZA,Algeria,5,DataCenterMap estimate
+EGY,Egypt,15,Arizton MEA Portfolio 2024
+CAN,Canada,337,Cargoson/Cloudscene 2025
+RUS,Russia,251,Cargoson/Cloudscene 2025
+XKX,Kosovo,1,DataCenterMap estimate
+ZAF,South Africa,56,Arizton MEA Portfolio 2024
+UKR,Ukraine,58,Cargoson/Cloudscene 2025
+TJK,Tajikistan,1,DataCenterMap estimate
+NGA,Nigeria,19,Arizton MEA Portfolio 2024
+MNE,Montenegro,1,DataCenterMap estimate
+CHN,China,449,Cargoson/Cloudscene 2025
+QAT,Qatar,8,Arizton MEA Portfolio 2024
+ARG,Argentina,29,Cargoson/Cloudscene 2025
+AZE,Azerbaijan,1,Cargoson/Cloudscene 2025
+COL,Colombia,41,Cargoson/Cloudscene 2025
+NOR,Norway,47,Cargoson/Cloudscene 2025
+UZB,Uzbekistan,5,Cargoson/Cloudscene 2025
+FIN,Finland,48,Cargoson/Cloudscene 2025
+KAZ,Kazakhstan,25,Cargoson/Cloudscene 2025
+SAU,Saudi Arabia,25,Arizton MEA Portfolio 2024
+BRA,Brazil,197,Cargoson/Cloudscene 2025
+VNM,Vietnam,33,Cargoson/Cloudscene 2025
+ARE,United Arab Emirates,30,Arizton MEA Portfolio 2024
+SWE,Sweden,95,Cargoson/Cloudscene 2025
+IND,India,153,Cargoson/Cloudscene 2025
+IDN,Indonesia,88,Cargoson/Cloudscene 2025
+GEO,Georgia,4,Cargoson/Cloudscene 2025
+USA,United States of America,5427,Cargoson/Cloudscene 2025
+TUR,Turkey,35,Cargoson/Cloudscene 2025
+KEN,Kenya,20,Arizton MEA Portfolio 2024
+BIH,Bosnia and Herzegovina,2,Cargoson/Cloudscene 2025
+BLR,Belarus,9,Cargoson/Cloudscene 2025
+ISL,Iceland,6,Cargoson/Cloudscene 2025
+MAR,Morocco,12,Arizton MEA Portfolio 2024
+GBR,United Kingdom,523,Cargoson/Cloudscene 2025
+AUS,Australia,314,Cargoson/Cloudscene 2025
+NZL,New Zealand,83,Cargoson/Cloudscene 2025
+ARM,Armenia,2,DataCenterMap estimate
+MEX,Mexico,173,Cargoson/Cloudscene 2025
+FRA,France,322,Cargoson/Cloudscene 2025
+LVA,Latvia,27,Cargoson/Cloudscene 2025
+CHL,Chile,59,Cargoson/Cloudscene 2025
+POL,Poland,144,Cargoson/Cloudscene 2025
+PRT,Portugal,21,Cargoson/Cloudscene 2025
+MYS,Malaysia,62,Cargoson/Cloudscene 2025
+PHL,Philippines,39,Cargoson/Cloudscene 2025
+TWN,Taiwan,19,Cargoson/Cloudscene 2025
+ISR,Israel,20,Cloudscene 2024
+THA,Thailand,42,Cargoson/Cloudscene 2025
+ESP,Spain,144,Cargoson/Cloudscene 2025
+SRB,Serbia,12,Cargoson/Cloudscene 2025
+MLT,Malta,6,Cargoson/Cloudscene 2025
+PAK,Pakistan,11,Cargoson/Cloudscene 2025
+EST,Estonia,16,Cargoson/Cloudscene 2025
+BEL,Belgium,81,Cargoson/Cloudscene 2025
+NLD,Netherlands,298,Cargoson/Cloudscene 2025
+KOR,South Korea,43,Cargoson/Cloudscene 2025
+MDA,Moldova,7,Cargoson/Cloudscene 2025
+GHA,Ghana,3,DataCenterMap estimate
+LTU,Lithuania,18,Cargoson/Cloudscene 2025
+DNK,Denmark,50,Cargoson/Cloudscene 2025
+MKD,North Macedonia,6,Cargoson/Cloudscene 2025
+LUX,Luxembourg,23,Cargoson/Cloudscene 2025
+ALB,Albania,1,Cargoson/Cloudscene 2025
+SVN,Slovenia,13,Cargoson/Cloudscene 2025
+ROU,Romania,31,Cargoson/Cloudscene 2025
+DEU,Germany,529,Cargoson/Cloudscene 2025
+BGR,Bulgaria,24,Cargoson/Cloudscene 2025
+GRC,Greece,14,Cargoson/Cloudscene 2025
+AUT,Austria,68,Cargoson/Cloudscene 2025
+ITA,Italy,168,Cargoson/Cloudscene 2025
+SVK,Slovakia,14,Cargoson/Cloudscene 2025
+JPN,Japan,222,Cargoson/Cloudscene 2025
+CZE,Czechia,34,Cargoson/Cloudscene 2025
+CHE,Switzerland,121,Cargoson/Cloudscene 2025
+HUN,Hungary,15,Cargoson/Cloudscene 2025
+SGP,Singapore,99,Cargoson/Cloudscene 2025
+SEN,Senegal,2,DataCenterMap estimate
+CYP,Cyprus,6,Cargoson/Cloudscene 2025
+IRL,Ireland,55,Cargoson/Cloudscene 2025
+HRV,Croatia,9,Cargoson/Cloudscene 2025
+GRL,Greenland,1,DataCenterMap estimate
