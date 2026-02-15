@@ -113,7 +113,6 @@ def run_sensitivity(cal, omega, dc_k, k_bar, sanctioned):
         ("Elec −$0.01/kWh",    {"p_E_delta": -0.01}),
         ("GPU +20% ($30k)",     {"gpu_price": 30_000}),
         ("GPU −20% ($20k)",     {"gpu_price": 20_000}),
-        ("Util 90%",            {"gpu_util": 0.90}),
         ("PUE cap 1.20",       {"pue_cap": 1.20}),
     ]
 
@@ -1006,16 +1005,13 @@ def write_introduction(doc, body, hmap):
     # Para 1: AI compute demand + electricity footprint (consolidated)
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Demand for computational resources is driven by '
+        'Global demand for computational resources is driven by '
         'the expansion of artificial intelligence. The computation used to train the largest AI '
-        'models has been doubling approximately every six months since 2010 (Epoch AI 2024), '
-        'with inference workloads expected to account for roughly two-thirds of all compute '
-        'by 2026 (Deloitte 2025). '
+        'models has been doubling every six months since 2010 (Epoch AI 2024). '
         'Data centers accounted for approximately 1.5% of global electricity demand in '
         '2024\u2014more than the entire electricity consumption of France\u2014a share projected '
         'to more than double by 2030 '
-        '(IEA 2025), with U.S. data center electricity consumption expected to triple over '
-        'that period (EPRI 2024). '
+        '(IEA 2025). '
         'AI-oriented facilities are qualitatively different from traditional cloud or enterprise '
         'data centers. They deploy thousands of GPUs at power densities of 40\u2013100 kW per rack '
         '(versus 5\u201310 kW in conventional facilities), and can consume over 500,000 gallons of cooling '
@@ -1054,7 +1050,7 @@ def write_introduction(doc, body, hmap):
     p.add_run(
         'Data center operations require minimal labor. A typical hyperscale facility '
         '(operated by providers such as Amazon Web Services, Microsoft Azure, or Google Cloud) '
-        'employs only about 50 permanent staff (Uptime Institute 2024)\u2014so the human capital '
+        'employs only about 50 permanent staff (Uptime Institute 2024), so the human capital '
         'constraints that have historically limited export upgrading in developing countries '
         '(Hausmann, Hwang, and Rodrik 2007) are largely absent.'
     )
@@ -1079,7 +1075,7 @@ def write_introduction(doc, body, hmap):
     # Para 6: Real data center plans + profit estimate
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Data center investments in developing countries confirm that FLOP exporting is already '
+        'Recent megaprojects across Africa, the Middle East, and Central Asia confirm that FLOP exporting is already '
         'feasible. Armenia is deploying 50,000 GPUs in a $4 billion '
         'AI megaproject (Firebird 2026), while Kenya, Saudi Arabia, Morocco, Malaysia, and '
         'Indonesia have each attracted billion-dollar data center commitments.'
@@ -2171,17 +2167,18 @@ def write_data_section(doc, body, hmap, demand_data):
     add_italic(p, 'Hardware. ')
     p.add_run(
         'The calibration uses the NVIDIA H100 SXM GPU as the reference hardware platform, with list price '
-        '$25,000, thermal design power 700W, economic lifetime 3 years, utilization rate 90% '
-        '(NVIDIA 2024). This yields an amortized hardware cost '
+        '$25,000, thermal design power 700W, economic lifetime 3 years, utilization rate 70% '
+        '(Barroso, H\u00F6lzle, and Ranganathan 2018; NVIDIA 2024). '
+        'Google\u2019s fleet-wide GPU utilization, '
+        'after years of optimization with custom schedulers and workload packing, runs in the '
+        '60\u201375% range (Barroso, H\u00F6lzle, and Ranganathan 2018). A new entrant '
+        'in Central Asia would likely achieve 40\u201360% utilization in early years, which would '
+        'roughly double the effective hardware cost per useful GPU-hour. '
+        'This yields an amortized hardware cost '
     )
     omath(p, [_v('\u03C1'), _t(f' = ${RHO:.3f}')])
     p.add_run(
-        '/hr. The 90% utilization rate is aspirational. Google\u2019s fleet-wide GPU utilization, '
-        'after years of optimization with custom schedulers and workload packing, runs in the '
-        '60\u201375% range (Barroso, H\u00F6lzle, and Ranganathan 2018). At 70% utilization, hardware '
-        'cost rises to $1.36/hr, compressing the cost advantages in Table A2. A new entrant '
-        'in Central Asia would likely achieve 40\u201360% utilization in early years, which would '
-        'roughly double the effective hardware cost per useful GPU-hour. '
+        '/hr. '
         'Networking costs are calibrated at '
     )
     omath(p, [_v('\u03B7'), _t(f' = ${ETA:.2f}')])
@@ -2224,8 +2221,7 @@ def write_data_section(doc, body, hmap, demand_data):
     p.add_run('. The training share of compute demand is ')
     omath(p, [_v('\u03B1'), _t(' = 0.50')])
     p.add_run(
-        ', within the industry range of 0.4\u20130.6 (Deloitte 2025). '
-        'Sensitivity to all three parameters is explored in Section 6.'
+        ', within the industry range of 0.4\u20130.6 (Deloitte 2025).'
     )
     make_footnote(p, 'The 10% sovereignty premium is conservative. Survey evidence on data '
                   'localization suggests enterprises pay 15\u201330% more for guaranteed domestic '
@@ -2250,13 +2246,7 @@ def write_data_section(doc, body, hmap, demand_data):
     )
     omath(p, [_msub('\u03BE', 'j'), _t(' = 0.50')])
     p.add_run(
-        '. Developing countries with weak grids and governance fall in between. '
-        'The baseline calibration sets '
-    )
-    omath(p, [_msub('\u03BE', 'j'), _t(' = 1')])
-    p.add_run(
-        ' for all countries and reports reliability-adjusted cost rankings as '
-        'a robustness exercise in Section 6.'
+        '. Developing countries with weak grids and governance fall in between.'
     )
 
     # Demand data paragraph
@@ -2793,7 +2783,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
         p.add_run(
             'The cost rankings in Table A2 are robust to substantial parameter variation. '
             f'Across {_num_word(n_scenarios)} scenarios\u2014electricity prices '
-            '\u00b1$0.01/kWh, GPU price \u00b120%, utilization at 70%, and PUE capped '
+            '\u00b1$0.01/kWh, GPU price \u00b120%, and PUE capped '
             f'at 1.20\u2014the Spearman rank correlation with the baseline never falls below '
             f'{min_rho:.3f}. '
             f'The top five cheapest countries are unchanged in '
