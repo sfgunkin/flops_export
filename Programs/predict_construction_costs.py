@@ -1,7 +1,8 @@
 """
 Predict data center construction costs (US$/watt) for all countries.
 
-Regression: ln($/W) = a + b1*ln(GDP_pcap) + b2*ln(pop) + region dummies
+Regression: ln($/W) = a + b1*ln(GDP_pcap) + b2*ln(pop) + b3*urban_share
+                     + b4*seismic_high + region dummies
 Trained on Turner & Townsend DCCI 2025 (52 markets, 37 unique countries).
 """
 
@@ -79,7 +80,18 @@ with open(DATA / "wb_country_regions.csv", encoding="utf-8") as f:
     for row in csv.DictReader(f):
         regions[row["iso3"]] = row["region"]
 
-print(f"World Bank: {len(gdp)} GDP, {len(pop)} pop, {len(regions)} regions")
+urban = {}
+with open(DATA / "wb_urban_share_2023.csv", encoding="utf-8") as f:
+    for row in csv.DictReader(f):
+        urban[row["iso3"]] = float(row["urban_share_pct"]) / 100.0  # fraction
+
+seismic = {}
+with open(DATA / "seismic_zones.csv", encoding="utf-8") as f:
+    for row in csv.DictReader(f):
+        seismic[row["iso3"]] = int(row["seismic_high"])
+
+print(f"World Bank: {len(gdp)} GDP, {len(pop)} pop, {len(regions)} regions, "
+      f"{len(urban)} urban, {len(seismic)} seismic")
 
 # Region list (omit one as reference category)
 REGION_NAMES = sorted(set(regions.values()))
@@ -102,6 +114,8 @@ for iso3, d in dcci.items():
             "gdp_pcap": gdp[iso3]["gdp_pcap"],
             "pop": pop[iso3],
             "region": regions[iso3],
+            "urban_share": urban.get(iso3, 0.5),   # default 50% if missing
+            "seismic": seismic.get(iso3, 0),        # default 0 if missing
         })
     else:
         missing = []
@@ -124,23 +138,26 @@ for r, c in reg_counts.most_common():
     print(f"  {r}: {c}")
 
 # ── 5. OLS regression ─────────────────────────────────────────────────────
-# ln($/W) = a + b1*ln(gdp_pcap) + b2*ln(pop) + sum(g_r * D_r)
+# ln($/W) = a + b1*ln(gdp_pcap) + b2*ln(pop) + b3*urban + b4*seismic + sum(g_r * D_r)
 
 n = len(matched)
-k = 3 + len(DUMMY_REGIONS)  # intercept + ln_gdp + ln_pop + dummies
+k = 5 + len(DUMMY_REGIONS)  # intercept + ln_gdp + ln_pop + urban + seismic + dummies
 
 y = np.array([math.log(m["cost"]) for m in matched])
 
 # Build X matrix
 X = np.zeros((n, k))
-col_names = ["intercept", "ln_gdp_pcap", "ln_pop"] + [f"D_{r[:8]}" for r in DUMMY_REGIONS]
+col_names = (["intercept", "ln_gdp_pcap", "ln_pop", "urban_share", "seismic_high"]
+             + [f"D_{r[:8]}" for r in DUMMY_REGIONS])
 
 for i, m in enumerate(matched):
     X[i, 0] = 1.0  # intercept
     X[i, 1] = math.log(m["gdp_pcap"])  # ln GDP per capita
     X[i, 2] = math.log(m["pop"])  # ln population
+    X[i, 3] = m["urban_share"]  # urban population share (0-1)
+    X[i, 4] = m["seismic"]  # seismic zone dummy
     for j, reg in enumerate(DUMMY_REGIONS):
-        X[i, 3 + j] = 1.0 if m["region"] == reg else 0.0
+        X[i, 5 + j] = 1.0 if m["region"] == reg else 0.0
 
 # OLS
 beta = np.linalg.lstsq(X, y, rcond=None)[0]
@@ -162,7 +179,7 @@ except np.linalg.LinAlgError:
     t_stats = np.full(k, np.nan)
 
 print(f"\n{'=' * 70}")
-print("OLS: ln($/W) = a + b1*ln(GDP/cap) + b2*ln(Pop) + region dummies")
+print("OLS: ln($/W) = a + b1*ln(GDP/cap) + b2*ln(Pop) + b3*Urban + b4*Seismic + region dummies")
 print(f"{'=' * 70}")
 print(f"  N = {n},  k = {k},  R2 = {r_squared:.4f},  adj-R2 = {adj_r_squared:.4f},  RMSE = {rmse:.4f}")
 print(f"\n  {'Variable':<20} {'Coeff':>8} {'SE':>8} {'t':>8}")
@@ -202,8 +219,10 @@ for iso3, gdata in gdp.items():
     x_pred[0] = 1.0
     x_pred[1] = math.log(g)
     x_pred[2] = math.log(p)
+    x_pred[3] = urban.get(iso3, 0.5)   # urban share
+    x_pred[4] = seismic.get(iso3, 0)   # seismic zone
     for j, dr in enumerate(DUMMY_REGIONS):
-        x_pred[3 + j] = 1.0 if reg == dr else 0.0
+        x_pred[5 + j] = 1.0 if reg == dr else 0.0
 
     ln_pred = x_pred @ beta
     # Smearing adjustment for log retransformation: E[y] = exp(ln_pred) * exp(s2/2)
