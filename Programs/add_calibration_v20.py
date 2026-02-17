@@ -635,7 +635,10 @@ CITATIONS = [
     ('Deloitte', '2025', 'Deloitte2025', 'Deloitte. (2025)'),
     ('Deloitte', '2020', 'Deloitte2020', 'Deloitte and Google. (2020)'),
     ('IEA', '2025', 'IEA2025', 'IEA. (2025)'),
-    ('EPRI', '2024', 'EPRI2024', 'EPRI. (2024)'),
+    ('Ohlin', '1933', 'Ohlin1933', 'Ohlin, B.'),
+    ('Biglaiser, Cr\u00E9mer, and Mantovani', '2024', 'Biglaiser2024', 'Biglaiser, G.'),
+    ('Stojkoski et al.', '2024', 'Stojkoski2024', 'Stojkoski, V.'),
+    ('World Bank', '2025', 'WorldBank2025', 'World Bank. (2025)'),
     ('Hausmann, Hwang, and Rodrik', '2007', 'Hausmann2007', 'Hausmann, R.'),
     ('Uptime Institute', '2024', 'UptimeInstitute2024',
      'Uptime Institute. (2024)'),
@@ -783,6 +786,10 @@ ITALIC_IN_REFS = {
     'Arkolakis': 'American Economic Review',
     'van der Ploeg': 'Journal of Economic Literature',
     'Barroso': 'The Datacenter as a Computer',
+    'Ohlin': 'Interregional and International Trade',
+    'Biglaiser': 'Toulouse School of Economics Working Paper',
+    'Stojkoski': 'WTO Staff Working Paper',
+    'World Bank. (2025)': 'Digital Progress and Trends Report 2025',
 }
 
 
@@ -964,9 +971,7 @@ def write_title_and_abstract(doc, body, all_el, hmap):
     r_abs_label = p.add_run('Abstract')
     r_abs_label.bold = True
     p.add_run(
-        ': The rapid growth of artificial intelligence is generating surging global demand '
-        'for computational resources, yet the cost of producing a unit of computation varies '
-        'by a factor of two across countries. This paper develops a trade model in which countries '
+        ': This paper develops a trade model in which countries '
         'produce and export computing services (FLOPs), with costs determined by electricity '
         'prices, climate, and construction costs. The model distinguishes two services, '
         'AI training, which is latency-insensitive and can be offshored to the cheapest '
@@ -974,10 +979,13 @@ def write_title_and_abstract(doc, body, all_el, hmap):
         'A sovereignty premium captures governments\u2019 preference for domestic data processing. '
         'Calibrating the model for 86 countries, the paper finds that many cheap-energy '
         'economies, including several low-income countries, could serve the world\u2019s training '
-        'needs, while regional inference hubs emerge around major demand centers. For '
+        'needs, while regional inference hubs emerge around major demand centers. '
+        'However, because hardware costs are uniform worldwide, the cross-country cost spread '
+        'is narrow, implying that institutional quality and policy constraints become decisive '
+        'for actual location decisions. For '
         'developing countries with abundant energy but narrow export baskets, exporting '
-        'compute opens a new entry point in the global economy, converting a natural '
-        'resource directly into a high-value digital service.'
+        'compute opens an entry point into the global economy, converting natural '
+        'resources directly into a high-value digital service.'
     )
     el = p._element
     body.remove(el)
@@ -1008,18 +1016,17 @@ def write_introduction(doc, body, hmap):
     # Para 1: AI compute demand + electricity footprint (consolidated)
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Global demand for computational resources is driven by '
-        'the expansion of artificial intelligence. The computation used to train the largest AI '
+        'Demand for computational resources is driven by '
+        'the expansion of artificial intelligence. The compute used to train the largest AI '
         'models has been doubling every six months since 2010 (Epoch AI 2024). '
         'Data centers accounted for approximately 1.5% of global electricity demand in '
-        '2024\u2014more than the entire electricity consumption of France\u2014a share projected '
+        '2024\u2014more than the electricity consumption of France\u2014a share projected '
         'to more than double by 2030 '
         '(IEA 2025). '
         'AI-oriented facilities are qualitatively different from traditional cloud or enterprise '
         'data centers. They deploy thousands of GPUs at power densities of 40\u2013100 kW per rack '
         '(versus 5\u201310 kW in conventional facilities), and can consume over 500,000 gallons of cooling '
-        'water per day (Turner Lee and West 2025). This power intensity makes electricity'
-        'cost the dominant locational factor for AI compute.'
+        'water per day (Turner Lee and West 2025).'
     )
     # footnote 2 removed (unclear)
 
@@ -1027,7 +1034,7 @@ def write_introduction(doc, body, hmap):
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'This surge in demand for computation creates a new type of export opportunity. '
-        'This paper refers to converting cheap electricity into exportable compute services as'
+        'This paper refers to converting cheap electricity into exportable compute services as '
     )
     add_italic(p, 'FLOP exporting')
     p.add_run(
@@ -1071,7 +1078,7 @@ def write_introduction(doc, body, hmap):
     # Para 6: Real data center plans + profit estimate
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Recent megaprojects across Africa, the Middle East, and Central Asia suggest that FLOP exporting is already technically and commercially'
+        'Recent megaprojects across Africa, the Middle East, and Central Asia suggest that FLOP exporting is already technically and commercially '
         'feasible. Armenia is deploying 50,000 GPUs in a $4 billion '
         'AI megaproject (Firebird 2026), while Kenya, Saudi Arabia, Morocco, Malaysia, and '
         'Indonesia have each attracted billion-dollar data center commitments.'
@@ -1082,8 +1089,10 @@ def write_introduction(doc, body, hmap):
                   'Microsoft ($2.2 billion) and Google ($2 billion) announced data centers in Malaysia (2024); '
                   'Microsoft committed $1.7 billion to cloud and AI infrastructure in Indonesia (2024).', 4)
     p.add_run(
-        ' The economic stakes are substantial. A single 40 MW data center in Kyrgyzstan could '
-        'generate annual revenue of $630\u2013950 million at wholesale contract rates,'
+        ' Cloud computing exports already exceed $9 billion annually, with the United States '
+        'accounting for 87% of the global total (World Bank 2025). '
+        'A 40 MW data center in Kyrgyzstan could '
+        'generate annual revenue of $630\u2013950 million at wholesale contract rates, '
         'equivalent to over 15% of Kyrgyzstan\u2019s $3.8 billion in goods exports (World Bank 2024).'
     )
     make_footnote(p, 'At $0.038/kWh electricity, a 40 MW facility houses approximately '
@@ -1097,13 +1106,12 @@ def write_introduction(doc, body, hmap):
     # Para 9: First paper + contributions
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'A growing literature examines compute governance and the geography of AI infrastructure '
+        'Recent work examines compute governance and the geography of AI infrastructure '
         '(Sastry, Heim, et al. 2024, Lehdonvirta, Wu, and Hawkins 2024, '
         'Pilz, Mahmood, and Heim 2025), but no formal trade model of compute exists. '
         'This paper offers the first such model, treating FLOPs as commodities produced and exported '
         'according to Ricardian comparative advantage. '
-        'The paper makes three contributions. First, it develops a trade model of FLOP production and '
-        'export that decomposes the cost of a FLOP into electricity, hardware, and construction '
+        'The paper makes three contributions. It decomposes the cost of a FLOP into electricity, hardware, and construction '
         'components, and introduces an iceberg trade cost for inference that captures latency '
         'degradation, alongside a sovereignty premium for domestic production preference. '
         'Second, it calibrates the model for 86 countries using data on electricity prices, '
@@ -1143,8 +1151,8 @@ def write_literature(doc, body, hmap):
         ' depends on electricity costs and climate, so resource-rich countries could become '
         'compute exporters without domestic AI research industries. Korinek and Stiglitz (2021) '
         'raise the possibility that developing countries could be left behind in the AI '
-        'revolution. FLOP exporting offers a route by which energy-rich developing '
-        'countries could participate. The concept of FLOP exporting as value chain upgrading '
+        'revolution. FLOP exporting offers a pathway for energy-rich developing '
+        'countries to participate. The concept of FLOP exporting as value chain upgrading '
         'connects to Hausmann, Hwang, and Rodrik (2007), who show that what a country exports '
         'matters for growth. Lim\u00E3o and Venables (2001) demonstrate that infrastructure quality '
         'determines trade costs. In the model, network infrastructure plays the analogous role '
@@ -1158,7 +1166,7 @@ def write_literature(doc, body, hmap):
     # Para 2: Data center location literature
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'A growing literature examines the determinants of data center location. '
+        'Several studies examine the determinants of data center location. '
         'Flucker, Tozer, and Whitehead (2013) show that climate affects data center '
         'cooling costs. Oltmanns, Krcmarik, and Gatti (2021) model data center location as a '
         'function of electricity prices, climate, connectivity, and political stability. '
@@ -1173,16 +1181,24 @@ def write_literature(doc, body, hmap):
     # Para 3: Compute governance literature
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Several recent papers address compute governance. Sastry, Heim, et al. (2024) '
-        'argue that compute is well-suited for regulation because governments can track how '
-        'many chips exist, restrict who buys them, and measure how much computation they '
+        'Several papers address compute governance directly. Sastry, Heim, et al. (2024) '
+        'argue that compute is well-suited for regulation because governments can track '
+        'the number of chips in circulation, restrict who can buy them, and measure how much computation they '
         'perform. Lehdonvirta, Wu, and Hawkins (2024) '
         'map the global geography of cloud GPU infrastructure, distinguishing a '
         '\u201CCompute North\u201D with training-capable hardware from a '
         '\u201CCompute South\u201D limited to inference-grade chips. '
         'Pilz, Mahmood, and Heim (2025) project that AI data center power demand '
         'could reach 327 GW by 2030 and that domestic power shortages may push '
-        'compute infrastructure abroad.'
+        'compute infrastructure abroad. The World Bank (2025) documents the resulting '
+        'global compute divide: high-income countries hold 77% of colocation data center '
+        'capacity and account for 87% of cloud computing exports (Stojkoski et al. 2024), '
+        'but the report offers descriptive evidence without a formal framework linking '
+        'production costs to trade patterns. On the industrial organization side, '
+        'Biglaiser, Cr\u00E9mer, and Mantovani (2024) survey the economics of cloud '
+        'markets\u2014switching costs, egress fees, and platform competition among '
+        'hyperscalers\u2014but the supply-side question of where compute is produced and '
+        'whether developing countries can become competitive exporters has not been addressed.'
     )
 
 
@@ -1205,7 +1221,7 @@ def write_production_technology(doc, body, hmap):
     p.add_run(
         'The existing literature documents where compute infrastructure is located and who '
         'controls it, but no formal framework links production costs to trade patterns. '
-        'This section fills that gap. It models compute as a tradable good with '
+        'This section models compute as a tradable good with '
         'country-specific production costs, a delivery cost that depends on whether the '
         'workload is training (latency-insensitive) or inference (latency-sensitive), and '
         'a sovereignty premium reflecting governments\u2019 preference for domestic production.'
@@ -1353,8 +1369,8 @@ def write_production_technology(doc, body, hmap):
     # Endowment paragraph
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'In the Heckscher-Ohlin tradition, countries export goods intensive in their '
-        'abundant factors. For compute production, the relevant endowment is not electricity '
+        'Countries export goods intensive in their '
+        'abundant factors (Ohlin 1933). For compute production, the relevant endowment is not electricity '
         'per se but the natural resources that generate it\u2014hydropower reservoirs '
         '(Kyrgyzstan, Ethiopia, Georgia), oil and gas (Iran, Turkmenistan, Qatar), solar '
         'irradiance (North Africa, the Gulf), and geothermal energy (Kenya, Iceland). '
@@ -1852,10 +1868,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'This section derives the formal properties of the capacity-constrained '
-        'equilibrium defined in Section 3. Full derivations appear in Appendix B. '
-        'All propositions hold for general parameter '
-        'values, and country-specific numerical examples are deferred to the calibration '
-        '(Section 6).'
+        'equilibrium defined in Section 3. Full derivations appear in Appendix B.'
     )
 
     # Proposition 1: Country taxonomy
@@ -1921,7 +1934,9 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     omath(p, [_msub('HHI', 'T')])
     p.add_run(
         ' is strictly decreasing in the number of capacity-constrained infra-marginal '
-        'exporters (U.S. DOJ and FTC 2010). The proof follows from the strict Cauchy-Schwarz '
+        'exporters (U.S. DOJ and FTC 2010). Intuitively, when cheap producers hit capacity '
+        'limits, residual demand spills over to costlier suppliers, spreading market shares '
+        'more evenly. The proof follows from the strict Cauchy-Schwarz '
         'inequality when at least two producers hold positive market shares.'
     )
 
@@ -1994,7 +2009,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         '. For inference to proximate demand centers, this cost advantage dominates '
         'the latency markup, so the same country wins the inference competition. '
         'Since training has no distance penalty while inference does, every country '
-        'that exports training is also competitive in inference within its geographic'
+        'that exports training is also competitive in inference within its geographic '
         'neighborhood, but not vice versa.'
     )
 
@@ -2281,16 +2296,18 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
     cheapest = cal[0]
     p.add_run(
         f'Under observed tariffs, the cheapest producer is {cheapest["country"]} '
-        f'(${float(cheapest["c_j_total"]):.2f}/hr), followed by Turkmenistan ($1.11/hr) '
-        'and Kyrgyzstan ($1.13/hr). But this ranking is misleading. '
+        f'(${float(cheapest["c_j_total"]):.2f}/hr), followed by '
+        f'{cal[1]["country"]} (${float(cal[1]["c_j_total"]):.2f}/hr) '
+        f'and {cal[2]["country"]} (${float(cal[2]["c_j_total"]):.2f}/hr). But this ranking is misleading. '
         'Iran\u2019s headline cost rests on electricity priced at '
         f'${float(cheapest["p_E_usd_kwh"]):.3f}/kWh, a figure sustained by one of the '
         'world\u2019s largest fossil fuel subsidies. Turkmenistan, Algeria, Qatar, and '
         'several other low-cost producers face similar distortions. '
         'Construction costs account for 3\u20136% of total costs, ranging from $0.033/hr '
         '(China) to $0.078/hr (Japan, Singapore). The Nordics benefit from low PUE '
-        '(1.08\u20131.10). At the expensive end, Ireland ($1.28/hr) and Greenland ($1.32/hr) '
-        'face high electricity prices.'
+        f'(1.08\u20131.10). At the expensive end, {cal[-2]["country"]} '
+        f'(${float(cal[-2]["c_j_total"]):.2f}/hr) and {cal[-1]["country"]} '
+        f'(${float(cal[-1]["c_j_total"]):.2f}/hr) face high electricity prices.'
     )
 
     # Cost-recovery adjustment — framed as core analytical step
@@ -2306,7 +2323,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
     p.add_run(
         ' whose retail electricity prices fall below estimated LRMC. '
         'Hydropower producers (Kyrgyzstan, Canada, Norway) are not adjusted because their '
-        'low prices reflect genuine resource advantages, not fiscal transfers. '
+        'low prices reflect genuine resource advantages rather than fiscal transfers. '
         'The resulting cost-recovery ranking is the paper\u2019s preferred baseline. '
         'The five cheapest producers become '
         f'{adj_top5[0][1]} (${adj_top5[0][2]:.2f}/hr), '
@@ -2423,7 +2440,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
         inf_labels.append(f'{co} ({share * 100:.0f}%)')
     p.add_run(
         'Inference is more dispersed, with the top five suppliers being '
-        f'{", ".join(inf_labels)}, together serving '
+        f'{", ".join(inf_labels)}, collectively accounting for '
         f'{sum(s for _, s in top5_inf) * 100:.0f}% of global inference demand '
         f'(HHI = {demand_data["hhi_i"]:.2f}). '
         'Under the 10% sovereignty premium, most training demand is served '
@@ -2447,8 +2464,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
             kgz_list = f'{", ".join(names[:-1])}, and {names[-1]}'
         p.add_run(
             f'Among developing countries, Kyrgyzstan captures {kgz_total:.0f}% of global '
-            f'inference demand by serving {kgz_list}, a striking '
-            'result for a country with GDP under $15 billion. '
+            f'inference demand by serving {kgz_list}, a large share '
+            'for a country with a GDP of under $15 billion. '
         )
     # Find the largest non-self developing-country inference exporter besides KGZ
     _dev = {'DZA', 'KGZ', 'ETH', 'EGY', 'KOS', 'XKX', 'TKM', 'UZB', 'TJK',
@@ -2471,7 +2488,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
     p.add_run(
         'These results are illustrative, not forecasts. They show the cost structure that '
         'would make FLOP exporting viable, not that specific countries will necessarily capture '
-        'these market shares. The key insight is that cheap-energy developing countries '
+        'these market shares. Cheap-energy developing countries '
         'can, in principle, earn export revenue from much larger economies.'
     )
 
@@ -2546,7 +2563,10 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
         ' alone. Several of the cheapest producers in the calibration (Iran, Turkmenistan, '
         'Uzbekistan) rank poorly on property rights and rule of law indices, and subsidized '
         'electricity prices may be politically fragile. Effective entry barriers are therefore '
-        'higher than production costs alone suggest.'
+        'higher than production costs alone suggest. The World Bank (2025) frames this as '
+        'the central policy choice: whether to build domestic compute capacity or secure '
+        'affordable access to international cloud services, a trade-off the present model '
+        'formalizes through the sovereignty premium and capacity constraints.'
     )
 
     # Para 2: Regulatory, geopolitical barriers, and infrastructure
@@ -2594,8 +2614,14 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
             f'{_xi_n_changed} of the top 10 baseline producers fall out of the '
             f'top 10 after adjustment, replaced by countries with stronger institutions '
             'and more reliable grids. '
-            'This result underscores a central tension in the paper. '
-            'Because hardware amortization accounts for roughly 94% of engineering costs and is '
+            'Electricity prices determine the engineering cost ranking, but they are not the '
+            'dominant factor determining where data centers are actually built. Reliability, '
+            'sovereignty, and GPU access matter more for actual location decisions. '
+            'Although GPUs account for roughly 40 percent of total upfront data center capital '
+            'expenditure, their short replacement cycle (3 years, compared with 15\u201325 years '
+            'for the building shell) means that hardware amortization dominates the per-GPU-hour '
+            'cost, accounting for over 80 percent of the total. '
+            'Because hardware and networking costs account for roughly 94% of engineering costs and are '
             'identical everywhere, the cross-country cost spread is narrow (about 20%). '
             'Even modest institutional penalties are large relative to this thin margin, '
             'so governance quality can easily dominate the cost ranking. '
@@ -2606,7 +2632,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
     p._element.append(make_bookmark_end(121))
     p.add_run(' illustrates the resulting rank reshuffling. ')
     p.add_run(
-        'Taken together, these governance factors suggest that viable compute exporters '
+        'These governance factors suggest that viable compute exporters '
         'are a strict subset of low-cost producers\u2014those that combine cheap energy '
         'with adequate institutional quality, such as the Nordic countries, Canada, and '
         'parts of the Gulf and Central Asia. '
@@ -2619,17 +2645,17 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'The sovereignty premium deserves scrutiny. Some domestic processing preference '
-        'is justified for genuinely confidential data (military intelligence, health records, '
-        'national statistical systems). But much of the current policy push, particularly in '
+        'is justified for genuinely confidential data (e.g., military intelligence, health records, '
+        'and national statistical systems). But much of the current policy push, particularly in '
         'the EU, extends the sovereignty logic far beyond these cases to cover routine commercial '
         'computation that carries no security risk. The welfare cost is not trivial. As shown '
-        'above, a 10% premium already shifts the majority of countries to domestic production, '
+        'above, a 10% premium already shifts most countries toward domestic production, '
         'forgoing the cost savings from specialization. Developing countries in Central Asia and '
         'Africa are likely to follow the EU template, imposing data localization requirements '
-        'that their small markets cannot efficiently serve. The irony is that the same countries '
-        'whose cost advantages make them natural FLOP exporters may simultaneously erect '
+        'that their small markets cannot efficiently serve. A policy tension arises: the same countries '
+        'whose cost advantages position them as natural FLOP exporters may simultaneously erect '
         'sovereignty barriers against importing compute from their neighbors, '
-        'undermining the regional trade the model predicts would be welfare-improving.'
+        'reducing the welfare gains from regional specialization that the model predicts.'
     )
 
     # Subsidy sustainability and cost-recovery detail (trimmed)
@@ -2641,7 +2667,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
         'The cost-recovery prices are derived from country-specific LRMC estimates. '
         'For gas exporters (Iran, Turkmenistan, Algeria, Qatar), the calibration uses combined-cycle gas '
         'generation at export-parity fuel prices ($0.065\u2013$0.100/kWh). For the Gulf states, '
-        'it uses the opportunity cost of domestic gas combustion versus LNG export. '
+        'it uses the opportunity cost of domestic gas combustion relative to LNG exports. '
         'For coal-dependent producers (Kazakhstan, South Africa), the calibration uses the Eskom-style '
         'cost-recovery tariff. For Ethiopia, it uses the IMF\u2019s hydro cost-recovery target '
         '($0.050/kWh).'
@@ -2659,7 +2685,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
         'At export scale, this fiscal arithmetic becomes unsustainable. '
         'Even cost-recovery prices may understate the true resource cost. Regulated tariffs '
         'in many developing countries cover operating expenses but not the full capital cost '
-        'of generation, transmission, and distribution infrastructure. Energy state-owned '
+        'of generation, transmission, and distribution infrastructure. State-owned '
         'enterprises (SOEs) accumulate quasi-fiscal deficits that are eventually borne by '
         'taxpayers or future consumers. Allowing large-scale FLOP exports at these prices '
         'would accelerate infrastructure depreciation while the SOE cannot finance '
@@ -2769,11 +2795,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
         'expanding internationally will favor locations where electricity, cooling, and '
         'construction costs are lowest, conditional on meeting minimum infrastructure '
         'thresholds. The cost ranking in Table A2 thus identifies the feasibility frontier. '
-        'countries that are cost-competitive have a prerequisite for attracting investment, '
+        'Countries that are cost-competitive have a prerequisite for attracting investment, '
         'though cost competitiveness alone is not sufficient. The thin margins documented '
         'above (a 20% spread between cheapest and most expensive) reinforce this point. Since '
-        'unit cost advantages are modest, institutional and agglomeration factors will often '
-        'be decisive in determining which cost-competitive countries actually attract '
+        'unit cost advantages are modest, institutional and agglomeration factors are often '
+        'decisive in determining which cost-competitive countries attract '
         'investment.'
     )
 
@@ -2790,9 +2816,9 @@ def write_conclusion(doc, body, hmap, demand_data):
 
     p, cur_concl = mkp(doc, body, sec8)
     p.add_run(
-        'This paper develops a capacity-constrained Ricardian model for trade in computing '
+        'This paper develops a capacity-constrained model of trade in computing '
         'services (FLOPs) in which countries produce and export computing capacity based on '
-        'their energy resource endowments\u2014reflected in electricity prices\u2014climate, '
+        'their energy-resource endowments, as reflected in electricity prices, climate, '
         'and construction costs. The model distinguishes '
         'two service types, latency-insensitive training and latency-sensitive inference, and '
         'introduces a sovereignty premium to capture governments\u2019 preference for domestic '
@@ -2816,14 +2842,20 @@ def write_conclusion(doc, body, hmap, demand_data):
         'inference hubs, and hybrid regimes) that maps onto observed investment patterns. '
         'This geographic structure is consistent with Lehdonvirta, Wu, and Hawkins (2024), '
         'who independently find that training-capable GPU infrastructure is concentrated in '
-        'roughly 30 countries while the rest are limited to inference-grade hardware.'
+        'roughly 30 countries while the rest are limited to inference-grade hardware. '
+        'A central finding is that electricity costs, while the main source of cross-country '
+        'cost variation, are not the dominant determinant of actual data center location. '
+        'Because hardware amortization is uniform and accounts for 94% of per-GPU-hour costs, '
+        'the cost spread across countries is narrow\u2014about 20%. Institutional quality, '
+        'sovereignty preferences, and access to GPU hardware frequently outweigh these thin '
+        'cost margins.'
     )
 
     p, cur_concl = mkp(doc, body, cur_concl)
     p.add_run(
         'For developing countries, the results point to a new avenue for economic participation '
         'in the global economy. Countries like Kyrgyzstan, Uzbekistan, and Egypt, which rank '
-        'among the cheapest FLOP producers in the calibration, could leverage their energy '
+        'among the cheapest FLOP producers in the calibration, could use their energy '
         'resource endowments\u2014hydropower, natural gas, and solar irradiance\u2014to convert '
         'cheap electricity into a high-value digital export without building a domestic AI '
         'research ecosystem. '
@@ -2834,7 +2866,7 @@ def write_conclusion(doc, body, hmap, demand_data):
         'That said, the resource curse literature (van der Ploeg 2011) cautions that '
         'concentrated export revenues can produce Dutch disease, institutional degradation, '
         'and volatility. Whether FLOP exporting shares these risks depends on whether '
-        'the revenues are broad-based or captured by a narrow set of actors, and on whether '
+        'the revenues are broadly distributed or concentrated among a narrow set of actors, and on whether '
         'governments invest the proceeds in human capital and institutional development.'
     )
 
@@ -4080,9 +4112,6 @@ def write_references(doc, body, refs):
 
         'Epoch AI. (2024). \u201CThe Training Compute of Notable AI Models.\u201D epochai.org.',
 
-        'EPRI. (2024). \u201CPowering Intelligence: Analyzing AI and Data Center Energy '
-        'Consumption.\u201D Electric Power Research Institute.',
-
         'Eurostat. (2025). Electricity Prices for Non-Household Consumers '
         '(nrg_pc_205). Luxembourg: Eurostat.',
 
@@ -4184,6 +4213,18 @@ def write_references(doc, body, refs):
 
         'van der Ploeg, F. (2011). \u201CNatural Resources: Curse or Blessing?\u201D '
         'Journal of Economic Literature, 49(2): 366\u2013420.',
+
+        'Ohlin, B. (1933). Interregional and International Trade. '
+        'Cambridge, MA: Harvard University Press.',
+
+        'Biglaiser, G., J. Cr\u00E9mer, and A. Mantovani. (2024). \u201CThe Economics of the Cloud.\u201D '
+        'Toulouse School of Economics Working Paper No. 24-1520.',
+
+        'Stojkoski, V., P. Coll-Ruiz, N. Mar\u00E9chal, and C. Requier-Desjardins. (2024). '
+        '\u201CTrade in Cloud Computing and AI Services.\u201D WTO Staff Working Paper ERSD-2024-03.',
+
+        'World Bank. (2025). Digital Progress and Trends Report 2025: '
+        'Strengthening AI Foundations. Washington, DC: World Bank.',
     ]
 
     ref_txts = sorted(new_refs, key=lambda x: x.lower())
