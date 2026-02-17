@@ -27,6 +27,9 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
@@ -108,12 +111,12 @@ def run_sensitivity(cal, omega, dc_k, k_bar, sanctioned):
     outcomes, and Spearman rank correlations vs. the baseline.
     """
     scenarios = [
-        ("Baseline",            {}),
-        ("Elec +$0.01/kWh",    {"p_E_delta": +0.01}),
-        ("Elec −$0.01/kWh",    {"p_E_delta": -0.01}),
-        ("GPU +20% ($30k)",     {"gpu_price": 30_000}),
-        ("GPU −20% ($20k)",     {"gpu_price": 20_000}),
-        ("PUE cap 1.20",       {"pue_cap": 1.20}),
+        ("Baseline calibration",                         {}),
+        ("Electricity price +$0.01/kWh (\u224810% above mean)", {"p_E_delta": +0.01}),
+        ("Electricity price \u2212$0.01/kWh (\u224810% below mean)", {"p_E_delta": -0.01}),
+        ("GPU hardware cost +20% ($30,000/unit)",        {"gpu_price": 30_000}),
+        ("GPU hardware cost \u221220% ($20,000/unit)",   {"gpu_price": 20_000}),
+        ("Cooling efficiency cap (PUE \u2264 1.20)",     {"pue_cap": 1.20}),
     ]
 
     def _solve_mini(supply_stack_s, costs_s):
@@ -1015,7 +1018,7 @@ def write_introduction(doc, body, hmap):
         'AI-oriented facilities are qualitatively different from traditional cloud or enterprise '
         'data centers. They deploy thousands of GPUs at power densities of 40\u2013100 kW per rack '
         '(versus 5\u201310 kW in conventional facilities), and can consume over 500,000 gallons of cooling '
-        'water per day (Turner Lee and West 2025). This extreme power intensity makes electricity '
+        'water per day (Turner Lee and West 2025). This power intensity makes electricity'
         'cost the dominant locational factor for AI compute.'
     )
     # footnote 2 removed (unclear)
@@ -1023,15 +1026,8 @@ def write_introduction(doc, body, hmap):
     # Para 3: FLOP exporting as value chain upgrading
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'This surge in demand for computation creates a new type of export opportunity. In the '
-        'Heckscher-Ohlin tradition, countries export goods intensive in their abundant factors. '
-        'For FLOP exports, the relevant endowment is not cheap electricity '
-        'per se but the natural resources that produce it\u2014hydropower reservoirs '
-        '(Kyrgyzstan, Ethiopia, Georgia), oil and gas (Iran, Turkmenistan, Qatar), solar '
-        'irradiance (North Africa, the Gulf), and geothermal energy (Kenya, Iceland). '
-        'The planned submarine cable linking Georgia and Azerbaijan to Romania, for example, '
-        'is predicated on abundant Caucasus solar and gas resources. '
-        'This paper refers to converting these resource endowments into exportable compute as '
+        'This surge in demand for computation creates a new type of export opportunity. '
+        'This paper refers to converting cheap electricity into exportable compute services as'
     )
     add_italic(p, 'FLOP exporting')
     p.add_run(
@@ -1075,7 +1071,7 @@ def write_introduction(doc, body, hmap):
     # Para 6: Real data center plans + profit estimate
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Recent megaprojects across Africa, the Middle East, and Central Asia confirm that FLOP exporting is already '
+        'Recent megaprojects across Africa, the Middle East, and Central Asia suggest that FLOP exporting is already technically and commercially'
         'feasible. Armenia is deploying 50,000 GPUs in a $4 billion '
         'AI megaproject (Firebird 2026), while Kenya, Saudi Arabia, Morocco, Malaysia, and '
         'Indonesia have each attracted billion-dollar data center commitments.'
@@ -1087,7 +1083,7 @@ def write_introduction(doc, body, hmap):
                   'Microsoft committed $1.7 billion to cloud and AI infrastructure in Indonesia (2024).', 4)
     p.add_run(
         ' The economic stakes are substantial. A single 40 MW data center in Kyrgyzstan could '
-        'generate annual revenue of $630 million\u2013$950 million at wholesale contract rates, '
+        'generate annual revenue of $630\u2013950 million at wholesale contract rates,'
         'equivalent to over 15% of Kyrgyzstan\u2019s $3.8 billion in goods exports (World Bank 2024).'
     )
     make_footnote(p, 'At $0.038/kWh electricity, a 40 MW facility houses approximately '
@@ -1140,7 +1136,7 @@ def write_literature(doc, body, hmap):
     p.add_run(
         'Goldfarb and Trefler (2018) argue that AI shifts comparative advantage toward '
         'countries with data, human capital, and institutional capacity. The model introduces '
-        'a complementary channel\u2014comparative advantage in compute '
+        'a complementary mechanism\u2014comparative advantage in compute'
     )
     add_italic(p, 'production')
     p.add_run(
@@ -1156,8 +1152,7 @@ def write_literature(doc, body, hmap):
         'interact to produce geographic concentration, and analogous centripetal forces '
         '(network effects, colocation with internet exchanges, customer proximity) '
         'favor incumbent data center hubs. The model abstracts from these agglomeration '
-        'economies to isolate cost-based comparative advantage, a simplification discussed '
-        'further in the calibration.'
+        'economies to isolate cost-based comparative advantage.'
     )
 
     # Para 2: Data center location literature
@@ -1210,10 +1205,10 @@ def write_production_technology(doc, body, hmap):
     p.add_run(
         'The existing literature documents where compute infrastructure is located and who '
         'controls it, but no formal framework links production costs to trade patterns. '
-        'This section fills that gap by treating compute as a tradeable good whose production '
-        'cost varies across countries, whose delivery cost differs between training '
-        '(latency-insensitive) and inference (latency-sensitive), and whose sourcing is shaped '
-        'by a sovereignty premium that captures governments\u2019 preference for domestic production.'
+        'This section fills that gap. It models compute as a tradable good with '
+        'country-specific production costs, a delivery cost that depends on whether the '
+        'workload is training (latency-insensitive) or inference (latency-sensitive), and '
+        'a sovereignty premium reflecting governments\u2019 preference for domestic production.'
     )
 
     cur = hmap['1.1']  # continue after 3.1 subtitle
@@ -1241,62 +1236,41 @@ def write_production_technology(doc, body, hmap):
     # Bump all subsequent footnotes by 1
     # (old fn 6 becomes 7, old fn 7 becomes 8, etc.)
 
-    # Para 2: energy intensity + PUE (single introduction, Flucker cited once)
+    # PUE inlined (no display equation)
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'The key cost driver is the GPU\u2019s power draw, the electrical power it consumes during '
-        'operation. Power draw is denoted by '
-    )
-    omath(p, [_v('\u03B3')])
-    p.add_run(
-        ', measured in kilowatts (kW). The actual electricity consumed depends also on the '
+        'A data center consumes more electricity than its GPUs alone draw, because '
+        'cooling, power distribution, and lighting add overhead. '
+        'This overhead is measured by the '
     )
     add_italic(p, 'power usage effectiveness')
-    p.add_run(' PUE(')
-    omath(p, [_msub('\u03B8', 'j')])
-    p.add_run('), where ')
-    omath(p, [_msub('\u03B8', 'j')])
+    p.add_run(' (PUE), the ratio of total facility power to IT equipment power '
+              '(Flucker, Tozer, and Whitehead 2013). '
+              'PUE is modeled as a linear function of peak summer temperature: ')
+    omath(p, [_t('PUE('), _msub('\u03B8', 'j'), _t(') = '),
+              _v('\u03C6'), _t(' + '),
+              _v('\u03B4'), _t(' \u00b7 max(0, '),
+              _msub('\u03B8', 'j'), _t(' \u2212 '),
+              _mbar('\u03B8'), _t(')')])
     p.add_run(
-        ' is the peak summer temperature (\u00b0C) in country '
+        ', where '
     )
-    omath(p, [_v('j')])
-    p.add_run(
-        '. PUE is the dimensionless ratio of total facility energy to IT equipment energy, and '
-        'it ranges from 1.08 in cold climates to over 1.4 in hot ones '
-        '(Flucker, Tozer, and Whitehead 2013).'
-    )
-    make_footnote(p, 'Google\u2019s 2024 sustainability report indicates a fleet-wide trailing '
-                  'twelve-month PUE of 1.10. '
-                  'The PUE floor of 1.08 represents current best practice with free-air cooling '
-                  'in Scandinavian or Icelandic climates.', 7)
-    p.add_run(' PUE is modeled as:')
-    p.paragraph_format.space_after = Pt(2)
-
-    # Equation (1): PUE
-    _, cur = omath_display(doc, body, cur, [
-        _t('PUE('), _msub('\u03B8', 'j'), _t(') = '),
-        _v('\u03C6'), _t(' + '),
-        _v('\u03B4'), _t(' \u00b7 max(0, '),
-        _msub('\u03B8', 'j'), _t(' \u2212 '),
-        _mbar('\u03B8'), _t('),'),
-    ], eq_num='1')
-
-    # Para 3: parameter descriptions, no re-citation
-    p, cur = mkp(doc, body, cur)
-    p.add_run('where ')
     omath(p, [_v('\u03C6')])
-    p.add_run(' is the baseline PUE in cold climates, ')
+    p.add_run(' is the baseline PUE in cold climates and ')
     omath(p, [_v('\u03B4')])
-    p.add_run(' is the PUE sensitivity per \u00b0C above the reference, and ')
+    p.add_run(
+        ' is the sensitivity per \u00b0C above the reference temperature '
+    )
     omath(p, [_mbar('\u03B8')])
     p.add_run(
-        ' is the reference temperature. '
-        'These parameters are calibrated in Section 6.'
+        '. PUE ranges from 1.08 in cold climates to over 1.4 in hot ones.'
     )
     make_footnote(p, 'The linear PUE model is a simplification. Modern liquid and immersion '
                   'cooling technologies can achieve PUE \u2248 1.2 even in hot climates, flattening the '
                   'temperature\u2013PUE relationship. The robustness check in Section 6 confirms that '
-                  'the results are insensitive to this specification.', 8)
+                  'the results are insensitive to this specification. '
+                  'Google\u2019s 2024 sustainability report indicates a fleet-wide trailing '
+                  'twelve-month PUE of 1.10.', 7)
 
     # Equation lead-in
     p, cur = mkp(doc, body, cur)
@@ -1315,43 +1289,52 @@ def write_production_technology(doc, body, hmap):
         _v('\u03B7'), _t(' + '),
         _msub('p', 'L,j'), _t(' / ('),
         _v('D'), _t(' \u00b7 '), _v('H'), _t('),'),
-    ], eq_num='2')
+    ], eq_num='1')
 
-    # Equation explanation: define ρ, η, construction, cross-country variation
+    # Equation explanation (streamlined — no "first term/second term" redundancy)
     p, cur = mkp(doc, body, cur)
     p.add_run('where ')
-    omath(p, [_v('\u03C1')])
-    p.add_run(' is the amortized hardware cost per GPU-hour: ')
-    omath(p, [
-        _v('\u03C1'), _t(' = '), _msub('P', 'GPU'),
-        _t(' / ('), _v('L'), _t(' \u00b7 '), _v('H'),
-        _t(' \u00b7 '), _v('\u03B2'), _t(')'),
-    ])
-    p.add_run(', with ')
+    omath(p, [_v('\u03B3')])
+    p.add_run(
+        ' is GPU power draw (kW), '
+    )
+    omath(p, [_msub('p', 'E,j')])
+    p.add_run(' is the electricity price ($/kWh), ')
+    omath(p, [_v('\u03C1'), _t(' = '), _msub('P', 'GPU'),
+              _t(' / ('), _v('L'), _t(' \u00b7 '), _v('H'),
+              _t(' \u00b7 '), _v('\u03B2'), _t(')')])
+    p.add_run(
+        ' is amortized hardware cost per GPU-hour '
+        '('
+    )
     omath(p, [_msub('P', 'GPU')])
-    p.add_run(' the GPU purchase price, ')
+    p.add_run(' = purchase price, ')
     omath(p, [_v('L')])
-    p.add_run(' the lifetime in years, ')
+    p.add_run(' = lifetime in years, ')
     omath(p, [_v('H')])
-    p.add_run(' = 8,766 hours per year, and ')
+    p.add_run(' = 8,766 hours per year, ')
     omath(p, [_v('\u03B2')])
-    p.add_run(' the utilization rate.')
+    p.add_run(' = utilization rate),')
     make_footnote(p, 'For the NVIDIA H100: $25,000 / (3 years \u00d7 8,766 hours/year \u00d7 70% '
                   'utilization) \u2248 $1.36/hr. Street prices have fallen to $18,000\u2013$22,000 '
                   'as of late 2025. Each GPU draws approximately 700 watts.', 9)
-    p.add_run(' The term ')
+    p.add_run(' ')
     omath(p, [_v('\u03B7')])
     p.add_run(
-        ' captures networking costs (high-speed interconnect fabric such as InfiniBand), '
-        'which can represent 15\u201325% of total system cost in a large training cluster '
-        '(Barroso, H\u00F6lzle, and Ranganathan 2018). '
-        'Both '
+        ' is amortized networking cost (high-speed interconnect such as InfiniBand), '
+        'and the last term amortizes construction costs '
     )
+    omath(p, [_msub('p', 'L,j')])
+    p.add_run(
+        ' ($/W of IT capacity) over the facility lifetime '
+    )
+    omath(p, [_v('D')])
+    p.add_run('. Both ')
     omath(p, [_v('\u03C1')])
     p.add_run(' and ')
     omath(p, [_v('\u03B7')])
     p.add_run(
-        ' are determined by global hardware markets and are common across countries.'
+        ' are determined in global hardware markets and are common across countries.'
     )
     make_footnote(p, 'China is developing an alternative domestic chip stack based on '
                   'Huawei\u2019s Ascend series (910B/910C) and other domestic accelerators. If these '
@@ -1359,9 +1342,7 @@ def write_production_technology(doc, body, hmap):
                   'diverge from the NVIDIA-based benchmark used here, potentially improving its '
                   'cost position despite export controls.', 10)
     p.add_run(
-        ' The first term is the PUE-adjusted electricity cost. '
-        'The second is amortized hardware. The third is amortized construction. '
-        'Cross-country variation in '
+        ' Cross-country variation in '
     )
     omath(p, [_msub('c', 'j')])
     p.add_run(
@@ -1369,54 +1350,22 @@ def write_production_technology(doc, body, hmap):
         'and construction costs.'
     )
 
-    # Reliability factor — equation (2a)
+    # Endowment paragraph
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Equation (2) measures the engineering cost of producing a GPU-hour but '
-        'abstracts from institutional factors that affect whether that GPU-hour is '
-        'actually delivered. Grid outages, regulatory unpredictability, and sanctions '
-        'risk all reduce effective output. To capture these factors, define a '
-        'reliability index '
+        'In the Heckscher-Ohlin tradition, countries export goods intensive in their '
+        'abundant factors. For compute production, the relevant endowment is not electricity '
+        'per se but the natural resources that generate it\u2014hydropower reservoirs '
+        '(Kyrgyzstan, Ethiopia, Georgia), oil and gas (Iran, Turkmenistan, Qatar), solar '
+        'irradiance (North Africa, the Gulf), and geothermal energy (Kenya, Iceland). '
+        'The electricity price '
     )
-    omath(p, [_msub('\u03BE', 'j'), _t(' \u2208 (0, 1]')])
+    omath(p, [_msub('p', 'E,j')])
     p.add_run(
-        ' that measures the fraction of potential GPU-hours that country '
+        ' in equation (1) is therefore a reduced-form expression for country '
     )
     omath(p, [_v('j')])
-    p.add_run(
-        ' actually delivers. The reliability-adjusted cost is then'
-    )
-    p.paragraph_format.space_after = Pt(2)
-
-    _, cur = omath_display(doc, body, cur, [
-        _msubsup('c', 'j', 'eff'), _t(' = '),
-        _msub('c', 'j'), _t(' / '),
-        _msub('\u03BE', 'j'), _t(','),
-    ], eq_num='2a')
-
-    p, cur = mkp(doc, body, cur)
-    p.add_run('where ')
-    omath(p, [_msub('\u03BE', 'j')])
-    p.add_run(
-        ' combines governance quality (rule of law, contract enforcement), '
-        'grid reliability (frequency and duration of power outages), and '
-        'sanctions exposure (trade restrictions on GPU imports). For countries '
-        'with reliable grids, strong institutions, and no sanctions, '
-    )
-    omath(p, [_msub('\u03BE', 'j'), _t(' \u2248 1')])
-    p.add_run(
-        ' and the adjustment is negligible. For countries with frequent '
-        'outages or sanctions constraints, '
-    )
-    omath(p, [_msub('\u03BE', 'j')])
-    p.add_run(
-        ' falls well below one, raising effective costs above what the engineering '
-        'parameters alone would imply. The baseline calibration sets '
-    )
-    omath(p, [_msub('\u03BE', 'j'), _t(' = 1')])
-    p.add_run(
-        ' for all countries and reports reliability-adjusted rankings as a robustness exercise.'
-    )
+    p.add_run('\u2019s energy resource endowment.')
 
 
 def write_trade_costs(doc, body, hmap):
@@ -1458,15 +1407,15 @@ def write_trade_costs(doc, body, hmap):
     p.add_run(', denoted ')
     omath(p, [_msub('l', 'jk')])
     p.add_run(
-        ', is the round-trip time for a data packet to travel from server country '
+        ', is the round-trip time for a data packet to travel from seller '
     )
     omath(p, [_v('j')])
-    p.add_run(' to demand center ')
+    p.add_run(' to buyer ')
     omath(p, [_v('k')])
     p.add_run(
         ' and back, measured in milliseconds (ms). '
         'Within a country, latency is typically 5\u201310 ms, while across continents it can exceed '
-        '150 ms. For training, the workload ships to the producer, so effective latency is zero.'
+        '150 ms. For training, the workload ships to the seller, so effective latency is zero.'
     )
 
     # Sovereignty premium definition
@@ -1480,7 +1429,7 @@ def write_trade_costs(doc, body, hmap):
     omath(p, [_v('\u03BB'), _t(' \u2265 0')])
     p.add_run(
         ', which acts as a proportional markup on the cost of foreign-sourced compute. '
-        'When a country sources compute from a foreign producer, the effective cost is '
+        'When a country sources compute from a foreign seller, the effective cost is '
         'inflated by the factor '
     )
     omath(p, [_t('(1 + '), _v('\u03BB'), _t(')')])
@@ -1488,13 +1437,13 @@ def write_trade_costs(doc, body, hmap):
         '. The sovereignty premium is zero for domestic production.'
     )
 
-    # Equation (2) with sovereignty
+    # Equation (3): delivered cost with ξ_j
     p, cur = mkp(doc, body, cur)
     p.add_run('The delivered cost of service ')
     omath(p, [_v('s'), _t(' \u2208 {'), _v('T'), _t(', '), _v('I'), _t('}')])
-    p.add_run(' from producer ')
+    p.add_run(' from seller ')
     omath(p, [_v('j')])
-    p.add_run(' to demand center ')
+    p.add_run(' to buyer ')
     omath(p, [_v('k')])
     p.add_run(' is:')
     p.paragraph_format.space_after = Pt(2)
@@ -1504,66 +1453,57 @@ def write_trade_costs(doc, body, hmap):
         _t(') = (1 + '), _msub('\u03BB', 'jk'),
         _t(') \u00b7 (1 + '), _msub('\u03C4', 's'), _t(' \u00b7 '),
         _msub('l', 'jk'), _t(') \u00b7 '),
-        _msub('c', 'j'), _t(','),
-    ], eq_num='3')
+        _msub('c', 'j'), _t(' / '),
+        _msub('\u03BE', 'j'), _t(','),
+    ], eq_num='2')
 
     p, cur = mkp(doc, body, cur)
     p.add_run('where ')
     omath(p, [_msub('\u03BB', 'jk'), _t(' = '), _v('\u03BB')])
     p.add_run(' if ')
     omath(p, [_v('j'), _t(' \u2260 '), _v('k')])
-    p.add_run(' (foreign sourcing) and ')
+    p.add_run(' and ')
     omath(p, [_msub('\u03BB', 'jk'), _t(' = 0')])
     p.add_run(' if ')
     omath(p, [_v('j'), _t(' = '), _v('k')])
-    p.add_run(' (domestic). The parameter ')
+    p.add_run('. ')
+    omath(p, [_msub('\u03BE', 'j'), _t(' \u2208 (0, 1]')])
+    p.add_run(
+        ' is a reliability index that captures institutional factors, '
+        'such as grid outages, regulatory '
+        'unpredictability, and sanctions risk, that reduce effective output. '
+        'It approaches one for countries with stable institutions and reliable power, '
+        'and falls well below one where outages or sanctions reduce effective delivery. '
+        'The parameter '
+    )
     omath(p, [_v('\u03C4')])
     p.add_run(
         ' measures the rate of quality degradation per millisecond of round-trip latency, with '
     )
     omath(p, [_msub('\u03C4', 'T'), _t(' = 0')])
-    p.add_run(' (training has zero effective latency) and ')
+    p.add_run(' and ')
     omath(p, [_msub('\u03C4', 'I'), _t(' = '), _v('\u03C4'), _t(' > 0')])
     p.add_run(
-        ' (inference degrades with latency). '
-        'This iceberg formulation parallels Hummels and Schaur (2013), who estimate that each '
-        'day of shipping time is equivalent to a tariff. Here, milliseconds replace days and '
-        'network latency replaces shipping time. '
-        'In practice, GPU compute time (100\u2013500 ms for a large language model response) '
-        'dominates network round-trip time (20\u2013150 ms). The latency penalty in equation (3) '
-        'therefore captures only the incremental network component, making it a conservative '
-        'estimate of the total latency cost of offshoring inference. This also implies that '
-        'the geographic radius from which inference can be competitively served is wider '
-        'than network latency alone would suggest.'
+        '. This iceberg formulation parallels Hummels and Schaur (2013), who estimate that each '
+        'day of shipping time is equivalent to a tariff; here, milliseconds replace days. '
+        'For training ('
     )
-
-    # Implication
-    p, cur = mkp(doc, body, cur)
+    omath(p, [_msub('\u03C4', 'T'), _t(' = 0')])
     p.add_run(
-        'For training, equation (3) simplifies to '
-    )
-    omath(p, [_msub('P', 'T'), _t('('), _v('j'), _t(', '), _v('k'),
-              _t(') = (1 + '), _msub('\u03BB', 'jk'), _t(') \u00b7 '), _msub('c', 'j')])
-    p.add_run(
-        '\u2014the delivered cost depends only on the production cost and whether the source is '
-        'foreign. For inference, the full form of equation (3) applies, including the latency term. '
-        'In practice, inference also faces a hard latency ceiling. Beyond a threshold '
+        '), the delivered cost reduces to the production cost plus the sovereignty '
+        'markup; distance plays no role. '
+        'Inference also faces a hard latency ceiling: beyond a threshold '
     )
     omath(p, [_mbar('l')])
     p.add_run(
         ' (typically 200\u2013300 ms for interactive applications), the service becomes '
-        'unusable regardless of price. This is modeled as '
+        'unusable regardless of price, modeled as '
     )
     omath(p, [_msub('P', 'I'), _t('('), _v('j'), _t(', '), _v('k'),
               _t(') = \u221E')])
     p.add_run(' if ')
     omath(p, [_msub('l', 'jk'), _t(' > '), _mbar('l')])
-    p.add_run(
-        '. Training workloads also incur data transfer costs. Moving petabytes of training '
-        'data to a remote facility requires substantial bandwidth and time. These data '
-        'egress costs are not modeled explicitly but would further raise the effective cost '
-        'of offshored training, particularly for bandwidth-constrained developing countries.'
-    )
+    p.add_run('.')
 
 
 def renumber_sections(hmap):
@@ -1607,12 +1547,12 @@ def write_demand(doc, body, hmap, demand_data):
     )
     omath(p, [_msub('q', 'k')])
     p.add_run(
-        ' denote the volume of compute purchased by consuming country '
+        ' denote the volume of compute purchased by buyer '
     )
     omath(p, [_v('k')])
     p.add_run(
-        '. Rather than relying on GDP as a proxy, the paper measures compute demand '
-        'using installed data center capacity in megawatts (MW), compiled from industry sources:'
+        '. The paper measures compute demand '
+        'using installed data center capacity in megawatts (MW), compiled from industry sources as follows:'
     )
     p.paragraph_format.space_after = Pt(2)
 
@@ -1625,7 +1565,7 @@ def write_demand(doc, body, hmap, demand_data):
         _msub('M', 'k'), _t(' / '),
         _nary('\u2211', [_v("k\u2032")], [],
               [_msub('M', "k\u2032")]), _t(','),
-    ], eq_num='4')
+    ], eq_num='3')
 
     p, cur = mkp(doc, body, cur)
     p.add_run('where ')
@@ -1640,12 +1580,17 @@ def write_demand(doc, body, hmap, demand_data):
     omath(p, [_v('k')])
     p.add_run(
         '\u2019s share of global demand, measured by its share of installed data center '
-        'capacity (MW). Installed capacity is preferable to GDP as a demand proxy because '
-        'compute consumption is driven by data center infrastructure, not aggregate income. '
-        'Ireland and the Netherlands, for example, host far more capacity per capita than '
-        'their GDP shares would predict, while large economies like India and Brazil '
-        'account for modest shares of global data center power. '
-        'Since all results below depend only on demand '
+        'capacity (MW).'
+    )
+    make_footnote(p,
+                  'Installed capacity is preferable to GDP as a demand proxy because '
+                  'compute consumption is driven by data center infrastructure, not aggregate '
+                  'income. Ireland and the Netherlands, for example, host far more capacity '
+                  'per capita than their GDP shares would predict, while large economies like '
+                  'India and Brazil account for modest shares of global data center power.',
+                  20)
+    p.add_run(
+        ' Since all results below depend only on demand '
     )
     add_italic(p, 'shares')
     p.add_run(
@@ -1668,25 +1613,21 @@ def write_demand(doc, body, hmap, demand_data):
     omath(p, [_v('\u03B1'), _t(' \u2208 (0, 1)')])
     p.add_run(
         ' is the exogenous training share. '
-        'The binary split between training and inference is a simplification. '
-        'Emerging workload categories, notably agentic inference (long-running, multi-step '
-        'reasoning tasks) and fine-tuning (rapid iterative retraining on proprietary data), '
-        'occupy a middle ground, tolerating moderate latency but requiring sustained GPU '
-        'allocation and proximity to data. The model\u2019s training share '
+        'The parameter '
     )
     omath(p, [_v('\u03B1')])
     p.add_run(
-        ' should therefore be interpreted as the share of compute that is fully '
-        'latency-insensitive and freely offshorable. The effective offshorable share may '
-        'be smaller as agentic and fine-tuning workloads grow. '
-        'Using installed capacity to proxy demand is a static assumption that measures where '
-        'compute demand currently sits, not where it will be as AI adoption grows. '
-        'Endogenizing demand, for instance proportional to GDP or digital adoption, '
-        'is a natural extension. The static specification is conservative in that '
-        'it assigns demand to countries that already have infrastructure, understating '
-        'export opportunities for low-cost producers that could serve future demand growth '
-        'in emerging markets.'
+        ' should be interpreted as the share of compute that is fully '
+        'latency-insensitive and freely offshorable; the effective offshorable share may '
+        'be smaller as intermediate workloads (agentic inference, fine-tuning) grow.'
     )
+    make_footnote(p,
+                  'Emerging workload categories, notably agentic inference (long-running, multi-step '
+                  'reasoning tasks) and fine-tuning (rapid iterative retraining on proprietary data), '
+                  'occupy a middle ground, tolerating moderate latency but requiring sustained GPU '
+                  'allocation and proximity to data. Using installed capacity to proxy demand is a '
+                  'static assumption; endogenizing demand, for instance proportional to GDP or digital '
+                  'adoption, is a natural extension.', 21)
 
 
 def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
@@ -1702,7 +1643,7 @@ def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
         'For each service type '
     )
     omath(p, [_v('s'), _t(' \u2208 {'), _v('T'), _t(', '), _v('I'), _t('}')])
-    p.add_run(', each consuming country ')
+    p.add_run(', each buyer ')
     omath(p, [_v('k')])
     p.add_run(' chooses the source that minimizes the delivered cost:')
     p.paragraph_format.space_after = Pt(2)
@@ -1712,9 +1653,22 @@ def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
         _t(') = '),
         _limlow([_t('arg min')], [_v('j')]),
         _t(' '), _msub('P', 's'), _t('('), _v('j'), _t(', '), _v('k'), _t(').'),
-    ], eq_num='5')
+    ], eq_num='4')
 
-    # Training market — import condition stated in prose, not as display equation
+    # Capacity ceiling — defined before training market (which references it)
+    p, cur = mkp(doc, body, cur)
+    p.add_run('Each country ')
+    omath(p, [_v('j')])
+    p.add_run(' is characterized by a capacity ceiling ')
+    omath(p, [_mbar_sub('K', 'j')])
+    p.add_run(
+        ', measured in GPU-hours per period, representing the maximum volume of compute '
+        'the country can supply. This ceiling reflects the joint constraint of grid '
+        'electricity availability, institutional capacity for data center permitting and '
+        'construction, and access to GPU financing.'
+    )
+
+    # Training market
     p, cur = mkp(doc, body, cur)
     add_italic(p, 'Training market. ')
     p.add_run('Since ')
@@ -1775,29 +1729,17 @@ def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
 
     _, cur = omath_display(doc, body, cur, [
         _msub('p', 'T'), _t(' = '), c_sub, _t('.'),
-    ], eq_num='6')
+    ], eq_num='5')
 
-    # Capacity ceiling (moved from Section 3.1)
+    # Rents and shadow value (K̄_j already defined before training market)
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Each country '
-    )
-    omath(p, [_v('j')])
-    p.add_run(
-        ' is characterized by a capacity ceiling '
-    )
-    omath(p, [_mbar_sub('K', 'j')])
-    p.add_run(
-        ', measured in GPU-hours per period, representing the maximum volume of compute '
-        'the country can supply. This ceiling reflects the joint constraint of grid '
-        'electricity availability, institutional capacity for data center permitting and '
-        'construction, and access to GPU financing. '
         'Without capacity constraints, '
     )
     omath(p, [_msub('m', 'T'), _t(' = 1')])
     p.add_run(
         ' and the cheapest country serves all demand at its own cost, earning zero rent. '
-        'With binding capacity constraints on cheap producers, '
+        'With binding capacity constraints, '
     )
     omath(p, [_msub('m', 'T'), _t(' > 1')])
     p.add_run(
@@ -1823,7 +1765,7 @@ def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
     omath(p, [_msub('\u03C4', 'I'), _t(' = '), _v('\u03C4'), _t(' > 0')])
     p.add_run(
         ', inference suffers distance-dependent quality degradation. '
-        'The inference market for demand center '
+        'The inference market for buyer '
     )
     omath(p, [_v('k')])
     p.add_run(
@@ -1832,41 +1774,37 @@ def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
     omath(p, [_msub('l', 'jk'), _t(' \u2264 '), _mbar('l')])
     p.add_run(
         ' can participate, and each faces a different delivered cost. '
-        'The FOB-equivalent inference price for demand center '
+        'The delivered inference price for buyer '
     )
     omath(p, [_v('k')])
     p.add_run(' is:')
     p.paragraph_format.space_after = Pt(2)
 
-    # Build l_{m_I(k),k} and c_{m_I(k)} with proper nesting
-    # m_I subscript element (reusable pattern)
-    # l subscripted with (m_I(k), k)
+    # Build l_{m_I(k), k} and c_{m_I(k)} with (k) INSIDE the subscript
+    # l subscripted with "m_I(k), k"
     l_sub = OxmlElement('m:sSub')
     l_sub.append(OxmlElement('m:sSubPr'))
-    l_e = OxmlElement('m:e')
-    l_e.append(_mr('l', True))
-    l_sub.append(l_e)
+    l_e = OxmlElement('m:e'); l_e.append(_mr('l', True)); l_sub.append(l_e)
     l_s = OxmlElement('m:sub')
     l_s.append(_msub('m', 'I'))
+    l_s.append(_mr('(', False)); l_s.append(_mr('k', True)); l_s.append(_mr('),\u2009', False))
+    l_s.append(_mr('k', True))
     l_sub.append(l_s)
 
-    # c subscripted with m_I(k)
+    # c subscripted with "m_I(k)"
     c_sub2 = OxmlElement('m:sSub')
     c_sub2.append(OxmlElement('m:sSubPr'))
-    c_e2 = OxmlElement('m:e')
-    c_e2.append(_mr('c', True))
-    c_sub2.append(c_e2)
+    c_e2 = OxmlElement('m:e'); c_e2.append(_mr('c', True)); c_sub2.append(c_e2)
     c_s2 = OxmlElement('m:sub')
     c_s2.append(_msub('m', 'I'))
+    c_s2.append(_mr('(', False)); c_s2.append(_mr('k', True)); c_s2.append(_mr(')', False))
     c_sub2.append(c_s2)
 
     _, cur = omath_display(doc, body, cur, [
         _msubsup('p', 'I', 'f'), _t('('), _v('k'), _t(') = (1 + '),
         _v('\u03C4'), _t(' \u00b7 '), l_sub,
-        _t('('), _v('k'), _t('), '), _v('k'),
-        _t(') \u00b7 '), c_sub2,
-        _t('('), _v('k'), _t('),'),
-    ], eq_num='7')
+        _t(') \u00b7 '), c_sub2, _t(','),
+    ], eq_num='6')
 
     p, cur = mkp(doc, body, cur)
     p.add_run('where ')
@@ -1992,8 +1930,8 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     r = p.add_run('Proposition 3 (Sovereignty Switching Threshold). ')
     r.bold = True
     p.add_run(
-        'A country will bear the extra cost of domestic AI training only if its sovereignty '
-        'premium is large enough to justify the price gap with cheaper foreign producers. '
+        'A country will bear the additional cost of domestic AI training only if its sovereignty '
+        'premium is large enough to justify the price premium over cheaper foreign producers. '
         'Formally, country '
     )
     omath(p, [_v('k')])
@@ -2013,8 +1951,8 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     omath(p, [_msub('p', 'T'), _t(' > '), _msub('c', '(1)')])
     p.add_run(
         ', so the threshold is lower than in the unconstrained model. '
-        'Capacity constraints lower the sovereignty premium needed for domestic production '
-        'because the higher world price makes imports more expensive.'
+        'Capacity constraints reduce the sovereignty premium required for domestic production '
+        'because a higher world price makes imports more expensive.'
     )
 
     # Proposition 4: Shadow value
@@ -2056,7 +1994,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         '. For inference to proximate demand centers, this cost advantage dominates '
         'the latency markup, so the same country wins the inference competition. '
         'Since training has no distance penalty while inference does, every country '
-        'that exports training is also competitive in inference for its geographic '
+        'that exports training is also competitive in inference within its geographic'
         'neighborhood, but not vice versa.'
     )
 
@@ -2072,24 +2010,12 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         ' per unit above the competitive price) and an allocative inefficiency '
         '(countries with '
     )
-    omath(p, [_msub('c', 'k'), _t(' \u2208 ('), _msub('p', 'T'), _t(', (1 + '),
-              _v('\u03BB'), _t(') \u00b7 '), _msub('p', 'T'), _t(']')])
+    omath(p, [_msub('p', 'T'), _t(' < '), _msub('c', 'k'),
+              _t(' \u2264 (1 + '), _v('\u03BB'), _t(') \u00b7 '), _msub('p', 'T')])
     p.add_run(
         ' produce domestically at above-world-price costs). '
         'Under capacity constraints, both components are smaller than in the unconstrained '
         'model because the higher world price narrows the gap between domestic and import costs.'
-    )
-
-    # Spillover
-    p, cur = mkp(doc, body, cur, space_before=6)
-    add_italic(p, 'Demand spillover. ')
-    p.add_run(
-        'When a low-cost exporter hits its capacity ceiling, excess demand spills to the '
-        'next cheapest feasible supplier. This cascade mechanism generates a distinctive '
-        'pattern in which countries that would be excluded from the export market in the '
-        'unconstrained model become second-tier exporters when cheaper countries are '
-        'capacity-constrained, providing a theoretical foundation for mid-cost countries '
-        'capturing meaningful export shares.'
     )
 
 
@@ -2149,7 +2075,7 @@ def write_data_section(doc, body, hmap, demand_data):
                   'which translates to \u00b1$0.02/hr in total cost (1.5\u20132% of the mean).', 12)
     p.add_run(
         ' Costs are amortized over 15 years. The per-GPU construction cost in '
-        'equation (2) equals 700 W (the GPU thermal design power) times the build cost per watt.'
+        'equation (1) equals 700 W (the GPU thermal design power) times the build cost per watt.'
     )
 
     p, cur = mkp(doc, body, cur)
@@ -2233,7 +2159,7 @@ def write_data_section(doc, body, hmap, demand_data):
     p.add_run('The reliability index ')
     omath(p, [_msub('\u03BE', 'j')])
     p.add_run(
-        ' from equation (2a) is constructed as the product of three normalized scores '
+        ' from equation (2) is constructed as the product of three normalized scores '
         'for governance quality (World Bank Worldwide Governance Indicators, Rule of Law '
         'percentile, rescaled to [0, 1]), grid reliability (inverse of hours without electricity '
         'per firm per year, from the World Bank Enterprise Surveys), and '
@@ -2246,7 +2172,16 @@ def write_data_section(doc, body, hmap, demand_data):
     )
     omath(p, [_msub('\u03BE', 'j'), _t(' = 0.50')])
     p.add_run(
-        '. Developing countries with weak grids and governance fall in between.'
+        '. Developing countries with weak grids and governance fall in between. '
+        'Note that even countries with '
+    )
+    omath(p, [_msub('\u03BE', 'j'), _t(' \u2248 1')])
+    p.add_run(
+        ' can shift in rank after reliability adjustment: penalizing low-\u03BE '
+        'competitors pushes them down, mechanically raising higher-\u03BE countries. '
+        'Moreover, \u03BE ranges from 0.95 to 1.00 even within the OECD, and the tight '
+        'cross-country cost spread (\u224820%) means small reliability differences '
+        'reshuffle adjacent ranks.'
     )
 
     # Demand data paragraph
@@ -2259,7 +2194,7 @@ def write_data_section(doc, body, hmap, demand_data):
     omath(p, [_msub('q', 'k')])
     p.add_run(
         ' is proxied by installed data center capacity in MW, '
-        'as specified in equation (4). '
+        'as specified in equation (3). '
         'For the top 15 markets, capacity estimates come from industry reports '
         '(Synergy Research, Cushman & Wakefield, CBRE, Mordor Intelligence). '
         'For smaller markets, capacity is estimated from facility counts and regional averages. '
@@ -2275,10 +2210,10 @@ def write_data_section(doc, body, hmap, demand_data):
         'and IEA (2025) data confirm that China accounts for roughly 25% of global data center electricity '
         'consumption versus 44% for the United States. '
     )
-    p._element.append(make_bookmark(103, 'TableA1txt'))
-    p._element.append(make_hyperlink('TableA1', 'Table A1'))
+    p._element.append(make_bookmark(103, 'Table1txt'))
+    p._element.append(make_hyperlink('Table1', 'Table 1'))
     p._element.append(make_bookmark_end(103))
-    p.add_run(' in the Appendix reports the capacity estimates for all countries.')
+    p.add_run(' reports all model parameters.')
 
 
 def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_sov, demand_data):
@@ -2308,7 +2243,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
     omath(p, [_v('j')])
     p.add_run(
         ', measured in dollars per GPU-hour ($/hr). '
-        'The PUE parameters in equation (1) are calibrated as follows. The baseline '
+        'The PUE parameters are calibrated as follows. The baseline '
     )
     omath(p, [_v('\u03C6'), _t(' = 1.08')])
     p.add_run(
@@ -2459,7 +2394,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Trade flows under capacity constraints. ')
     p.add_run(
-        'Weighting the sourcing patterns by demand shares from equation (4) and applying '
+        'Weighting the sourcing patterns by demand shares from equation (3) and applying '
         'capacity constraints from Section 3.4, the equilibrium training price is '
     )
     omath(p, [_msub('p', 'T'), _t(f' = ${p_T_val:.2f}')])
@@ -2637,7 +2572,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
     )
     omath(p, [_msub('\u03BE', 'j')])
     p.add_run(
-        ' from equation (2a) formalizes these factors. '
+        ' in equation (2) formalizes these factors. '
         'Dividing each country\u2019s engineering cost by its reliability score yields '
         'the effective cost '
     )
@@ -2666,6 +2601,10 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
             'so governance quality can easily dominate the cost ranking. '
             'Engineering cost advantage is therefore necessary but not sufficient for FLOP exporting. '
         )
+    p._element.append(make_bookmark(121, 'Figure1txt'))
+    p._element.append(make_hyperlink('Figure1', 'Figure 1'))
+    p._element.append(make_bookmark_end(121))
+    p.add_run(' illustrates the resulting rank reshuffling. ')
     p.add_run(
         'Taken together, these governance factors suggest that viable compute exporters '
         'are a strict subset of low-cost producers\u2014those that combine cheap energy '
@@ -2785,36 +2724,12 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
             f'Across {_num_word(n_scenarios)} scenarios\u2014electricity prices '
             '\u00b1$0.01/kWh, GPU price \u00b120%, and PUE capped '
             f'at 1.20\u2014the Spearman rank correlation with the baseline never falls below '
-            f'{min_rho:.3f}. '
-            f'The top five cheapest countries are unchanged in '
-            f'{_num_word(n_top5_same)} of {_num_word(n_scenarios)} scenarios. '
-            f'The training price shifts by at most ${max_pT_shift:.3f}/hr. '
-            'The reason is straightforward\u2014hardware amortization accounts for approximately '
-            '94 percent of total cost and is identical for all countries. Only the electricity '
-            'and construction components vary cross-country, and their combined share is too '
-            'small for plausible perturbations to overturn the ordering.'
+            f'{min_rho:.3f}, '
+            f'the top five cheapest countries are unchanged in '
+            f'{_num_word(n_top5_same)} of {_num_word(n_scenarios)} scenarios, '
+            f'and the training price shifts by at most ${max_pT_shift:.3f}/hr. '
+            'Table A3 in Appendix C reports the full results.'
         )
-        # Build sensitivity detail string for appendix
-        fn_lines = 'Sensitivity scenarios and parameter values. '
-        fn_parts = []
-        for s in non_baseline:
-            kw = s["kwargs"]
-            parts = []
-            if "p_E_delta" in kw:
-                parts.append(f'electricity {"+" if kw["p_E_delta"] > 0 else ""}{kw["p_E_delta"]:.2f} $/kWh')
-            if "gpu_price" in kw:
-                parts.append(f'GPU price ${kw["gpu_price"]:,}')
-            if "gpu_util" in kw:
-                parts.append(f'utilization {kw["gpu_util"]:.0%}')
-            if "pue_cap" in kw:
-                parts.append(f'PUE cap {kw["pue_cap"]:.2f}')
-            param_str = ', '.join(parts)
-            fn_parts.append(
-                f'{s["label"]} ({param_str}, '
-                f'\u03c1 = {s["rank_corr"]:.4f}, p_T = ${s["p_T"]:.3f}/hr)'
-            )
-        fn_lines += '. '.join(fn_parts) + '.'
-        demand_data["sensitivity_detail"] = fn_lines
 
     # Model extensions (condensed to 1 paragraph)
     p, cur = mkp(doc, body, cur, space_before=6)
@@ -2877,19 +2792,20 @@ def write_conclusion(doc, body, hmap, demand_data):
     p.add_run(
         'This paper develops a capacity-constrained Ricardian model for trade in computing '
         'services (FLOPs) in which countries produce and export computing capacity based on '
-        'their electricity prices, climate, and construction costs. The model distinguishes '
+        'their energy resource endowments\u2014reflected in electricity prices\u2014climate, '
+        'and construction costs. The model distinguishes '
         'two service types, latency-insensitive training and latency-sensitive inference, and '
         'introduces a sovereignty premium to capture governments\u2019 preference for domestic '
-        'data processing. Capacity ceilings transform the classical Ricardian assignment into '
-        'a framework with market-clearing prices and Ricardian rents. '
+        'data processing. Capacity ceilings transform the classical cost-based assignment into '
+        'a framework with market-clearing prices and scarcity rents. '
         'The paper calibrates the model for 86 countries using data on electricity '
         'prices, temperatures, construction costs, bilateral latencies, and grid capacity.'
     )
 
     p, cur_concl = mkp(doc, body, cur_concl)
     p.add_run(
-        'Across 86 countries, cheap-energy peripheries serve as FLOP exporters for training, '
-        'while inference organizes into regional hubs bounded by latency. '
+        'Across 86 countries, low-energy-cost countries export training compute, '
+        'while inference is served by regional hubs close enough to users to meet latency requirements. '
         'The sovereignty premium rationalizes widespread domestic investment, shifting '
         'the majority of countries from import to domestic production, '
         f'at a demand-weighted welfare cost of {demand_data["welfare_pct"]:.1f}% of '
@@ -2907,11 +2823,13 @@ def write_conclusion(doc, body, hmap, demand_data):
     p.add_run(
         'For developing countries, the results point to a new avenue for economic participation '
         'in the global economy. Countries like Kyrgyzstan, Uzbekistan, and Egypt, which rank '
-        'among the cheapest FLOP producers in the calibration, could convert cheap electricity '
-        'into a high-value digital export without building a domestic AI research ecosystem. '
+        'among the cheapest FLOP producers in the calibration, could leverage their energy '
+        'resource endowments\u2014hydropower, natural gas, and solar irradiance\u2014to convert '
+        'cheap electricity into a high-value digital export without building a domestic AI '
+        'research ecosystem. '
         'FLOP exporting is the digital equivalent of resource-based industrialization, but '
-        'with the advantage that the \u201Cresource\u201D (electricity) need not deplete a finite '
-        'reserve and the product '
+        'with the advantage that the underlying resource (electricity) need not deplete a '
+        'finite reserve and the product '
         '(compute) serves the fastest-growing sector of the world economy. '
         'That said, the resource curse literature (van der Ploeg 2011) cautions that '
         'concentrated export revenues can produce Dutch disease, institutional degradation, '
@@ -2922,9 +2840,11 @@ def write_conclusion(doc, body, hmap, demand_data):
 
     p, _ = mkp(doc, body, cur_concl)
     p.add_run(
-        'The policy implications are asymmetric. Restricting training imports raises costs '
-        'without a proximity benefit, since training is latency-insensitive. Supporting domestic '
-        'inference has a genuine latency rationale, but is less justified for countries close '
+        'The policy implications are asymmetric across training and inference. '
+        'Training workloads tolerate high latency, so restricting training imports '
+        'raises costs without offsetting proximity gains. '
+        'Inference, by contrast, is latency-sensitive, giving domestic production a genuine '
+        'quality-of-service advantage\u2014though this rationale weakens for countries close '
         'to low-cost neighbors. For developing countries seeking to enter the compute export '
         'market, the binding constraints are not technological but institutional. '
         'Reliable power grids, political stability, data governance frameworks, '
@@ -2933,7 +2853,7 @@ def write_conclusion(doc, body, hmap, demand_data):
 
 
 def write_appendix(doc, body, last_ref_el, eca_cal, non_eca_cal, reg, demand_data):
-    print("Inserting Appendix (Tables A1\u2013A2)...")
+    print("Inserting Appendix (Table A2)...")
 
     # ─── Portrait section break (ends portrait section, next page stays portrait) ───
     sep = doc.add_paragraph()
@@ -2963,240 +2883,14 @@ def write_appendix(doc, body, last_ref_el, eca_cal, non_eca_cal, reg, demand_dat
     # Appendix heading (portrait page)
     cur_app = mkh(doc, body, sep_el, 'Appendix', level=1)
 
-    # ═══════════════════════════════════════════════════════════════════════
-    # TABLE A1: MODEL PARAMETERS (portrait, 5 columns)
-    # ═══════════════════════════════════════════════════════════════════════
-    print("Inserting Table A1 (Model parameters, portrait)...")
-
-    # Table A1 title with bookmark + back-link
-    tp1 = doc.add_paragraph()
-    tp1.paragraph_format.space_before = Pt(6)
-    tp1.paragraph_format.space_after = Pt(3)
-    tp1.paragraph_format.first_line_indent = Inches(0)
-    tp1._element.append(make_bookmark(110, 'TableA1'))
-    hl_a1 = OxmlElement('w:hyperlink')
-    hl_a1.set(qn('w:anchor'), 'TableA1txt')
-    hl_a1.set(qn('w:history'), '1')
-    r_a1 = OxmlElement('w:r')
-    rPr_a1 = OxmlElement('w:rPr')
-    b_a1 = OxmlElement('w:b')
-    rPr_a1.append(b_a1)
-    sz_a1 = OxmlElement('w:sz')
-    sz_a1.set(qn('w:val'), '20')
-    rPr_a1.append(sz_a1)
-    clr_a1 = OxmlElement('w:color')
-    clr_a1.set(qn('w:val'), LINK_COLOR)
-    uu_a1 = OxmlElement('w:u')
-    uu_a1.set(qn('w:val'), 'single')
-    rPr_a1.append(clr_a1)
-    rPr_a1.append(uu_a1)
-    r_a1.append(rPr_a1)
-    t_a1 = OxmlElement('w:t')
-    t_a1.text = 'Table A1'
-    r_a1.append(t_a1)
-    hl_a1.append(r_a1)
-    tp1._element.append(hl_a1)
-    tp1._element.append(make_bookmark_end(110))
-    run_tt1 = tp1.add_run('. Model parameters')
-    run_tt1.bold = True
-    run_tt1.font.size = Pt(10)
-    tp1_el = tp1._element
-    body.remove(tp1_el)
-    cur_app.addnext(tp1_el)
-
-    # Load parameters from CSV
-    param_rows = []
-    with open(DATA / "model_parameters.csv", encoding="utf-8") as f:
-        for row in csv.DictReader(f):
-            param_rows.append(row)
-
-    # Map CSV symbol names to display symbols (Unicode)
-    _sym_map = {
-        'gamma': '\u03B3', 'P_GPU': 'P\u1d33\u1d18\u1d1c', 'L': 'L',
-        'beta': '\u03B2', 'H': 'H', 'rho': '\u03C1', 'eta': '\u03B7',
-        'phi': '\u03C6', 'delta': '\u03B4', 'theta_bar': '\u03B8\u0304',
-        'D': 'D', 'tau': '\u03C4', 'lambda': '\u03BB', 'alpha': '\u03B1',
-        'Q': 'Q', 'xi_j': '\u03BE\u2C7C',
-    }
-
-    # Map source text to reference bookmark keys
-    _source_to_bm = {
-        'NVIDIA (2024)': 'NVIDIA2024',
-        'Barroso et al. (2018)': 'Barroso2018',
-        'Liu et al. (2023)': 'Liu2023',
-        'Flucker et al. (2013)': 'Flucker2013',
-        'Turner and Townsend (2025)': 'TurnerTownsend2025',
-        'UNCTAD (2025)': 'UNCTAD2025',
-        'Deloitte (2025)': 'Deloitte2025',
-        'Epoch AI (2024)': 'EpochAI2024',
-        'Google (2024)': None,
-        'WGI and Enterprise Surveys': 'WorldBank2024',
-    }
-
-    # 5-column table: Parameter | Symbol | Equation | Value | Source
-    n_params = len(param_rows)
-    param_tbl = doc.add_table(rows=n_params + 1, cols=5)
-    param_tbl.style = 'Table Grid'
-    param_tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
-    # AutoFit to window
-    tblPr_a1 = param_tbl._tbl.find(qn('w:tblPr'))
-    if tblPr_a1 is None:
-        tblPr_a1 = OxmlElement('w:tblPr')
-        param_tbl._tbl.insert(0, tblPr_a1)
-    # Remove all borders
-    old_bdr_a1 = tblPr_a1.find(qn('w:tblBorders'))
-    if old_bdr_a1 is not None:
-        tblPr_a1.remove(old_bdr_a1)
-    tblBorders_a1 = OxmlElement('w:tblBorders')
-    for side in ('top', 'left', 'bottom', 'right', 'insideH', 'insideV'):
-        b = OxmlElement(f'w:{side}')
-        b.set(qn('w:val'), 'none')
-        b.set(qn('w:sz'), '0')
-        b.set(qn('w:space'), '0')
-        b.set(qn('w:color'), 'auto')
-        tblBorders_a1.append(b)
-    tblPr_a1.append(tblBorders_a1)
-    tblW_a1 = tblPr_a1.find(qn('w:tblW'))
-    if tblW_a1 is None:
-        tblW_a1 = OxmlElement('w:tblW')
-        tblPr_a1.append(tblW_a1)
-    tblW_a1.set(qn('w:w'), TABLE_WIDTH_PCT)
-    tblW_a1.set(qn('w:type'), 'pct')
-
-    # Column widths (portrait: ~6.5 inches usable)
-    _pcw = [Inches(2.3), Inches(0.6), Inches(0.6), Inches(1.0), Inches(2.0)]
-    _pcw_labels = ['Parameter', 'Symbol', 'Eq.', 'Value', 'Source']
-
-    def _cell_border_a1(tc, sides, style='single'):
-        tcPr = tc.get_or_add_tcPr()
-        tcB = OxmlElement('w:tcBorders')
-        for s in sides:
-            b = OxmlElement(f'w:{s}')
-            b.set(qn('w:val'), style)
-            b.set(qn('w:sz'), '4')
-            b.set(qn('w:space'), '0')
-            b.set(qn('w:color'), 'auto')
-            tcB.append(b)
-        tcPr.append(tcB)
-
-    # Header row
-    for j, lbl in enumerate(_pcw_labels):
-        cell = param_tbl.rows[0].cells[j]
-        cell.text = ''
-        p_h = cell.paragraphs[0]
-        p_h.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        rh = p_h.add_run(lbl)
-        rh.bold = True
-        rh.font.size = Pt(8.5)
-        cell.width = _pcw[j]
-        _cell_border_a1(cell._tc, ['top', 'bottom'])
-
-    # Data rows
-    for i, pr in enumerate(param_rows):
-        sym_display = _sym_map.get(pr['symbol'], pr['symbol'])
-        val_str = pr['value']
-        if pr['unit']:
-            val_str = f"{val_str} {pr['unit']}"
-        if pr['symbol'] == 'P_GPU':
-            val_str = f"${int(float(pr['value'])):,}"
-        elif pr['symbol'] == 'rho':
-            val_str = f"${RHO:.2f}/hr"
-        elif pr['symbol'] == 'eta':
-            val_str = f"${ETA:.2f}/hr"
-        elif pr['symbol'] == 'Q':
-            val_str = "6\u00d710\u00b9\u2070 GPU-hr/yr"
-
-        eq_str = pr.get('equation', '')
-        src_text = pr['source']
-        src_bm = _source_to_bm.get(src_text)
-
-        row_data = [pr['description'], sym_display, eq_str, val_str]
-        for j, txt in enumerate(row_data):
-            cell = param_tbl.rows[i + 1].cells[j]
-            cell.text = ''
-            p_c = cell.paragraphs[0]
-            if j == 0:
-                p_c.alignment = WD_ALIGN_PARAGRAPH.LEFT
-            else:
-                p_c.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            rc = p_c.add_run(txt)
-            rc.font.size = Pt(8)
-            cell.width = _pcw[j]
-
-        # Source column (column 4) — with hyperlink to reference if available
-        src_cell = param_tbl.rows[i + 1].cells[4]
-        src_cell.text = ''
-        src_p = src_cell.paragraphs[0]
-        src_p.alignment = WD_ALIGN_PARAGRAPH.LEFT
-        src_cell.width = _pcw[4]
-        if src_bm and src_text:
-            # Create hyperlink to reference
-            rPr_src = OxmlElement('w:rPr')
-            sz_src = OxmlElement('w:sz')
-            sz_src.set(qn('w:val'), '16')  # 8pt
-            rPr_src.append(sz_src)
-            hl_src = make_hyperlink(src_bm, src_text, rPr_orig=rPr_src)
-            src_p._element.append(hl_src)
-        elif src_text:
-            rc_src = src_p.add_run(src_text)
-            rc_src.font.size = Pt(8)
-
-        # Double bottom border on last row
-        if i == n_params - 1:
-            for j in range(5):
-                _cell_border_a1(param_tbl.rows[i + 1].cells[j]._tc, ['bottom'], style='double')
-
-    # Cell spacing
-    for row in param_tbl.rows:
-        for cell in row.cells:
-            for pp in cell.paragraphs:
-                pPr = pp._element.get_or_add_pPr()
-                sp = OxmlElement('w:spacing')
-                sp.set(qn('w:before'), '10')
-                sp.set(qn('w:after'), '10')
-                pPr.append(sp)
-
-    param_tbl_el = param_tbl._tbl
-    body.remove(param_tbl_el)
-    tp1_el.addnext(param_tbl_el)
-
-    # Table A1 notes
-    note_a1 = doc.add_paragraph()
-    note_a1.paragraph_format.space_before = Pt(4)
-    note_a1.paragraph_format.space_after = Pt(6)
-    note_a1.paragraph_format.first_line_indent = Inches(0)
-    note_a1.paragraph_format.line_spacing = 1.0
-    rn1 = note_a1.add_run('Notes: ')
-    rn1.bold = True
-    rn1.font.size = Pt(7.5)
-    rn1 = note_a1.add_run(
-        'Hardware cost \u03C1 = P\u1d33\u1d18\u1d1c / (L \u00b7 H \u00b7 \u03B2). '
-        'PUE(\u03B8) = \u03C6 + \u03B4 \u00b7 max(0, \u03B8 \u2212 \u03B8\u0304). '
-        'RTT = round-trip time, the network delay for a data packet to travel from '
-        'client to server and back, measured in milliseconds. '
-        'The reliability index \u03BE\u2C7C combines governance quality, grid reliability, '
-        'and sanctions exposure (equation 2a). '
-        'The baseline calibration sets \u03BE\u2C7C = 1 for all countries.'
-    )
-    rn1.font.size = Pt(7.5)
-    # Sensitivity scenario detail (moved from footnote)
-    sens_detail = demand_data.get("sensitivity_detail", "")
-    if sens_detail:
-        rn_sens = note_a1.add_run(' ' + sens_detail)
-        rn_sens.font.size = Pt(7.5)
-    note_a1_el = note_a1._element
-    body.remove(note_a1_el)
-    param_tbl_el.addnext(note_a1_el)
-
-    # Empty paragraph after notes (hard return)
+    # ─── Portrait section break (ends portrait for landscape Table A2) ───
     hr_a1 = doc.add_paragraph()
     hr_a1.paragraph_format.space_before = Pt(0)
     hr_a1.paragraph_format.space_after = Pt(0)
     hr_a1_el = hr_a1._element
     body.remove(hr_a1_el)
-    note_a1_el.addnext(hr_a1_el)
+    cur_app.addnext(hr_a1_el)
 
-    # ─── Portrait section break (on empty paragraph, ends portrait for landscape A2) ───
     sect_a1_end = OxmlElement('w:sectPr')
     pg_sz_a1 = OxmlElement('w:pgSz')
     pg_sz_a1.set(qn('w:w'), '12240')
@@ -3340,10 +3034,10 @@ def write_appendix(doc, body, last_ref_el, eca_cal, non_eca_cal, reg, demand_dat
         'Countries sorted by cost-recovery adjusted rank (ascending). '
         'p\u1d31 = national electricity price for industrial/data center consumers ($/kWh). '
         '\u03B8\u2c7c = peak summer temperature (\u00b0C). '
-        'PUE = Power Usage Effectiveness from equation (1). '
+        'PUE = Power Usage Effectiveness. '
         'Constr. = predicted data center construction cost ($/W of IT load). '
         'k\u0304\u2c7c = installed data center power capacity (MW). '
-        '\u03C9\u2c7c = country share of global compute demand from equation (4). '
+        '\u03C9\u2c7c = country share of global compute demand from equation (3). '
         '\u03BE\u2c7c = reliability index combining governance quality, grid reliability, '
         'and sanctions exposure. '
         'c\u2c7c = total hourly cost of operating one H100 GPU (electricity + '
@@ -3352,7 +3046,7 @@ def write_appendix(doc, body, last_ref_el, eca_cal, non_eca_cal, reg, demand_dat
         'For 13 countries with subsidized tariffs, this is the estimated long-run marginal cost '
         'of electricity generation (shown in bold). '
         'For all other countries, the cost-recovery price equals the observed tariff. '
-        'Regime = optimal sourcing strategy from equation (5) without sovereignty premium.'
+        'Regime = optimal sourcing strategy from equation (4) without sovereignty premium.'
     )
     rn.font.size = Pt(7.5)
     note_a2_el = note_a2._element
@@ -3394,7 +3088,8 @@ def write_model_appendix(doc, body, last_note):
     """Appendix B: Full model derivation from flops_capacity_model.md."""
     print("Inserting Appendix B (Model Derivation)...")
 
-    cur = mkh(doc, body, last_note, 'Appendix B: Model Derivation', level=1)
+    pb = add_page_break(doc, body, last_note)
+    cur = mkh(doc, body, pb, 'Appendix B: Model Derivation', level=1)
 
     p, cur = mkp(doc, body, cur)
     p.add_run(
@@ -3417,12 +3112,12 @@ def write_model_appendix(doc, body, last_note):
     p.add_run(' faces unit production cost ')
     omath(p, [_msub('c', 'j')])
     p.add_run(
-        ' from equation (2). On the demand side, total compute demand from country '
+        ' from equation (1). On the demand side, total compute demand from country '
     )
     omath(p, [_v('k')])
     p.add_run(' is ')
     omath(p, [_msub('q', 'k')])
-    p.add_run(' from equation (4). Training demand is ')
+    p.add_run(' from equation (3). Training demand is ')
     omath(p, [_msub('q', 'Tk'), _t(' = '), _v('\u03B1'), _t(' \u00b7 '), _msub('q', 'k')])
     p.add_run(' and inference demand is ')
     omath(p, [_msub('q', 'Ik'), _t(' = (1 \u2212 '), _v('\u03B1'), _t(') \u00b7 '), _msub('q', 'k')])
@@ -3614,10 +3309,741 @@ def write_model_appendix(doc, body, last_note):
     return cur
 
 
+def write_sensitivity_appendix(doc, body, last_el, demand_data):
+    """Appendix C: Sensitivity Analysis with Table A3."""
+    print("Inserting Appendix C (Sensitivity Analysis)...")
+
+    pb = add_page_break(doc, body, last_el)
+    cur = mkh(doc, body, pb, 'Appendix C: Sensitivity Analysis', level=1)
+
+    sens = demand_data.get("sensitivity", [])
+    if not sens:
+        return cur
+
+    baseline = sens[0]
+    non_baseline = sens[1:]
+
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'Table A3 reports equilibrium outcomes under five parameter perturbations. '
+        'Rankings are robust because hardware amortization accounts for approximately '
+        '94 percent of total cost and is identical across countries. '
+        'Only the electricity and construction components vary cross-country, and '
+        'their combined share is too small for plausible perturbations to overturn the ordering.'
+    )
+
+    # --- Build parameter-change description for each scenario ---
+    def _param_change(kw):
+        parts = []
+        if "p_E_delta" in kw:
+            d = kw["p_E_delta"]
+            sign = '+' if d > 0 else '\u2212'
+            parts.append(f'All electricity prices {sign}${abs(d):.2f}/kWh')
+        if "gpu_price" in kw:
+            gp = kw["gpu_price"]
+            pct = (gp - GPU_PRICE) / GPU_PRICE * 100
+            parts.append(f'GPU unit price ${gp:,} ({pct:+.0f}% from ${GPU_PRICE:,})')
+        if "pue_cap" in kw:
+            parts.append(f'PUE capped at {kw["pue_cap"]:.2f} for all countries')
+        if "gpu_util" in kw:
+            parts.append(f'GPU utilization set to {kw["gpu_util"]:.0%}')
+        return '; '.join(parts) if parts else '\u2014'
+
+    headers = ['Scenario', 'Parameter change', 'p\u209c ($/hr)', 'Exporters',
+               'HHI', 'Spearman \u03c1', 'Top 5']
+    rows = []
+    for s in sens:
+        rows.append([
+            s["label"],
+            _param_change(s["kwargs"]) if s["kwargs"] else '\u2014',
+            f'${s["p_T"]:.3f}',
+            str(s["n_exporters"]),
+            f'{s["hhi_T"]:.4f}',
+            f'{s["rank_corr"]:.4f}',
+            'Same' if s["top5_unchanged"] else 'Changed',
+        ])
+
+    col_widths = [2200, 2600, 900, 800, 800, 900, 600]
+    tbl_el = add_table(
+        doc, body, cur, headers, rows, col_widths=col_widths,
+        title='Table A3. Sensitivity of equilibrium outcomes to parameter variation',
+    )
+
+    # Notes paragraph
+    note = doc.add_paragraph()
+    note.paragraph_format.space_before = Pt(2)
+    note.paragraph_format.space_after = Pt(0)
+    note.paragraph_format.first_line_indent = Inches(0)
+    rn = note.add_run(
+        'Notes: Each row re-solves the capacity-constrained equilibrium under the stated '
+        'parameter change. Spearman \u03c1 is the rank correlation of country-level training costs '
+        'with the baseline ordering. Top 5 indicates whether the five cheapest countries '
+        'remain the same set in the same order. HHI is the Herfindahl\u2013Hirschman Index '
+        'of export concentration.'
+    )
+    rn.font.size = Pt(7.5)
+    note_el = note._element
+    body.remove(note_el)
+    tbl_el.addnext(note_el)
+
+    return note_el
+
+
+def write_kyrgyzstan_appendix(doc, body, last_el):
+    """Appendix D: Data Center Investment Model — Kyrgyzstan."""
+    print("Inserting Appendix D (Kyrgyzstan DCF)...")
+
+    pb = add_page_break(doc, body, last_el)
+    cur = mkh(doc, body, pb, 'Appendix D: Data Center Investment Model \u2014 Kyrgyzstan', level=1)
+
+    # ── Parameters ────────────────────────────────────────────────────────
+    IT_MW = 40
+    PUE_KGZ = 1.08
+    TOTAL_MW = IT_MW * PUE_KGZ
+    LIFE = 15
+    GP = 25_000
+    G_LIFE = 3
+    G_UTIL = 0.70
+    G_TDP_W = 700
+    GPUS_MW = 1_000 / G_TDP_W * 1_000
+    N_GPU = int(IT_MW * GPUS_MW)
+    H = 365.25 * 24
+    NET_COST = 2_000
+    NET_LIFE = 5
+    P_ELEC = 0.038
+    P_CONSTR_W = 7.83
+    CONSTR = IT_MW * 1e6 * P_CONSTR_W
+    STAFF = 50 * 12_000
+    MAINT_PCT = 0.02
+    INS_PCT = 0.005
+    BW_COST = 2_400_000
+    REV_HR = 2.00
+    RAMP = {0: 0.0, 1: 0.40, 2: 0.60, 3: 0.70}
+    TAX_R = 0.10
+    GPU_DECLINE = 0.10
+    ELEC_ESC = 0.02
+
+    # WACC
+    RF = 0.05; CRP = 0.04; ERP = 0.06
+    COE = RF + CRP + ERP  # 15%
+    COD = 0.10; DSHARE = 0.40; ESHARE = 0.60
+    WACC = ESHARE * COE + DSHARE * COD * (1 - TAX_R)
+
+    # GPU refresh schedule
+    gpu_refresh = [1, 4, 7, 10, 13]
+    gpu_prices = [(yr, GP * (1 - GPU_DECLINE) ** i) for i, yr in enumerate(gpu_refresh)]
+    net_refresh = [1, 6, 11]
+
+    # ── Compute year-by-year ──────────────────────────────────────────────
+    years = list(range(0, LIFE + 1))
+    results = []
+    cum = 0
+    payback = None
+    for yr in years:
+        cx_c = CONSTR if yr == 0 else 0
+        cx_g = 0
+        for gy, gp in gpu_prices:
+            if yr == gy:
+                cx_g = N_GPU * gp
+        cx_n = N_GPU * NET_COST if yr in net_refresh else 0
+        cx = cx_c + cx_g + cx_n
+
+        if yr >= 1:
+            util = RAMP.get(yr, G_UTIL)
+            ep = P_ELEC * (1 + ELEC_ESC) ** (yr - 1)
+            ox_e = TOTAL_MW * 1_000 * H * ep
+            ox_s = STAFF * 1.03 ** (yr - 1)
+            ox_m = CONSTR * MAINT_PCT
+            gpu_val = 0
+            for gy, gp in reversed(gpu_prices):
+                if gy <= yr:
+                    gpu_val = N_GPU * gp * max(0, 1 - (yr - gy) / G_LIFE)
+                    break
+            ox_i = (CONSTR + gpu_val) * INS_PCT
+            ox_bw = BW_COST
+            ox = ox_e + ox_s + ox_m + ox_i + ox_bw
+            rev = N_GPU * H * util * REV_HR
+            depr_c = CONSTR / LIFE
+            depr_g = 0
+            for gy, gp in gpu_prices:
+                if gy <= yr < gy + G_LIFE:
+                    depr_g = N_GPU * gp / G_LIFE
+                    break
+            depr = depr_c + depr_g
+        else:
+            util = 0; ox = 0; rev = 0; depr = 0
+
+        ebitda = rev - ox
+        ebt = ebitda - depr
+        tax = max(0, ebt * TAX_R)
+        ni = ebt - tax
+        fcf = ni + depr - cx
+        cum += fcf
+        if payback is None and cum > 0 and yr >= 1:
+            payback = yr
+        results.append(dict(year=yr, capex=cx, revenue=rev, opex=ox,
+                            ebitda=ebitda, tax=tax, ni=ni, fcf=fcf, cum=cum))
+
+    fcf_s = [r['fcf'] for r in results]
+    npv = sum(f / (1 + WACC) ** y for f, y in zip(fcf_s, years))
+    lo, hi = -0.50, 2.0
+    for _ in range(200):
+        mid = (lo + hi) / 2
+        if sum(f / (1 + mid) ** y for f, y in zip(fcf_s, years)) > 0:
+            lo = mid
+        else:
+            hi = mid
+    irr = mid
+
+    tot_rev = sum(r['revenue'] for r in results)
+    tot_cx = sum(r['capex'] for r in results)
+    tot_ox = sum(r['opex'] for r in results)
+    tot_ni = sum(r['ni'] for r in results)
+    tot_elec = sum(TOTAL_MW * 1_000 * H * P_ELEC * (1 + ELEC_ESC) ** (y - 1)
+                   for y in range(1, LIFE + 1))
+    tot_gpu_cx = sum(N_GPU * gp for _, gp in gpu_prices)
+
+    # ── Intro paragraph ───────────────────────────────────────────────────
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'This appendix presents a 15-year discounted cash flow (DCF) analysis for a '
+        'hypothetical 40\u2009MW data center in Kyrgyzstan, the lowest-cost seller in the '
+        'cost-recovery-adjusted calibration. All parameters are drawn from the calibration '
+        'or from industry benchmarks.'
+    )
+
+    # ── Table A4: Facility specification ──────────────────────────────────
+    specs_rows = [
+        ['IT capacity', f'{IT_MW} MW'],
+        ['Total power (with cooling)', f'{TOTAL_MW:.1f} MW (PUE = {PUE_KGZ:.2f})'],
+        ['GPU count', f'{N_GPU:,} (H100-class, {G_TDP_W}W each)'],
+        ['GPU cost / lifetime', f'${GP:,} / {G_LIFE} yr (\u221210% per generation)'],
+        ['Construction cost', f'${CONSTR/1e6:.0f}M (${P_CONSTR_W:.2f}/W)'],
+        ['Electricity price', f'${P_ELEC:.3f}/kWh (+2%/yr real)'],
+        ['Revenue price', f'${REV_HR:.2f}/GPU-hr (wholesale)'],
+        ['Utilization', f'{G_UTIL:.0%} steady-state (40% yr 1, 60% yr 2)'],
+        ['WACC', f'{WACC:.1%}'],
+    ]
+    tbl_a4 = add_table(doc, body, cur, ['Parameter', 'Value'],
+                       specs_rows, col_widths=[3500, 5300],
+                       title='Table A4. Facility specification')
+
+    # WACC note
+    p = doc.add_paragraph()
+    p.paragraph_format.space_before = Pt(2)
+    p.paragraph_format.space_after = Pt(4)
+    p.paragraph_format.first_line_indent = Inches(0)
+    rn = p.add_run(
+        f'Notes: WACC = {ESHARE:.0%} \u00d7 {COE:.0%} (cost of equity) '
+        f'+ {DSHARE:.0%} \u00d7 {COD:.0%} \u00d7 (1 \u2212 {TAX_R:.0%}) (after-tax debt) '
+        f'= {WACC:.1%}. Cost of equity includes a {CRP:.0%} country risk premium and '
+        f'{ERP:.0%} emerging-market equity premium over the {RF:.0%} risk-free rate.'
+    )
+    rn.font.size = Pt(7.5)
+    wacc_el = p._element
+    body.remove(wacc_el)
+    tbl_a4.addnext(wacc_el)
+    cur = wacc_el
+
+    # ── Table A5: Year-by-year cash flow ──────────────────────────────────
+    cur = add_page_break(doc, body, cur)
+    cf_headers = ['Year', 'CAPEX', 'Revenue', 'OPEX', 'EBITDA', 'FCF', 'Cum.\u2009CF']
+    cf_rows = []
+    for r in results:
+        cf_rows.append([
+            str(r['year']),
+            f'{r["capex"]/1e6:.1f}',
+            f'{r["revenue"]/1e6:.1f}',
+            f'{r["opex"]/1e6:.1f}',
+            f'{r["ebitda"]/1e6:.1f}',
+            f'{r["fcf"]/1e6:.1f}',
+            f'{r["cum"]/1e6:.1f}',
+        ])
+    # Totals row
+    cf_rows.append([
+        'Total',
+        f'{tot_cx/1e6:.1f}',
+        f'{tot_rev/1e6:.1f}',
+        f'{tot_ox/1e6:.1f}',
+        f'{sum(r["ebitda"] for r in results)/1e6:.1f}',
+        f'{sum(r["fcf"] for r in results)/1e6:.1f}',
+        '',
+    ])
+    tbl_a5 = add_table(doc, body, cur, cf_headers, cf_rows,
+                       col_widths=[700, 1400, 1400, 1400, 1400, 1400, 1100],
+                       title='Table A5. Year-by-year cash flow ($ millions)')
+
+    # ── Key metrics paragraph ─────────────────────────────────────────────
+    p = doc.add_paragraph()
+    p.paragraph_format.space_before = Pt(6)
+    p.paragraph_format.space_after = Pt(4)
+    p.paragraph_format.first_line_indent = Inches(0)
+    p.add_run(
+        f'The project yields an NPV of ${npv/1e6:,.0f}M at a {WACC:.1%} WACC, '
+        f'an IRR of {irr:.1%}, and a simple payback in year\u2009{payback}. '
+        f'GPU hardware accounts for ${tot_gpu_cx/1e6:.0f}M of the '
+        f'${tot_cx/1e6:.0f}M total CAPEX ({tot_gpu_cx/tot_cx:.0%}), '
+        f'and electricity represents {tot_elec/tot_ox:.0%} of operating costs.'
+    )
+    met_el = p._element
+    body.remove(met_el)
+    tbl_a5.addnext(met_el)
+    cur = met_el
+
+    # ── Table A6: Sensitivity analysis ────────────────────────────────────
+    cur = add_page_break(doc, body, cur)
+    def _run_scen(label, wacc_adj=0, price_adj=0, elec_adj=0, gpu_adj=0, util_adj=0):
+        w = WACC + wacc_adj
+        cfs = []
+        for yr in years:
+            cx = CONSTR if yr == 0 else 0
+            for gy, gp in gpu_prices:
+                if yr == gy:
+                    cx += N_GPU * gp * (1 + gpu_adj)
+            if yr in net_refresh:
+                cx += N_GPU * NET_COST
+            if yr >= 1:
+                ep = (P_ELEC + elec_adj) * (1 + ELEC_ESC) ** (yr - 1)
+                ox = (TOTAL_MW * 1000 * H * ep + STAFF * 1.03 ** (yr - 1)
+                      + CONSTR * MAINT_PCT + CONSTR * INS_PCT + BW_COST)
+            else:
+                ox = 0
+            if yr >= 1:
+                u = min(max(RAMP.get(yr, G_UTIL) + util_adj, 0), 0.95)
+                rv = N_GPU * H * u * (REV_HR + price_adj)
+            else:
+                rv = 0
+            ebitda = rv - ox
+            dp = CONSTR / LIFE if yr >= 1 else 0
+            ebt = ebitda - dp
+            tx = max(0, ebt * TAX_R)
+            cfs.append(ebt - tx + dp - cx)
+        npv_s = sum(cf / (1 + w) ** y for cf, y in zip(cfs, years))
+        l, h = -0.50, 2.0
+        for _ in range(200):
+            m = (l + h) / 2
+            if sum(cf / (1 + m) ** y for cf, y in zip(cfs, years)) > 0:
+                l = m
+            else:
+                h = m
+        return [label, f'${npv_s/1e6:,.0f}', f'{m:.1%}']
+
+    sens_scenarios = [
+        _run_scen('Base case'),
+        _run_scen('GPU price \u221220%', gpu_adj=-0.20),
+        _run_scen('GPU price +20%', gpu_adj=+0.20),
+        _run_scen('Electricity +50%', elec_adj=+0.019),
+        _run_scen('Electricity \u221225%', elec_adj=-0.0095),
+        _run_scen('Revenue +5%', price_adj=+0.08),
+        _run_scen('Revenue \u22125%', price_adj=-0.08),
+        _run_scen('Utilization 80%', util_adj=+0.10),
+        _run_scen('Utilization 60%', util_adj=-0.10),
+        _run_scen('WACC 10%', wacc_adj=-0.026),
+        _run_scen('WACC 16%', wacc_adj=+0.034),
+    ]
+    tbl_a6 = add_table(doc, body, cur, ['Scenario', 'NPV ($M)', 'IRR'],
+                       sens_scenarios, col_widths=[3800, 2400, 2600],
+                       title='Table A6. Sensitivity of investment returns to parameter variation')
+
+    # ── Risks paragraph ───────────────────────────────────────────────────
+    p = doc.add_paragraph()
+    p.paragraph_format.space_before = Pt(6)
+    p.paragraph_format.space_after = Pt(4)
+    p.paragraph_format.first_line_indent = Inches(0)
+    r = p.add_run('Risks. ')
+    r.bold = True
+    p.add_run(
+        'Kyrgyzstan depends on the Toktogul reservoir for over 80% of electricity; '
+        'seasonal drawdowns and drought years create acute power shortages. '
+        'GPU procurement faces US export-control uncertainty. '
+        'The reliability index assigns Kyrgyzstan a governance score of 0.50, '
+        'reflecting underdeveloped contract enforcement and regulatory frameworks. '
+        'Despite these risks, the engineering economics are clear: '
+        'electricity at $0.038/kWh and a PUE of 1.08 yield production costs well below '
+        'the global median, and the positive NPV survives all single-parameter '
+        'perturbations in Table\u2009A6.'
+    )
+    risk_el = p._element
+    body.remove(risk_el)
+    tbl_a6.addnext(risk_el)
+
+    return risk_el
+
+
+def write_figure4b(doc, body, last_ref, demand_data):
+    """Generate and embed Figure 1 (reliability rank scatter) after references."""
+    print("Embedding Figure 1 (Reliability Rank Scatter)...")
+    xi_adj = demand_data.get("xi_adjusted", {})
+    baseline_rank = xi_adj.get("baseline_rank_map", {})
+    xi_rank = xi_adj.get("xi_rank_map", {})
+    iso_country = demand_data.get("iso_country", {})
+    xi = demand_data.get("xi", {})
+    if not baseline_rank or not xi_rank:
+        return last_ref
+
+    # Countries with active DC construction announcements (from Section 1)
+    DC_ACTIVE = {
+        'ARM', 'KEN', 'SAU', 'MAR', 'MYS', 'IDN', 'ARE',  # original
+        'IND', 'BRA', 'MEX', 'CHN', 'THA', 'VNM', 'TUR',  # tier 1
+        'PHL', 'ZAF', 'EGY', 'KAZ', 'UZB', 'NGA',         # tier 1-2
+    }
+    # Countries whose ξ value should be shown in the label
+    XI_SHOW = {'IRN', 'PAK', 'CHN', 'FIN', 'KEN',
+               'RUS', 'TJK', 'UKR', 'BIH', 'ARM', 'BGR'}
+
+    common = [iso for iso in baseline_rank if iso in xi_rank]
+
+    # Separate into active-construction and regular
+    reg_isos = [iso for iso in common if iso not in DC_ACTIVE]
+    act_isos = [iso for iso in common if iso in DC_ACTIVE]
+
+    fig, ax = plt.subplots(figsize=(5.5, 5.5))
+    # Regular countries: dots
+    ax.scatter([baseline_rank[iso] + 1 for iso in reg_isos],
+               [xi_rank[iso] + 1 for iso in reg_isos],
+               s=20, c='#b2182b', alpha=0.7, marker='o',
+               edgecolors='white', linewidth=0.3, label='Other countries', zorder=2)
+    # Active construction: stars
+    if act_isos:
+        ax.scatter([baseline_rank[iso] + 1 for iso in act_isos],
+                   [xi_rank[iso] + 1 for iso in act_isos],
+                   s=60, c='#1a3a5c', alpha=0.85, marker='*',
+                   edgecolors='white', linewidth=0.3,
+                   label='Active DC construction', zorder=3)
+    maxr = max(max(baseline_rank[iso] + 1 for iso in common),
+               max(xi_rank[iso] + 1 for iso in common))
+    ax.plot([1, maxr], [1, maxr], '--', color='gray', alpha=0.5, linewidth=0.8)
+
+    # Build labels
+    def _label(iso):
+        name = iso_country.get(iso, iso)
+        if iso in XI_SHOW:
+            return f'{name} (\u03BE={xi.get(iso, 1.0):.2f})'
+        return name
+
+    try:
+        from adjustText import adjust_text
+        texts = []
+        for iso in common:
+            shift = abs(baseline_rank[iso] - xi_rank[iso])
+            if (shift > 15 or baseline_rank[iso] < 5 or xi_rank[iso] < 5
+                    or iso in XI_SHOW or iso in DC_ACTIVE):
+                texts.append(ax.text(baseline_rank[iso] + 1, xi_rank[iso] + 1,
+                                     _label(iso), fontsize=5.5, alpha=0.85))
+        adjust_text(texts, ax=ax,
+                    arrowprops=dict(arrowstyle='-', color='gray', alpha=0.4, lw=0.4),
+                    force_text=(0.4, 0.4), expand=(1.2, 1.4))
+    except ImportError:
+        for iso in common:
+            shift = abs(baseline_rank[iso] - xi_rank[iso])
+            if (shift > 15 or baseline_rank[iso] < 5 or xi_rank[iso] < 5
+                    or iso in XI_SHOW or iso in DC_ACTIVE):
+                ax.annotate(_label(iso),
+                            (baseline_rank[iso] + 1, xi_rank[iso] + 1),
+                            fontsize=5.5, alpha=0.85)
+
+    ax.set_xlabel('Baseline cost rank', fontsize=9)
+    ax.set_ylabel('Reliability-adjusted rank', fontsize=9)
+    # No legend – star/dot distinction explained in figure notes
+    ax.grid(alpha=0.2)
+    fig.tight_layout()
+
+    buf = io.BytesIO()
+    fig.savefig(buf, format='png', dpi=300, bbox_inches='tight')
+    plt.close(fig)
+    buf.seek(0)
+
+    # Page break before figure
+    pb_el = add_page_break(doc, body, last_ref)
+
+    # Figure title with bookmark (outside the image)
+    title_p = doc.add_paragraph()
+    title_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    title_p.paragraph_format.space_before = Pt(6)
+    title_p.paragraph_format.space_after = Pt(4)
+    title_p.paragraph_format.first_line_indent = Inches(0)
+    title_p._element.append(make_bookmark(120, 'Figure1'))
+    hl_f1 = OxmlElement('w:hyperlink')
+    hl_f1.set(qn('w:anchor'), 'Figure1txt')
+    hl_f1.set(qn('w:history'), '1')
+    r_f1 = OxmlElement('w:r')
+    rPr_f1 = OxmlElement('w:rPr')
+    b_f1 = OxmlElement('w:b')
+    rPr_f1.append(b_f1)
+    sz_f1 = OxmlElement('w:sz')
+    sz_f1.set(qn('w:val'), '20')
+    rPr_f1.append(sz_f1)
+    clr_f1 = OxmlElement('w:color')
+    clr_f1.set(qn('w:val'), LINK_COLOR)
+    uu_f1 = OxmlElement('w:u')
+    uu_f1.set(qn('w:val'), 'single')
+    rPr_f1.append(clr_f1)
+    rPr_f1.append(uu_f1)
+    r_f1.append(rPr_f1)
+    t_f1 = OxmlElement('w:t')
+    t_f1.text = 'Figure 1'
+    r_f1.append(t_f1)
+    hl_f1.append(r_f1)
+    title_p._element.append(hl_f1)
+    title_p._element.append(make_bookmark_end(120))
+    run_ft = title_p.add_run('. Rank change with reliability adjustment')
+    run_ft.bold = True
+    run_ft.font.size = Pt(10)
+    title_el = title_p._element
+    body.remove(title_el)
+    pb_el.addnext(title_el)
+
+    # Embed image
+    pic_p = doc.add_paragraph()
+    pic_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    pic_p.paragraph_format.space_before = Pt(4)
+    pic_p.paragraph_format.space_after = Pt(4)
+    run = pic_p.add_run()
+    run.add_picture(buf, width=Inches(4.5))
+    pic_el = pic_p._element
+    body.remove(pic_el)
+    title_el.addnext(pic_el)
+
+    # Notes (with 0.5" left and right indent)
+    note_p = doc.add_paragraph()
+    note_p.paragraph_format.space_before = Pt(4)
+    note_p.paragraph_format.space_after = Pt(6)
+    note_p.paragraph_format.first_line_indent = Inches(0)
+    note_p.paragraph_format.left_indent = Inches(0.5)
+    note_p.paragraph_format.right_indent = Inches(0.5)
+    rn1 = note_p.add_run('Notes: ')
+    rn1.bold = True
+    rn1.font.size = Pt(7.5)
+    rn2 = note_p.add_run(
+        'Each point is one country. The dashed line marks unchanged rank. '
+        'Countries above the line improve their position after reliability '
+        'adjustment; countries below it fall. Stars (\u2605) indicate countries '
+        'with active data center construction announcements. '
+        'Values in parentheses show the reliability index \u03BE. '
+        'Even countries with \u03BE \u2248 1 shift off the diagonal because '
+        'penalizing low-\u03BE competitors pushes them down, mechanically '
+        'raising higher-\u03BE countries.'
+    )
+    rn2.font.size = Pt(7.5)
+    note_el = note_p._element
+    body.remove(note_el)
+    pic_el.addnext(note_el)
+
+    return note_el
+
+
+def write_table1(doc, body, after_el, demand_data):
+    """Table 1: Model parameters (formerly Table A1), placed in main body."""
+    print("Inserting Table 1 (Model parameters)...")
+
+    # Page break before Table 1
+    pb_el = add_page_break(doc, body, after_el)
+
+    # Table 1 title with bookmark
+    tp1 = doc.add_paragraph()
+    tp1.paragraph_format.space_before = Pt(6)
+    tp1.paragraph_format.space_after = Pt(3)
+    tp1.paragraph_format.first_line_indent = Inches(0)
+    tp1._element.append(make_bookmark(110, 'Table1'))
+    hl_a1 = OxmlElement('w:hyperlink')
+    hl_a1.set(qn('w:anchor'), 'Table1txt')
+    hl_a1.set(qn('w:history'), '1')
+    r_a1 = OxmlElement('w:r')
+    rPr_a1 = OxmlElement('w:rPr')
+    b_a1 = OxmlElement('w:b')
+    rPr_a1.append(b_a1)
+    sz_a1 = OxmlElement('w:sz')
+    sz_a1.set(qn('w:val'), '20')
+    rPr_a1.append(sz_a1)
+    clr_a1 = OxmlElement('w:color')
+    clr_a1.set(qn('w:val'), LINK_COLOR)
+    uu_a1 = OxmlElement('w:u')
+    uu_a1.set(qn('w:val'), 'single')
+    rPr_a1.append(clr_a1)
+    rPr_a1.append(uu_a1)
+    r_a1.append(rPr_a1)
+    t_a1 = OxmlElement('w:t')
+    t_a1.text = 'Table 1'
+    r_a1.append(t_a1)
+    hl_a1.append(r_a1)
+    tp1._element.append(hl_a1)
+    tp1._element.append(make_bookmark_end(110))
+    run_tt1 = tp1.add_run('. Model parameters')
+    run_tt1.bold = True
+    run_tt1.font.size = Pt(10)
+    tp1_el = tp1._element
+    body.remove(tp1_el)
+    pb_el.addnext(tp1_el)
+
+    # Load parameters from CSV
+    param_rows = []
+    with open(DATA / "model_parameters.csv", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            param_rows.append(row)
+
+    _sym_map = {
+        'gamma': '\u03B3', 'P_GPU': 'P\u1d33\u1d18\u1d1c', 'L': 'L',
+        'beta': '\u03B2', 'H': 'H', 'rho': '\u03C1', 'eta': '\u03B7',
+        'phi': '\u03C6', 'delta': '\u03B4', 'theta_bar': '\u03B8\u0304',
+        'D': 'D', 'tau': '\u03C4', 'lambda': '\u03BB', 'alpha': '\u03B1',
+        'Q': 'Q', 'xi_j': '\u03BE\u2C7C',
+    }
+    _source_to_bm = {
+        'NVIDIA (2024)': 'NVIDIA2024',
+        'Barroso et al. (2018)': 'Barroso2018',
+        'Liu et al. (2023)': 'Liu2023',
+        'Flucker et al. (2013)': 'Flucker2013',
+        'Turner and Townsend (2025)': 'TurnerTownsend2025',
+        'UNCTAD (2025)': 'UNCTAD2025',
+        'Deloitte (2025)': 'Deloitte2025',
+        'Epoch AI (2024)': 'EpochAI2024',
+        'Google (2024)': None,
+        'WGI and Enterprise Surveys': 'WorldBank2024',
+    }
+
+    n_params = len(param_rows)
+    param_tbl = doc.add_table(rows=n_params + 1, cols=5)
+    param_tbl.style = 'Table Grid'
+    param_tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
+    tblPr = param_tbl._tbl.find(qn('w:tblPr'))
+    if tblPr is None:
+        tblPr = OxmlElement('w:tblPr')
+        param_tbl._tbl.insert(0, tblPr)
+    old_bdr = tblPr.find(qn('w:tblBorders'))
+    if old_bdr is not None:
+        tblPr.remove(old_bdr)
+    tblBorders = OxmlElement('w:tblBorders')
+    for side in ('top', 'left', 'bottom', 'right', 'insideH', 'insideV'):
+        b = OxmlElement(f'w:{side}')
+        b.set(qn('w:val'), 'none')
+        b.set(qn('w:sz'), '0')
+        b.set(qn('w:space'), '0')
+        b.set(qn('w:color'), 'auto')
+        tblBorders.append(b)
+    tblPr.append(tblBorders)
+    tblW = tblPr.find(qn('w:tblW'))
+    if tblW is None:
+        tblW = OxmlElement('w:tblW')
+        tblPr.append(tblW)
+    tblW.set(qn('w:w'), TABLE_WIDTH_PCT)
+    tblW.set(qn('w:type'), 'pct')
+
+    _pcw = [Inches(2.3), Inches(0.6), Inches(0.6), Inches(1.0), Inches(2.0)]
+    _pcw_labels = ['Parameter', 'Symbol', 'Eq.', 'Value', 'Source']
+
+    def _cell_border(tc, sides, style='single'):
+        tcPr = tc.get_or_add_tcPr()
+        tcB = OxmlElement('w:tcBorders')
+        for s in sides:
+            b = OxmlElement(f'w:{s}')
+            b.set(qn('w:val'), style)
+            b.set(qn('w:sz'), '4')
+            b.set(qn('w:space'), '0')
+            b.set(qn('w:color'), 'auto')
+            tcB.append(b)
+        tcPr.append(tcB)
+
+    for j, lbl in enumerate(_pcw_labels):
+        cell = param_tbl.rows[0].cells[j]
+        cell.text = ''
+        p_h = cell.paragraphs[0]
+        p_h.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        rh = p_h.add_run(lbl)
+        rh.bold = True
+        rh.font.size = Pt(8.5)
+        cell.width = _pcw[j]
+        _cell_border(cell._tc, ['top', 'bottom'])
+
+    for i, pr in enumerate(param_rows):
+        sym_display = _sym_map.get(pr['symbol'], pr['symbol'])
+        val_str = pr['value']
+        if pr['unit']:
+            val_str = f"{val_str} {pr['unit']}"
+        if pr['symbol'] == 'P_GPU':
+            val_str = f"${int(float(pr['value'])):,}"
+        elif pr['symbol'] == 'rho':
+            val_str = f"${RHO:.2f}/hr"
+        elif pr['symbol'] == 'eta':
+            val_str = f"${ETA:.2f}/hr"
+        elif pr['symbol'] == 'Q':
+            val_str = "6\u00d710\u00b9\u2070 GPU-hr/yr"
+        eq_str = pr.get('equation', '')
+        src_text = pr['source']
+        src_bm = _source_to_bm.get(src_text)
+        row_data = [pr['description'], sym_display, eq_str, val_str]
+        for j, txt in enumerate(row_data):
+            cell = param_tbl.rows[i + 1].cells[j]
+            cell.text = ''
+            p_c = cell.paragraphs[0]
+            if j == 0:
+                p_c.alignment = WD_ALIGN_PARAGRAPH.LEFT
+            else:
+                p_c.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            rc = p_c.add_run(txt)
+            rc.font.size = Pt(8)
+            cell.width = _pcw[j]
+        src_cell = param_tbl.rows[i + 1].cells[4]
+        src_cell.text = ''
+        src_p = src_cell.paragraphs[0]
+        src_p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+        src_cell.width = _pcw[4]
+        if src_bm and src_text:
+            rPr_src = OxmlElement('w:rPr')
+            sz_src = OxmlElement('w:sz')
+            sz_src.set(qn('w:val'), '16')
+            rPr_src.append(sz_src)
+            hl_src = make_hyperlink(src_bm, src_text, rPr_orig=rPr_src)
+            src_p._element.append(hl_src)
+        elif src_text:
+            rc_src = src_p.add_run(src_text)
+            rc_src.font.size = Pt(8)
+        if i == n_params - 1:
+            for j in range(5):
+                _cell_border(param_tbl.rows[i + 1].cells[j]._tc, ['bottom'], style='double')
+
+    for row in param_tbl.rows:
+        for cell in row.cells:
+            for pp in cell.paragraphs:
+                pPr = pp._element.get_or_add_pPr()
+                sp = OxmlElement('w:spacing')
+                sp.set(qn('w:before'), '10')
+                sp.set(qn('w:after'), '10')
+                pPr.append(sp)
+
+    param_tbl_el = param_tbl._tbl
+    body.remove(param_tbl_el)
+    tp1_el.addnext(param_tbl_el)
+
+    # Table 1 notes
+    note = doc.add_paragraph()
+    note.paragraph_format.space_before = Pt(4)
+    note.paragraph_format.space_after = Pt(6)
+    note.paragraph_format.first_line_indent = Inches(0)
+    note.paragraph_format.line_spacing = 1.0
+    rn1 = note.add_run('Notes: ')
+    rn1.bold = True
+    rn1.font.size = Pt(7.5)
+    rn1 = note.add_run(
+        'Hardware cost \u03C1 = P\u1d33\u1d18\u1d1c / (L \u00b7 H \u00b7 \u03B2). '
+        'PUE(\u03B8) = \u03C6 + \u03B4 \u00b7 max(0, \u03B8 \u2212 \u03B8\u0304). '
+        'RTT = round-trip time, the network delay for a data packet to travel from '
+        'client to server and back, measured in milliseconds. '
+        'The reliability index \u03BE\u2C7C combines governance quality, grid reliability, '
+        'and sanctions exposure (equation 2). '
+        'The baseline calibration sets \u03BE\u2C7C = 1 for all countries.'
+    )
+    rn1.font.size = Pt(7.5)
+    note_el = note._element
+    body.remove(note_el)
+    param_tbl_el.addnext(note_el)
+
+    return note_el
+
+
 def write_references(doc, body, refs):
     print("Updating references...")
 
-    # Page break before References
+    # Page break before References heading
     add_page_break(doc, body, refs.getprevious())
 
     all_now = list(body)
@@ -4596,8 +5022,12 @@ def main():
         "rank_corr": spearman,
         "n_changed_top10": n_changed_top10,
         "xi_order": xi_order[:10],
+        "baseline_rank_map": {iso: i for i, iso in enumerate(baseline_order)},
+        "xi_rank_map": {iso: i for i, iso in enumerate(xi_order)},
     }
     demand_data["xi"] = xi
+    # Country name map for figure labels
+    demand_data["iso_country"] = {r["iso3"]: r["country"] for r in cal}
     print(f"  Reliability-adjusted top 5: {[f'{co} (${c:.2f})' for co, c in xi_top5]}")
     print(f"  Spearman rank corr: {spearman:.4f}, top-10 changes: {n_changed_top10}")
 
@@ -4659,8 +5089,12 @@ def main():
 
     refs = hmap['refs']
     last_ref = write_references(doc, body, refs)
-    last_app_note = write_appendix(doc, body, last_ref, eca_cal, non_eca_cal, reg, demand_data)
-    write_model_appendix(doc, body, last_app_note)
+    last_fig4b = write_figure4b(doc, body, last_ref, demand_data)
+    last_table1 = write_table1(doc, body, last_fig4b, demand_data)
+    last_app_note = write_appendix(doc, body, last_table1, eca_cal, non_eca_cal, reg, demand_data)
+    last_model_app = write_model_appendix(doc, body, last_app_note)
+    last_sens_app = write_sensitivity_appendix(doc, body, last_model_app, demand_data)
+    write_kyrgyzstan_appendix(doc, body, last_sens_app)
     link_citations(body)
     link_equations(body)
     fix_orphan_backlinks(body, refs)
