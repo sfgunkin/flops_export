@@ -965,27 +965,27 @@ def write_title_and_abstract(doc, body, all_el, hmap):
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
     p.paragraph_format.first_line_indent = Inches(0)
+    p.paragraph_format.left_indent = Inches(0.5)
+    p.paragraph_format.right_indent = Inches(0.5)
     p.paragraph_format.space_before = Pt(12)
     p.paragraph_format.space_after = Pt(8)
     p.paragraph_format.line_spacing = 1.0
     r_abs_label = p.add_run('Abstract')
     r_abs_label.bold = True
     p.add_run(
-        ': This paper develops a trade model in which countries '
-        'produce and export computing services (FLOPs), with costs determined by electricity '
-        'prices, climate, and construction costs. The model distinguishes two services, '
-        'AI training, which is latency-insensitive and can be offshored to the cheapest '
-        'producer, and AI inference, which degrades with distance and favors proximity to users. '
-        'A sovereignty premium captures governments\u2019 preference for domestic data processing. '
-        'Calibrating the model for 86 countries, the paper finds that many cheap-energy '
-        'economies, including several low-income countries, could serve the world\u2019s training '
-        'needs, while regional inference hubs emerge around major demand centers. '
-        'However, because hardware costs are uniform worldwide, the cross-country cost spread '
-        'is narrow, implying that institutional quality and policy constraints become decisive '
-        'for actual location decisions. For '
-        'developing countries with abundant energy but narrow export baskets, exporting '
-        'compute opens an entry point into the global economy, converting natural '
-        'resources directly into a high-value digital service.'
+        ': This paper develops a trade model in which computing services (FLOPs) are '
+        'produced and traded internationally, with costs driven by electricity prices, '
+        'climate, and construction costs. Latency-insensitive AI training can be offshored '
+        'to the lowest-cost producers, while latency-sensitive inference favors proximity '
+        'to users; a sovereignty premium captures governments\u2019 preference for domestic data '
+        'processing. Calibration across 86 countries shows that energy-abundant economies '
+        'have a comparative advantage in training compute, while regional inference hubs '
+        'form around major demand centers. Because hardware costs are globally uniform, '
+        'cross-country cost differences are small, making institutional quality, reliability, '
+        'and policy constraints decisive for location choices. For energy-rich developing '
+        'countries with limited export diversification, compute exports offer a pathway to '
+        'convert natural resources into high-value digital services and integrate into the '
+        'global economy.'
     )
     el = p._element
     body.remove(el)
@@ -994,11 +994,17 @@ def write_title_and_abstract(doc, body, all_el, hmap):
 
     # JEL classification and keywords after abstract
     p_jel, jel_el = mkp(doc, body, abs_text_el, space_before=12)
+    p_jel.paragraph_format.left_indent = Inches(0.5)
+    p_jel.paragraph_format.right_indent = Inches(0.5)
+    p_jel.paragraph_format.line_spacing = 1.0
     r_jel_label = p_jel.add_run('JEL Classification: ')
     r_jel_label.bold = True
     p_jel.add_run('F14, F18, L86, O14, O33, Q40')
 
     p_kw, kw_el = mkp(doc, body, jel_el, space_before=2)
+    p_kw.paragraph_format.left_indent = Inches(0.5)
+    p_kw.paragraph_format.right_indent = Inches(0.5)
+    p_kw.paragraph_format.line_spacing = 1.0
     r_kw_label = p_kw.add_run('Keywords: ')
     r_kw_label.bold = True
     p_kw.add_run(
