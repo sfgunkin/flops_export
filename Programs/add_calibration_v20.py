@@ -1254,7 +1254,11 @@ def write_production_technology(doc, body, hmap):
                   'A floating-point operation (FLOP) is a single arithmetic computation. '
                   'Computing power is measured in petaFLOP/s (10\u00b9\u2075 FLOPs per second). '
                   'A current-generation NVIDIA H100 GPU delivers approximately '
-                  '1 petaFLOP/s at 16-bit precision.', 6)
+                  '1 petaFLOP/s at 16-bit precision. In retail markets, inference is '
+                  'increasingly priced per token (dollars per million tokens) and training '
+                  'per GPU-hour or per job. Because tokens per GPU-hour are determined by '
+                  'model architecture and serving software\u2014not by country of production\u2014'
+                  'the choice of unit does not affect cross-country cost comparisons.', 6)
     # Bump all subsequent footnotes by 1
     # (old fn 6 becomes 7, old fn 7 becomes 8, etc.)
 
