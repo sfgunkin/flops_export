@@ -2146,6 +2146,22 @@ def write_data_section(doc, body, hmap, demand_data):
         'exporters and should be kept in mind when interpreting the calibration results.'
     )
 
+    # Hardware generation paragraph
+    p, cur = mkp(doc, body, cur)
+    add_italic(p, 'Hardware generation. ')
+    p.add_run(
+        'The calibration uses the NVIDIA H100, but successor GPUs (B200, shipping 2025) '
+        'draw approximately 1,000W versus 700W and deliver roughly four times the training '
+        'throughput. Higher power draw widens the absolute electricity cost gap across '
+        'countries, modestly strengthening developing-country comparative advantage. '
+        'However, late entrants selling older-generation GPU-hours must discount against '
+        'competitors with newer hardware, potentially eroding their cost edge. The cost '
+        'structure is stable across generations\u2014hardware amortization remains 80\u201385 '
+        'percent of total cost\u2014so the qualitative findings, including the narrow '
+        'cross-country spread and the dominance of institutional factors, are robust to '
+        'hardware choice.'
+    )
+
     p, cur = mkp(doc, body, cur)
     add_italic(p, 'Other parameters. ')
     p.add_run('The latency degradation parameter is set at ')
