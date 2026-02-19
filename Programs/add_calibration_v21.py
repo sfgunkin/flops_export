@@ -1795,20 +1795,28 @@ def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
     # l subscripted with "m_I(k), k"
     l_sub = OxmlElement('m:sSub')
     l_sub.append(OxmlElement('m:sSubPr'))
-    l_e = OxmlElement('m:e'); l_e.append(_mr('l', True)); l_sub.append(l_e)
+    l_e = OxmlElement('m:e')
+    l_e.append(_mr('l', True))
+    l_sub.append(l_e)
     l_s = OxmlElement('m:sub')
     l_s.append(_msub('m', 'I'))
-    l_s.append(_mr('(', False)); l_s.append(_mr('k', True)); l_s.append(_mr('),\u2009', False))
+    l_s.append(_mr('(', False))
+    l_s.append(_mr('k', True))
+    l_s.append(_mr('),\u2009', False))
     l_s.append(_mr('k', True))
     l_sub.append(l_s)
 
     # c subscripted with "m_I(k)"
     c_sub2 = OxmlElement('m:sSub')
     c_sub2.append(OxmlElement('m:sSubPr'))
-    c_e2 = OxmlElement('m:e'); c_e2.append(_mr('c', True)); c_sub2.append(c_e2)
+    c_e2 = OxmlElement('m:e')
+    c_e2.append(_mr('c', True))
+    c_sub2.append(c_e2)
     c_s2 = OxmlElement('m:sub')
     c_s2.append(_msub('m', 'I'))
-    c_s2.append(_mr('(', False)); c_s2.append(_mr('k', True)); c_s2.append(_mr(')', False))
+    c_s2.append(_mr('(', False))
+    c_s2.append(_mr('k', True))
+    c_s2.append(_mr(')', False))
     c_sub2.append(c_s2)
 
     _, cur = omath_display(doc, body, cur, [
@@ -3464,9 +3472,13 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
     ELEC_ESC = 0.02
 
     # WACC
-    RF = 0.05; CRP = 0.04; ERP = 0.06
+    RF = 0.05
+    CRP = 0.04
+    ERP = 0.06
     COE = RF + CRP + ERP  # 15%
-    COD = 0.10; DSHARE = 0.40; ESHARE = 0.60
+    COD = 0.10
+    DSHARE = 0.40
+    ESHARE = 0.60
     WACC = ESHARE * COE + DSHARE * COD * (1 - TAX_R)
 
     # GPU refresh schedule
@@ -3474,66 +3486,71 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
     gpu_prices = [(yr, GP * (1 - GPU_DECLINE) ** i) for i, yr in enumerate(gpu_refresh)]
     net_refresh = [1, 6, 11]
 
-    # ── Compute year-by-year ──────────────────────────────────────────────
+    # ── DCF helpers ────────────────────────────────────────────────────────
     years = list(range(0, LIFE + 1))
-    results = []
-    cum = 0
-    payback = None
-    for yr in years:
-        cx_c = CONSTR if yr == 0 else 0
-        cx_g = 0
-        for gy, gp in gpu_prices:
-            if yr == gy:
-                cx_g = N_GPU * gp
-        cx_n = N_GPU * NET_COST if yr in net_refresh else 0
-        cx = cx_c + cx_g + cx_n
 
-        if yr >= 1:
-            util = RAMP.get(yr, G_UTIL)
-            ep = P_ELEC * (1 + ELEC_ESC) ** (yr - 1)
-            ox_e = TOTAL_MW * 1_000 * H * ep
-            ox_s = STAFF * 1.03 ** (yr - 1)
-            ox_m = CONSTR * MAINT_PCT
-            gpu_val = 0
-            for gy, gp in reversed(gpu_prices):
-                if gy <= yr:
-                    gpu_val = N_GPU * gp * max(0, 1 - (yr - gy) / G_LIFE)
-                    break
-            ox_i = (CONSTR + gpu_val) * INS_PCT
-            ox_bw = BW_COST
-            ox = ox_e + ox_s + ox_m + ox_i + ox_bw
-            rev = N_GPU * H * util * REV_HR
-            depr_c = CONSTR / LIFE
-            depr_g = 0
-            for gy, gp in gpu_prices:
-                if gy <= yr < gy + G_LIFE:
-                    depr_g = N_GPU * gp / G_LIFE
-                    break
-            depr = depr_c + depr_g
-        else:
-            util = 0; ox = 0; rev = 0; depr = 0
+    def _dcf_years(gpu_adj=0, elec_adj=0, price_adj=0, util_adj=0):
+        """Compute year-by-year cash flows. Returns list of per-year dicts."""
+        adj_prices = [(gy, gp * (1 + gpu_adj)) for gy, gp in gpu_prices]
+        rows = []
+        cum = 0
+        for yr in years:
+            cx = CONSTR if yr == 0 else 0
+            for gy, gp in adj_prices:
+                if yr == gy:
+                    cx += N_GPU * gp
+            if yr in net_refresh:
+                cx += N_GPU * NET_COST
 
-        ebitda = rev - ox
-        ebt = ebitda - depr
-        tax = max(0, ebt * TAX_R)
-        ni = ebt - tax
-        fcf = ni + depr - cx
-        cum += fcf
-        if payback is None and cum > 0 and yr >= 1:
-            payback = yr
-        results.append(dict(year=yr, capex=cx, revenue=rev, opex=ox,
-                            ebitda=ebitda, tax=tax, ni=ni, fcf=fcf, cum=cum))
+            if yr >= 1:
+                util = RAMP.get(yr, G_UTIL)
+                ep = (P_ELEC + elec_adj) * (1 + ELEC_ESC) ** (yr - 1)
+                gpu_val = 0
+                for gy, gp in reversed(adj_prices):
+                    if gy <= yr:
+                        gpu_val = N_GPU * gp * max(0, 1 - (yr - gy) / G_LIFE)
+                        break
+                ox = (TOTAL_MW * 1_000 * H * ep + STAFF * 1.03 ** (yr - 1)
+                      + CONSTR * MAINT_PCT + (CONSTR + gpu_val) * INS_PCT + BW_COST)
+                rev = N_GPU * H * min(max(util + util_adj, 0), 0.95) * (REV_HR + price_adj)
+                depr_g = 0
+                for gy, gp in adj_prices:
+                    if gy <= yr < gy + G_LIFE:
+                        depr_g = N_GPU * gp / G_LIFE
+                        break
+                depr = CONSTR / LIFE + depr_g
+            else:
+                ox = 0
+                rev = 0
+                depr = 0
 
-    fcf_s = [r['fcf'] for r in results]
-    npv = sum(f / (1 + WACC) ** y for f, y in zip(fcf_s, years))
-    lo, hi = -0.50, 2.0
-    for _ in range(200):
-        mid = (lo + hi) / 2
-        if sum(f / (1 + mid) ** y for f, y in zip(fcf_s, years)) > 0:
-            lo = mid
-        else:
-            hi = mid
-    irr = mid
+            ebitda = rev - ox
+            ebt = ebitda - depr
+            tax = max(0, ebt * TAX_R)
+            ni = ebt - tax
+            fcf = ni + depr - cx
+            cum += fcf
+            rows.append(dict(year=yr, capex=cx, revenue=rev, opex=ox,
+                             ebitda=ebitda, tax=tax, ni=ni, fcf=fcf, cum=cum))
+        return rows
+
+    def _npv_irr(rows, wacc):
+        """Compute NPV at given WACC and IRR via bisection."""
+        fcfs = [r['fcf'] for r in rows]
+        npv_val = sum(f / (1 + wacc) ** y for f, y in zip(fcfs, years))
+        lo, hi = -0.50, 2.0
+        for _ in range(200):
+            mid = (lo + hi) / 2
+            if sum(f / (1 + mid) ** y for f, y in zip(fcfs, years)) > 0:
+                lo = mid
+            else:
+                hi = mid
+        return npv_val, mid
+
+    # ── Compute year-by-year ──────────────────────────────────────────────
+    results = _dcf_years()
+    npv, irr = _npv_irr(results, WACC)
+    payback = next((r['year'] for r in results if r['year'] >= 1 and r['cum'] > 0), None)
 
     tot_rev = sum(r['revenue'] for r in results)
     tot_cx = sum(r['capex'] for r in results)
@@ -3632,40 +3649,10 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
     # ── Table A6: Sensitivity analysis ────────────────────────────────────
     cur = add_page_break(doc, body, cur)
     def _run_scen(label, wacc_adj=0, price_adj=0, elec_adj=0, gpu_adj=0, util_adj=0):
-        w = WACC + wacc_adj
-        cfs = []
-        for yr in years:
-            cx = CONSTR if yr == 0 else 0
-            for gy, gp in gpu_prices:
-                if yr == gy:
-                    cx += N_GPU * gp * (1 + gpu_adj)
-            if yr in net_refresh:
-                cx += N_GPU * NET_COST
-            if yr >= 1:
-                ep = (P_ELEC + elec_adj) * (1 + ELEC_ESC) ** (yr - 1)
-                ox = (TOTAL_MW * 1000 * H * ep + STAFF * 1.03 ** (yr - 1)
-                      + CONSTR * MAINT_PCT + CONSTR * INS_PCT + BW_COST)
-            else:
-                ox = 0
-            if yr >= 1:
-                u = min(max(RAMP.get(yr, G_UTIL) + util_adj, 0), 0.95)
-                rv = N_GPU * H * u * (REV_HR + price_adj)
-            else:
-                rv = 0
-            ebitda = rv - ox
-            dp = CONSTR / LIFE if yr >= 1 else 0
-            ebt = ebitda - dp
-            tx = max(0, ebt * TAX_R)
-            cfs.append(ebt - tx + dp - cx)
-        npv_s = sum(cf / (1 + w) ** y for cf, y in zip(cfs, years))
-        l, h = -0.50, 2.0
-        for _ in range(200):
-            m = (l + h) / 2
-            if sum(cf / (1 + m) ** y for cf, y in zip(cfs, years)) > 0:
-                l = m
-            else:
-                h = m
-        return [label, f'${npv_s/1e6:,.0f}', f'{m:.1%}']
+        rows = _dcf_years(gpu_adj=gpu_adj, elec_adj=elec_adj,
+                          price_adj=price_adj, util_adj=util_adj)
+        npv_s, irr_s = _npv_irr(rows, WACC + wacc_adj)
+        return [label, f'${npv_s/1e6:,.0f}', f'{irr_s:.1%}']
 
     sens_scenarios = [
         _run_scen('Base case'),
@@ -3699,7 +3686,7 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
         'reflecting underdeveloped contract enforcement and regulatory frameworks. '
         'Despite these risks, the engineering economics are clear: '
         'electricity at $0.038/kWh and a PUE of 1.08 yield production costs well below '
-        'the global median, and the positive NPV survives all single-parameter '
+        'the global median, and the positive NPV survives eight of ten '
         'perturbations in Table\u2009A6.'
     )
     risk_el = p._element
