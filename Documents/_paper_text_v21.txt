@@ -1,7 +1,7 @@
    1  Selling FLOPs:
 Compute Exports as a New Industry for Developing Countries
    2  Michael Lokshin
-   3  v21  —  February 19, 2026  01:34
+   3  v21  —  February 19, 2026  08:41
    4  Abstract: This paper develops a trade model in which AI compute is produced and traded internationally. Latency-insensitive AI training can be offshored to the lowest-cost producers, while latency-sensitive inference favors proximity to users; a sovereignty premium captures governments’ preference for domestic data processing. Calibration across 86 countries shows that energy-abundant economies have a comparative advantage in training compute, while regional inference hubs form around major demand centers. Because hardware costs are globally uniform, cross-country cost differences are small, making institutional quality, reliability, and policy constraints decisive for location of compute facilities. For energy-rich developing countries with limited export diversification, compute exports offer a pathway to convert natural resources into high-value digital services and integrate into the global economy.
    5  JEL Classification: F14, F18, L86, O14, O33, Q40
    6  Keywords: compute trade, FLOPs, artificial intelligence, data centers, comparative advantage, electricity costs, developing countries

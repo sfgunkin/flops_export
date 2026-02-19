@@ -2089,6 +2089,14 @@ def write_data_section(doc, body, hmap, demand_data):
         'and regional dummies (Appendix\u2009E). Since construction is only 3\u20136% of total per-GPU-hour '
         'costs, imputation error has limited impact on cost rankings.'
     )
+    make_footnote(p,
+                  'The 37 DCCI countries span 52 markets: Australia, Austria, Brazil, '
+                  'Canada, Chile, China, Colombia, Denmark, Finland, France, Germany, Greece, India, '
+                  'Indonesia, Ireland, Italy, Japan, Kenya, Malaysia, Mexico, Netherlands, New Zealand, '
+                  'Nigeria, Norway, Poland, Portugal, Saudi Arabia, Singapore, South Africa, South Korea, '
+                  'Spain, Sweden, Switzerland, UAE, UK, Uruguay, and USA. '
+                  'The 95% prediction intervals for imputed countries span about \u00b1$3.50/W, '
+                  'which translates to \u00b1$0.02/hr in total cost (1.5\u20132% of the mean).', 12)
     p.add_run(
         ' Costs are amortized over 15 years. The per-GPU construction cost in '
         'equation (1) equals 700 W (the GPU thermal design power) times the build cost per watt.'
