@@ -650,15 +650,15 @@ CITATIONS = [
     ('Deloitte', '2020', 'Deloitte2020', 'Deloitte and Google. (2020)'),
     ('IEA', '2025', 'IEA2025', 'IEA. (2025)'),
     ('Ohlin', '1933', 'Ohlin1933', 'Ohlin, B.'),
-    ('Biglaiser, Cr\u00E9mer, and Mantovani', '2024', 'Biglaiser2024', 'Biglaiser, G.'),
+    ('Biglaiser et al.', '2024', 'Biglaiser2024', 'Biglaiser, G.'),
     ('Stojkoski et al.', '2024', 'Stojkoski2024', 'Stojkoski, V.'),
     ('World Bank', '2025', 'WorldBank2025', 'World Bank. (2025)'),
-    ('Hausmann, Hwang, and Rodrik', '2007', 'Hausmann2007', 'Hausmann, R.'),
+    ('Hausmann et al.', '2007', 'Hausmann2007', 'Hausmann, R.'),
     ('Uptime Institute', '2024', 'UptimeInstitute2024',
      'Uptime Institute. (2024)'),
     ('Firebird', '2026', 'Firebird2026', 'Firebird. (2026)'),
-    ('Flucker, Tozer, and Whitehead', '2013', 'Flucker2013', 'Flucker, S.'),
-    ('Oltmanns, Krcmarik, and Gatti', '2021', 'Oltmanns2021', 'Oltmanns, J.'),
+    ('Flucker et al.', '2013', 'Flucker2013', 'Flucker, S.'),
+    ('Oltmanns et al.', '2021', 'Oltmanns2021', 'Oltmanns, J.'),
     ('Liu et al.', '2023', 'Liu2023', 'Liu, Z.'),
     ('Goldfarb and Trefler', '2018', 'Goldfarb2018', 'Goldfarb, A.'),
     ('Korinek and Stiglitz', '2021', 'Korinek2021', 'Korinek, A.'),
@@ -666,7 +666,7 @@ CITATIONS = [
     ('Google', '2024', 'Google2024', 'Google. (2024)'),
     ('Hummels and Schaur', '2013', 'Hummels2013', 'Hummels, D.'),
     ('Brainard', '1997', 'Brainard1997', 'Brainard, S.'),
-    ('Helpman, Melitz, and Yeaple', '2004', 'HMY2004', 'Helpman, E.'),
+    ('Helpman et al.', '2004', 'HMY2004', 'Helpman, E.'),
     ('Lim\u00E3o and Venables', '2001', 'Limao2001', 'Lim\u00E3o, N.'),
     ('Eurostat', '2025', 'Eurostat2025', 'Eurostat. (2025)'),
     ('EIA', '2025', 'EIA2025', 'EIA. (2025)'),
@@ -681,18 +681,18 @@ CITATIONS = [
      'GlobalPetrolPrices. (2025)'),
     ('Cloudscene', '2025', 'Cloudscene2025', 'Cloudscene. (2025)'),
     ('Sastry, Heim, et al.', '2024', 'Sastry2024', 'Sastry, G.'),
-    ('Lehdonvirta, Wu, and Hawkins', '2024', 'Lehdonvirta2024',
+    ('Lehdonvirta et al.', '2024', 'Lehdonvirta2024',
      'Lehdonvirta, V.'),
-    ('Pilz, Mahmood, and Heim', '2025', 'Pilz2025', 'Pilz, K.'),
+    ('Pilz et al.', '2025', 'Pilz2025', 'Pilz, K.'),
     ('Turner Lee and West', '2025', 'TurnerLee2025', 'Turner Lee, N.'),
     ('IMF', '2025', 'IMF2025', 'IMF. (2025)'),
     ('Lazard', '2025', 'Lazard2025', 'Lazard. (2025)'),
     ('U.S. DOJ and FTC', '2010', 'DOJFTC2010',
      'U.S. Department of Justice'),
-    ('Arkolakis, Costinot, and Rodr\u00EDguez-Clare', '2012', 'ACR2012',
+    ('Arkolakis et al.', '2012', 'ACR2012',
      'Arkolakis, C.'),
     ('van der Ploeg', '2011', 'vanderPloeg2011', 'van der Ploeg, F.'),
-    ('Barroso, H\u00F6lzle, and Ranganathan', '2018', 'Barroso2018', 'Barroso, L.'),
+    ('Barroso et al.', '2018', 'Barroso2018', 'Barroso, L.'),
 ]
 
 # Auto-generate CITE_MAP: both "Author (Year)" and "Author Year" forms
@@ -702,15 +702,9 @@ for _auth, _yr, _key, _ in CITATIONS:
     CITE_MAP[f'{_auth} {_yr}'] = _key      # parenthetical: Author Year
 CITE_MAP['World Bank'] = 'WorldBank2024'   # bare mention without year
 CITE_MAP['Cloudscene'] = 'Cloudscene2025'  # bare mention without year
-# Abbreviated citation forms used in text
+# Abbreviated citation form (CITATIONS has "Sastry, Heim, et al.")
 CITE_MAP['Sastry et al. (2024)'] = 'Sastry2024'
 CITE_MAP['Sastry et al. 2024'] = 'Sastry2024'
-CITE_MAP['Lehdonvirta et al. (2024)'] = 'Lehdonvirta2024'
-CITE_MAP['Lehdonvirta et al. 2024'] = 'Lehdonvirta2024'
-CITE_MAP['Pilz et al. (2025)'] = 'Pilz2025'
-CITE_MAP['Pilz et al. 2025'] = 'Pilz2025'
-CITE_MAP['Oltmanns et al. (2021)'] = 'Oltmanns2021'
-CITE_MAP['Biglaiser et al. (2024)'] = 'Biglaiser2024'
 
 # Auto-generate REF_KEY_MAP for back-linking from reference list
 REF_KEY_MAP = {_key: _anchor for _, _, _key, _anchor in CITATIONS}
@@ -1079,7 +1073,7 @@ def write_introduction(doc, body, hmap):
         'countries can convert electricity into a higher value-added digital service. '
         'For resource-rich developing countries, FLOP exporting could offer a route up the '
         'value chain without the heavy industrialization traditionally required for '
-        'such upgrading (Hausmann, Hwang, and Rodrik 2007).'
+        'such upgrading (Hausmann et al. 2007).'
     )
 
     # Para 4: ECA opportunity
@@ -1193,7 +1187,7 @@ def write_literature(doc, body, hmap):
         'suggest that developing countries could be left behind in the AI '
         'revolution. FLOP exporting offers a route for energy-rich developing '
         'countries to participate in that revolution. The concept of FLOP exporting as value chain upgrading '
-        'connects to Hausmann, Hwang, and Rodrik (2007), who show that what a country exports '
+        'connects to Hausmann et al. (2007), who show that what a country exports '
         'matters for growth. Lim\u00E3o and Venables (2001) demonstrate that infrastructure quality '
         'determines trade costs. In our model, network infrastructure plays the analogous role '
         'for digital trade.'
@@ -1203,14 +1197,14 @@ def write_literature(doc, body, hmap):
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'Several studies examine the determinants of data center location. '
-        'Flucker, Tozer, and Whitehead (2013) show that climate affects data center '
+        'Flucker et al. (2013) show that climate affects data center '
         'cooling costs. Oltmanns et al. (2021) model data center location as a '
         'function of electricity prices, climate, connectivity, and political stability. '
         'Liu et al. (2023) study data center placement under renewable energy constraints. '
         'These studies focus on where firms should build data centers. '
         'In international trade theory, Brainard (1997) formalizes the proximity-concentration '
         'trade-off between serving a market locally and concentrating production abroad, '
-        'and Helpman, Melitz, and Yeaple (2004) extend this to heterogeneous firms choosing between '
+        'and Helpman et al. (2004) extend this to heterogeneous firms choosing between '
         'exporting and FDI.'
     )
 
@@ -2166,10 +2160,10 @@ def write_data_section(doc, body, hmap, demand_data):
     p.add_run(
         'The calibration uses the NVIDIA H100 SXM GPU as the reference hardware platform, with a list price '
         'of $25,000, a thermal design power of 700W, an economic lifetime of 3 years, and a utilization rate 70% '
-        '(Barroso, H\u00F6lzle, and Ranganathan 2018; NVIDIA 2024). '
+        '(Barroso et al. 2018; NVIDIA 2024). '
         'Google\u2019s fleet-wide GPU utilization, '
         'after years of optimization with custom schedulers and workload packing, runs in the '
-        '60\u201375% range (Barroso, H\u00F6lzle, and Ranganathan 2018). A new entrant '
+        '60\u201375% range (Barroso et al. 2018). A new entrant '
         'in Central Asia would likely achieve 40\u201360% utilization in the early years, roughly '
         'doubling the effective hardware cost per useful GPU-hour. '
         'This yields an amortized hardware cost '
@@ -2182,7 +2176,7 @@ def write_data_section(doc, body, hmap, demand_data):
     omath(p, [_v('\u03B7'), _t(f' = ${ETA:.2f}')])
     p.add_run(
         '/hr, based on the amortized cost of InfiniBand interconnect fabric per GPU '
-        'over the same three-year horizon (Barroso, H\u00F6lzle, and Ranganathan 2018). '
+        'over the same three-year horizon (Barroso et al. 2018). '
         'Like hardware, networking equipment is procured at uniform global prices, '
         'so this term does not affect cross-country cost rankings. '
         'GPU prices are assumed to be uniform across countries. In practice, export controls, '
@@ -2923,10 +2917,10 @@ def write_conclusion(doc, body, hmap, demand_data):
         f'at a demand-weighted welfare cost of {demand_data["welfare_pct"]:.1f}% of '
         'average compute spending, comparable in magnitude to the 1\u201310% welfare losses '
         'from trade barriers estimated for goods trade '
-        '(Arkolakis, Costinot, and Rodr\u00EDguez-Clare 2012). '
+        '(Arkolakis et al. 2012). '
         'The model generates a country taxonomy (full importers, training exporters, '
         'inference hubs, and hybrid regimes) that maps onto observed investment patterns. '
-        'This geographic structure is consistent with Lehdonvirta, Wu, and Hawkins (2024), '
+        'This geographic structure is consistent with Lehdonvirta et al. (2024), '
         'who independently find that training-capable GPU infrastructure is concentrated in '
         'roughly 30 countries while the rest are limited to inference-grade hardware. '
         'A central finding is that electricity costs, while the main source of cross-country '
