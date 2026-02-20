@@ -1,0 +1,2363 @@
+   1  Selling FLOPs:Compute Exports as a New Industry for Developing Countries
+   2  Michael Lokshin
+   3  v21  —  February 20, 2026  00:05
+   4  Abstract: This paper develops a trade model in which AI compute is produced and traded internationally. Latency-insensitive AI training can be offshored to the lowest-cost producers, while latency-sensitive inference favors proximity to users; a sovereignty premium captures governments’ preference for domestic data processing. Calibration across 86 countries shows that energy-abundant economies have a comparative advantage in training compute, while regional inference hubs form around major demand centers. Because hardware costs are globally uniform, cross-country cost differences are small, making institutional quality, reliability, and policy constraints decisive for the location of compute facilities. For energy-rich developing countries with limited export diversification, compute exports offer a pathway to convert natural resources into high-value digital services and integrate into the global economy.
+   7  JEL Classification: F14, F18, L86, O14, O33, Q40
+   8  Keywords: compute trade, FLOPs, artificial intelligence, data centers, comparative advantage, electricity costs, developing countries
+  10  1. Introduction
+  11  The expansion of artificial intelligence drives the demand for computational resources. The compute used to train the largest AI models has been doubling every six months since 2010 (Epoch AI 2024). Data centers accounted for approximately 1.5% of global electricity demand in 2024—more than the electricity consumption of France—a share projected to more than double by 2030 (IEA 2025). AI-oriented facilities are qualitatively different from traditional cloud or enterprise data centers. They deploy thousands of GPUs at power densities of 40–100 kW per rack (versus 5–10 kW in conventional facilities), and can consume over 500,000 gallons of cooling water per day (Turner Lee and West 2025).
+  12  This surge in demand for compute creates a new type of export opportunity. This paper refers to the production of compute services in one country for consumption in another as FLOP exporting. FLOP exporting is a form of value chain upgrading. Rather than exporting raw energy resources as primary commodities, countries can convert electricity into a higher value-added digital service. For resource-rich developing countries, FLOP exporting could offer a route up the value chain without the heavy industrialization traditionally required for such upgrading (Hausmann, Hwang, and Rodrik 2007).
+  13  The opportunity is particularly relevant for the Europe and Central Asia (ECA) region. Several ECA countries, including Turkmenistan, Kyrgyzstan, and the South Caucasus, have among the world’s lowest electricity prices but limited integration into the global digital economy. Building data centers in these locations and selling compute services to high-cost markets could generate export revenue, attract foreign investment, and accelerate the development of digital infrastructure. Export-oriented capacity can also later serve the domestic market as local AI demand grows.
+  14  Recent megaprojects across Africa, the Middle East, and Central Asia suggest that FLOP exporting is technically and commercially feasible. Armenia is deploying 50,000 graphic processing units (GPUs) in a $4 billion investment (Firebird 2026), while Kenya, Saudi Arabia, Morocco, Malaysia, and Indonesia have each attracted billion-dollar data center commitments. Cloud computing exports already exceed $9 billion annually, with the United States accounting for 87% of the global total (World Bank 2025). A 40 MW data center in Kyrgyzstan could generate annual revenue of $630–950 million at wholesale contract rates, equivalent to over 15% of Kyrgyzstan’s $3.8 billion in goods exports (World Bank 2024).
+  15  Recent work examines compute governance and the geography of AI infrastructure (Sastry et al. 2024, Lehdonvirta et al. 2024, Pilz et al. 2025), but no formal trade model of compute exists. This paper offers the first such model, treating FLOPs as commodities produced and exported according to Ricardian comparative advantage. The paper makes three contributions. First, it develops a capacity-constrained Ricardian model in which countries produce and export compute services, facing an iceberg trade cost that captures inference latency degradation and a sovereignty premium reflecting governments’ preference for domestic data processing. Capacity ceilings generate market-clearing prices and scarcity rents, yielding predictions about market concentration, export patterns, and the value of grid expansion. Second, it calibrates the model for 86 countries using data on electricity prices, climate, data center construction costs, and inter-country network latency, correcting for energy subsidies that distort headline cost rankings. Third, it characterizes the resulting trade regimes—which countries export, which import, and which adopt hybrid strategies—and quantifies the welfare cost of the sovereignty premium.
+  16  The calibration reveals that cheap electricity and favorable cooling conditions are necessary but not sufficient for competitive compute exporting. Hardware amortization accounts for over 80 percent of the compute unit cost and is identical across countries, compressing the total cost spread to roughly 20 percent across 86 countries. Since electricity and construction account for only a small share of total cost, cross-country cost differences are narrow. Once reliability penalties for grid outages, weak governance, and sanctions exposure are applied, the cost ranking changes substantially. Several energy-abundant but institutionally fragile economies fall out of the top tier, replaced by countries with more reliable grids and stronger institutions at moderately higher energy costs. Durable comparative advantage requires credible reliability and institutional quality alongside low energy costs.
+  17  The remainder of the paper is organized as follows. Section 2 reviews the related literature. Section 3 develops the model, covering production technology, trade costs, demand, and the capacity-constrained market equilibrium. Section 4 derives the equilibrium properties, including propositions on country taxonomy, concentration, sovereignty thresholds, and the nesting of training within inference exporters. Section 5 describes the data. Section 6 calibrates the model and discusses the results. Section 7 concludes.
+  18  2. Related Literature
+  19  Goldfarb and Trefler (2018) argue that AI shifts comparative advantage toward countries with data, human capital, and institutional capacity. Our model introduces a complementary mechanism where comparative advantage in compute production depends on electricity costs and climate, so resource-rich countries could become compute exporters without domestic AI research industries. Korinek and Stiglitz (2021) suggest that developing countries could be left behind in the AI revolution. FLOP exporting offers a pathway for energy-rich developing countries to participate in that revolution. The concept of FLOP exporting as value chain upgrading connects to Hausmann, Hwang, and Rodrik (2007), who show that what a country exports matters for growth. Limão and Venables (2001) demonstrate that infrastructure quality determines trade costs. In our model, network infrastructure plays the analogous role for digital trade.
+  20  Several studies examine the determinants of data center location. Flucker, Tozer, and Whitehead (2013) show that climate affects data center cooling costs. Oltmanns et al. (2021) model data center location as a function of electricity prices, climate, connectivity, and political stability. Liu et al. (2023) study data center placement under renewable energy constraints. These studies focus on where firms should build data centers. In international trade theory, Brainard (1997) formalizes the proximity-concentration trade-off between serving a market locally and concentrating production abroad, and Helpman, Melitz, and Yeaple (2004) extend this to heterogeneous firms choosing between exporting and FDI.
+  21  On the governance side, Sastry, et al. (2024) argue that compute is well-suited for regulation because governments can track the number of chips in circulation, restrict who can buy them, and measure how much computation they perform. Lehdonvirta, et al. (2024) map the global geography of cloud GPU infrastructure, distinguishing a “Compute North” with training-capable hardware from a “Compute South” limited to inference-grade chips. Pilz et al. (2025) project that AI data center power demand could reach 327 GW by 2030 and that domestic power shortages may push compute infrastructure abroad. The World Bank (2025) documents the resulting global compute divide: high-income countries hold 77% of colocation data center capacity and account for 87% of cloud computing exports (Stojkoski et al. 2024), but the report offers descriptive evidence without a formal framework linking production costs to trade patterns. On the industrial organization side, Biglaiser et al. (2024) survey the economics of cloud markets, including switching costs, egress fees, and platform competition among hyperscalers, but the supply-side question of where compute is produced and whether developing countries can become competitive exporters has not been addressed.
+  22  3. Model Setup
+  23  The existing literature documents where compute infrastructure is located and who controls it, but no formal framework links production costs to trade patterns. This section models compute as a tradable good with country-specific production costs, a delivery cost that depends on whether the workload is training (latency-insensitive) or inference (latency-sensitive), and a sovereignty premium reflecting governments’ preference for domestic production.
+  24  3.1 Production Technology and Cost Structure
+  25  Consider 𝑁 countries, each capable of producing compute services. The cost of producing a unit of compute in country 𝑗 depends on three inputs: electricity, hardware, and data center construction.
+  26  A data center consumes electricity not only for its GPUs but also for cooling, power distribution, and lighting. This overhead is measured by the power usage effectiveness (PUE), the ratio of total facility energy consumption to IT equipment energy consumption. The cost per GPU-hour in country 𝑗 is:
+  28  𝑐
+  29  𝑗
+  30  = PUE(
+  31  𝜃
+  32  𝑗
+  33  ) · 𝛾 ·
+  34  𝑝
+  35  𝐸,𝑗
+  36  + 𝜌 + 𝜂 +
+  37  𝑝
+  38  𝐿,𝑗
+  39  / (𝐷 · 𝐻),
+  40  (1)
+  41  
+  42  where 𝛾 is GPU power draw (kW),
+  43  𝑝
+  44  𝐸,𝑗
+  45  is the electricity price ($/kWh), 𝜌 =
+  46  𝑃
+  47  𝐺𝑃𝑈
+  48  / (𝐿 · 𝐻 · 𝛽) is amortized hardware cost per GPU-hour (
+  49  𝑃
+  50  𝐺𝑃𝑈
+  51  = purchase price, 𝐿 = lifetime in years, 𝐻 = 8,766 hours per year, 𝛽 = utilization rate), 𝜂 is amortized networking cost (high-speed interconnect such as InfiniBand), and the last term amortizes construction costs
+  52  𝑝
+  53  𝐿,𝑗
+  54  ($/W of IT capacity) over the facility’s lifetime 𝐷. Both 𝜌 and 𝜂 are determined in global hardware markets and are common across countries. Cross-country variation in
+  55  𝑐
+  56  𝑗
+  57  is therefore driven by electricity prices, climate, and construction costs.
+  58  Countries export goods intensive in their abundant factors (Ohlin 1933). For compute production, the relevant endowment is not electricity per se but the natural resources that generate it—hydropower (Kyrgyzstan, Ethiopia, Georgia), oil and gas (Iran, Turkmenistan, Qatar), solar irradiance (North Africa, the Gulf), and geothermal energy (Kenya, Iceland). The electricity price
+  59  𝑝
+  60  𝐸,𝑗
+  61  in equation (1) is therefore a reduced-form expression for country 𝑗’s energy resource endowment.
+  62  3.2 Trade Costs
+  63  Countries produce and trade two types of compute services that differ in their offshoring costs. Training services (denoted T) encompass batch workloads such as model training, fine-tuning, and large-scale data processing. Training a state-of-the-art AI model can take weeks to months across thousands of GPUs. The client ships its data to a data center, the computation executes locally, and the output is returned to the client. Since neither input nor output is time-sensitive, network latency plays no role. Inference services (denoted I) encompass real-time workloads such as chatbot responses, autonomous decisions, and interactive agents. Each query must travel to the server and back within milliseconds, so the service quality degrades as delivery delays (latency) increase. Latency, denoted
+  64  𝑙
+  65  𝑗𝑘
+  66  , is the round-trip time for a data packet to travel from seller 𝑗 to buyer 𝑘, typically 5–10 ms within a country and over 150 ms across continents.
+  67  Governments and firms may prefer to process data domestically for national security, regulatory compliance, or political reasons. This is captured by a sovereignty premium 𝜆 ≥ 0, which acts as a proportional markup on the cost of foreign-sourced compute. When a country sources compute from a foreign seller, the effective cost is inflated by the factor (1 + 𝜆). The sovereignty premium is zero for domestic production.
+  68  The delivered cost of service 𝑠 ∈ {𝑇, 𝐼} from seller 𝑗 to buyer 𝑘 is:
+  70  𝑃
+  71  𝑠
+  72  (𝑗, 𝑘) = (1 +
+  73  𝜆
+  74  𝑗𝑘
+  75  ) · (1 +
+  76  𝜏
+  77  𝑠
+  78  ·
+  79  𝑙
+  80  𝑗𝑘
+  81  ) ·
+  82  𝑐
+  83  𝑗
+  84  /
+  85  𝜉
+  86  𝑗
+  87  ,
+  88  (2)
+  89  
+  90  where
+  91  𝜆
+  92  𝑗𝑘
+  93  = 𝜆 if 𝑗 ≠ 𝑘 and
+  94  𝜆
+  95  𝑗𝑘
+  96  = 0 if 𝑗 = 𝑘.
+  97  𝜉
+  98  𝑗
+  99  ∈ (0, 1] is a reliability index that captures institutional factors, such as grid outages, regulatory unpredictability, and sanctions risk, that reduce effective output. It approaches one for countries with stable institutions and reliable power, and falls well below one where outages or sanctions reduce effective delivery. The parameter 𝜏 measures the rate of quality degradation per millisecond of round-trip latency, with
+ 100  𝜏
+ 101  𝑇
+ 102  = 0 and
+ 103  𝜏
+ 104  𝐼
+ 105  = 𝜏 > 0. This iceberg formulation parallels Hummels and Schaur (2013), who estimate that each day of shipping time is equivalent to a tariff; here, milliseconds replace days. For training (
+ 106  𝜏
+ 107  𝑇
+ 108  = 0), the delivered cost reduces to the production cost plus the sovereignty markup, and distance plays no role. For inference, the delivered cost increases with latency at rate
+ 109  𝜏
+ 110  𝐼
+ 111  . Beyond a threshold
+ 112  𝑙
+ 113  (typically 200–300 ms for interactive applications), the service becomes unusable regardless of price, modeled as
+ 114  𝑃
+ 115  𝐼
+ 116  (𝑗, 𝑘) = ∞ if
+ 117  𝑙
+ 118  𝑗𝑘
+ 119  >
+ 120  𝑙
+ 121  .
+ 122  3.3 Global Compute Demand
+ 123  The model is closed by specifying demand for compute services. Let
+ 124  𝑞
+ 125  𝑘
+ 126  denote the volume of compute purchased by buyer 𝑘. The paper measures compute demand using installed data center capacity in megawatts (MW):
+ 128  𝑞
+ 129  𝑘
+ 130  =
+ 131  𝜔
+ 132  𝑘
+ 133  · 𝑄,
+ 134  𝜔
+ 135  𝑘
+ 136  =
+ 137  𝑀
+ 138  𝑘
+ 139  /
+ 140  𝑘′
+ 142  𝑀
+ 143  𝑘′
+ 145  ,
+ 146  (3)
+ 147  
+ 148  where 𝑄 is total global compute spending and
+ 149  𝜔
+ 150  𝑘
+ 151  is country 𝑘’s share of global demand, measured by its share of installed data center capacity (MW).
+ 152  Demand splits between training and inference. Training demand is
+ 153  𝑞
+ 154  𝑇𝑘
+ 155  = 𝛼 ·
+ 156  𝑞
+ 157  𝑘
+ 158  and inference demand is
+ 159  𝑞
+ 160  𝐼𝑘
+ 161  = (1 − 𝛼) ·
+ 162  𝑞
+ 163  𝑘
+ 164  , where 𝛼 ∈ (0, 1) is the exogenous training share. The parameter 𝛼 should be interpreted as the share of compute that is fully latency-insensitive and freely offshorable; the effective offshorable share may be smaller as intermediate workloads (agentic inference, fine-tuning) grow.
+ 165  3.4 Sourcing and Market Equilibrium
+ 166  For each service type 𝑠 ∈ {𝑇, 𝐼}, each buyer 𝑘 chooses the source that minimizes the delivered cost:
+ 168  𝑗
+ 169  𝑠
+ 170  ∗
+ 171  (𝑘) =
+ 172  arg min
+ 173  𝑗
+ 175  𝑃
+ 176  𝑠
+ 177  (𝑗, 𝑘).
+ 178  (4)
+ 179  
+ 180  Each country 𝑗 is characterized by a capacity ceiling
+ 182  𝐾
+ 184  𝑗
+ 185  , measured in GPU-hours per period, representing the maximum volume of compute the country can supply. This ceiling reflects the joint constraint of grid electricity availability, institutional capacity for data center permitting and construction, and access to GPU financing.
+ 186  Training market. Since
+ 187  𝜏
+ 188  𝑇
+ 189  = 0, training can be considered to be a homogeneous good with no distance-related quality degradation. Country 𝑘 imports training whenever the world price, after adding the sovereignty premium, is lower than producing domestically: (1 + 𝜆) ·
+ 190  𝑝
+ 191  𝑇
+ 192  <
+ 193  𝑐
+ 194  𝑘
+ 195  , where
+ 196  𝑝
+ 197  𝑇
+ 198  is the competitive world training price. In the capacity-constrained equilibrium, the cheapest producer supplies up to its capacity, then the next cheapest enters, and so on until demand is met. The marginal training exporter
+ 199  𝑚
+ 200  𝑇
+ 201  is the producer whose entry just satisfies total export demand. The equilibrium training price equals the marginal exporter’s cost:
+ 202  𝑝
+ 203  𝑇
+ 204  =
+ 205  𝑐
+ 206  (
+ 207  𝑚
+ 208  𝑇
+ 209  )
+ 210  .
+ 211  Without capacity constraints,
+ 212  𝑚
+ 213  𝑇
+ 214  = 1 and the cheapest country serves all demand at its own cost, earning zero rent. With binding capacity constraints,
+ 215  𝑚
+ 216  𝑇
+ 217  > 1, the price rises to the cost of the marginal entrant, and all infra-marginal exporters earn positive rents:
+ 218  𝜋
+ 219  𝑇𝑗
+ 220  = (
+ 221  𝑝
+ 222  𝑇
+ 223  −
+ 224  𝑐
+ 225  𝑗
+ 226  ) ·
+ 227  𝐾
+ 228  𝑇𝑗
+ 229  . For a capacity-constrained exporter, the shadow value
+ 230  𝜇
+ 231  𝑗
+ 232  of the capacity constraint measures how much one additional GPU-hour would be worth. It equals the difference between the market price and country’s production price.
+ 233  Inference market. Since
+ 234  𝜏
+ 235  𝐼
+ 236  = 𝜏 > 0, inference suffers distance-dependent quality degradation. The inference market for buyer 𝑘 is localized, as only countries with latency
+ 237  𝑙
+ 238  𝑗𝑘
+ 239  ≤
+ 240  𝑙
+ 241  can participate, and each faces a different delivered cost. The delivered inference price for buyer 𝑘 is:
+ 243  𝑝
+ 244  𝐼
+ 245  𝑓
+ 246  (𝑘) = (1 + 𝜏 ·
+ 247  𝑙
+ 249  𝑚
+ 250  𝐼
+ 251  (𝑘), 𝑘
+ 252  ) ·
+ 253  𝑐
+ 255  𝑚
+ 256  𝐼
+ 257  (𝑘)
+ 258  ,
+ 259  (5)
+ 260  
+ 261  where
+ 262  𝑚
+ 263  𝐼
+ 264  (𝑘) is the marginal inference supplier to 𝑘, determined by the capacity-constrained supply stack for 𝑘’s inference market. Each GPU-hour of capacity is allocated to its highest-margin use, whether training exports, inference exports to various destinations, or domestic supply.
+ 265  4. Equilibrium Properties
+ 266  This section derives the formal properties of the capacity-constrained equilibrium defined in Section 3. Full derivations appear in Appendix B.
+ 267  Proposition 1 (Country Taxonomy). With two service types (training with
+ 268  𝜏
+ 269  𝑇
+ 270  = 0, and inference with
+ 271  𝜏
+ 272  𝐼
+ 273  > 0) and three possible statuses (export, domestic production, import), there are nine potential regime combinations. In equilibrium, only five are realized.
+ 274  (i) Training exporter + inference exporter. The cheapest producers, with
+ 275  𝑐
+ 276  𝑗
+ 277  <
+ 278  𝑝
+ 279  𝑇
+ 280  ∗
+ 281  , supply training globally and inference to nearby demand centers. By Proposition 5, every training exporter also exports inference within its latency neighborhood.
+ 282  (ii) Training importer + inference exporter. Countries with
+ 283  𝑐
+ 284  𝑗
+ 285  >
+ 286  𝑝
+ 287  𝑇
+ 288  ∗
+ 289  that are not cheap enough to compete in the global training market but serve as regional inference hubs due to low costs and proximity to demand centers (
+ 290  𝑑
+ 291  𝑖𝑗
+ 292  below the latency threshold
+ 293  𝑑
+ 294  ).
+ 295  (iii) Training importer + inference domestic producer. Countries that import training but produce inference domestically, because the sovereignty premium 𝜆 or geographic isolation makes all foreign inference sources more expensive than domestic production.
+ 296  (iv) Domestic producer of both. Countries where
+ 297  𝑐
+ 298  𝑘
+ 299  ≤ (1 + 𝜆) ·
+ 300  𝑝
+ 301  𝑇
+ 302  ∗
+ 303  , so the sovereignty premium is large enough to justify domestic production of both training and inference.
+ 304  (v) Importer of both. High-cost countries with
+ 305  𝑐
+ 306  𝑘
+ 307  > (1 + 𝜆) ·
+ 308  𝑝
+ 309  𝑇
+ 310  ∗
+ 311  that import both training and inference from cheaper or closer suppliers.
+ 312  The remaining four combinations cannot arise in equilibrium. A training exporter cannot simultaneously produce inference domestically or import it: a country cheap enough to win global training competition (
+ 313  𝑐
+ 314  𝑗
+ 315  <
+ 316  𝑝
+ 317  𝑇
+ 318  ∗
+ 319  ) is necessarily cheap enough to export inference to nearby buyers (Proposition 5). A country that produces training domestically cannot import inference, because the sovereignty premium that justifies domestic training also justifies domestic inference, which additionally faces latency degradation when imported. A domestic training producer that exports inference would require simultaneously high sovereignty preference and low costs, a combination ruled out by the model’s cost ordering.
+ 320  Proposition 2 (Capacity Constraints Reduce Concentration). Define the Herfindahl–Hirschman Index (HHI), a standard measure of market concentration equal to the sum of squared market shares, for training market concentration as
+ 321  𝐻𝐻𝐼
+ 322  𝑇
+ 323  =
+ 324  𝑗
+ 326  (
+ 327  2
+ 330  𝐾
+ 331  𝑇𝑗
+ 332  /
+ 333  𝑄
+ 334  𝑇
+ 335  𝑋
+ 337  )
+ 338  2
+ 339  , where
+ 340  𝑄
+ 341  𝑇
+ 342  𝑋
+ 343  denote total training export demand, the sum of training demand across all importing countries. Without capacity constraints, the cheapest producer captures all training demand and
+ 344  𝐻𝐻𝐼
+ 345  𝑇
+ 346  = 1. With binding capacity constraints on the cheapest producers,
+ 347  𝐻𝐻𝐼
+ 348  𝑇
+ 349  < 1, and
+ 350  𝐻𝐻𝐼
+ 351  𝑇
+ 352  is strictly decreasing in the number of capacity-constrained infra-marginal exporters. Intuitively, when cheap producers reach capacity limits, residual demand spills over to more expensive suppliers, spreading market shares more evenly.
+ 353  Proposition 3 (Sovereignty Switching Threshold). A country will bear the additional cost of domestic AI training only if its sovereignty premium is large enough to justify the price premium over cheaper foreign producers. Formally, country 𝑘 produces training domestically if and only if 𝜆 ≥
+ 354  𝜆
+ 355  𝑘
+ 356  ∗
+ 357  =
+ 358  𝑐
+ 359  𝑘
+ 360  /
+ 361  𝑝
+ 362  𝑇
+ 363  − 1. The threshold is increasing in
+ 364  𝑐
+ 365  𝑘
+ 366  and decreasing in
+ 367  𝑝
+ 368  𝑇
+ 369  . Under capacity constraints,
+ 370  𝑝
+ 371  𝑇
+ 372  >
+ 373  𝑐
+ 374  (1)
+ 375  , so the threshold is lower than in the unconstrained model. Capacity constraints reduce the sovereignty premium required for domestic production. Without capacity constraints, the world price equals the cheapest producer's cost, and a country must value sovereignty highly to justify paying more for domestic production. With binding capacity constraints, the world price rises to the marginal entrant's cost, narrowing the gap between domestic and import prices. A smaller sovereignty premium is then sufficient to tip the balance toward domestic production.
+ 376  Proposition 4 (Shadow Value and Grid Expansion). For a capacity-constrained exporter, the shadow value
+ 377  𝜇
+ 378  𝑗
+ 379  of the capacity constraint equals the margin on the least profitable active use (Section 3.4). Grid expansion is warranted if and only if the amortized per-GPU-hour cost of grid infrastructure
+ 380  𝑔
+ 381  𝑗
+ 382  satisfies
+ 383  𝑔
+ 384  𝑗
+ 385  <
+ 386  𝜇
+ 387  𝑗
+ 388  . This follows directly from the concavity of the rent function.
+ 389  Proposition 5 (Training Exporters Nest Within Inference Exporters). If a country is cheap enough to export training (which can be done from anywhere), it is also cheap enough to export inference to nearby demand centers. The set of training exporters is therefore a subset of inference exporters for demand centers within the latency threshold
+ 390  𝑙
+ 391  . A training exporter has the globally lowest
+ 392  𝑐
+ 393  𝑗
+ 394  . For inference to proximate demand centers, this cost advantage dominates the latency markup, so the same country wins the inference competition. Since training has no distance penalty while inference does, every country that exports training is also competitive in inference within its geographic neighborhood, but not vice versa.
+ 395  Welfare cost of sovereignty. The sovereignty premium imposes a welfare cost with two components, an import markup (importers pay 𝜆 ·
+ 396  𝑝
+ 397  𝑇
+ 398  per unit above the competitive price) and an allocative inefficiency (countries with
+ 399  𝑝
+ 400  𝑇
+ 401  <
+ 402  𝑐
+ 403  𝑘
+ 404  ≤ (1 + 𝜆) ·
+ 405  𝑝
+ 406  𝑇
+ 407  produce domestically at above-world-price costs). Under capacity constraints, both components are smaller than in the unconstrained model because the higher world price narrows the gap between domestic and import costs.
+ 408  5. Data
+ 409  Calibrating the production-cost and trade-cost parameters in equations (2) and (3) requires data on electricity prices, temperatures, construction costs, and bilateral latencies. Electricity prices. For European countries, the paper uses Eurostat industrial electricity prices in the 20,000–69,999 MWh consumption band, which corresponds to large industrial consumers (Eurostat 2025). For non-European countries, the paper uses national regulator tariff sheets and secondary sources, including the U.S. Energy Information Administration (EIA 2025) for the United States, KEPCO for South Korea, national utility tariffs for Central Asian countries (Barki Tojik, AERA, Ministry of Energy of Uzbekistan), and GlobalPetrolPrices (2025) for the remaining countries. All prices are converted to $/kWhat 2024 average exchange rates.
+ 410  Temperature and construction. Peak summer temperature for each country is computed from ERA5 reanalysis data (Hersbach et al. 2020) as the average monthly maximum in the three warmest months, aggregated across populated grid cells. Data center construction costs per watt of IT capacity are from the Turner & Townsend Data Centre Construction Cost Index 2025 (Turner & Townsend 2025), which covers 37 countries. For the remaining countries, costs are predicted using a log-linear regression of ln($/W) on GDP per capita, population, urbanization, seismic risk, and regional dummies (Appendix E). Since construction is only 3–6% of total per-GPU-hour costs, imputation error has a limited impact on cost rankings. Costs are amortized over 15 years. The per-GPU construction cost in equation (1) equals 700 W (the GPU thermal design power) times the build cost per watt.
+ 411  Latency. Inter-country round-trip latency is measured using WonderNetwork’s global ping dataset (WonderNetwork 2024). For each country pair, the median round-trip time (RTT) in milliseconds is used. Domestic latency defaults to 5 ms where no intra-country measurement is available. These measurements reflect today’s network infrastructure. New undersea cables, terrestrial fiber, and CDN expansions could cut bilateral latencies enough to redraw inference trade patterns, opening distant low-cost producers to markets they cannot currently reach.
+ 412  Hardware. The calibration uses the NVIDIA H100 SXM GPU as the reference hardware platform, with a list price of $25,000, a thermal design power of 700W, an economic lifetime of 3 years, and a utilization rate 70% (Barroso, Hölzle, and Ranganathan 2018; NVIDIA 2024). Google’s fleet-wide GPU utilization, after years of optimization with custom schedulers and workload packing, runs in the 60–75% range (Barroso, Hölzle, and Ranganathan 2018). A new entrant in Central Asia would likely achieve 40–60% utilization in the early years, roughly doubling the effective hardware cost per useful GPU-hour. This yields an amortized hardware cost 𝜌 = $1.358/hr. Networking costs are calibrated at 𝜂 = $0.15/hr, based on the amortized cost of InfiniBand interconnect fabric per GPU over the same three-year horizon (Barroso, Hölzle, and Ranganathan 2018). Like hardware, networking equipment is procured at uniform global prices, so this term does not affect cross-country cost rankings. GPU prices are assumed to be uniform across countries. In practice, export controls, logistics costs, insurance, and local distribution markups can raise effective GPU prices by 5–15% in developing countries. A 10% GPU price premium would add roughly $0.10/hr to unit costs, substantially eroding the thin cost advantages documented in Table A2. This assumption thus favors developing-country exporters and should be kept in mind when interpreting the calibration results.
+ 413  GPU vintage. The calibration uses the NVIDIA H100, but successor GPUs (B200, shipping 2025) draw approximately 1,000W versus 700W and deliver roughly four times the training throughput. Higher power draw widens the absolute electricity cost gap across countries, modestly strengthening developing-country comparative advantage. However, late entrants selling older-generation GPU-hours must discount to compete with competitors using newer hardware, potentially eroding their cost edge. The cost structure is stable across generations—hardware amortization remains 80–85 percent of total cost—so the qualitative findings, including the narrow cross-country spread and the dominance of institutional factors, are robust to hardware choice.
+ 414  Other parameters. The latency degradation parameter is set at 𝜏 = 0.0008 per ms, implying that 100 ms of latency inflates inference cost by 8%. This value is calibrated to match the observed willingness of cloud providers to invest in regional points of presence. At 𝜏 = 0.0008 per ms, a latency difference of 100 ms (roughly the intercontinental round-trip between Europe and East Asia) imposes an 8% cost penalty, consistent with industry evidence that web-service revenue declines by approximately 1% per 100 ms of additional latency. The sovereignty premium is 𝜆 = 10%. The training share of compute demand is 𝛼 = 0.50, within the industry range of 0.4–0.6 (Deloitte 2025).
+ 415  Reliability. The reliability index
+ 416  𝜉
+ 417  𝑗
+ 418  from equation (2) is constructed as the product of three normalized scores for governance quality (World Bank Worldwide Governance Indicators, Rule of Law percentile, rescaled to [0, 1]), grid reliability (inverse of hours without electricity per firm per year, from the World Bank Enterprise Surveys), and sanctions exposure (0 for unrestricted, 0.5 for comprehensive sanctions). For OECD countries with negligible outages and no sanctions,
+ 419  𝜉
+ 420  𝑗
+ 421  ≈ 1. For countries under heavy sanctions (Iran, Russia, Belarus),
+ 422  𝜉
+ 423  𝑗
+ 424  = 0.50. Developing countries with weak grids and governance fall in between. Note that even countries with
+ 425  𝜉
+ 426  𝑗
+ 427  ≈ 1 can shift in rank after reliability adjustment: penalizing low-ξ competitors pushes them down, mechanically raising higher-ξ countries. Moreover, ξ ranges from 0.95 to 1.00 even within the OECD, and the tight cross-country cost spread (≈20%) means small reliability differences reshuffle adjacent ranks.
+ 428  Demand. Compute demand
+ 429  𝑞
+ 430  𝑘
+ 431  is proxied by installed data center capacity in MW, as specified in equation (3). For the top 15 markets, capacity estimates come from industry reports (Synergy Research, Cushman & Wakefield, CBRE, Mordor Intelligence). For smaller markets, capacity is estimated from facility counts and regional averages. The five largest demand centers (United States of America (43%), China (26%), India (2.9%), Canada (3%), and Australia (2%)) account for 77% of global demand. MW capacity captures the scale of compute infrastructure more accurately than facility counts. Chinese data centers, though fewer in number (449 in Cloudscene), are substantially larger on average, and IEA (2025) data confirm that China accounts for roughly 25% of global data center electricity consumption compared with 44% for the United States. Since all results below depend only on demand shares, not on the absolute level 𝑄, the calibration does not require an estimate of total global compute spending. Table 1 reports all model parameters.
+ 432  6. Calibration and Discussion
+ 433  The model is calibrated for 𝑁 = 85 countries (30 in ECA, 55 non-ECA comparators). The unit cost
+ 434  𝑐
+ 435  𝑗
+ 436  represents the total hourly cost of operating one GPU in country 𝑗, measured in dollars per GPU-hour ($/hr). The PUE parameters are calibrated as follows. The baseline 𝜑 = 1.08 matches Google’s reported fleet-wide PUE for facilities with free-air cooling in cold climates (Uptime Institute 2024). The sensitivity coefficient 𝛿 = 0.015 per °C is estimated from cross-sectional variation in PUE across data center locations with different cooling loads (Liu et al. 2023). The threshold
+ 437  𝜃
+ 438  = 15°C is the approximate outdoor temperature above which mechanical cooling is needed, below which free-air cooling suffices. Together, these yield PUE values from 1.08 (Iceland, Scandinavia) to 1.41 (UAE), consistent with the industry range of 1.1–1.6 reported by the Uptime Institute.
+ 439  Table A2 in the Appendix reports the full results for all 𝑁 = 85 countries. The paper’s preferred specification applies cost-recovery electricity prices (replacing subsidized tariffs with long-run marginal cost) and adjusts for institutional reliability using the index
+ 440  𝜉
+ 441  𝑗
+ 442  defined in equation (2). Under this specification, the five cheapest producers are Canada ($1.61/hr), Norway ($1.62/hr), Finland ($1.62/hr), Sweden ($1.63/hr), and Iceland ($1.64/hr). Nine of the ten cheapest countries under the pure engineering cost ranking fall out of the top ten after reliability adjustment, replaced by countries with stronger institutions and more reliable grids. Because hardware and networking costs account for roughly 94% of engineering costs and are identical everywhere, the cross-country cost spread is narrow (about 20%). Even modest institutional penalties are large relative to this thin margin, so governance quality can easily dominate the cost ranking. An engineering cost advantage is therefore necessary but not sufficient for FLOP exporting. Figure 1 illustrates the resulting rank reshuffling.
+ 443  For comparison, under observed electricity tariffs and without reliability adjustment, the cheapest producer is Iran ($1.41/hr), followed by Turkmenistan ($1.42/hr) and Ethiopia ($1.43/hr). But this ranking is misleading. Iran’s headline cost rests on electricity priced at $0.005/kWh, a figure sustained by one of the world’s largest fossil fuel subsidies. Turkmenistan, Algeria, Qatar, and several other low-cost producers face similar distortions. Once subsidies are removed and institutional reliability is factored in, the ranking changes substantially.
+ 444  To distinguish genuine comparative advantage from fiscal artifact, the calibration replaces subsidized tariffs with cost-recovery prices, defined as the long-run marginal cost (LRMC) of the dominant generation technology at opportunity-cost fuel prices (IMF 2025, Lazard 2025). This adjustment is applied to 13 countries whose retail electricity prices fall below the estimated LRMC. Hydropower producers (Kyrgyzstan, Canada, Norway) are not adjusted because their low prices reflect genuine resource advantages rather than fiscal transfers. The resulting cost-recovery ranking serves as the baseline for the preferred specification. The five cheapest producers become Kyrgyzstan ($1.58/hr), Canada ($1.59/hr), Ethiopia ($1.59/hr), Kosovo ($1.60/hr), and Tajikistan ($1.60/hr). A sovereignty premium 𝜆 = 10% shifts the majority of countries to domestic production. The sovereignty premium is particularly powerful for inference, since the latency markup within Europe is moderate (10–40 ms, adding 1–3%), and even a small domestic preference can tip the decision away from importing.
+ 445  In practice, 𝜆 is bilateral and heterogeneous. Between allies with mutual data adequacy agreements (e.g., EU member states), the effective sovereignty premium may be near zero. Between geopolitical adversaries, it is effectively infinite—the United States would not source training from Iran regardless of cost, and current sanctions make such transactions illegal. The uniform 𝜆 = 10% should therefore be understood as an average over non-adversarial country pairs. In a model with bilateral
+ 446  𝜆
+ 447  𝑗𝑘
+ 448  , sanctioned countries would be excluded from serving most demand centers. Under cost-recovery prices, Iran is already outside the top ten, so sanctions reinforce rather than alter the cost-recovery ranking.
+ 449  The country-specific switching threshold
+ 450  𝜆
+ 451  𝑘
+ 452  ∗
+ 453  from Section 4 varies widely across the calibration. Near-frontier countries, whose production costs are close to the cheapest global supplier, switch to domestic production with minimal sovereignty premia. Kyrgyzstan requires only
+ 454  𝜆
+ 455  ∗
+ 456  = −0.9%, China 0.8%, and the United States 2.6%. High-cost countries require much larger premia. Germany needs
+ 457  𝜆
+ 458  ∗
+ 459  = 6.4% and Japan 6.9%. Countries with high
+ 460  𝜆
+ 461  ∗
+ 462  face large cost penalties from sovereignty-driven domestic sourcing.
+ 463  Trade flows under capacity constraints. Weighting the sourcing patterns by demand shares from equation (3) and applying capacity constraints from Section 3.4, the equilibrium training price is
+ 464  𝑝
+ 465  𝑇
+ 466  = $1.59/hr, set by the marginal exporter’s cost. Training demand is served by 2 exporters (HHI = 0.93), confirming Proposition 2. The largest shadow values of grid capacity are Kyrgyzstan ($0.014/hr), consistent with Proposition 4. Inference is more dispersed, with the top five suppliers being Canada (46%), Kyrgyzstan (26%), Kosovo (6%), United Kingdom (3%), India (3%), collectively accounting for 84% of global inference demand (HHI = 0.29). Under the 10% sovereignty premium, most training demand is served domestically, and the smaller export market is served by 1 exporter (HHI = 1.00) at $1.58/hr.
+ 467  Among developing countries, Kyrgyzstan captures 26% of global inference demand by serving China, Kazakhstan, and Uzbekistan, a large share for a country with a GDP of under $15 billion. Kosovo serves as an inference hub for 17 countries, accounting for 6% of global inference demand. These results are illustrative, not forecasts. They show the cost structure that would make FLOP exporting viable, not that specific countries will necessarily capture these market shares. Cheap-energy developing countries can, in principle, earn export revenue from much larger economies.
+ 468  Under cost-recovery pricing, the narrow cost spread means that even a 10% sovereignty premium is sufficient to make domestic training viable for nearly all countries, leaving the share of global training demand available to foreign exporters negligible. Raising the premium to 20% shifts 1 additional country to domestic production, but the marginal effect is small. Inference exports are more resilient to sovereignty premia because the latency advantage of proximity partially insulates regional hubs.
+ 469  Major demand centers. The model’s predictions vary across major AI demand centers because each faces a different latency geography. For the United States, the cost-recovery optimum sources training from the cheapest available producer and inference from Canada ($1.66/hr). For Germany, inference is sourced from Kosovo ($1.65/hr), for the United Kingdom from United Kingdom ($1.66/hr), and for France from Kosovo ($1.66/hr). For China, the cheapest inference source is Kyrgyzstan ($1.63/hr), a bordering country with hydropower-based electricity. These patterns illustrate the model’s core prediction that inference organizes around latency-bounded regional hubs, and each major market has a distinct optimal supplier determined by geography. With a sovereignty premium of 10%, most large economies shift to full domestic production.
+ 470  Governance and political economy. These cost rankings assume globally uniform hardware prices and abstract from institutional heterogeneity. In practice, GPU export controls raise effective
+ 471  𝑐
+ 472  𝑗
+ 473  for Iran, Russia, and Belarus, and grid reliability varies widely. Data center investments are large, long-lived, and immobile, so the viability of a country as a compute exporter depends on institutional factors not captured by
+ 474  𝑐
+ 475  𝑗
+ 476  alone. Several of the cheapest producers in the calibration (Iran, Turkmenistan, Uzbekistan) rank poorly on property rights and rule of law indices, and subsidized electricity prices may be politically fragile. Effective entry barriers are therefore higher than production costs alone suggest. The World Bank (2025) frames this as the central policy choice: whether to build domestic compute capacity or secure affordable access to international cloud services, a trade-off the present model formalizes through the sovereignty premium and capacity constraints.
+ 477  The EU’s GDPR and AI Act segment the compute market along regulatory lines, reinforcing the sovereignty premium 𝜆 as a structural feature. U.S. export controls on advanced GPUs (October 2022 and October 2023 rules, expanded in 2025) create a hard binary constraint for certain jurisdictions—H100-class GPUs cannot legally be shipped there at all, making the relevant question availability rather than price. For countries not under outright bans but subject to per-chip caps, the effective hardware cost 𝜌 rises through grey-market procurement, potentially offsetting any electricity cost advantage and discouraging long-term investment. As shown above, once reliability and governance are factored into costs, viable compute exporters are a strict subset of low-cost producers—those that combine cheap energy with adequate institutional quality, such as the Nordic countries, Canada, and parts of the Gulf and Central Asia. Water is another constraint. Evaporative cooling consumes large volumes, and several of the cheapest producers (Iran, Turkmenistan, Egypt, Saudi Arabia) are water-scarce. Liquid cooling reduces water needs but does not eliminate them.
+ 478  The sovereignty premium deserves scrutiny. Some domestic processing preference is justified for genuinely confidential data (e.g., military intelligence, health records, and national statistical systems). But much of the current policy push, particularly in the EU, extends the sovereignty logic far beyond these cases to cover routine commercial computation that carries no security risk. The welfare cost is not trivial. As shown above, a 10% premium already shifts most countries toward domestic production, forgoing the cost savings from specialization. Developing countries in Central Asia and Africa are likely to follow the EU template, imposing data localization requirements that their small markets cannot efficiently serve. A policy tension arises: the same countries whose cost advantages position them as natural FLOP exporters may simultaneously erect sovereignty barriers against importing compute from their neighbors, reducing the welfare gains from regional specialization that the model predicts.
+ 479  Subsidy adjustment. The cost-recovery prices are derived from country-specific LRMC estimates. For gas exporters (Iran, Turkmenistan, Algeria, Qatar), the calibration uses combined-cycle gas generation at export-parity fuel prices ($0.065–$0.100/kWh). For the Gulf states, it uses the opportunity cost of domestic gas combustion relative to LNG exports. For coal-dependent producers (Kazakhstan, South Africa), the calibration uses the Eskom-style cost-recovery tariff. For Ethiopia, it uses the IMF’s hydro cost-recovery target ($0.050/kWh). The subsidy gap ranges from $0.019 to $0.080/kWh. for Iran, a 100 MW data center would receive roughly $70 million per year in implicit fiscal transfer. At export scale, this fiscal arithmetic becomes unsustainable. Even cost-recovery prices may understate the true resource cost. Regulated tariffs in many developing countries cover operating expenses but not the full capital cost of generation, transmission, and distribution infrastructure. State-owned enterprises (SOEs) accumulate quasi-fiscal deficits that are eventually borne by taxpayers or future consumers. Allowing large-scale FLOP exports at these prices would accelerate infrastructure depreciation while the SOE cannot finance replacement, raising a fundamental question—is it politically sustainable to export compute while the domestic energy sector cannot maintain its capital stock? Governments ultimately face a choice between raising data center tariffs (eroding the cost advantage), maintaining subsidies at growing fiscal cost, or capping capacity. Iran drops from first to 24th. Eight countries change trade regime.
+ 480  Endogenous electricity prices. The model treats electricity prices as exogenous parameters. For large economies this is innocuous, but for the small, cheap-energy countries that rank highest in Table A2, a hyperscale data center can be large relative to the host grid. Kyrgyzstan’s installed generation capacity is approximately 3,500 MW, and a single 100 MW facility would consume roughly 5% of national electricity output, and at the multi-facility scale implied by the model’s export predictions, data centers would become the dominant industrial load. At that scale, the assumption of price-taking behaviour breaks down. Increased demand would bid up wholesale electricity prices, competing with residential heating in winter (when Kyrgyz hydropower output drops), and likely triggering regulatory intervention. The cheap electricity that attracts investment would be partially eroded by the investment itself. The capacity ceiling
+ 482  𝐾
+ 484  𝑗
+ 485  partially addresses this concern by capping each country’s compute output, but within the feasible range, the model’s fixed-price assumption means that the cost advantages in Table A2 are upper bounds. A general equilibrium extension with upward-sloping electricity supply curves would compress these advantages further and narrow the set of viable exporters.
+ 486  Sensitivity analysis. The cost rankings in Table A2 are robust to substantial parameter variation. Across five scenarios—electricity prices ±$0.01/kWh, GPU price ±20%, and PUE capped at 1.20—the Spearman rank correlation with the baseline never falls below 0.992, the top five cheapest countries are unchanged in four of five scenarios, and the training price shifts by at most $0.272/hr. Table A3 in Appendix C reports the full results.
+ 487  Model extensions. The model can be extended in several directions. It can accommodate endogenous capacity investment, allowing countries to optimally choose their capacity ceiling rather than taking grid limits as given. It can incorporate stochastic disruptions such as grid outages or political instability, giving buyers a reason to diversify workloads across providers. Demand can be segmented by latency tolerance to capture heterogeneous service requirements. Carbon pricing can introduce a “green premium” that favors hydropower-rich countries. The framework can also accommodate strategic interaction among oligopolistic providers, and governance can enter as a multiplicative cost shifter on
+ 488  𝑐
+ 489  𝑗
+ 490  .
+ 491  Agglomeration and market structure. The competitive framework abstracts from the industrial organization of the cloud compute market, which is dominated by a small number of hyperscalers (AWS, Azure, Google Cloud) with significant scale economies, proprietary networks, and market power. In practice, whether a country becomes a compute exporter depends not only on unit costs but on whether a hyperscaler or colocation provider chooses to invest there, a decision shaped by agglomeration economies, institutional quality, and network connectivity (Krugman 1991). The concentration of data centers in locations such as Northern Virginia reflects precisely these centripetal forces.
+ 492  The model’s contribution is to identify which countries satisfy the necessary cost condition for competitive supply. Even under increasing returns, hyperscalers expanding internationally will favor locations where electricity, cooling, and construction costs are lowest, conditional on meeting minimum infrastructure thresholds. The cost ranking in Table A2 thus identifies the feasibility frontier. Countries that are cost-competitive have a prerequisite for attracting investment, though cost competitiveness alone is not sufficient. The thin margins documented above (a 20% spread between cheapest and most expensive) reinforce this point. Since unit cost advantages are modest, institutional and agglomeration factors are often decisive in determining which cost-competitive countries attract investment.
+ 493  7. Conclusion
+ 494  This paper develops a capacity-constrained model of trade in computing services (FLOPs) in which countries produce and export computing capacity based on their energy-resource endowments, as reflected in electricity prices, climate, and construction costs. The model distinguishes two service types, latency-insensitive training and latency-sensitive inference, and introduces a sovereignty premium to capture governments’ preference for domestic data processing. Capacity ceilings transform the classical cost-based assignment into a framework with market-clearing prices and scarcity rents. The paper calibrates the model for 86 countries using data on electricity prices, temperatures, construction costs, bilateral latencies, and grid capacity.
+ 495  Across 86 countries, low-energy-cost countries export training compute, while inference is served by regional hubs close enough to users to meet latency requirements. The sovereignty premium rationalizes widespread domestic investment, shifting the majority of countries from import to domestic production, at a demand-weighted welfare cost of 6.0% of average compute spending, comparable in magnitude to the 1–10% welfare losses from trade barriers estimated for goods trade (Arkolakis, Costinot, and Rodríguez-Clare 2012). The model generates a country taxonomy (full importers, training exporters, inference hubs, and hybrid regimes) that maps onto observed investment patterns. This geographic structure is consistent with Lehdonvirta, Wu, and Hawkins (2024), who independently find that training-capable GPU infrastructure is concentrated in roughly 30 countries while the rest are limited to inference-grade hardware. A central finding is that electricity costs, while the main source of cross-country cost variation, are not the dominant determinant of actual data center location. Because hardware amortization is uniform and accounts for 94% of per-GPU-hour costs, the cost spread across countries is narrow—about 20%. Institutional quality, sovereignty preferences, and access to GPU hardware frequently outweigh these thin cost margins.
+ 496  For developing countries, the results point to a new avenue for economic participation in the global economy. Countries like Kyrgyzstan, Uzbekistan, and Egypt, which rank among the cheapest FLOP producers in the calibration, could use their energy resource endowments—hydropower, natural gas, and solar irradiance—to convert cheap electricity into a high-value digital export without building a domestic AI research ecosystem. FLOP exporting is the digital equivalent of resource-based industrialization, but with the advantage that the underlying resource (electricity) need not deplete a finite reserve and the product (compute) serves the fastest-growing sector of the world economy. That said, the resource curse literature (van der Ploeg 2011) cautions that concentrated export revenues can produce Dutch disease, institutional degradation, and volatility. Whether FLOP exporting shares these risks depends on whether the revenues are broadly distributed or concentrated among a narrow set of actors, and on whether governments invest the proceeds in human capital and institutional development.
+ 497  The policy implications are asymmetric across training and inference. Training workloads tolerate high latency, so restricting training imports raises costs without offsetting proximity gains. Inference, by contrast, is latency-sensitive, giving domestic production a genuine quality-of-service advantage—though this rationale weakens for countries close to low-cost neighbors. For developing countries seeking to enter the compute export market, the binding constraints are not technological but institutional. Reliable power grids, political stability, data governance frameworks, and international connectivity determine whether cost advantages translate into actual exports.
+ 499  References
+ 500  Arkolakis, C., A. Costinot, and A. Rodríguez-Clare. (2012). “New Trade Models, Same Old Gains?” American Economic Review, 102(1): 94–130.
+ 501  Barroso, L., U. Hölzle, and P. Ranganathan. (2018). The Datacenter as a Computer: Designing Warehouse-Scale Machines, 3rd ed. San Rafael, CA: Morgan & Claypool.
+ 502  Biglaiser, G., J. Crémer, and A. Mantovani. (2024). “The Economics of the Cloud.” Toulouse School of Economics Working Paper No. 24-1520.
+ 503  Brainard, S. (1997). “An Empirical Assessment of the Proximity-Concentration Trade-off.” American Economic Review, 87(4): 520–544.
+ 504  Cloudscene. (2025). Global Data Center Directory. cloudscene.com.
+ 505  Deloitte and Google. (2020). “Milliseconds Make Millions.” Deloitte Digital and Google.
+ 506  Deloitte. (2025). “Technology, Media, and Telecommunications Predictions 2026.” Deloitte Insights.
+ 507  Dornbusch, R., S. Fischer, and P. Samuelson. (1977). “Comparative Advantage, Trade, and Payments in a Ricardian Model with a Continuum of Goods.” American Economic Review, 67(5): 823–839.
+ 508  Eaton, J., and S. Kortum. (2002). “Technology, Geography, and Trade.” Econometrica, 70(5): 1741–1779.
+ 509  EIA. (2025). Electric Power Monthly. U.S. Energy Information Administration.
+ 510  Epoch AI. (2024). “The Training Compute of Notable AI Models.” epochai.org.
+ 511  Eurostat. (2025). Electricity Prices for Non-Household Consumers (nrg_pc_205). Luxembourg: Eurostat.
+ 512  Firebird. (2026). “Phase 2 of Armenia AI Megaproject, Scaling to $4 Billion and 50,000 GPUs.” Press release, January 2026.
+ 513  Flucker, S., R. Tozer, and R. Whitehead. (2013). “Data Centre Energy Efficiency Analysis.” Building Services Engineering Research and Technology, 34(1): 103–117.
+ 514  GlobalPetrolPrices. (2025). Electricity Prices Around the World. globalpetrolprices.com.
+ 515  Goldfarb, A., and D. Trefler. (2018). “AI and International Trade.” In The Economics of Artificial Intelligence. Chicago: Univ. of Chicago Press, pp. 463–492.
+ 516  Grossman, G., and E. Rossi-Hansberg. (2008). “Trading Tasks: A Simple Theory of Offshoring.” American Economic Review, 98(5): 1978–1997.
+ 517  Hausmann, R., J. Hwang, and D. Rodrik. (2007). “What You Export Matters.” Journal of Economic Growth, 12(1): 1–25.
+ 518  Helpman, E., M. Melitz, and S. Yeaple. (2004). “Export Versus FDI with Heterogeneous Firms.” American Economic Review, 94(1): 300–316.
+ 519  Hersbach, H., et al. (2020). “The ERA5 Global Reanalysis.” Quarterly Journal of the Royal Meteorological Society, 146(730): 1999–2049.
+ 520  Hummels, D., and G. Schaur. (2013). “Time as a Trade Barrier.” American Economic Review, 103(7): 2935–2959.
+ 521  IEA. (2025). “Energy Demand from AI.” Published online at iea.org.
+ 522  IMF. (2025). “Fossil Fuel Subsidies Data: 2025 Update.” IMF Working Paper WP/25/270.
+ 523  Korinek, A., and J. Stiglitz. (2021). “AI, Globalization, and Strategies for Economic Development.” NBER Working Paper No. 28453.
+ 524  Krugman, P. (1991). “Increasing Returns and Economic Geography.” Journal of Political Economy, 99(3): 483–499.
+ 525  Lazard. (2025). Lazard’s Levelized Cost of Energy Analysis, Version 17.0. lazard.com.
+ 526  Lehdonvirta, V., B. Wu, and Z. Hawkins. (2024). “Compute North vs. Compute South: The Uneven Possibilities of Compute-Based AI Governance Around the Globe.” Proceedings of the AAAI/ACM Conference on AI, Ethics, and Society, 7(1): 828–838.
+ 527  Limão, N., and A. Venables. (2001). “Infrastructure, Geographical Disadvantage, Transport Costs, and Trade.” World Bank Economic Review, 15(3): 451–479.
+ 528  Liu, Z., A. Wierman, Y. Chen, B. Raber, and J. Moriarty. (2023). “Sustainability of Data Center Digital Twins.” Proceedings of ACM e-Energy, pp. 178–189.
+ 529  NVIDIA. (2024). NVIDIA H100 Tensor Core GPU Datasheet. nvidia.com.
+ 530  Ohlin, B. (1933). Interregional and International Trade. Cambridge, MA: Harvard University Press.
+ 531  Oltmanns, J., D. Krcmarik, and R. Gatti. (2021). “Data Centre Site Selection.” Journal of Property Investment & Finance, 39(1): 55–72.
+ 532  Pilz, K., Y. Mahmood, and L. Heim. (2025). AI’s Power Requirements Under Exponential Growth. Santa Monica, CA: RAND Corporation, RR-A3572-1.
+ 533  Sastry, G., L. Heim, et al. (2024). “Computing Power and the Governance of Artificial Intelligence.” arXiv:2402.08797.
+ 534  Stojkoski, V., P. Coll-Ruiz, N. Maréchal, and C. Requier-Desjardins. (2024). “Trade in Cloud Computing and AI Services.” WTO Staff Working Paper ERSD-2024-03.
+ 535  Turner & Townsend. (2025). Data Centre Construction Cost Index 2025. turnerandtownsend.com.
+ 536  Turner Lee, N., and D. West. (2025). “The Future of Data Centers.” Brookings Institution, November 2025.
+ 537  U.S. Department of Justice and Federal Trade Commission. (2010). Horizontal Merger Guidelines. Washington, DC.
+ 538  UNCTAD. (2025). Technology and Innovation Report 2025. Geneva: United Nations.
+ 539  Uptime Institute. (2024). “Data Center Staffing: Trends and Best Practices.” uptimeinstitute.com.
+ 540  van der Ploeg, F. (2011). “Natural Resources: Curse or Blessing?” Journal of Economic Literature, 49(2): 366–420.
+ 541  WonderNetwork. (2024). Global Ping Statistics. wondernetwork.com.
+ 542  World Bank. (2024). World Development Indicators. Washington, DC.
+ 543  World Bank. (2025). Digital Progress and Trends Report 2025: Strengthening AI Foundations. Washington, DC: World Bank.
+ 545  Figure 1. Rank change with reliability adjustment
+ 546  /
+ 547  Notes: Each point is one country. The dashed line marks unchanged rank. Countries above the line improve their position after reliability adjustment; countries below it fall. Stars (★) indicate countries with active data center construction announcements. Values in parentheses show the reliability index ξ. Even countries with ξ ≈ 1 shift off the diagonal because penalizing low-ξ competitors pushes them down, mechanically raising higher-ξ countries.
+ 549  Table 1. Model parameters
+ 550  Parameter
+ 551  Symbol
+ 552  Eq.
+ 553  Value
+ 554  Source
+ 555  
+ 556  GPU thermal design power
+ 557  γ
+ 558  (2)
+ 559  0.700 kW
+ 560  NVIDIA (2024)
+ 561  
+ 562  GPU purchase price
+ 563  Pᴳᴘᴜ
+ 564  (2)
+ 565  $25,000
+ 566  NVIDIA (2024)
+ 567  
+ 568  GPU useful life
+ 569  L
+ 570  (2)
+ 571  3 years
+ 572  Industry standard
+ 573  
+ 574  GPU utilization rate
+ 575  β
+ 576  (2)
+ 577  0.70
+ 578  Barroso et al. (2018)
+ 579  
+ 580  Hours per year (365.25 x 24)
+ 581  H
+ 582  (2)
+ 583  8766 hr/yr
+ 584  Calendar
+ 585  
+ 586  Amortized hardware cost per GPU-hour
+ 587  ρ
+ 588  (2)
+ 589  $1.36/hr
+ 590  Derived
+ 591  
+ 592  Amortized networking cost per GPU-hour
+ 593  η
+ 594  (2)
+ 595  $0.15/hr
+ 596  Liu et al. (2023)
+ 597  
+ 598  PUE baseline (best-practice free-air cooling)
+ 599  φ
+ 600  (1)
+ 601  1.08
+ 602  Google (2024)
+ 603  
+ 604  PUE temperature sensitivity per degree C
+ 605  δ
+ 606  (1)
+ 607  0.015 per C
+ 608  Flucker et al. (2013)
+ 609  
+ 610  Free-cooling temperature threshold
+ 611  θ̄
+ 612  (1)
+ 613  15 C
+ 614  Industry standard
+ 615  
+ 616  Data center facility lifetime
+ 617  D
+ 618  (2)
+ 619  15 years
+ 620  Turner and Townsend (2025)
+ 621  
+ 622  Latency degradation per ms of RTT
+ 623  τ
+ 624  (3)
+ 625  0.0008 per ms
+ 626  Calibrated
+ 627  
+ 628  Sovereignty premium
+ 629  λ
+ 630  (5)
+ 631  0.10
+ 632  UNCTAD (2025)
+ 633  
+ 634  Training share of compute demand
+ 635  α
+ 636  (4)
+ 637  0.50
+ 638  Deloitte (2025)
+ 639  
+ 640  Total global compute demand
+ 641  Q
+ 642  (4)
+ 643  6×10¹⁰ GPU-hr/yr
+ 644  Epoch AI (2024)
+ 645  
+ 646  Reliability index (baseline)
+ 647  ξⱼ
+ 648  (2a)
+ 649  1.00
+ 650  WGI and Enterprise Surveys
+ 651  
+ 652  Notes: Hardware cost ρ = Pᴳᴘᴜ / (L · H · β). PUE(θ) = φ + δ · max(0, θ − θ̄). RTT = round-trip time, the network delay for a data packet to travel from client to server and back, measured in milliseconds. The reliability index ξⱼ combines governance quality, grid reliability, and sanctions exposure (equation 2). The baseline calibration sets ξⱼ = 1 for all countries.
+ 653  Appendix
+ 654  Table A2. Country-specific calibration parameters
+ 655  Rank
+ 656  Country
+ 657  pᴱ($/kWh)
+ 658  θⱼ(°C)
+ 659  PUE
+ 660  Constr.($/W)
+ 661  k̄ⱼ(MW)
+ 662  ωⱼ(%)
+ 663  ξⱼ
+ 664  cⱼ($/hr)
+ 665  Cost-Rec.pᴱ ($/kWh)
+ 666  Regime
+ 667  
+ 668  1
+ 669  Kyrgyzstan
+ 670  $0.038
+ 671  13.3
+ 672  1.08
+ 673  $7.83
+ 674  5
+ 675  0.0
+ 676  0.84
+ 677  $1.43
+ 678  $0.038
+ 679  hybrid
+ 680  
+ 681  2
+ 682  Canada
+ 683  $0.045
+ 684  14.6
+ 685  1.08
+ 686  $9.39
+ 687  3,200
+ 688  2.6
+ 689  0.99
+ 690  $1.44
+ 691  $0.045
+ 692  hybrid
+ 693  
+ 694  3
+ 695  Ethiopia
+ 696  $0.030
+ 697  26.5
+ 698  1.25
+ 699  $8.08
+ 700  10
+ 701  0.0
+ 702  0.82
+ 703  $1.43
+ 704  $0.050
+ 705  import
+ 706  
+ 707  4
+ 708  Kosovo
+ 709  $0.047
+ 710  21.0
+ 711  1.17
+ 712  $9.48
+ 713  5
+ 714  0.0
+ 715  0.88
+ 716  $1.45
+ 717  $0.047
+ 718  hybrid
+ 719  
+ 720  5
+ 721  Tajikistan
+ 722  $0.074
+ 723  16.8
+ 724  1.11
+ 725  $7.32
+ 726  5
+ 727  0.0
+ 728  0.83
+ 729  $1.45
+ 730  $0.074
+ 731  import
+ 732  
+ 733  6
+ 734  Montenegro
+ 735  $0.051
+ 736  21.7
+ 737  1.18
+ 738  $10.28
+ 739  5
+ 740  0.0
+ 741  0.91
+ 742  $1.45
+ 743  $0.051
+ 744  hybrid
+ 745  
+ 746  7
+ 747  China
+ 748  $0.079
+ 749  20.9
+ 750  1.17
+ 751  $6.12
+ 752  31,900
+ 753  25.8
+ 754  0.93
+ 755  $1.46
+ 756  $0.079
+ 757  import
+ 758  
+ 759  8
+ 760  Ukraine
+ 761  $0.057
+ 762  22.5
+ 763  1.19
+ 764  $9.86
+ 765  175
+ 766  0.1
+ 767  0.86
+ 768  $1.46
+ 769  $0.057
+ 770  hybrid
+ 771  
+ 772  9
+ 773  Argentina
+ 774  $0.060
+ 775  22.3
+ 776  1.19
+ 777  $10.10
+ 778  150
+ 779  0.1
+ 780  0.92
+ 781  $1.46
+ 782  $0.060
+ 783  hybrid
+ 784  
+ 785  10
+ 786  Colombia
+ 787  $0.075
+ 788  25.5
+ 789  1.24
+ 790  $7.49
+ 791  150
+ 792  0.1
+ 793  0.90
+ 794  $1.46
+ 795  $0.075
+ 796  hybrid
+ 797  
+ 798  11
+ 799  Azerbaijan
+ 800  $0.062
+ 801  24.4
+ 802  1.22
+ 803  $9.77
+ 804  10
+ 805  0.0
+ 806  0.87
+ 807  $1.46
+ 808  $0.062
+ 809  hybrid
+ 810  
+ 811  12
+ 812  Russia
+ 813  $0.040
+ 814  16.9
+ 815  1.11
+ 816  $10.36
+ 817  2,000
+ 818  1.6
+ 819  0.78
+ 820  $1.44
+ 821  $0.065
+ 822  hybrid
+ 823  
+ 824  13
+ 825  Norway
+ 826  $0.054
+ 827  14.5
+ 828  1.08
+ 829  $12.41
+ 830  400
+ 831  0.3
+ 832  1.00
+ 833  $1.47
+ 834  $0.054
+ 835  hybrid
+ 836  
+ 837  14
+ 838  Algeria
+ 839  $0.033
+ 840  35.8
+ 841  1.39
+ 842  $8.48
+ 843  25
+ 844  0.0
+ 845  0.87
+ 846  $1.44
+ 847  $0.065
+ 848  hybrid
+ 849  
+ 850  15
+ 851  Finland
+ 852  $0.057
+ 853  16.4
+ 854  1.10
+ 855  $12.29
+ 856  350
+ 857  0.3
+ 858  1.00
+ 859  $1.47
+ 860  $0.057
+ 861  hybrid
+ 862  
+ 863  16
+ 864  Vietnam
+ 865  $0.073
+ 866  28.0
+ 867  1.27
+ 868  $8.76
+ 869  250
+ 870  0.2
+ 871  0.92
+ 872  $1.47
+ 873  $0.073
+ 874  hybrid
+ 875  
+ 876  17
+ 877  Brazil
+ 878  $0.063
+ 879  27.3
+ 880  1.26
+ 881  $10.75
+ 882  1,200
+ 883  1.0
+ 884  0.91
+ 885  $1.47
+ 886  $0.063
+ 887  hybrid
+ 888  
+ 889  18
+ 890  Turkmenistan
+ 891  $0.010
+ 892  32.2
+ 893  1.34
+ 894  $9.24
+ 895  5
+ 896  0.0
+ 897  0.78
+ 898  $1.42
+ 899  $0.070
+ 900  hybrid
+ 901  
+ 902  19
+ 903  Egypt
+ 904  $0.038
+ 905  31.7
+ 906  1.33
+ 907  $7.63
+ 908  150
+ 909  0.1
+ 910  0.86
+ 911  $1.43
+ 912  $0.080
+ 913  hybrid
+ 914  
+ 915  20
+ 916  Sweden
+ 917  $0.068
+ 918  15.2
+ 919  1.08
+ 920  $12.29
+ 921  500
+ 922  0.4
+ 923  1.00
+ 924  $1.48
+ 925  $0.068
+ 926  hybrid
+ 927  
+ 928  21
+ 929  India
+ 930  $0.090
+ 931  30.2
+ 932  1.31
+ 933  $6.64
+ 934  3,600
+ 935  2.9
+ 936  0.90
+ 937  $1.48
+ 938  $0.090
+ 939  hybrid
+ 940  
+ 941  22
+ 942  Indonesia
+ 943  $0.067
+ 944  26.4
+ 945  1.25
+ 946  $11.21
+ 947  500
+ 948  0.4
+ 949  0.89
+ 950  $1.48
+ 951  $0.067
+ 952  hybrid
+ 953  
+ 954  23
+ 955  Kazakhstan
+ 956  $0.066
+ 957  24.9
+ 958  1.23
+ 959  $9.53
+ 960  100
+ 961  0.1
+ 962  0.88
+ 963  $1.47
+ 964  $0.085
+ 965  import
+ 966  
+ 967  24
+ 968  Iran
+ 969  $0.005
+ 970  31.2
+ 971  1.32
+ 972  $8.50
+ 973  10
+ 974  0.0
+ 975  0.75
+ 976  $1.41
+ 977  $0.085
+ 978  domestic
+ 979  
+ 980  25
+ 981  Georgia
+ 982  $0.091
+ 983  19.4
+ 984  1.15
+ 985  $9.58
+ 986  15
+ 987  0.0
+ 988  0.91
+ 989  $1.48
+ 990  $0.091
+ 991  import
+ 992  
+ 993  26
+ 994  United States of Am.
+ 995  $0.081
+ 996  22.9
+ 997  1.20
+ 998  $10.78
+ 999  53,700
+1000  43.4
+1001  0.98
+1002  $1.48
+1003  $0.081
+1004  import
+1005  
+1006  27
+1007  Uzbekistan
+1008  $0.071
+1009  29.9
+1010  1.30
+1011  $8.37
+1012  25
+1013  0.0
+1014  0.84
+1015  $1.47
+1016  $0.090
+1017  import
+1018  
+1019  28
+1020  Kenya
+1021  $0.088
+1022  27.4
+1023  1.26
+1024  $9.74
+1025  60
+1026  0.0
+1027  0.87
+1028  $1.49
+1029  $0.088
+1030  hybrid
+1031  
+1032  29
+1033  Turkey
+1034  $0.086
+1035  24.4
+1036  1.22
+1037  $10.57
+1038  350
+1039  0.3
+1040  0.92
+1041  $1.49
+1042  $0.086
+1043  hybrid
+1044  
+1045  30
+1046  Bosnia and Herz.
+1047  $0.099
+1048  21.6
+1049  1.18
+1050  $9.17
+1051  10
+1052  0.0
+1053  0.88
+1054  $1.49
+1055  $0.099
+1056  hybrid
+1057  
+1058  31
+1059  Nigeria
+1060  $0.042
+1061  31.4
+1062  1.33
+1063  $10.50
+1064  100
+1065  0.1
+1066  0.83
+1067  $1.45
+1068  $0.080
+1069  hybrid
+1070  
+1071  32
+1072  Iceland
+1073  $0.089
+1074  8.7
+1075  1.08
+1076  $12.47
+1077  60
+1078  0.0
+1079  1.00
+1080  $1.49
+1081  $0.089
+1082  hybrid
+1083  
+1084  33
+1085  South Africa
+1086  $0.040
+1087  23.5
+1088  1.21
+1089  $10.20
+1090  250
+1091  0.2
+1092  1.00
+1093  $1.45
+1094  $0.095
+1095  hybrid
+1096  
+1097  34
+1098  United Kingdom
+1099  $0.097
+1100  15.9
+1101  1.09
+1102  $11.88
+1103  2,590
+1104  2.1
+1105  0.99
+1106  $1.50
+1107  $0.097
+1108  import
+1109  
+1110  35
+1111  Belarus
+1112  $0.099
+1113  19.8
+1114  1.15
+1115  $10.91
+1116  35
+1117  0.0
+1118  0.78
+1119  $1.50
+1120  $0.099
+1121  import
+1122  
+1123  36
+1124  Australia
+1125  $0.090
+1126  28.8
+1127  1.29
+1128  $10.68
+1129  2,670
+1130  2.2
+1131  1.00
+1132  $1.50
+1133  $0.090
+1134  hybrid
+1135  
+1136  37
+1137  New Zealand
+1138  $0.095
+1139  15.9
+1140  1.09
+1141  $12.30
+1142  250
+1143  0.2
+1144  1.00
+1145  $1.50
+1146  $0.095
+1147  hybrid
+1148  
+1149  38
+1150  Morocco
+1151  $0.108
+1152  28.5
+1153  1.28
+1154  $7.82
+1155  50
+1156  0.0
+1157  0.91
+1158  $1.50
+1159  $0.108
+1160  hybrid
+1161  
+1162  39
+1163  Mexico
+1164  $0.095
+1165  26.6
+1166  1.25
+1167  $10.40
+1168  900
+1169  0.7
+1170  0.90
+1171  $1.50
+1172  $0.095
+1173  import
+1174  
+1175  40
+1176  France
+1177  $0.102
+1178  21.0
+1179  1.17
+1180  $10.43
+1181  1,400
+1182  1.1
+1183  0.99
+1184  $1.50
+1185  $0.102
+1186  import
+1187  
+1188  41
+1189  Armenia
+1190  $0.111
+1191  19.8
+1192  1.15
+1193  $9.76
+1194  10
+1195  0.0
+1196  0.90
+1197  $1.50
+1198  $0.111
+1199  import
+1200  
+1201  42
+1202  United Arab Emirates
+1203  $0.065
+1204  37.1
+1205  1.41
+1206  $9.24
+1207  500
+1208  0.4
+1209  0.97
+1210  $1.47
+1211  $0.095
+1212  hybrid
+1213  
+1214  43
+1215  Chile
+1216  $0.130
+1217  13.4
+1218  1.08
+1219  $8.61
+1220  200
+1221  0.2
+1222  0.96
+1223  $1.50
+1224  $0.130
+1225  hybrid
+1226  
+1227  44
+1228  Poland
+1229  $0.119
+1230  19.7
+1231  1.15
+1232  $9.16
+1233  600
+1234  0.5
+1235  0.96
+1236  $1.50
+1237  $0.119
+1238  import
+1239  
+1240  45
+1241  Latvia
+1242  $0.110
+1243  18.4
+1244  1.13
+1245  $10.92
+1246  80
+1247  0.1
+1248  0.95
+1249  $1.50
+1250  $0.110
+1251  import
+1252  
+1253  46
+1254  Portugal
+1255  $0.109
+1256  22.9
+1257  1.20
+1258  $10.25
+1259  100
+1260  0.1
+1261  0.97
+1262  $1.50
+1263  $0.109
+1264  hybrid
+1265  
+1266  47
+1267  Malta
+1268  $0.111
+1269  27.0
+1270  1.26
+1271  $9.40
+1272  20
+1273  0.0
+1274  1.00
+1275  $1.51
+1276  $0.111
+1277  hybrid
+1278  
+1279  48
+1280  Malaysia
+1281  $0.099
+1282  26.9
+1283  1.26
+1284  $11.37
+1285  500
+1286  0.4
+1287  0.96
+1288  $1.51
+1289  $0.099
+1290  hybrid
+1291  
+1292  49
+1293  Philippines
+1294  $0.115
+1295  27.8
+1296  1.27
+1297  $8.80
+1298  200
+1299  0.2
+1300  0.89
+1301  $1.51
+1302  $0.115
+1303  hybrid
+1304  
+1305  50
+1306  Israel
+1307  $0.108
+1308  28.2
+1309  1.28
+1310  $10.09
+1311  300
+1312  0.2
+1313  0.97
+1314  $1.51
+1315  $0.108
+1316  hybrid
+1317  
+1318  51
+1319  Spain
+1320  $0.113
+1321  24.9
+1322  1.23
+1323  $10.04
+1324  720
+1325  0.6
+1326  0.97
+1327  $1.51
+1328  $0.113
+1329  import
+1330  
+1331  52
+1332  Thailand
+1333  $0.108
+1334  29.3
+1335  1.29
+1336  $10.03
+1337  300
+1338  0.2
+1339  0.93
+1340  $1.51
+1341  $0.108
+1342  hybrid
+1343  
+1344  53
+1345  Belgium
+1346  $0.125
+1347  19.0
+1348  1.14
+1349  $9.97
+1350  400
+1351  0.3
+1352  1.00
+1353  $1.51
+1354  $0.125
+1355  import
+1356  
+1357  54
+1358  Serbia
+1359  $0.120
+1360  23.2
+1361  1.20
+1362  $10.15
+1363  40
+1364  0.0
+1365  0.90
+1366  $1.51
+1367  $0.120
+1368  import
+1369  
+1370  55
+1371  Pakistan
+1372  $0.134
+1373  29.9
+1374  1.30
+1375  $6.57
+1376  50
+1377  0.0
+1378  0.83
+1379  $1.52
+1380  $0.134
+1381  hybrid
+1382  
+1383  56
+1384  Saudi Arabia
+1385  $0.053
+1386  36.0
+1387  1.40
+1388  $11.34
+1389  400
+1390  0.3
+1391  0.95
+1392  $1.47
+1393  $0.100
+1394  hybrid
+1395  
+1396  57
+1397  Luxembourg
+1398  $0.128
+1399  18.0
+1400  1.12
+1401  $10.99
+1402  70
+1403  0.1
+1404  1.00
+1405  $1.52
+1406  $0.128
+1407  import
+1408  
+1409  58
+1410  Netherlands
+1411  $0.130
+1412  18.9
+1413  1.14
+1414  $10.81
+1415  1,800
+1416  1.5
+1417  1.00
+1418  $1.52
+1419  $0.130
+1420  import
+1421  
+1422  59
+1423  Qatar
+1424  $0.036
+1425  36.1
+1426  1.40
+1427  $11.86
+1428  80
+1429  0.1
+1430  0.97
+1431  $1.46
+1432  $0.100
+1433  import
+1434  
+1435  60
+1436  Estonia
+1437  $0.129
+1438  18.2
+1439  1.13
+1440  $11.19
+1441  50
+1442  0.0
+1443  0.98
+1444  $1.52
+1445  $0.129
+1446  import
+1447  
+1448  61
+1449  South Korea
+1450  $0.125
+1451  26.0
+1452  1.25
+1453  $10.07
+1454  850
+1455  0.7
+1456  0.98
+1457  $1.52
+1458  $0.125
+1459  hybrid
+1460  
+1461  62
+1462  Moldova
+1463  $0.135
+1464  24.2
+1465  1.22
+1466  $9.21
+1467  20
+1468  0.0
+1469  0.88
+1470  $1.52
+1471  $0.135
+1472  import
+1473  
+1474  63
+1475  Denmark
+1476  $0.129
+1477  17.2
+1478  1.11
+1479  $12.02
+1480  300
+1481  0.2
+1482  1.00
+1483  $1.52
+1484  $0.129
+1485  import
+1486  
+1487  64
+1488  Lithuania
+1489  $0.134
+1490  18.8
+1491  1.14
+1492  $10.97
+1493  55
+1494  0.0
+1495  0.96
+1496  $1.52
+1497  $0.134
+1498  import
+1499  
+1500  65
+1501  North Macedonia
+1502  $0.135
+1503  24.0
+1504  1.21
+1505  $9.79
+1506  18
+1507  0.0
+1508  0.89
+1509  $1.53
+1510  $0.135
+1511  hybrid
+1512  
+1513  66
+1514  Ghana
+1515  $0.120
+1516  30.7
+1517  1.31
+1518  $10.80
+1519  15
+1520  0.0
+1521  0.87
+1522  $1.53
+1523  $0.120
+1524  hybrid
+1525  
+1526  67
+1527  Slovenia
+1528  $0.147
+1529  21.7
+1530  1.18
+1531  $10.17
+1532  40
+1533  0.0
+1534  0.97
+1535  $1.53
+1536  $0.147
+1537  import
+1538  
+1539  68
+1540  Albania
+1541  $0.147
+1542  23.7
+1543  1.21
+1544  $9.55
+1545  5
+1546  0.0
+1547  0.90
+1548  $1.53
+1549  $0.147
+1550  import
+1551  
+1552  69
+1553  Romania
+1554  $0.156
+1555  22.1
+1556  1.19
+1557  $9.24
+1558  100
+1559  0.1
+1560  0.93
+1561  $1.54
+1562  $0.156
+1563  import
+1564  
+1565  70
+1566  Germany
+1567  $0.155
+1568  19.0
+1569  1.14
+1570  $11.54
+1571  1,955
+1572  1.6
+1573  0.99
+1574  $1.54
+1575  $0.155
+1576  import
+1577  
+1578  71
+1579  Greece
+1580  $0.165
+1581  26.1
+1582  1.25
+1583  $7.84
+1584  50
+1585  0.0
+1586  0.95
+1587  $1.54
+1588  $0.165
+1589  import
+1590  
+1591  72
+1592  Bulgaria
+1593  $0.155
+1594  23.9
+1595  1.21
+1596  $10.31
+1597  75
+1598  0.1
+1599  0.93
+1600  $1.54
+1601  $0.155
+1602  import
+1603  
+1604  73
+1605  Slovakia
+1606  $0.164
+1607  20.9
+1608  1.17
+1609  $10.02
+1610  40
+1611  0.0
+1612  0.96
+1613  $1.55
+1614  $0.164
+1615  import
+1616  
+1617  74
+1618  Austria
+1619  $0.160
+1620  18.6
+1621  1.13
+1622  $11.81
+1623  250
+1624  0.2
+1625  1.00
+1626  $1.55
+1627  $0.160
+1628  import
+1629  
+1630  75
+1631  Italy
+1632  $0.162
+1633  24.0
+1634  1.22
+1635  $9.79
+1636  850
+1637  0.7
+1638  0.96
+1639  $1.55
+1640  $0.162
+1641  import
+1642  
+1643  76
+1644  Japan
+1645  $0.135
+1646  25.2
+1647  1.23
+1648  $14.64
+1649  2,400
+1650  1.9
+1651  1.00
+1652  $1.55
+1653  $0.135
+1654  hybrid
+1655  
+1656  77
+1657  Czechia
+1658  $0.172
+1659  19.1
+1660  1.14
+1661  $10.93
+1662  130
+1663  0.1
+1664  0.97
+1665  $1.55
+1666  $0.172
+1667  import
+1668  
+1669  78
+1670  Switzerland
+1671  $0.160
+1672  15.7
+1673  1.09
+1674  $14.24
+1675  500
+1676  0.4
+1677  1.00
+1678  $1.56
+1679  $0.160
+1680  import
+1681  
+1682  79
+1683  Hungary
+1684  $0.176
+1685  23.6
+1686  1.21
+1687  $10.73
+1688  50
+1689  0.0
+1690  0.94
+1691  $1.56
+1692  $0.176
+1693  import
+1694  
+1695  80
+1696  Singapore
+1697  $0.145
+1698  28.5
+1699  1.28
+1700  $14.53
+1701  1,130
+1702  0.9
+1703  1.00
+1704  $1.57
+1705  $0.145
+1706  import
+1707  
+1708  81
+1709  Cyprus
+1710  $0.185
+1711  28.0
+1712  1.27
+1713  $10.29
+1714  20
+1715  0.0
+1716  1.00
+1717  $1.58
+1718  $0.185
+1719  import
+1720  
+1721  82
+1722  Senegal
+1723  $0.180
+1724  32.4
+1725  1.34
+1726  $10.50
+1727  10
+1728  0.0
+1729  0.89
+1730  $1.58
+1731  $0.180
+1732  import
+1733  
+1734  83
+1735  Croatia
+1736  $0.206
+1737  23.7
+1738  1.21
+1739  $9.77
+1740  30
+1741  0.0
+1742  0.95
+1743  $1.58
+1744  $0.206
+1745  import
+1746  
+1747  84
+1748  Ireland
+1749  $0.228
+1750  15.3
+1751  1.08
+1752  $10.05
+1753  1,260
+1754  1.0
+1755  0.99
+1756  $1.58
+1757  $0.228
+1758  import
+1759  
+1760  85
+1761  Greenland
+1762  $0.263
+1763  -3.1
+1764  1.08
+1765  $11.12
+1766  5
+1767  0.0
+1768  0.98
+1769  $1.62
+1770  $0.263
+1771  import
+1772  
+1773  Notes: Countries sorted by cost-recovery adjusted rank (ascending). pᴱ = national electricity price for industrial/data center consumers ($/kWh). θⱼ = peak summer temperature (°C). PUE = Power Usage Effectiveness. Constr. = predicted data center construction cost ($/W of IT load). k̄ⱼ = installed data center power capacity (MW). ωⱼ = country share of global compute demand from equation (3). ξⱼ = reliability index combining governance quality, grid reliability, and sanctions exposure. cⱼ = total hourly cost of operating one H100 GPU (electricity + hardware at $1.36/hr + networking at $0.15/hr + amortized construction). Cost-Rec. pᴱ = cost-recovery electricity price. For 13 countries with subsidized tariffs, this is the estimated long-run marginal cost of electricity generation (shown in bold). For all other countries, the cost-recovery price equals the observed tariff. Regime = optimal sourcing strategy from equation (4) without sovereignty premium.
+1775  Appendix B: Model Derivation
+1776  This appendix provides the full derivation of the capacity-constrained Ricardian model summarized in Sections 3–4.
+1777  B.1 Primitives
+1778  Each country 𝑗 is endowed with a capacity ceiling
+1780  𝐾
+1782  𝑗
+1783  (GPU-hours per period), representing the maximum volume of compute it can supply. Country 𝑗 faces unit production cost
+1784  𝑐
+1785  𝑗
+1786  from equation (1). On the demand side, total compute demand from country 𝑘 is
+1787  𝑞
+1788  𝑘
+1789  from equation (3). Training demand is
+1790  𝑞
+1791  𝑇𝑘
+1792  = 𝛼 ·
+1793  𝑞
+1794  𝑘
+1795  and inference demand is
+1796  𝑞
+1797  𝐼𝑘
+1798  = (1 − 𝛼) ·
+1799  𝑞
+1800  𝑘
+1801  . Countries are ordered by cost:
+1802  𝑐
+1803  (1)
+1804  ≤
+1805  𝑐
+1806  (2)
+1807  ≤ … ≤
+1808  𝑐
+1809  (𝑁)
+1810  .
+1811  B.2 The Training Market
+1812  Country 𝑘 imports training if and only if (1 + 𝜆) ·
+1813  𝑝
+1814  𝑇
+1815  <
+1816  𝑐
+1817  𝑘
+1818  . The set of training importers is
+1819  𝑀
+1820  𝑇
+1821  = { 𝑘 :
+1822  𝑐
+1823  𝑘
+1824  > (1 + 𝜆) ·
+1825  𝑝
+1826  𝑇
+1827  } and total training export demand is
+1828  𝑄
+1829  𝑇
+1830  𝑋
+1831  =
+1832  𝑘 ∈
+1833  𝑀
+1834  𝑇
+1837  𝑞
+1838  𝑇𝑘
+1840  . The marginal training exporter
+1841  𝑚
+1842  𝑇
+1843  is defined by:
+1845  𝑚
+1846  𝑇
+1847  = min { 𝑚 :
+1848  𝑖 = 1
+1849  𝑚
+1851  𝐾
+1852  𝑇,(𝑖)
+1854  ≥
+1855  𝑄
+1856  𝑇
+1857  𝑋
+1858  }.
+1859  (B.1)
+1860  
+1861  The equilibrium training price is
+1862  𝑝
+1863  𝑇
+1864  =
+1865  𝑐
+1866  (
+1868  𝑚
+1869  𝑇
+1870  ). Training rent for country 𝑗 with
+1871  𝑐
+1872  𝑗
+1873  <
+1874  𝑝
+1875  𝑇
+1876  is
+1877  𝜋
+1878  𝑇𝑗
+1879  = (
+1880  𝑝
+1881  𝑇
+1882  −
+1883  𝑐
+1884  𝑗
+1885  ) ·
+1886  𝐾
+1887  𝑇𝑗
+1888  .
+1889  B.3 The Inference Market
+1890  The feasible supplier set for demand center 𝑘 is 𝑆(𝑘) = { 𝑗 :
+1891  𝑙
+1892  𝑗𝑘
+1893  ≤
+1894  𝑙
+1895  }. The marginal cost of delivering one effective unit of inference from 𝑗 to 𝑘 is:
+1897  𝑀𝐶
+1898  𝐼
+1899  (𝑗, 𝑘) = (1 + 𝜏 ·
+1900  𝑙
+1901  𝑗𝑘
+1902  ) ·
+1903  𝑐
+1904  𝑗
+1905  .
+1906  (B.2)
+1907  
+1908  The inference rent per GPU-hour allocated to serving 𝑘 is
+1909  𝑟
+1910  𝐼
+1911  (𝑗, 𝑘) =
+1912  𝑝
+1913  𝐼
+1914  𝑓
+1915  (𝑘) / (1 + 𝜏 ·
+1916  𝑙
+1917  𝑗𝑘
+1918  ) −
+1919  𝑐
+1920  𝑗
+1921  .
+1922  B.4 Capacity Allocation
+1923  Each GPU-hour is allocated to its highest-margin use. The margins per GPU-hour are: training exports
+1924  𝑟
+1925  𝑇
+1926  (𝑗) =
+1927  𝑝
+1928  𝑇
+1929  −
+1930  𝑐
+1931  𝑗
+1932  ; inference exports to 𝑘:
+1933  𝑟
+1934  𝐼
+1935  (𝑗, 𝑘) =
+1936  𝑝
+1937  𝐼
+1938  𝑓
+1939  (𝑘) / (1 + 𝜏 ·
+1940  𝑙
+1941  𝑗𝑘
+1942  ) −
+1943  𝑐
+1944  𝑗
+1945  . Total rent from operating
+1946  𝐾
+1947  𝑗
+1948  GPU-hours is:
+1950  𝛱
+1951  𝑗
+1952  (
+1953  𝐾
+1954  𝑗
+1955  ) =
+1956  𝑛 = 1
+1958  𝐾
+1959  𝑗
+1962  𝑟
+1963  𝑗
+1964  (𝑛)
+1966  ,
+1967  (B.3)
+1968  
+1969  which is concave and piecewise linear in
+1970  𝐾
+1971  𝑗
+1972  .
+1973  B.5 Equilibrium Definition and Existence
+1974  A competitive equilibrium consists of a training price
+1975  𝑝
+1976  𝑇
+1977  , inference prices {
+1978  𝑝
+1979  𝐼
+1980  𝑓
+1981  (𝑘)}, and capacity allocations {
+1982  𝐾
+1983  𝑗
+1984  } such that: (i) each GPU-hour is allocated to its highest-margin use; (ii) training and inference markets clear; (iii) all allocations are feasible (
+1985  𝐾
+1986  𝑗
+1987  ≤
+1989  𝐾
+1991  𝑗
+1992  ). Existence follows from a fixed-point argument: the training supply curve is a step function with steps at
+1993  𝑐
+1994  (𝑖)
+1995  and widths
+1997  𝐾
+1999  (𝑖)
+2000  ; intersection with the demand curve pins down
+2001  𝑝
+2002  𝑇
+2003  .
+2004  B.6 Welfare Cost of Sovereignty
+2005  The welfare cost has two components. Import markup:
+2007  𝐷𝑊𝐿
+2008  𝑖𝑚𝑝𝑜𝑟𝑡
+2009  =
+2010  𝑘 ∈
+2011  𝑀
+2012  𝑇
+2015  𝑞
+2016  𝑇𝑘
+2017  · 𝜆 ·
+2018  𝑝
+2019  𝑇
+2021  .
+2022  (B.4)
+2023  
+2024  Allocative inefficiency:
+2026  𝐷𝑊𝐿
+2027  𝑎𝑙𝑙𝑜𝑐
+2028  =
+2029  𝑘 :
+2030  𝑝
+2031  𝑇
+2032  <
+2033  𝑐
+2034  𝑘
+2035  ≤ (1+λ)
+2036  𝑝
+2037  𝑇
+2040  𝑞
+2041  𝑇𝑘
+2042  · (
+2043  𝑐
+2044  𝑘
+2045  −
+2046  𝑝
+2047  𝑇
+2048  ).
+2050  (B.5)
+2051  
+2052  Total: DWL(𝜆) =
+2053  𝐷𝑊𝐿
+2054  𝑖𝑚𝑝𝑜𝑟𝑡
+2055  +
+2056  𝐷𝑊𝐿
+2057  𝑎𝑙𝑙𝑜𝑐
+2058  . Under capacity constraints, both components are smaller because the higher
+2059  𝑝
+2060  𝑇
+2061  narrows the gap between domestic and import costs.
+2063  Appendix C: Sensitivity Analysis
+2064  Table A3 reports equilibrium outcomes under five parameter perturbations. Rankings are robust because hardware amortization accounts for approximately 94 percent of total cost and is identical across countries. Only the electricity and construction components vary cross-country, and their combined share is too small for plausible perturbations to overturn the ordering.
+2065  Table A3. Sensitivity of equilibrium outcomes to parameter variation
+2066  Scenario
+2067  Parameter change
+2068  pₜ ($/hr)
+2069  Exporters
+2070  HHI
+2071  Spearman ρ
+2072  Top 5
+2073  
+2074  Baseline calibration
+2075  —
+2076  $1.592
+2077  2
+2078  0.9339
+2079  1.0000
+2080  Same
+2081  
+2082  Electricity price +$0.01/kWh (≈10% above mean)
+2083  All electricity prices +$0.01/kWh
+2084  $1.600
+2085  2
+2086  0.9339
+2087  0.9996
+2088  Same
+2089  
+2090  Electricity price −$0.01/kWh (≈10% below mean)
+2091  All electricity prices −$0.01/kWh
+2092  $1.585
+2093  2
+2094  0.9339
+2095  0.9993
+2096  Changed
+2097  
+2098  GPU hardware cost +20% ($30,000/unit)
+2099  GPU unit price $30,000 (+20% from $25,000)
+2100  $1.864
+2101  2
+2102  0.9339
+2103  1.0000
+2104  Same
+2105  
+2106  GPU hardware cost −20% ($20,000/unit)
+2107  GPU unit price $20,000 (-20% from $25,000)
+2108  $1.320
+2109  2
+2110  0.9339
+2111  1.0000
+2112  Same
+2113  
+2114  Cooling efficiency cap (PUE ≤ 1.20)
+2115  PUE capped at 1.20 for all countries
+2116  $1.592
+2117  2
+2118  0.9339
+2119  0.9922
+2120  Same
+2121  
+2122  Notes: Each row re-solves the capacity-constrained equilibrium under the stated parameter change. Spearman ρ is the rank correlation of country-level training costs with the baseline ordering. Top 5 indicates whether the five cheapest countries remain the same set in the same order. HHI is the Herfindahl–Hirschman Index of export concentration.
+2124  Appendix D: Data Center Investment Model — Kyrgyzstan
+2125  This appendix presents a 15-year discounted cash flow (DCF) analysis for a hypothetical 40 MW data center in Kyrgyzstan, the lowest-cost seller in the cost-recovery-adjusted calibration. All parameters are drawn from the calibration or from industry benchmarks.
+2126  Table A4. Facility specification
+2127  Parameter
+2128  Value
+2129  
+2130  IT capacity
+2131  40 MW
+2132  
+2133  Total power (with cooling)
+2134  43.2 MW (PUE = 1.08)
+2135  
+2136  GPU count
+2137  57,142 (H100-class, 700W each)
+2138  
+2139  GPU cost / lifetime
+2140  $25,000 / 3 yr (−10% per generation)
+2141  
+2142  Construction cost
+2143  $313M ($7.83/W)
+2144  
+2145  Electricity price
+2146  $0.038/kWh (+2%/yr real)
+2147  
+2148  Revenue price
+2149  $2.00/GPU-hr (wholesale)
+2150  
+2151  Utilization
+2152  70% steady-state (40% yr 1, 60% yr 2)
+2153  
+2154  WACC
+2155  12.6%
+2156  
+2157  Notes: WACC = 60% × 15% (cost of equity) + 40% × 10% × (1 − 10%) (after-tax debt) = 12.6%. Cost of equity includes a 4% country risk premium and 6% emerging-market equity premium over the 5% risk-free rate.
+2159  Table A5. Year-by-year cash flow ($ millions)
+2160  Year
+2161  CAPEX
+2162  Revenue
+2163  OPEX
+2164  EBITDA
+2165  FCF
+2166  Cum. CF
+2167  
+2168  0
+2169  313.2
+2170  0.0
+2171  0.0
+2172  0.0
+2173  -313.2
+2174  -313.2
+2175  
+2176  1
+2177  1542.8
+2178  400.7
+2179  32.4
+2180  368.4
+2181  -1174.5
+2182  -1487.7
+2183  
+2184  2
+2185  0.0
+2186  601.1
+2187  30.3
+2188  570.8
+2189  563.4
+2190  -924.2
+2191  
+2192  3
+2193  0.0
+2194  701.3
+2195  28.2
+2196  673.1
+2197  655.5
+2198  -268.8
+2199  
+2200  4
+2201  1285.7
+2202  701.3
+2203  32.6
+2204  668.7
+2205  -638.9
+2206  -907.7
+2207  
+2208  5
+2209  0.0
+2210  701.3
+2211  30.8
+2212  670.5
+2213  648.4
+2214  -259.3
+2215  
+2216  6
+2217  114.3
+2218  701.3
+2219  29.0
+2220  672.3
+2221  535.7
+2222  276.4
+2223  
+2224  7
+2225  1157.1
+2226  701.3
+2227  32.9
+2228  668.3
+2229  -515.0
+2230  -238.6
+2231  
+2232  8
+2233  0.0
+2234  701.3
+2235  31.4
+2236  669.9
+2237  643.6
+2238  405.0
+2239  
+2240  9
+2241  0.0
+2242  701.3
+2243  29.8
+2244  671.5
+2245  645.0
+2246  1050.0
+2247  
+2248  10
+2249  1041.4
+2250  701.3
+2251  33.4
+2252  667.9
+2253  -403.5
+2254  646.5
+2255  
+2256  11
+2257  114.3
+2258  701.3
+2259  32.0
+2260  669.2
+2261  524.8
+2262  1171.3
+2263  
+2264  12
+2265  0.0
+2266  701.3
+2267  30.7
+2268  670.6
+2269  640.3
+2270  1811.6
+2271  
+2272  13
+2273  937.3
+2274  701.3
+2275  34.0
+2276  667.2
+2277  -303.4
+2278  1508.2
+2279  
+2280  14
+2281  0.0
+2282  701.3
+2283  32.9
+2284  668.4
+2285  634.9
+2286  2143.1
+2287  
+2288  15
+2289  0.0
+2290  701.3
+2291  31.7
+2292  669.6
+2293  636.0
+2294  2779.1
+2295  
+2296  Total
+2297  6506.1
+2298  10118.3
+2299  472.0
+2300  9646.4
+2301  2779.1
+2302  
+2303  
+2304  The project yields an NPV of $353M at a 12.6% WACC, an IRR of 17.6%, and a simple payback in year 6. GPU hardware accounts for $5850M of the $6506M total CAPEX (90%), and electricity represents 53% of operating costs.
+2306  Table A6. Sensitivity of investment returns to parameter variation
+2307  Scenario
+2308  NPV ($M)
+2309  IRR
+2310  
+2311  Base case
+2312  $353
+2313  17.6%
+2314  
+2315  GPU price −20%
+2316  $930
+2317  27.6%
+2318  
+2319  GPU price +20%
+2320  $-225
+2321  9.7%
+2322  
+2323  Electricity +50%
+2324  $305
+2325  16.9%
+2326  
+2327  Electricity −25%
+2328  $377
+2329  17.9%
+2330  
+2331  Revenue +5%
+2332  $509
+2333  19.8%
+2334  
+2335  Revenue −5%
+2336  $198
+2337  15.4%
+2338  
+2339  Utilization 80%
+2340  $957
+2341  26.4%
+2342  
+2343  Utilization 60%
+2344  $-253
+2345  9.0%
+2346  
+2347  WACC 10%
+2348  $619
+2349  17.6%
+2350  
+2351  WACC 16%
+2352  $95
+2353  17.6%
+2354  
+2355  Risks. Kyrgyzstan depends on the Toktogul reservoir for over 80% of electricity; seasonal drawdowns and drought years create acute power shortages. GPU procurement faces US export-control uncertainty. The reliability index assigns Kyrgyzstan a governance score of 0.50, reflecting underdeveloped contract enforcement and regulatory frameworks. Despite these risks, the engineering economics are clear: electricity at $0.038/kWh and a PUE of 1.08 yield production costs well below the global median, and the positive NPV survives eight of ten perturbations in Table A6.
+2357  Appendix E: Construction Cost Regression
+2358  Data center construction costs per watt of IT capacity are observed for 37 countries from the Turner & Townsend Data Centre Construction Cost Index 2025 (52 markets). For the remaining countries, construction costs are predicted using the log-linear regression reported in Table A7. The dependent variable is ln($/W). Since construction accounts for only 3–6% of total per-GPU-hour costs, imputation error has limited impact on cost rankings.
+2359  Table A7. Construction cost regression: ln($/W)
+2360  Variable
+2361  Coefficient
+2362  Std. Error
+2363  
+2364  
+2365  Intercept
+2366  1.753
+2367  (1.467)
+2368  
+2369  
+2370  ln(GDP per capita)
+2371  0.056
+2372  (0.114)
+2373  
+2374  
+2375  ln(Population)
+2376  -0.020
+2377  (0.027)
+2378  
+2379  
+2380  Urban population share
+2381  0.459
+2382  (0.355)
+2383  
+2384  
+2385  Seismic zone indicator
+2386  -0.053
+2387  (0.077)
+2388  
+2389  
+2390  East Asia & Pacific
+2391  0.054
+2392  (0.084)
+2393  
+2394  
+2395  Latin America & Caribbean
+2396  -0.106
+2397  (0.141)
+2398  
+2399  
+2400  Middle East
+2401  -0.114
+2402  (0.122)
+2403  
+2404  
+2405  North America
+2406  -0.024
+2407  (0.151)
+2408  
+2409  
+2410  South Asia
+2411  -0.070
+2412  (0.218)
+2413  
+2414  
+2415  Sub-Saharan Africa
+2416  0.190
+2417  (0.200)
+2418  
+2419  
+2420  Notes: OLS regression on 37 countries from the Turner & Townsend DCCI 2025. Dependent variable: ln(construction cost in $/W). R² = 0.48, adjusted R² = 0.29, RMSE = 0.160. Reference region: Europe & Central Asia. *** p < 0.01, ** p < 0.05, * p < 0.10.
