@@ -1879,15 +1879,11 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         ') and three possible statuses (export, domestic production, import), '
         'there are nine potential regime combinations. '
         'In equilibrium, only five are realized.'
-    )
-
-    # (i)
-    p.add_run(
-        '\n(i) Training exporter + inference exporter. '
+        '(i) Training exporter + inference exporter. '
         'The cheapest producers, with '
     )
     omath(p, [_msub('c', 'j'), _t(' < '),
-              _msubsup('p', 'T', '\u2217')])
+              _msubsup('p', 'T', '*')])
     p.add_run(
         ', supply training globally and inference to nearby demand centers. '
         'By Proposition 5, every training exporter also exports inference '
@@ -1895,12 +1891,13 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     )
 
     # (ii)
+    p, cur = mkp(doc, body, cur)
     p.add_run(
-        '\n(ii) Training importer + inference exporter. '
+        '(ii) Training importer + inference exporter. '
         'Countries with '
     )
     omath(p, [_msub('c', 'j'), _t(' > '),
-              _msubsup('p', 'T', '\u2217')])
+              _msubsup('p', 'T', '*')])
     p.add_run(
         ' that are not cheap enough to compete in the global training market '
         'but serve as regional inference hubs due to low costs and proximity '
@@ -1912,8 +1909,9 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     p.add_run(').')
 
     # (iii)
+    p, cur = mkp(doc, body, cur)
     p.add_run(
-        '\n(iii) Training importer + inference domestic producer. '
+        '(iii) Training importer + inference domestic producer. '
         'Countries that import training but produce inference domestically, '
         'because the sovereignty premium '
     )
@@ -1923,37 +1921,35 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         'more expensive than domestic production.'
     )
 
-    # (iv)
+    # (iv) and (v) in same paragraph
+    p, cur = mkp(doc, body, cur)
     p.add_run(
-        '\n(iv) Domestic producer of both. Countries where '
+        '(iv) Domestic producer of both. Countries where '
     )
     omath(p, [_msub('c', 'k'), _t(' \u2264 (1 + '),
               _v('\u03BB'), _t(') \u00b7 '),
-              _msubsup('p', 'T', '\u2217')])
+              _msubsup('p', 'T', '*')])
     p.add_run(
         ', so the sovereignty premium is large enough to justify '
         'domestic production of both training and inference.'
-    )
-
-    # (v)
-    p.add_run(
-        '\n(v) Importer of both. High-cost countries with '
+        '(v) Importer of both. High-cost countries with '
     )
     omath(p, [_msub('c', 'k'), _t(' > (1 + '),
               _v('\u03BB'), _t(') \u00b7 '),
-              _msubsup('p', 'T', '\u2217')])
+              _msubsup('p', 'T', '*')])
     p.add_run(
         ' that import both training and inference from cheaper or closer suppliers.'
     )
 
     # Ruling out the remaining four
+    p, cur = mkp(doc, body, cur)
     p.add_run(
-        '\nThe remaining four combinations cannot arise in equilibrium. '
+        'The remaining four combinations cannot arise in equilibrium. '
         'A training exporter cannot simultaneously produce inference domestically '
-        'or import it: a country cheap enough to win global training competition ('
+        'or import it: a country cheap enough to win a global training competition ('
     )
     omath(p, [_msub('c', 'j'), _t(' < '),
-              _msubsup('p', 'T', '\u2217')])
+              _msubsup('p', 'T', '*')])
     p.add_run(
         ') is necessarily cheap enough to export inference to nearby buyers '
         '(Proposition 5). A country that produces training domestically cannot '
@@ -2036,7 +2032,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     p.add_run(
         ', so the threshold is lower than in the unconstrained model. '
         'Capacity constraints reduce the sovereignty premium required for domestic production '
-        'because a higher world price makes imports more expensive.'
+        'because higher world prices make imports more expensive.'
     )
 
     # Proposition 4: Shadow value
@@ -2114,14 +2110,16 @@ def write_data_section(doc, body, hmap, demand_data):
         'Calibrating the production-cost and trade-cost parameters in equations (1), (2), and (3) requires data on '
         'electricity prices, temperatures, construction costs, and bilateral latencies. '
     )
+
+    p, cur = mkp(doc, body, cur)
     add_italic(p, 'Electricity prices. ')
     p.add_run(
-        'For European countries, the paper uses Eurostat industrial electricity prices in the '
-        '20,000\u201369,999 MWh consumption band, which corresponds to large '
-        'industrial consumers (Eurostat 2025). For non-European countries, the paper uses national '
+        'For European countries, the paper uses prices from Eurostat '
+        '(industrial band, 20,000\u201369,999) (Eurostat 2025). '
+        'For non-European countries, the prices are obtained from national '
         'regulator tariff sheets and secondary sources, including the U.S. Energy Information Administration '
         '(EIA 2025) for the United States, KEPCO for South Korea, national utility tariffs for '
-        'Central Asian countries (Barki Tojik, AERA, Ministry of Energy of Uzbekistan), and '
+        'Central Asian countries, and '
         'GlobalPetrolPrices (2025) for the remaining countries. All prices are converted to $/kWh '
         'at 2024 average exchange rates.'
     )
@@ -2129,13 +2127,13 @@ def write_data_section(doc, body, hmap, demand_data):
     p, cur = mkp(doc, body, cur)
     add_italic(p, 'Temperature and construction. ')
     p.add_run(
-        'Peak summer temperature for each country is computed from ERA5 reanalysis data '
+        'Peak summer temperature is computed from ERA5 reanalysis data '
         '(Hersbach et al. 2020) as the average monthly maximum in the three warmest months, '
         'aggregated across populated grid cells. '
     )
     p.add_run(
-        'Data center construction costs per watt of IT capacity are from the Turner & Townsend '
-        'Data Centre Construction Cost Index 2025 (Turner & Townsend 2025), which covers 37 '
+        'Construction costs per watt of IT capacity are from the Turner & Townsend '
+        'Data Centre Construction Cost Index 2025 (Turner & Townsend 2025), for 37 '
         'countries. For the remaining countries, costs are predicted using a log-linear '
         'regression of ln($/W) on GDP per capita, population, urbanization, seismic risk, '
         'and regional dummies (Appendix\u2009E). Since construction is only 3\u20136% of total per-GPU-hour '
@@ -2149,10 +2147,6 @@ def write_data_section(doc, body, hmap, demand_data):
                   'Spain, Sweden, Switzerland, UAE, UK, Uruguay, and USA. '
                   'The 95% prediction intervals for imputed countries span about \u00b1$3.50/W, '
                   'which translates to \u00b1$0.02/hr in total cost (1.5\u20132% of the mean).', 12)
-    p.add_run(
-        ' Costs are amortized over 15 years. The per-GPU construction cost in '
-        'equation (1) equals 700 W (the GPU thermal design power) times the build cost per watt.'
-    )
 
     p, cur = mkp(doc, body, cur)
     add_italic(p, 'Latency. ')
@@ -2357,7 +2351,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
         ' is the approximate outdoor temperature above which mechanical cooling is needed, '
         'below which free-air cooling suffices. '
         'Together, these yield PUE values from 1.08 (Iceland, Scandinavia) to 1.41 (UAE), '
-        'consistent with the industry range of 1.1\u20131.6 reported by the Uptime Institute.'
+        'consistent with the industry average of 1.56 (Uptime Institute 2024). '
+        'Costs are amortized over 15 years. '
     )
     make_footnote(p,
                   'Capping PUE at 1.20 (simulating universal liquid cooling) '
