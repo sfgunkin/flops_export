@@ -1863,6 +1863,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     p, cur = mkp(doc, body, cur, space_before=6)
     r = p.add_run('Proposition 1 (Country Taxonomy). ')
     r.bold = True
+    r.italic = True
     p.add_run(
         'With two service types (training with '
     )
@@ -1958,6 +1959,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     p, cur = mkp(doc, body, cur, space_before=6)
     r = p.add_run('Proposition 2 (Capacity Constraints Reduce Concentration). ')
     r.bold = True
+    r.italic = True
     p.add_run(
         'Define the Herfindahl\u2013Hirschman Index (HHI), '
         'a standard measure of market concentration equal to the sum of squared market shares'
@@ -2003,6 +2005,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     p, cur = mkp(doc, body, cur, space_before=6)
     r = p.add_run('Proposition 3 (Sovereignty Switching Threshold). ')
     r.bold = True
+    r.italic = True
     p.add_run(
         'A country will bear the additional cost of domestic AI training only if its sovereignty '
         'premium is large enough to justify the price premium over cheaper foreign producers. '
@@ -2029,10 +2032,19 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         'because higher world prices make imports more expensive.'
     )
 
+    # Corollary
+    p, cur = mkp(doc, body, cur, space_before=6)
+    add_italic(p, 'Corollary. ')
+    p.add_run(
+        'Capacity constraints reduce the welfare cost of sovereignty because '
+        'the higher equilibrium price narrows the gap between domestic and import costs.'
+    )
+
     # Proposition 4: Shadow value
     p, cur = mkp(doc, body, cur, space_before=6)
     r = p.add_run('Proposition 4 (Shadow Value and Grid Expansion). ')
     r.bold = True
+    r.italic = True
     p.add_run(
         'For a capacity-constrained exporter, the shadow value '
     )
@@ -2053,6 +2065,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     p, cur = mkp(doc, body, cur, space_before=6)
     r = p.add_run('Proposition 5 (Training Exporters Nest Within Inference Exporters). ')
     r.bold = True
+    r.italic = True
     p.add_run(
         'If a country is cheap enough to export training (which can be done from anywhere), '
         'it is also cheap enough to export inference to nearby demand centers. '
@@ -2070,26 +2083,6 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         'Since training has no distance penalty while inference does, every country '
         'that exports training is also competitive in inference within its geographic '
         'neighborhood, but not vice versa.'
-    )
-
-    # Welfare cost
-    p, cur = mkp(doc, body, cur, space_before=6)
-    add_italic(p, 'Welfare cost of sovereignty. ')
-    p.add_run(
-        'The sovereignty premium imposes a welfare cost with two components, '
-        'an import markup (importers pay '
-    )
-    omath(p, [_v('\u03BB'), _t(' \u00b7 '), _msub('p', 'T')])
-    p.add_run(
-        ' per unit above the competitive price) and an allocative inefficiency '
-        '(countries with '
-    )
-    omath(p, [_msub('p', 'T'), _t(' < '), _msub('c', 'k'),
-              _t(' \u2264 (1 + '), _v('\u03BB'), _t(') \u00b7 '), _msub('p', 'T')])
-    p.add_run(
-        ' produce domestically at above-world-price costs). '
-        'Under capacity constraints, both components are smaller than in the unconstrained '
-        'model because the higher world price narrows the gap between domestic and import costs.'
     )
 
 
@@ -2631,6 +2624,29 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, all_reg, all_so
             'Inference exports are more resilient to sovereignty premia because '
             'the latency advantage of proximity partially insulates regional hubs.'
         )
+
+    # Welfare cost of sovereignty
+    p, cur = mkp(doc, body, cur)
+    add_italic(p, 'Welfare cost of sovereignty. ')
+    p.add_run(
+        'The sovereignty premium imposes a welfare cost with two components, '
+        'an import markup (importers pay '
+    )
+    omath(p, [_v('\u03BB'), _t(' \u00b7 '), _msub('p', 'T')])
+    p.add_run(
+        ' per unit above the competitive price) and an allocative inefficiency '
+        '(countries with '
+    )
+    omath(p, [_msub('p', 'T'), _t(' < '), _msub('c', 'k'),
+              _t(' \u2264 (1 + '), _v('\u03BB'), _t(') \u00b7 '), _msub('p', 'T')])
+    p.add_run(
+        ' produce domestically at above-world-price costs). '
+        'Under capacity constraints, both components are smaller than in the unconstrained '
+        'model because the higher world price narrows the gap between domestic and import costs. '
+        f'The demand-weighted welfare cost is {demand_data["welfare_pct"]:.1f}% of '
+        'average compute spending, comparable to the 1\u201310% welfare losses from trade barriers '
+        'estimated for goods trade (Arkolakis et al. 2012).'
+    )
 
     # Major consumer markets (using cost-recovery adj_reg)
     p, cur = mkp(doc, body, cur)
@@ -4636,9 +4652,9 @@ def apply_formatting(doc, body, refs, title_el, author_el, ver_el, abs_text_el):
                 p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
                 if p.paragraph_format.first_line_indent is None or p.paragraph_format.first_line_indent > 0:
                     p.paragraph_format.first_line_indent = Inches(0)
-            # Subtitle runs: italic first run ending with ". " → font 12, TNR, not bold
+            # Subtitle runs: italic (non-bold) first run ending with "." → font 12, TNR, not bold
             runs = [r for r in p.runs if r.text.strip()]
-            if runs and runs[0].italic and runs[0].text.rstrip().endswith('.'):
+            if runs and runs[0].italic and not runs[0].bold and runs[0].text.rstrip().endswith('.'):
                 runs[0].font.size = Pt(12)
                 runs[0].font.name = TIMES_NEW_ROMAN
                 runs[0].bold = False
