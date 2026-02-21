@@ -2411,88 +2411,30 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     # 6.2 Cost Rankings and Trade Patterns
     cur = mkh(doc, body, cur, '6.2 Cost Rankings and Trade Patterns', level=2)
 
-    # ── P1: Opening paragraph — introduce Table 3 as central results ──
+    # ── Section 6.2 narrative (v21-style flow, Table 3 as evidence) ──
     _xi_adj = demand_data.get("xi_adjusted", {})
     _xi_top5 = _xi_adj["top5"] if _xi_adj else []
     _xi_n_changed = _xi_adj.get("n_changed_top10", 0)
     _t3 = demand_data["table3"]
+    adj_top5 = demand_data["adj_top5"]
+    cheapest = cal[0]
 
+    # P1: Preferred specification — the main result
     p, cur = mkp(doc, body, cur, space_before=6)
-    p._element.append(make_bookmark(112, 'Table3txt'))
-    p._element.append(make_hyperlink('Table3', 'Table 3'))
-    p._element.append(make_bookmark_end(112))
-    p.add_run(
-        ' ranks all countries under four alternative pricing specifications, '
-        'moving from raw electricity tariffs to the paper\u2019s preferred '
-        'reliability-adjusted measure. '
-    )
     p._element.append(make_bookmark(100, 'TableA1txt'))
     p._element.append(make_hyperlink('TableA1', 'Table A1'))
     p._element.append(make_bookmark_end(100))
     p.add_run(' in the Appendix reports the full calibration parameters for all ')
     omath(p, [_v('N'), _t(f' = {n_total}')])
-    p.add_run(' countries; ')
-    p._element.append(make_bookmark(141, 'TableA2txt'))
-    p._element.append(make_hyperlink('TableA2', 'Table A2'))
-    p._element.append(make_bookmark_end(141))
     p.add_run(
-        ' extends the rankings to all countries. '
-        'Rankings shift dramatically across specifications: the country '
-        'ranked first under raw tariffs falls to the bottom quintile once subsidies '
-        'and institutional quality are accounted for. '
-        'Because hardware and networking costs account for over 90% of engineering '
-        'costs and are identical everywhere, the cross-country cost spread is narrow '
-        '(about 12%), so even modest analytical corrections reshuffle the ordering.'
+        ' countries. The paper\u2019s preferred specification applies cost-recovery '
+        'electricity prices (replacing subsidized tariffs with long-run marginal cost) '
+        'and adjusts for institutional reliability using the index '
     )
-
-    # ── P2: Column (1) — Raw electricity tariffs ──
-    cheapest = cal[0]
-    p, cur = mkp(doc, body, cur)
-    add_italic(p, 'Column\u2009(1): Raw electricity tariffs. ')
-    p.add_run(
-        'Under observed electricity tariffs, the three cheapest producers are '
-        f'{cheapest["country"]} (${float(cheapest["c_j_total"]):.2f}/hr), '
-        f'{cal[1]["country"]} (${float(cal[1]["c_j_total"]):.2f}/hr), '
-        f'and {cal[2]["country"]} (${float(cal[2]["c_j_total"]):.2f}/hr). '
-        'But this ranking conflates subsidies with endowments. '
-        'Iran\u2019s headline cost rests on electricity priced at '
-        f'${float(cheapest["p_E_usd_kwh"]):.3f}/kWh, sustained by one of the '
-        'world\u2019s largest fossil fuel subsidies. Turkmenistan, Algeria, Qatar, and '
-        'several other low-cost producers face similar distortions.'
-    )
-
-    # ── P3: Column (2) — Cost-recovery prices ──
-    adj_top5 = demand_data["adj_top5"]
-    p, cur = mkp(doc, body, cur)
-    add_italic(p, 'Column\u2009(2): Cost-recovery prices. ')
-    p.add_run(
-        'To distinguish genuine comparative advantage from fiscal artifact, '
-        'the calibration replaces subsidized tariffs with cost-recovery prices\u2014the '
-        'long-run marginal cost (LRMC) of the dominant generation technology at '
-        'opportunity-cost fuel prices (IMF 2025, Lazard 2025). This adjustment is applied to '
-        f'{demand_data["n_adjusted"]} countries'
-        ' whose retail electricity prices fall below the estimated LRMC. '
-        'The top of the ranking shifts toward hydropower-rich countries: '
-        f'{adj_top5[0][1]} (${adj_top5[0][2]:.2f}/hr), '
-        f'{adj_top5[1][1]} (${adj_top5[1][2]:.2f}/hr), '
-        f'{adj_top5[2][1]} (${adj_top5[2][2]:.2f}/hr), '
-        f'{adj_top5[3][1]} (${adj_top5[3][2]:.2f}/hr), '
-        f'and {adj_top5[4][1]} (${adj_top5[4][2]:.2f}/hr).'
-    )
-
-    # ── P4: Column (3) — Reliability-adjusted (preferred specification) ──
-    # Compute delta highlights from table3 data
-    _t3_sorted_eff = sorted(_t3, key=lambda x: x["rank_eff"])
-    _eff_top5 = _t3_sorted_eff[:5]
-    # Find notable delta values
-    _delta_map = {d["country"]: d["delta"] for d in _t3}
-    p, cur = mkp(doc, body, cur)
-    add_italic(p, 'Column\u2009(3): Reliability-adjusted (preferred specification). ')
-    p.add_run('Dividing cost-recovery costs by the institutional reliability index ')
     omath(p, [_msub('\u03BE', 'j')])
     p.add_run(
-        ' from equation (2) penalizes countries with weak governance, unreliable grids, '
-        'or sanctions exposure. The five cheapest producers are '
+        ' defined in equation (2). Under this specification, the five cheapest '
+        'producers are '
     )
     if _xi_top5:
         p.add_run(
@@ -2501,22 +2443,89 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
             f'{_xi_top5[2][0]} (${_xi_top5[2][1]:.2f}/hr), '
             f'{_xi_top5[3][0]} (${_xi_top5[3][1]:.2f}/hr), '
             f'and {_xi_top5[4][0]} (${_xi_top5[4][1]:.2f}/hr). '
-            f'{_num_word(_xi_n_changed).capitalize()} of the ten cheapest countries under the '
-            'raw-tariff ranking fall out of the top ten after reliability adjustment. '
         )
     p.add_run(
-        'The \u0394 column of Table 3 records the rank change from specification (1) to (3). '
+        f'{_num_word(_xi_n_changed).capitalize()} of the ten cheapest countries under the '
+        'pure engineering cost ranking fall out of the top ten after reliability adjustment, '
+        'replaced by countries with stronger institutions and more reliable grids. '
+        'Because hardware and networking costs account for roughly 94% of engineering costs '
+        'and are identical everywhere, the cross-country cost spread is narrow (about 20%). '
+        'Even modest institutional penalties are large relative to this thin margin, '
+        'so governance quality can easily dominate the cost ranking. '
+        'An engineering cost advantage is therefore necessary but not sufficient for '
+        'FLOP exporting. '
     )
-    # Find Iran and a few notable movers
+    p._element.append(make_bookmark(121, 'Figure1txt'))
+    p._element.append(make_hyperlink('Figure1', 'Figure 1'))
+    p._element.append(make_bookmark_end(121))
+    p.add_run(' illustrates the resulting rank reshuffling.')
+
+    # P2: Raw tariff contrast — Table 3 column (1) as evidence
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'For comparison, under observed electricity tariffs and without reliability '
+        'adjustment, the cheapest producer is '
+        f'{cheapest["country"]} (${float(cheapest["c_j_total"]):.2f}/hr), '
+        f'followed by {cal[1]["country"]} (${float(cal[1]["c_j_total"]):.2f}/hr) '
+        f'and {cal[2]["country"]} (${float(cal[2]["c_j_total"]):.2f}/hr)\u2014'
+        'as shown in column\u2009(1) of '
+    )
+    p._element.append(make_bookmark(112, 'Table3txt'))
+    p._element.append(make_hyperlink('Table3', 'Table 3'))
+    p._element.append(make_bookmark_end(112))
+    p.add_run(
+        '. But this ranking is misleading. '
+        f'{cheapest["country"]}\u2019s headline cost rests on electricity priced at '
+        f'${float(cheapest["p_E_usd_kwh"]):.3f}/kWh, a figure sustained by one of the '
+        'world\u2019s largest fossil fuel subsidies. Turkmenistan, Algeria, Qatar, and '
+        'several other low-cost producers face similar distortions. '
+        'Once subsidies are removed and institutional reliability is factored in, '
+        'the ranking changes substantially.'
+    )
+
+    # P3: Cost-recovery adjustment — Table 3 column (2) as evidence
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'To distinguish genuine comparative advantage from fiscal artifact, '
+        'the calibration replaces subsidized tariffs with cost-recovery prices, '
+        'defined as the long-run marginal cost (LRMC) of the dominant generation '
+        'technology at opportunity-cost fuel prices (IMF 2025, Lazard 2025). '
+        f'This adjustment is applied to {demand_data["n_adjusted"]} countries '
+        'whose retail electricity prices fall below the estimated LRMC. '
+        'Hydropower producers (Kyrgyzstan, Canada, Norway) are not adjusted because '
+        'their low prices reflect genuine resource advantages rather than fiscal transfers. '
+        'The resulting cost-recovery ranking\u2014column\u2009(2) of Table 3\u2014'
+        'shifts the top of the ranking toward hydropower-rich countries: '
+        f'{adj_top5[0][1]} (${adj_top5[0][2]:.2f}/hr), '
+        f'{adj_top5[1][1]} (${adj_top5[1][2]:.2f}/hr), '
+        f'{adj_top5[2][1]} (${adj_top5[2][2]:.2f}/hr), '
+        f'{adj_top5[3][1]} (${adj_top5[3][2]:.2f}/hr), '
+        f'and {adj_top5[4][1]} (${adj_top5[4][2]:.2f}/hr).'
+    )
+
+    # P4: Reliability adjustment — Table 3 column (3) and Δ
     _iran_delta = next((d["delta"] for d in _t3 if d["iso"] == "IRN"), 0)
     _kgz_delta = next((d["delta"] for d in _t3 if d["iso"] == "KGZ"), 0)
+    _pos_movers = sorted([d for d in _t3 if d["delta"] > 0], key=lambda x: -x["delta"])[:2]
+    p, cur = mkp(doc, body, cur)
+    p.add_run('Dividing cost-recovery costs by ')
+    omath(p, [_msub('\u03BE', 'j')])
     p.add_run(
-        f'Iran drops {abs(_iran_delta)} places'
+        ' penalizes countries with weak governance, unreliable grids, '
+        'or sanctions exposure. Column\u2009(3) of Table 3 reports the preferred '
+        'reliability-adjusted ranking; '
+    )
+    p._element.append(make_bookmark(141, 'TableA2txt'))
+    p._element.append(make_hyperlink('TableA2', 'Table A2'))
+    p._element.append(make_bookmark_end(141))
+    p.add_run(
+        ' extends it to all countries. '
+        'The \u0394 column records the rank change from raw tariffs to the preferred '
+        'specification: '
+        f'{cheapest["country"]} drops {abs(_iran_delta)} places'
     )
     if _kgz_delta != 0:
-        p.add_run(f' and Kyrgyzstan drops {abs(_kgz_delta)}')
-    # Find biggest positive movers
-    _pos_movers = sorted([d for d in _t3 if d["delta"] > 0], key=lambda x: -x["delta"])[:2]
+        p.add_run(f', Kyrgyzstan drops {abs(_kgz_delta)}')
     if _pos_movers:
         p.add_run(
             f', while {_pos_movers[0]["country"]} rises {_pos_movers[0]["delta"]} places'
@@ -2524,29 +2533,33 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         if len(_pos_movers) > 1:
             p.add_run(f' and {_pos_movers[1]["country"]} rises {_pos_movers[1]["delta"]}')
     p.add_run(
-        '. An engineering cost advantage is therefore necessary but not sufficient for '
-        'FLOP exporting; governance quality can easily dominate the thin cost margins. '
+        '. The rank reshuffling is large because the cross-country cost spread is narrow; '
+        'even small reliability differences reshuffle adjacent ranks.'
     )
-    p._element.append(make_bookmark(121, 'Figure1txt'))
-    p._element.append(make_hyperlink('Figure1', 'Figure 1'))
-    p._element.append(make_bookmark_end(121))
-    p.add_run(' illustrates the resulting rank reshuffling.')
 
-    # ── P5: Column (4) — Sovereignty ──
-    p, cur = mkp(doc, body, cur)
+    # P5: Sovereignty — Table 3 column (4)
     _p_star = demand_data["p_star"]
-    add_italic(p, 'Column\u2009(4): Sovereignty. ')
-    p.add_run('Specification (4) applies a ')
+    ls = demand_data["lambda_star"]
+    p, cur = mkp(doc, body, cur)
+    p.add_run('A sovereignty premium ')
+    omath(p, [_v('\u03BB'), _t(' = 10%')])
+    p.add_run(
+        ' shifts the majority of countries to domestic production. '
+        'Column\u2009(4) of Table 3 applies an autarky threshold of '
+    )
     omath(p, [_mbar('\u03c3'), _t(' = 10%')])
     p.add_run(
-        ' autarky threshold: countries whose reliability-adjusted cost exceeds '
-        f'the frontier price p*\u2009=\u2009${_p_star:.2f}/hr by more than 10% import at '
-        'the frontier markup, while near-frontier countries produce domestically (type DD). '
+        ': countries whose reliability-adjusted cost exceeds the frontier price '
     )
-    ls = demand_data["lambda_star"]
+    omath(p, [_msup('p', '*'), _t(f' = ${_p_star:.2f}')])
     p.add_run(
-        'Near-frontier countries switch to domestic production with minimal sovereignty premia. '
-        'Kyrgyzstan requires only '
+        '/hr by more than 10% import at the frontier markup, while '
+        'near-frontier countries produce domestically (type DD). '
+        'The country-specific switching threshold '
+    )
+    omath(p, [_msup('\u03BB', '*')])
+    p.add_run(
+        ' from Proposition 3 varies widely: Kyrgyzstan requires only '
     )
     omath(p, [_msup('\u03BB', '*'),
               _t(f' = {ls["KGZ"] * 100:.1f}%')])
@@ -2558,18 +2571,34 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
               _t(f' = {ls["DEU"] * 100:.1f}%')])
     p.add_run(
         f' and Japan {ls["JPN"] * 100:.1f}%. '
+        'The sovereignty premium is particularly powerful for inference, '
+        'since the latency markup within Europe is moderate (10\u201340\u2009ms, '
+        'adding 1\u20133%), and even a small domestic preference can tip the decision '
+        'away from importing.'
     )
+
+    # P6: Bilateral sovereignty nuance
+    p, cur = mkp(doc, body, cur)
     p.add_run('In practice, ')
     omath(p, [_v('\u03BB')])
     p.add_run(
         ' is bilateral and heterogeneous. Between allies with mutual data adequacy '
         'agreements (e.g., EU member states), the effective sovereignty premium may be near zero; '
-        'between geopolitical adversaries, it is effectively infinite. '
+        'between geopolitical adversaries, it is effectively infinite\u2014the United States '
+        'would not source training from Iran regardless of cost, and current sanctions '
+        'make such transactions illegal. '
         'The uniform '
     )
     omath(p, [_v('\u03BB'), _t(' = 10%')])
     p.add_run(
-        ' should therefore be understood as an average over non-adversarial country pairs.'
+        ' should therefore be understood as an average over non-adversarial country pairs. '
+        'In a model with bilateral '
+    )
+    omath(p, [_v('\u03BB')])
+    p.add_run(
+        ', sanctioned countries would be excluded from serving most demand centers. '
+        'Under cost-recovery prices, Iran is already outside the top ten, '
+        'so sanctions reinforce rather than alter the cost-recovery ranking.'
     )
 
     # Demand-weighted trade flows under capacity constraints
@@ -6341,7 +6370,7 @@ def main():
     # ═══════════════════════════════════════════════════════════════════════
     flush_footnotes()
     doc.core_properties.author = 'Michael Lokshin'
-    out = DOCS / "flop_trade_model_v22.docx"
+    out = DOCS / "flop_trade_model_v23.docx"
     for _attempt in range(30):
         try:
             doc.save(str(out))
