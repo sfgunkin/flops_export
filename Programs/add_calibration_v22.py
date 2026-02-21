@@ -3502,7 +3502,6 @@ def write_table_a2(doc, body, after_el, demand_data):
         f'p*\u2009=\u2009${p_star:.2f}/hr.'
     )
     rn.font.size = Pt(10)
-    rn.italic = True
     note.alignment = WD_ALIGN_PARAGRAPH.LEFT
     note_el = note._element
     body.remove(note_el)
@@ -4654,7 +4653,6 @@ def write_table1(doc, body, after_el):
         '(second letter), used in Table 3.'
     )
     rn.font.size = Pt(10)
-    rn.italic = True
     tn_el = tn._element
     body.remove(tn_el)
     tax_tbl_el.addnext(tn_el)
@@ -4712,7 +4710,7 @@ def write_table2(doc, body, after_el, demand_data):
             param_rows.append(row)
 
     _sym_map = {
-        'gamma': '\u03B3', 'P_GPU': 'P\u1d33\u1d18\u1d1c', 'L': 'L',
+        'gamma': '\u03B3', 'P_GPU': 'P_GPU', 'L': 'L',
         'beta': '\u03B2', 'H': 'H', 'rho': '\u03C1', 'eta': '\u03B7',
         'phi': '\u03C6', 'delta': '\u03B4', 'theta_bar': '\u03B8\u0304',
         'D': 'D', 'tau': '\u03C4', 'lambda': '\u03BB', 'alpha': '\u03B1',
@@ -4809,9 +4807,27 @@ def write_table2(doc, body, after_el, demand_data):
                 p_c.alignment = WD_ALIGN_PARAGRAPH.LEFT
             else:
                 p_c.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            rc = p_c.add_run(txt)
-            rc.font.size = Pt(10)
-            rc.font.name = TIMES_NEW_ROMAN
+            # Special symbol rendering
+            if j == 1 and pr['symbol'] == 'P_GPU':
+                rc = p_c.add_run('P')
+                rc.font.size = Pt(10)
+                rc.font.name = TIMES_NEW_ROMAN
+                rc.italic = True
+                rc_sub = p_c.add_run('GPU')
+                rc_sub.font.size = Pt(10)
+                rc_sub.font.name = TIMES_NEW_ROMAN
+                rPr_sub = rc_sub._element.get_or_add_rPr()
+                vertAlign = OxmlElement('w:vertAlign')
+                vertAlign.set(qn('w:val'), 'subscript')
+                rPr_sub.append(vertAlign)
+            elif j == 1 and pr['symbol'] == 'theta_bar':
+                omath(p_c, [_mbar('\u03B8')])
+            elif j == 1 and pr['symbol'] == 'xi_j':
+                omath(p_c, [_msub('\u03BE', 'j')])
+            else:
+                rc = p_c.add_run(txt)
+                rc.font.size = Pt(10)
+                rc.font.name = TIMES_NEW_ROMAN
             cell.width = _pcw[j]
         src_cell = param_tbl.rows[i + 1].cells[3]
         src_cell.text = ''
@@ -5082,7 +5098,7 @@ def write_table3(doc, body, after_el, demand_data):
         _set_cell(row_idx, 8, str(d["rank_eff"]), font_size=8)
         _set_cell(row_idx, 9, d["type_eff"], font_size=8)
         _set_cell(row_idx, 10, f'${d["pj_sov"]:.2f}', font_size=8)
-        _set_cell(row_idx, 11, str(d["rank_sov"]), font_size=8)
+        _set_cell(row_idx, 11, str(d["rank_sov"]), font_size=8, bold=True)
         _set_cell(row_idx, 12, d["type_sov"], font_size=8)
         delta_val = d["delta"]
         delta_str = f'+{delta_val}' if delta_val > 0 else str(delta_val)
@@ -5158,7 +5174,6 @@ def write_table3(doc, body, after_el, demand_data):
     )
     rn3.font.size = Pt(10)
     rn3.font.name = 'Times New Roman'
-    rn3.italic = True
     note.alignment = WD_ALIGN_PARAGRAPH.LEFT
     note_el = note._element
     body.remove(note_el)
