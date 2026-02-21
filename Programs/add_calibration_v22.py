@@ -6391,6 +6391,29 @@ def main():
         raise PermissionError(f"Could not save {out} after 60 seconds. Close Word and retry.")
     print(f"\nSaved {out}")
 
+    # ═══════════════════════════════════════════════════════════════════════
+    # AUTO-COMMIT to git (preserves every successful generation)
+    # ═══════════════════════════════════════════════════════════════════════
+    try:
+        import subprocess, datetime as _dt
+        _repo = str(DOCS.parent)  # F:\onedrive\...\FLOPsExport
+        _script = str(pathlib.Path(__file__).resolve())
+        _ts = _dt.datetime.now().strftime('%Y-%m-%d %H:%M')
+        subprocess.run(['git', 'add', _script, str(out)],
+                       cwd=_repo, capture_output=True, timeout=10)
+        result = subprocess.run(
+            ['git', 'commit', '-m', f'Auto-save v22: {_ts}'],
+            cwd=_repo, capture_output=True, text=True, timeout=10)
+        if result.returncode == 0:
+            _hash = result.stdout.strip().split()[1].rstrip(']')
+            print(f"Git auto-commit: {_hash}")
+        elif 'nothing to commit' in result.stdout:
+            print("Git: no changes to commit")
+        else:
+            print(f"Git: {result.stdout.strip()}")
+    except Exception as e:
+        print(f"Git auto-commit skipped: {e}")
+
 
 if __name__ == '__main__':
     main()
