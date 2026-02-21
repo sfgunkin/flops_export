@@ -3176,8 +3176,6 @@ def write_appendix(doc, body, last_ref_el, eca_cal, non_eca_cal, reg, demand_dat
         co = r_row["country"]
         if len(co) > 20:
             co = co[:19] + "."
-        adj_rank = adj_rank_map.get(iso, 999)
-        rs = demand_data.get("regime_5", {}).get(iso, "full importer")
         # Cost-recovery price: substituted value for 13 countries, otherwise same as p_E
         p_E_raw = float(r_row["p_E_usd_kwh"])
         cr = SUBSIDY_ADJ.get(iso)
@@ -4115,7 +4113,7 @@ def write_construction_regression_appendix(doc, body, last_el):
 
     # ── Run regression inline ──────────────────────────────────────────────
     import numpy as _np
-    _DATA = pathlib.Path(r"F:\onedrive\__documents\papers\FLOPsExport\Data")
+    _DATA = DATA
 
     MARKET_TO_ISO3 = {
         "Tokyo": "JPN", "Singapore": "SGP", "Zurich": "CHE", "Osaka": "JPN",
@@ -4891,7 +4889,7 @@ def write_table3(doc, body, after_el, demand_data):
     b_t3 = OxmlElement('w:b')
     rPr_t3.append(b_t3)
     sz_t3 = OxmlElement('w:sz')
-    sz_t3.set(qn('w:val'), '22')
+    sz_t3.set(qn('w:val'), '20')
     rPr_t3.append(sz_t3)
     clr_t3 = OxmlElement('w:color')
     clr_t3.set(qn('w:val'), LINK_COLOR)
@@ -4908,7 +4906,7 @@ def write_table3(doc, body, after_el, demand_data):
     tp3._element.append(make_bookmark_end(111))
     run_tt3 = tp3.add_run('. Country rankings under alternative pricing assumptions')
     run_tt3.bold = True
-    run_tt3.font.size = Pt(11)
+    run_tt3.font.size = Pt(10)
     tp3_el = tp3._element
     body.remove(tp3_el)
     after_el.addnext(tp3_el)
@@ -5569,7 +5567,6 @@ def main():
     # ═══════════════════════════════════════════════════════════════════════
 
     print("Loading data...")
-    cal = []
     with open(DATA / "calibration_results_v3.csv", encoding="utf-8") as f:
         cal = list(csv.DictReader(f))
     reg = {}
@@ -5747,6 +5744,7 @@ def main():
                         Q_TX += ALPHA * omega.get(iso, 0) * Q_TOTAL
             cum_cap = 0
             found = False
+            p_T_new = p_T
             for idx, (iso_j, c_j, k_j) in enumerate(supply_stack):
                 if iso_j in sanctioned:
                     continue
@@ -5913,7 +5911,7 @@ def main():
     # Re-run capacity equilibrium on cost-recovery costs
     (p_T_0, _, shares_0, cap_hhi_0, mu_0, ls_0, n_exp_0
      ) = solve_capacity_equilibrium(0.0, "\u03bb=0 cost-recovery")
-    (p_T_sov, _, shares_sov, cap_hhi_sov, _, _, n_exp_sov
+    (p_T_sov, _, _, cap_hhi_sov, _, _, n_exp_sov
      ) = solve_capacity_equilibrium(LAMBDA, f"\u03bb={LAMBDA} cost-recovery")
 
     demand_data["p_T"] = p_T_0
@@ -6361,7 +6359,8 @@ def main():
     # AUTO-COMMIT to git (preserves every successful generation)
     # ═══════════════════════════════════════════════════════════════════════
     try:
-        import subprocess, datetime as _dt
+        import subprocess
+        import datetime as _dt
         _repo = str(DOCS.parent)  # F:\onedrive\...\FLOPsExport
         _script = str(pathlib.Path(__file__).resolve())
         _ts = _dt.datetime.now().strftime('%Y-%m-%d %H:%M')
