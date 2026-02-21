@@ -4944,6 +4944,7 @@ def write_table3(doc, body, after_el, demand_data):
         "United Arab Emirates": "UAE",
         "United Kingdom": "UK",
         "United States": "USA",
+        "United States of America": "USA",
         "Bosnia and Herzegovina": "Bosnia & Herz.",
         "North Macedonia": "N. Macedonia",
         "Czech Republic": "Czechia",
@@ -4952,11 +4953,17 @@ def write_table3(doc, body, after_el, demand_data):
     def _sname(full):
         return _short.get(full, full[:18] + '.' if len(full) > 19 else full)
 
-    # ─── Row selection ───
-    _exclude = {'MLT', 'ISL', 'LUX', 'DNK', 'BEL', 'NZL', 'PRT', 'ISR',
-                'NOR', 'EST', 'POL', 'AUT'}
+    # ─── Row selection: 25 curated countries sorted by rank_eff ───
+    _show = [
+        'CAN', 'NOR', 'FIN', 'SWE', 'ZAF',   # top 5 preferred spec
+        'AUS', 'FRA', 'GBR', 'USA', 'CHN',    # OECD hubs + China
+        'DEU', 'JPN', 'QAT', 'SAU', 'UKR',    # demand centers + Gulf + Ukraine
+        'ARG', 'VNM', 'XKX', 'KGZ', 'EGY',    # 3-type changers + developing
+        'TJK', 'ETH', 'RUS', 'TKM', 'IRN',    # collapsing developing + sanctions
+    ]
+    _show_set = set(_show)
     top_eff = sorted(table3_data, key=lambda x: x["rank_eff"])
-    top_rows = [d for d in top_eff if d["iso"] not in _exclude][:20]
+    top_rows = [d for d in top_eff if d["iso"] in _show_set]
 
     # ─── Build table ───
     n_data = len(top_rows)
@@ -5147,7 +5154,7 @@ def write_table3(doc, body, after_el, demand_data):
         '(4)\u2009Sovereignty: \u03c3\u0304\u2009=\u200910% autarky threshold applied to (3); '
         f'p*\u2009=\u2009${p_star:.2f}/hr. '
         '\u0394\u2009=\u2009rank change from (1) to (3); positive values indicate improvement. '
-        'Top 20 countries shown by specification (3); see Table A2 for all 85 countries.'
+        '25 selected countries; see Table A2 for all 85 countries.'
     )
     rn3.font.size = Pt(10)
     rn3.font.name = 'Times New Roman'
