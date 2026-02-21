@@ -1206,6 +1206,16 @@ def write_introduction(doc, body, hmap):
         'reliability and institutional quality alongside low energy costs.'
     )
 
+    # Para 10b: Calibration caveat
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'Because the compute export market is still emerging and bilateral trade-flow data '
+        'do not yet exist, the paper calibrates the model using engineering cost parameters '
+        'rather than estimating it from observed trade. The calibration identifies the cost '
+        'structure under which FLOP exporting becomes viable and provides a framework that '
+        'can be taken to gravity-style estimation as transaction-level data emerge.'
+    )
+
     # Para 11: Roadmap
     p, cur = mkp(doc, body, cur)
     p.add_run(
@@ -1935,7 +1945,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
               _msubsup('p', 'T', '*')])
     p.add_run(
         ', supply training globally and inference to nearby demand centers. '
-        'By Proposition 5, every training exporter also exports inference '
+        'By Proposition 4, every training exporter also exports inference '
         'within its latency neighborhood.'
     )
 
@@ -2015,7 +2025,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
               _msubsup('p', 'T', '*')])
     p.add_run(
         ') is necessarily cheap enough to export inference to nearby buyers '
-        '(Proposition 5). A country that produces training domestically cannot '
+        '(Proposition 4). A country that produces training domestically cannot '
         'import inference, because the sovereignty premium that justifies domestic '
         'training also justifies domestic inference, which additionally faces '
         'latency degradation when imported. A domestic training producer that '
@@ -2112,30 +2122,9 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         'the higher equilibrium price narrows the gap between domestic and import costs.'
     )
 
-    # Proposition 4: Shadow value
+    # Proposition 4: Nesting (renumbered from 5)
     p, cur = mkp(doc, body, cur, space_before=6)
-    r = p.add_run('Proposition 4 (Shadow Value and Grid Expansion). ')
-    r.bold = True
-    r.italic = True
-    p.add_run(
-        'For a capacity-constrained exporter, the shadow value '
-    )
-    omath(p, [_msub('\u03BC', 'j')])
-    p.add_run(
-        ' of the capacity constraint equals the margin on the least profitable active use '
-        '(Section 3.4). Grid expansion is warranted if and only if the amortized '
-        'per-GPU-hour cost of grid infrastructure '
-    )
-    omath(p, [_msub('g', 'j')])
-    p.add_run(' satisfies ')
-    omath(p, [_msub('g', 'j'), _t(' < '), _msub('\u03BC', 'j')])
-    p.add_run(
-        '. This follows directly from the concavity of the rent function.'
-    )
-
-    # Proposition 5: Nesting
-    p, cur = mkp(doc, body, cur, space_before=6)
-    r = p.add_run('Proposition 5 (Training Exporters Nest Within Inference Exporters). ')
+    r = p.add_run('Proposition 4 (Training Exporters Nest Within Inference Exporters). ')
     r.bold = True
     r.italic = True
     p.add_run(
@@ -2703,7 +2692,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         p.add_run(
             'The largest shadow values of grid capacity are in '
             f'{", ".join(mu_labels)}, '
-            'consistent with Proposition 4. '
+            'indicating modest returns to capacity expansion. '
         )
     # Top inference exporters
     top_inf = sorted(ir.items(), key=lambda x: -x[1])
