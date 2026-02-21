@@ -4749,7 +4749,7 @@ def write_table2(doc, body, after_el, demand_data):
     tblW.set(qn('w:w'), TABLE_WIDTH_PCT)
     tblW.set(qn('w:type'), 'pct')
 
-    _pcw = [Inches(2.6), Inches(0.6), Inches(1.1), Inches(2.2)]
+    _pcw = [Inches(2.9), Inches(0.6), Inches(1.1), Inches(1.9)]
     _pcw_labels = ['Parameter', 'Symbol', 'Value', 'Source']
 
     def _cell_border(tc, sides, style='single'):
