@@ -4712,7 +4712,7 @@ def write_table2(doc, body, after_el, demand_data):
     _sym_map = {
         'gamma': '\u03B3', 'P_GPU': 'P_GPU', 'L': 'L',
         'beta': '\u03B2', 'H': 'H', 'rho': '\u03C1', 'eta': '\u03B7',
-        'phi': '\u03C6', 'delta': '\u03B4', 'theta_bar': '\u03B8\u0304',
+        'phi': '\u03C6', 'delta': '\u03B4', 'theta_bar': '\u03B8\u0304',  # rendered via OMML in cell
         'D': 'D', 'tau': '\u03C4', 'lambda': '\u03BB', 'alpha': '\u03B1',
         'Q': 'Q', 'xi_j': '\u03BE\u2C7C',
     }
@@ -4876,7 +4876,7 @@ def write_table2(doc, body, after_el, demand_data):
     rn1.bold = True
     rn1.font.size = Pt(10)
     rn1 = note.add_run(
-        'Hardware cost \u03C1 = P\u1d33\u1d18\u1d1c / (L \u00b7 H \u00b7 \u03B2). '
+        'Hardware cost \u03C1 = P(GPU) / (L \u00b7 H \u00b7 \u03B2). '
         'PUE(\u03B8) = \u03C6 + \u03B4 \u00b7 max(0, \u03B8 \u2212 \u03B8\u0304). '
         'RTT = round-trip time, the network delay for a data packet to travel from '
         'client to server and back, measured in milliseconds. '
