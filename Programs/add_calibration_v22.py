@@ -4577,12 +4577,12 @@ def write_table1(doc, body, after_el):
 
     # Content cells — 3×3 grid (rows 2-4, cols 2-4)
     _tax_cell(2, 2, '\u2713  (i) EE\nT+I exporter\nCheapest producers', font_size=7.5)
-    _tax_cell(2, 3, '\u2717\nProp. 5', font_size=7.5, gray=True)
+    _tax_cell(2, 3, '\u2717\nProp. 4', font_size=7.5, gray=True)
     _tax_cell(2, 4, '\u2713  (ii) IE\nInference hub\nRegional low-cost hubs', font_size=7.5)
-    _tax_cell(3, 2, '\u2717\nProp. 5', font_size=7.5, gray=True)
+    _tax_cell(3, 2, '\u2717\nProp. 4', font_size=7.5, gray=True)
     _tax_cell(3, 3, '\u2713  (iv) DD\nDomestic\nHigh sovereignty', font_size=7.5)
     _tax_cell(3, 4, '\u2713  (iii) ID\nHybrid\nIsolated / moderate cost', font_size=7.5)
-    _tax_cell(4, 2, '\u2717\nProp. 5', font_size=7.5, gray=True)
+    _tax_cell(4, 2, '\u2717\nProp. 4', font_size=7.5, gray=True)
     _tax_cell(4, 3, '\u2717\nSovereignty\ndominates', font_size=7.5, gray=True)
     _tax_cell(4, 4, '\u2713  (v) II\nFull importer\nHigh-cost countries', font_size=7.5)
 
@@ -6041,7 +6041,7 @@ def main():
         exports_train = iso in train_exporter_isos
         exports_inf = iso in inf_exporter_isos
         if exports_train:
-            # Type (i): training exporter → must also export inference (Prop 5)
+            # Type (i): training exporter → must also export inference (Prop 4)
             return "T+I exporter"
         if exports_inf and not is_dom_train:
             # Type (ii): inference hub — imports training, exports inference
