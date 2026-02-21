@@ -3268,6 +3268,7 @@ def write_appendix(doc, body, last_ref_el, eca_cal, non_eca_cal, reg, demand_dat
         'For all other countries, the cost-recovery price equals the observed tariff.'
     )
     rn.font.size = Pt(10)
+    note_a2.alignment = WD_ALIGN_PARAGRAPH.LEFT
     note_a2_el = note_a2._element
     body.remove(note_a2_el)
     last_a2_tbl.addnext(note_a2_el)
@@ -3502,6 +3503,7 @@ def write_table_a2(doc, body, after_el, demand_data):
     )
     rn.font.size = Pt(10)
     rn.italic = True
+    note.alignment = WD_ALIGN_PARAGRAPH.LEFT
     note_el = note._element
     body.remove(note_el)
     tbl_el.addnext(note_el)
@@ -3827,6 +3829,7 @@ def write_sensitivity_appendix(doc, body, last_el, demand_data):
         'of export concentration.'
     )
     rn.font.size = Pt(10)
+    note.alignment = WD_ALIGN_PARAGRAPH.LEFT
     note_el = note._element
     body.remove(note_el)
     tbl_el.addnext(note_el)
@@ -4001,6 +4004,7 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
         f'{ERP:.0%} emerging-market equity premium over the {RF:.0%} risk-free rate.'
     )
     rn.font.size = Pt(10)
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
     wacc_el = p._element
     body.remove(wacc_el)
     tbl_a4.addnext(wacc_el)
@@ -4281,6 +4285,7 @@ def write_construction_regression_appendix(doc, body, last_el):
         f'*** p < 0.01, ** p < 0.05, * p < 0.10.'
     )
     rn.font.size = Pt(10)
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
     note_el = p._element
     body.remove(note_el)
     tbl.addnext(note_el)
@@ -4444,6 +4449,7 @@ def write_figure4b(doc, body, last_ref, demand_data):
     )
     rn2.font.size = Pt(10)
     note_p.paragraph_format.line_spacing = 1.0
+    note_p.alignment = WD_ALIGN_PARAGRAPH.LEFT
     note_el = note_p._element
     body.remove(note_el)
     pic_el.addnext(note_el)
@@ -4455,6 +4461,9 @@ def write_table1(doc, body, after_el):
     """Table 1: Country regime taxonomy (5×5 grid), placed after Figure 1."""
     print("Inserting Table 1 (Country regime taxonomy)...")
     cur = after_el
+
+    # Page break before Table 1
+    cur = add_page_break(doc, body, cur)
 
     # Title
     tp_tax = doc.add_paragraph()
@@ -4749,7 +4758,7 @@ def write_table2(doc, body, after_el, demand_data):
     tblW.set(qn('w:w'), TABLE_WIDTH_PCT)
     tblW.set(qn('w:type'), 'pct')
 
-    _pcw = [Inches(2.9), Inches(0.6), Inches(1.1), Inches(1.9)]
+    _pcw = [Inches(2.6), Inches(0.6), Inches(1.5), Inches(1.8)]
     _pcw_labels = ['Parameter', 'Symbol', 'Value', 'Source']
 
     def _cell_border(tc, sides, style='single'):
@@ -5143,6 +5152,7 @@ def write_table3(doc, body, after_el, demand_data):
     rn3.font.size = Pt(10)
     rn3.font.name = 'Times New Roman'
     rn3.italic = True
+    note.alignment = WD_ALIGN_PARAGRAPH.LEFT
     note_el = note._element
     body.remove(note_el)
     tbl_el.addnext(note_el)
