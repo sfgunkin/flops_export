@@ -3722,8 +3722,8 @@ def write_model_appendix(doc, body, last_note):
     """Appendix B: Full model derivation from flops_capacity_model.md."""
     print("Inserting Appendix B (Model Derivation)...")
 
-    pb = add_page_break(doc, body, last_note)
-    cur = mkh(doc, body, pb, 'Appendix B: Model Derivation', level=1)
+    # No page break needed — previous element has landscape sectPr which forces a new page
+    cur = mkh(doc, body, last_note, 'Appendix B: Model Derivation', level=1)
 
     p, cur = mkp(doc, body, cur)
     p.add_run(
@@ -4710,7 +4710,7 @@ def write_table2(doc, body, after_el, demand_data):
     }
 
     n_params = len(param_rows)
-    param_tbl = doc.add_table(rows=n_params + 1, cols=5)
+    param_tbl = doc.add_table(rows=n_params + 1, cols=4)
     param_tbl.style = 'Table Grid'
     param_tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     tblPr = param_tbl._tbl.find(qn('w:tblPr'))
@@ -4736,8 +4736,8 @@ def write_table2(doc, body, after_el, demand_data):
     tblW.set(qn('w:w'), TABLE_WIDTH_PCT)
     tblW.set(qn('w:type'), 'pct')
 
-    _pcw = [Inches(2.5), Inches(0.6), Inches(0.5), Inches(1.0), Inches(1.9)]
-    _pcw_labels = ['Parameter', 'Symbol', 'Eq.', 'Value', 'Source']
+    _pcw = [Inches(2.6), Inches(0.6), Inches(1.1), Inches(2.2)]
+    _pcw_labels = ['Parameter', 'Symbol', 'Value', 'Source']
 
     def _cell_border(tc, sides, style='single'):
         tcPr = tc.get_or_add_tcPr()
@@ -4776,10 +4776,9 @@ def write_table2(doc, body, after_el, demand_data):
             val_str = f"${ETA:.2f}/hr"
         elif pr['symbol'] == 'Q':
             val_str = "6\u00d710\u00b9\u2070 GPU-hr/yr"
-        eq_str = pr.get('equation', '')
         src_text = pr['source']
         src_bm = _source_to_bm.get(src_text)
-        row_data = [pr['description'], sym_display, eq_str, val_str]
+        row_data = [pr['description'], sym_display, val_str]
         for j, txt in enumerate(row_data):
             cell = param_tbl.rows[i + 1].cells[j]
             cell.text = ''
@@ -4792,11 +4791,11 @@ def write_table2(doc, body, after_el, demand_data):
             rc.font.size = Pt(10)
             rc.font.name = TIMES_NEW_ROMAN
             cell.width = _pcw[j]
-        src_cell = param_tbl.rows[i + 1].cells[4]
+        src_cell = param_tbl.rows[i + 1].cells[3]
         src_cell.text = ''
         src_p = src_cell.paragraphs[0]
         src_p.alignment = WD_ALIGN_PARAGRAPH.LEFT
-        src_cell.width = _pcw[4]
+        src_cell.width = _pcw[3]
         if src_bm and src_text:
             rPr_src = OxmlElement('w:rPr')
             sz_src = OxmlElement('w:sz')
@@ -4813,7 +4812,7 @@ def write_table2(doc, body, after_el, demand_data):
             rc_src.font.size = Pt(10)
             rc_src.font.name = TIMES_NEW_ROMAN
         if i == n_params - 1:
-            for j in range(5):
+            for j in range(4):
                 _cell_border(param_tbl.rows[i + 1].cells[j]._tc, ['bottom'], style='double')
 
     for row in param_tbl.rows:
@@ -4848,6 +4847,10 @@ def write_table2(doc, body, after_el, demand_data):
         'The baseline calibration sets \u03BE\u2C7C = 1 for all countries.'
     )
     rn1.font.size = Pt(10)
+    # Hard return so the last line of justified text doesn't stretch
+    br_run = note.add_run()
+    br_el = OxmlElement('w:br')
+    br_run._element.append(br_el)
     note_el = note._element
     body.remove(note_el)
     param_tbl_el.addnext(note_el)
@@ -4931,17 +4934,13 @@ def write_table3(doc, body, after_el, demand_data):
         return _short.get(full, full[:18] + '.' if len(full) > 19 else full)
 
     # ─── Row selection ───
-    _exclude = {'MLT', 'ISL', 'LUX', 'DNK', 'BEL', 'NZL', 'PRT', 'ISR'}
+    _exclude = {'MLT', 'ISL', 'LUX', 'DNK', 'BEL', 'NZL', 'PRT', 'ISR',
+                'NOR', 'EST', 'POL', 'AUT'}
     top_eff = sorted(table3_data, key=lambda x: x["rank_eff"])
     top_rows = [d for d in top_eff if d["iso"] not in _exclude][:20]
-    top_isos = {d["iso"] for d in top_rows}
-    dev_isos = ['CHN', 'IND', 'XKX', 'KOS', 'KGZ', 'EGY', 'ETH', 'UZB', 'IRN', 'RUS']
-    dev_rows = [d for d in table3_data
-                if d["iso"] in dev_isos and d["iso"] not in top_isos]
-    dev_rows.sort(key=lambda x: x["rank_eff"])
 
     # ─── Build table ───
-    n_data = len(top_rows) + (1 if dev_rows else 0) + len(dev_rows)
+    n_data = len(top_rows)
     n_rows = 2 + n_data  # 2 header rows + data
     n_cols = 14
     tbl = doc.add_table(rows=n_rows, cols=n_cols)
@@ -5064,33 +5063,6 @@ def write_table3(doc, body, after_el, demand_data):
         _set_cell(row_idx, 13, delta_str, font_size=8)
         row_idx += 1
 
-    # Separator row
-    if dev_rows:
-        _set_cell(row_idx, 0, '\u2026', font_size=8, align='left')
-        for j in range(1, n_cols):
-            _set_cell(row_idx, j, '', font_size=8)
-        row_idx += 1
-
-        # Developing countries outside top 20
-        for d in dev_rows:
-            _set_cell(row_idx, 0, _sname(d["country"]), font_size=8, align='left')
-            _set_cell(row_idx, 1, f'${d["cj_raw"]:.2f}', font_size=8)
-            _set_cell(row_idx, 2, str(d["rank_raw"]), font_size=8)
-            _set_cell(row_idx, 3, d["type_raw"], font_size=8)
-            _set_cell(row_idx, 4, f'${d["cj_cr"]:.2f}', font_size=8)
-            _set_cell(row_idx, 5, str(d["rank_cr"]), font_size=8)
-            _set_cell(row_idx, 6, d["type_cr"], font_size=8)
-            _set_cell(row_idx, 7, f'${d["cj_eff"]:.2f}', font_size=8)
-            _set_cell(row_idx, 8, str(d["rank_eff"]), font_size=8)
-            _set_cell(row_idx, 9, d["type_eff"], font_size=8)
-            _set_cell(row_idx, 10, f'${d["pj_sov"]:.2f}', font_size=8)
-            _set_cell(row_idx, 11, str(d["rank_sov"]), font_size=8)
-            _set_cell(row_idx, 12, d["type_sov"], font_size=8)
-            delta_val = d["delta"]
-            delta_str = f'+{delta_val}' if delta_val > 0 else str(delta_val)
-            _set_cell(row_idx, 13, delta_str, font_size=8)
-            row_idx += 1
-
     # Double bottom border on last data row
     last_data_row = row_idx - 1
     for j in range(n_cols):
@@ -5156,7 +5128,7 @@ def write_table3(doc, body, after_el, demand_data):
         '(4)\u2009Sovereignty: \u03c3\u0304\u2009=\u200910% autarky threshold applied to (3); '
         f'p*\u2009=\u2009${p_star:.2f}/hr. '
         '\u0394\u2009=\u2009rank change from (1) to (3); positive values indicate improvement. '
-        'Top countries shown by specification (3); additional developing countries below separator.'
+        'Top 20 countries shown by specification (3); see Table A2 for all 85 countries.'
     )
     rn3.font.size = Pt(10)
     rn3.font.name = 'Times New Roman'
