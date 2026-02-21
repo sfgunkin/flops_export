@@ -2122,7 +2122,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         'the higher equilibrium price narrows the gap between domestic and import costs.'
     )
 
-    # Proposition 4: Nesting (renumbered from 5)
+    # Proposition 4: Nesting
     p, cur = mkp(doc, body, cur, space_before=6)
     r = p.add_run('Proposition 4 (Training Exporters Nest Within Inference Exporters). ')
     r.bold = True
@@ -3648,7 +3648,7 @@ def write_model_appendix(doc, body, last_note):
     omath(p, [_msub('K', 'j')])
     p.add_run('.')
 
-    # B.5 Equilibrium and Existence (was B.6)
+    # B.5 Equilibrium and Existence
     cur = mkh(doc, body, cur, 'B.5 Equilibrium Definition and Existence', level=2)
     p, cur = mkp(doc, body, cur)
     p.add_run(
@@ -3680,7 +3680,7 @@ def write_model_appendix(doc, body, last_note):
     omath(p, [_msub('p', 'T')])
     p.add_run('.')
 
-    # B.6 Welfare (was B.7)
+    # B.6 Welfare
     cur = mkh(doc, body, cur, 'B.6 Welfare Cost of Sovereignty', level=2)
     p, cur = mkp(doc, body, cur)
     p.add_run('The welfare cost has two components. Import markup:')
