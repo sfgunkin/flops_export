@@ -5530,7 +5530,7 @@ def apply_formatting(doc, body, refs, title_el, author_el, ver_el, abs_text_el):
             continue
         if 'Heading' not in style and p.text.strip():
             # Skip title page elements (centered)
-            if p._element not in _protected:
+            if p._element not in _protected and p.alignment != WD_ALIGN_PARAGRAPH.LEFT:
                 p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
                 if p.paragraph_format.first_line_indent is None or p.paragraph_format.first_line_indent > 0:
                     p.paragraph_format.first_line_indent = Inches(0)
