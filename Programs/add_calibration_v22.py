@@ -2025,212 +2025,6 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     p._element.append(make_bookmark_end(130))
     p.add_run(' summarizes this taxonomy.')
 
-    # ── Table 1: Country Regime Taxonomy ──────────────────────────────────
-    # Title
-    tp_tax = doc.add_paragraph()
-    tp_tax.paragraph_format.space_before = Pt(10)
-    tp_tax.paragraph_format.space_after = Pt(4)
-    tp_tax.paragraph_format.first_line_indent = Inches(0)
-    tp_tax.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    tp_tax._element.append(make_bookmark(131, 'Table1'))
-    hl_tax = OxmlElement('w:hyperlink')
-    hl_tax.set(qn('w:anchor'), 'Table1txt')
-    hl_tax.set(qn('w:history'), '1')
-    r_tax = OxmlElement('w:r')
-    rPr_tax = OxmlElement('w:rPr')
-    b_tax = OxmlElement('w:b')
-    rPr_tax.append(b_tax)
-    sz_tax = OxmlElement('w:sz')
-    sz_tax.set(qn('w:val'), '20')
-    rPr_tax.append(sz_tax)
-    clr_tax = OxmlElement('w:color')
-    clr_tax.set(qn('w:val'), LINK_COLOR)
-    uu_tax = OxmlElement('w:u')
-    uu_tax.set(qn('w:val'), 'single')
-    rPr_tax.append(clr_tax)
-    rPr_tax.append(uu_tax)
-    r_tax.append(rPr_tax)
-    t_tax = OxmlElement('w:t')
-    t_tax.text = 'Table 1'
-    r_tax.append(t_tax)
-    hl_tax.append(r_tax)
-    tp_tax._element.append(hl_tax)
-    tp_tax._element.append(make_bookmark_end(131))
-    run_tt = tp_tax.add_run('. Country regime taxonomy (Proposition 1)')
-    run_tt.bold = True
-    run_tt.font.size = Pt(10)
-    tp_tax_el = tp_tax._element
-    body.remove(tp_tax_el)
-    cur.addnext(tp_tax_el)
-    cur = tp_tax_el
-
-    # Build the 5×5 taxonomy table
-    tax_tbl = doc.add_table(rows=5, cols=5)
-    tax_tbl.style = 'Table Grid'
-    tax_tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
-
-    # Remove all borders, then selectively add
-    tblPr_t = tax_tbl._tbl.find(qn('w:tblPr'))
-    if tblPr_t is None:
-        tblPr_t = OxmlElement('w:tblPr')
-        tax_tbl._tbl.insert(0, tblPr_t)
-    old_bdr_t = tblPr_t.find(qn('w:tblBorders'))
-    if old_bdr_t is not None:
-        tblPr_t.remove(old_bdr_t)
-    tblBorders_t = OxmlElement('w:tblBorders')
-    for side in ('top', 'left', 'bottom', 'right', 'insideH', 'insideV'):
-        bb = OxmlElement(f'w:{side}')
-        bb.set(qn('w:val'), 'single')
-        bb.set(qn('w:sz'), '4')
-        bb.set(qn('w:space'), '0')
-        bb.set(qn('w:color'), 'auto')
-        tblBorders_t.append(bb)
-    tblPr_t.append(tblBorders_t)
-    tblW_t = tblPr_t.find(qn('w:tblW'))
-    if tblW_t is None:
-        tblW_t = OxmlElement('w:tblW')
-        tblPr_t.append(tblW_t)
-    tblW_t.set(qn('w:w'), '4800')
-    tblW_t.set(qn('w:type'), 'pct')
-
-    def _tax_cell(row, col, text, bold=False, italic=False, gray=False,
-                  font_size=8, align=WD_ALIGN_PARAGRAPH.CENTER):
-        """Set content and formatting of a taxonomy table cell."""
-        cell = tax_tbl.rows[row].cells[col]
-        cell.text = ''
-        p_c = cell.paragraphs[0]
-        p_c.alignment = align
-        if gray:
-            shading = OxmlElement('w:shd')
-            shading.set(qn('w:val'), 'clear')
-            shading.set(qn('w:color'), 'auto')
-            shading.set(qn('w:fill'), 'E0E0E0')
-            cell._tc.get_or_add_tcPr().append(shading)
-        for line_i, line in enumerate(text.split('\n')):
-            if line_i > 0:
-                p_c.add_run().add_break()
-            run = p_c.add_run(line)
-            run.font.size = Pt(font_size)
-            run.bold = bold
-            run.italic = italic
-
-    # Row 0: header row — merge [0,2:4] for "Training" header
-    # Cells [0,0] and [0,1] are empty (corner)
-    _tax_cell(0, 0, '', font_size=7)
-    _tax_cell(0, 1, '', font_size=7)
-    _tax_cell(0, 2, 'Training', bold=True, font_size=8)
-    _tax_cell(0, 3, 'domestic production cost \u2192', bold=True, font_size=7, italic=True)
-    _tax_cell(0, 4, '', font_size=7)
-    # Merge row 0 cells 2-4
-    tax_tbl.rows[0].cells[2].merge(tax_tbl.rows[0].cells[4])
-    # Re-set merged cell text
-    merged_cell = tax_tbl.rows[0].cells[2]
-    merged_cell.text = ''
-    mp = merged_cell.paragraphs[0]
-    mp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r_train = mp.add_run('Training')
-    r_train.bold = True
-    r_train.font.size = Pt(9)
-    mp.add_run().add_break()
-    r_arrow = mp.add_run('domestic production cost \u2192')
-    r_arrow.italic = True
-    r_arrow.font.size = Pt(7)
-
-    # Row 1: sub-headers
-    _tax_cell(1, 0, '', font_size=7)
-    _tax_cell(1, 1, '', font_size=7)
-    _tax_cell(1, 2, 'Export', bold=True, font_size=8)
-    _tax_cell(1, 3, 'Domestic', bold=True, font_size=8)
-    _tax_cell(1, 4, 'Import', bold=True, font_size=8)
-    # Merge row 0-1 col 0 and row 0-1 col 1 for the corner
-    tax_tbl.rows[0].cells[0].merge(tax_tbl.rows[1].cells[0])
-    tax_tbl.rows[0].cells[1].merge(tax_tbl.rows[1].cells[1])
-
-    # Merge col 0 rows 2-4 for "Inference" header
-    tax_tbl.rows[2].cells[0].merge(tax_tbl.rows[4].cells[0])
-    inf_cell = tax_tbl.rows[2].cells[0]
-    inf_cell.text = ''
-    ip = inf_cell.paragraphs[0]
-    ip.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r_inf = ip.add_run('Inference')
-    r_inf.bold = True
-    r_inf.font.size = Pt(9)
-    ip.add_run().add_break()
-    r_iarrow = ip.add_run('\u2190 domestic production cost')
-    r_iarrow.italic = True
-    r_iarrow.font.size = Pt(7)
-    # Vertical text direction for the Inference cell
-    tcPr_inf = inf_cell._tc.get_or_add_tcPr()
-    text_dir = OxmlElement('w:textDirection')
-    text_dir.set(qn('w:val'), 'btLr')
-    tcPr_inf.append(text_dir)
-    vAlign_inf = OxmlElement('w:vAlign')
-    vAlign_inf.set(qn('w:val'), 'center')
-    tcPr_inf.append(vAlign_inf)
-
-    # Row labels (col 1): Export, Domestic, Import
-    _tax_cell(2, 1, 'Export', bold=True, font_size=8)
-    _tax_cell(3, 1, 'Domestic', bold=True, font_size=8)
-    _tax_cell(4, 1, 'Import', bold=True, font_size=8)
-
-    # Content cells — 3×3 grid (rows 2-4, cols 2-4)
-    # (2,2): Train Export + Inf Export = T+I exporter ✓(i)
-    _tax_cell(2, 2, '\u2713  (i) EE\nT+I exporter\nCheapest producers', font_size=7.5)
-    # (2,3): Train Domestic + Inf Export = ✗ Prop 5
-    _tax_cell(2, 3, '\u2717\nProp. 5', font_size=7.5, gray=True)
-    # (2,4): Train Import + Inf Export = Inference hub ✓(ii)
-    _tax_cell(2, 4, '\u2713  (ii) IE\nInference hub\nRegional low-cost hubs', font_size=7.5)
-    # (3,2): Train Export + Inf Domestic = ✗ Prop 5
-    _tax_cell(3, 2, '\u2717\nProp. 5', font_size=7.5, gray=True)
-    # (3,3): Train Domestic + Inf Domestic = Domestic ✓(iv)
-    _tax_cell(3, 3, '\u2713  (iv) DD\nDomestic\nHigh sovereignty', font_size=7.5)
-    # (3,4): Train Import + Inf Domestic = Hybrid ✓(iii)
-    _tax_cell(3, 4, '\u2713  (iii) ID\nHybrid\nIsolated / moderate cost', font_size=7.5)
-    # (4,2): Train Export + Inf Import = ✗ Prop 5
-    _tax_cell(4, 2, '\u2717\nProp. 5', font_size=7.5, gray=True)
-    # (4,3): Train Domestic + Inf Import = ✗ sovereignty dominates
-    _tax_cell(4, 3, '\u2717\nSovereignty\ndominates', font_size=7.5, gray=True)
-    # (4,4): Train Import + Inf Import = Full importer ✓(v)
-    _tax_cell(4, 4, '\u2713  (v) II\nFull importer\nHigh-cost countries', font_size=7.5)
-
-    # Cell spacing
-    for row in tax_tbl.rows:
-        for cell in row.cells:
-            for pp in cell.paragraphs:
-                pPr = pp._element.get_or_add_pPr()
-                sp = OxmlElement('w:spacing')
-                sp.set(qn('w:before'), '20')
-                sp.set(qn('w:after'), '20')
-                pPr.append(sp)
-
-    # Position table after title
-    tax_tbl_el = tax_tbl._tbl
-    body.remove(tax_tbl_el)
-    tp_tax_el.addnext(tax_tbl_el)
-    cur = tax_tbl_el
-
-    # Table notes
-    tn = doc.add_paragraph()
-    tn.paragraph_format.space_before = Pt(2)
-    tn.paragraph_format.space_after = Pt(8)
-    tn.paragraph_format.first_line_indent = Inches(0)
-    tn.paragraph_format.line_spacing = 1.0
-    tn.alignment = WD_ALIGN_PARAGRAPH.LEFT
-    rn = tn.add_run(
-        'Notes: \u2713 = feasible in equilibrium. \u2717 = ruled out. '
-        'Grey cells cannot arise. Roman numerals correspond to regime labels '
-        'in Proposition 1. '
-        'Letter codes (EE, IE, ID, DD, II) denote training status '
-        '(first letter: E\u2009=\u2009export, I\u2009=\u2009import, D\u2009=\u2009domestic) and inference status '
-        '(second letter), used in Table 3.'
-    )
-    rn.font.size = Pt(10)
-    rn.italic = True
-    tn_el = tn._element
-    body.remove(tn_el)
-    tax_tbl_el.addnext(tn_el)
-    cur = tn_el
-
     # Proposition 2: Concentration
     p, cur = mkp(doc, body, cur, space_before=6)
     r = p.add_run('Proposition 2 (Capacity Constraints Reduce Concentration). ')
@@ -4640,6 +4434,208 @@ def write_figure4b(doc, body, last_ref, demand_data):
     return note_el
 
 
+def write_table1(doc, body, after_el):
+    """Table 1: Country regime taxonomy (5×5 grid), placed after Figure 1."""
+    print("Inserting Table 1 (Country regime taxonomy)...")
+    cur = after_el
+
+    # Title
+    tp_tax = doc.add_paragraph()
+    tp_tax.paragraph_format.space_before = Pt(10)
+    tp_tax.paragraph_format.space_after = Pt(4)
+    tp_tax.paragraph_format.first_line_indent = Inches(0)
+    tp_tax.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    tp_tax._element.append(make_bookmark(131, 'Table1'))
+    hl_tax = OxmlElement('w:hyperlink')
+    hl_tax.set(qn('w:anchor'), 'Table1txt')
+    hl_tax.set(qn('w:history'), '1')
+    r_tax = OxmlElement('w:r')
+    rPr_tax = OxmlElement('w:rPr')
+    b_tax = OxmlElement('w:b')
+    rPr_tax.append(b_tax)
+    sz_tax = OxmlElement('w:sz')
+    sz_tax.set(qn('w:val'), '20')
+    rPr_tax.append(sz_tax)
+    clr_tax = OxmlElement('w:color')
+    clr_tax.set(qn('w:val'), LINK_COLOR)
+    uu_tax = OxmlElement('w:u')
+    uu_tax.set(qn('w:val'), 'single')
+    rPr_tax.append(clr_tax)
+    rPr_tax.append(uu_tax)
+    r_tax.append(rPr_tax)
+    t_tax = OxmlElement('w:t')
+    t_tax.text = 'Table 1'
+    r_tax.append(t_tax)
+    hl_tax.append(r_tax)
+    tp_tax._element.append(hl_tax)
+    tp_tax._element.append(make_bookmark_end(131))
+    run_tt = tp_tax.add_run('. Country regime taxonomy (Proposition 1)')
+    run_tt.bold = True
+    run_tt.font.size = Pt(10)
+    tp_tax_el = tp_tax._element
+    body.remove(tp_tax_el)
+    cur.addnext(tp_tax_el)
+    cur = tp_tax_el
+
+    # Build the 5×5 taxonomy table
+    tax_tbl = doc.add_table(rows=5, cols=5)
+    tax_tbl.style = 'Table Grid'
+    tax_tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
+
+    # Remove all borders, then selectively add
+    tblPr_t = tax_tbl._tbl.find(qn('w:tblPr'))
+    if tblPr_t is None:
+        tblPr_t = OxmlElement('w:tblPr')
+        tax_tbl._tbl.insert(0, tblPr_t)
+    old_bdr_t = tblPr_t.find(qn('w:tblBorders'))
+    if old_bdr_t is not None:
+        tblPr_t.remove(old_bdr_t)
+    tblBorders_t = OxmlElement('w:tblBorders')
+    for side in ('top', 'left', 'bottom', 'right', 'insideH', 'insideV'):
+        bb = OxmlElement(f'w:{side}')
+        bb.set(qn('w:val'), 'single')
+        bb.set(qn('w:sz'), '4')
+        bb.set(qn('w:space'), '0')
+        bb.set(qn('w:color'), 'auto')
+        tblBorders_t.append(bb)
+    tblPr_t.append(tblBorders_t)
+    tblW_t = tblPr_t.find(qn('w:tblW'))
+    if tblW_t is None:
+        tblW_t = OxmlElement('w:tblW')
+        tblPr_t.append(tblW_t)
+    tblW_t.set(qn('w:w'), '4800')
+    tblW_t.set(qn('w:type'), 'pct')
+
+    def _tax_cell(row, col, text, bold=False, italic=False, gray=False,
+                  font_size=8, align=WD_ALIGN_PARAGRAPH.CENTER):
+        """Set content and formatting of a taxonomy table cell."""
+        cell = tax_tbl.rows[row].cells[col]
+        cell.text = ''
+        p_c = cell.paragraphs[0]
+        p_c.alignment = align
+        if gray:
+            shading = OxmlElement('w:shd')
+            shading.set(qn('w:val'), 'clear')
+            shading.set(qn('w:color'), 'auto')
+            shading.set(qn('w:fill'), 'E0E0E0')
+            cell._tc.get_or_add_tcPr().append(shading)
+        for line_i, line in enumerate(text.split('\n')):
+            if line_i > 0:
+                p_c.add_run().add_break()
+            run = p_c.add_run(line)
+            run.font.size = Pt(font_size)
+            run.bold = bold
+            run.italic = italic
+
+    # Row 0: header row — merge [0,2:4] for "Training" header
+    _tax_cell(0, 0, '', font_size=7)
+    _tax_cell(0, 1, '', font_size=7)
+    _tax_cell(0, 2, 'Training', bold=True, font_size=8)
+    _tax_cell(0, 3, 'domestic production cost \u2192', bold=True, font_size=7, italic=True)
+    _tax_cell(0, 4, '', font_size=7)
+    # Merge row 0 cells 2-4
+    tax_tbl.rows[0].cells[2].merge(tax_tbl.rows[0].cells[4])
+    # Re-set merged cell text
+    merged_cell = tax_tbl.rows[0].cells[2]
+    merged_cell.text = ''
+    mp = merged_cell.paragraphs[0]
+    mp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    r_train = mp.add_run('Training')
+    r_train.bold = True
+    r_train.font.size = Pt(9)
+    mp.add_run().add_break()
+    r_arrow = mp.add_run('domestic production cost \u2192')
+    r_arrow.italic = True
+    r_arrow.font.size = Pt(7)
+
+    # Row 1: sub-headers
+    _tax_cell(1, 0, '', font_size=7)
+    _tax_cell(1, 1, '', font_size=7)
+    _tax_cell(1, 2, 'Export', bold=True, font_size=8)
+    _tax_cell(1, 3, 'Domestic', bold=True, font_size=8)
+    _tax_cell(1, 4, 'Import', bold=True, font_size=8)
+    # Merge row 0-1 col 0 and row 0-1 col 1 for the corner
+    tax_tbl.rows[0].cells[0].merge(tax_tbl.rows[1].cells[0])
+    tax_tbl.rows[0].cells[1].merge(tax_tbl.rows[1].cells[1])
+
+    # Merge col 0 rows 2-4 for "Inference" header
+    tax_tbl.rows[2].cells[0].merge(tax_tbl.rows[4].cells[0])
+    inf_cell = tax_tbl.rows[2].cells[0]
+    inf_cell.text = ''
+    ip = inf_cell.paragraphs[0]
+    ip.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    r_inf = ip.add_run('Inference')
+    r_inf.bold = True
+    r_inf.font.size = Pt(9)
+    ip.add_run().add_break()
+    r_iarrow = ip.add_run('\u2190 domestic production cost')
+    r_iarrow.italic = True
+    r_iarrow.font.size = Pt(7)
+    # Vertical text direction for the Inference cell
+    tcPr_inf = inf_cell._tc.get_or_add_tcPr()
+    text_dir = OxmlElement('w:textDirection')
+    text_dir.set(qn('w:val'), 'btLr')
+    tcPr_inf.append(text_dir)
+    vAlign_inf = OxmlElement('w:vAlign')
+    vAlign_inf.set(qn('w:val'), 'center')
+    tcPr_inf.append(vAlign_inf)
+
+    # Row labels (col 1): Export, Domestic, Import
+    _tax_cell(2, 1, 'Export', bold=True, font_size=8)
+    _tax_cell(3, 1, 'Domestic', bold=True, font_size=8)
+    _tax_cell(4, 1, 'Import', bold=True, font_size=8)
+
+    # Content cells — 3×3 grid (rows 2-4, cols 2-4)
+    _tax_cell(2, 2, '\u2713  (i) EE\nT+I exporter\nCheapest producers', font_size=7.5)
+    _tax_cell(2, 3, '\u2717\nProp. 5', font_size=7.5, gray=True)
+    _tax_cell(2, 4, '\u2713  (ii) IE\nInference hub\nRegional low-cost hubs', font_size=7.5)
+    _tax_cell(3, 2, '\u2717\nProp. 5', font_size=7.5, gray=True)
+    _tax_cell(3, 3, '\u2713  (iv) DD\nDomestic\nHigh sovereignty', font_size=7.5)
+    _tax_cell(3, 4, '\u2713  (iii) ID\nHybrid\nIsolated / moderate cost', font_size=7.5)
+    _tax_cell(4, 2, '\u2717\nProp. 5', font_size=7.5, gray=True)
+    _tax_cell(4, 3, '\u2717\nSovereignty\ndominates', font_size=7.5, gray=True)
+    _tax_cell(4, 4, '\u2713  (v) II\nFull importer\nHigh-cost countries', font_size=7.5)
+
+    # Cell spacing
+    for row in tax_tbl.rows:
+        for cell in row.cells:
+            for pp in cell.paragraphs:
+                pPr = pp._element.get_or_add_pPr()
+                sp = OxmlElement('w:spacing')
+                sp.set(qn('w:before'), '20')
+                sp.set(qn('w:after'), '20')
+                pPr.append(sp)
+
+    # Position table after title
+    tax_tbl_el = tax_tbl._tbl
+    body.remove(tax_tbl_el)
+    tp_tax_el.addnext(tax_tbl_el)
+    cur = tax_tbl_el
+
+    # Table notes
+    tn = doc.add_paragraph()
+    tn.paragraph_format.space_before = Pt(2)
+    tn.paragraph_format.space_after = Pt(8)
+    tn.paragraph_format.first_line_indent = Inches(0)
+    tn.paragraph_format.line_spacing = 1.0
+    tn.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    rn = tn.add_run(
+        'Notes: \u2713 = feasible in equilibrium. \u2717 = ruled out. '
+        'Grey cells cannot arise. Roman numerals correspond to regime labels '
+        'in Proposition 1. '
+        'Letter codes (EE, IE, ID, DD, II) denote training status '
+        '(first letter: E\u2009=\u2009export, I\u2009=\u2009import, D\u2009=\u2009domestic) and inference status '
+        '(second letter), used in Table 3.'
+    )
+    rn.font.size = Pt(10)
+    rn.italic = True
+    tn_el = tn._element
+    body.remove(tn_el)
+    tax_tbl_el.addnext(tn_el)
+
+    return tn_el
+
+
 def write_table2(doc, body, after_el, demand_data):
     """Table 2: Model parameters (formerly Table 1), placed in main body."""
     print("Inserting Table 2 (Model parameters)...")
@@ -4847,10 +4843,7 @@ def write_table2(doc, body, after_el, demand_data):
         'The baseline calibration sets \u03BE\u2C7C = 1 for all countries.'
     )
     rn1.font.size = Pt(10)
-    # Hard return so the last line of justified text doesn't stretch
-    br_run = note.add_run()
-    br_el = OxmlElement('w:br')
-    br_run._element.append(br_el)
+    note.alignment = WD_ALIGN_PARAGRAPH.LEFT
     note_el = note._element
     body.remove(note_el)
     param_tbl_el.addnext(note_el)
@@ -6330,7 +6323,8 @@ def main():
     refs = hmap['refs']
     last_ref = write_references(doc, body, refs)
     last_fig4b = write_figure4b(doc, body, last_ref, demand_data)
-    last_table1 = write_table2(doc, body, last_fig4b, demand_data)
+    last_table1_tax = write_table1(doc, body, last_fig4b)
+    last_table1 = write_table2(doc, body, last_table1_tax, demand_data)
     last_table3 = write_table3(doc, body, last_table1, demand_data)
     last_app_note = write_appendix(doc, body, last_table3, eca_cal, non_eca_cal, reg, demand_data)
     last_table_a2 = write_table_a2(doc, body, last_app_note, demand_data)
