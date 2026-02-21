@@ -697,6 +697,7 @@ CITATIONS = [
     ('van der Ploeg', '2011', 'vanderPloeg2011', 'van der Ploeg, F.'),
     ('Barroso et al.', '2018', 'Barroso2018', 'Barroso, L.'),
     ('ABD', '2020', 'ABD2020', 'Asian Development Bank. (2020)'),
+    ('Calcaterra et al.', '2024', 'Calcaterra2024', 'Calcaterra, M.'),
 ]
 
 # Auto-generate CITE_MAP: both "Author (Year)" and "Author Year" forms
@@ -771,6 +772,7 @@ def link_citations_pass(body, cite_map, bm_id):
 # ═══════════════════════════════════════════════════════════════════════
 ITALIC_IN_REFS = {
     'Brainard': 'American Economic Review',
+    'Calcaterra': 'Nature Energy',
     'Cloudscene': 'Global Data Center Directory',
     'Deloitte': 'Deloitte Insights',
     'EIA': 'Electric Power Monthly',
@@ -2942,31 +2944,20 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Cost of capital. ')
     p.add_run(
-        'The calibration amortizes hardware and construction costs using straight-line '
-        'depreciation, implicitly assuming a zero discount rate and uniform financing costs '
-        'across countries. In practice, the cost of capital varies substantially. '
-        'An OECD-based hyperscaler financing at a weighted average cost of capital (WACC) '
-        'of 8% faces an annualized hardware cost of $1.58 per GPU-hour, compared with '
-        '$1.36 under straight-line depreciation. A locally financed facility in a developing '
-        'country, facing a WACC of 18% owing to sovereign risk, currency risk, and shallow '
-        'domestic capital markets, would pay $1.87 per GPU-hour for the same hardware\u2014'
-        'a financing gap of $0.29 per GPU-hour on hardware alone. Including construction '
-        '(at 15-year facility life), the total financing gap between an OECD and a '
-        'developing-country operator widens to approximately $0.37 per GPU-hour, roughly '
-        'four times the entire electricity cost spread across the top 20 countries in the '
-        'baseline ranking. The effect on comparative advantage depends on the ownership '
-        'model. If hyperscalers finance facilities at their own WACC regardless of host '
-        'country, financing costs are approximately uniform and the baseline rankings hold. '
-        'If local entrepreneurs or sovereign wealth funds finance at domestic rates, the '
-        'cost-of-capital channel reinforces the reliability adjustment: the same '
-        'institutional weaknesses that lower '
+        'The calibration assumes uniform financing costs via straight-line depreciation. '
+        'In practice, the financing gap is large (Calcaterra et al. 2024). '
+        'An OECD hyperscaler at a WACC of 8% faces hardware costs of $1.58 per GPU-hour, '
+        'while a developing-country operator at 18% pays $1.87\u2014a $0.29 gap on hardware '
+        'alone, widening to $0.37 including construction, about four times the electricity '
+        'cost spread across the top 20 countries. '
+        'If hyperscalers finance at their own WACC regardless of host country, the baseline '
+        'rankings hold. If facilities are locally financed, the cost-of-capital channel '
+        'reinforces the reliability adjustment: the same institutional weaknesses that lower '
     )
     omath(p, [_msub('\u03BE', 'j')])
     p.add_run(
-        ' also raise the country risk premium, compounding the disadvantage of low-income '
-        'producers. The calibration\u2019s implicit assumption of uniform financing is therefore '
-        'conservative in the sense that it overstates developing-country cost competitiveness '
-        'relative to a scenario with heterogeneous cost of capital.'
+        ' also raise the country risk premium. The uniform-financing assumption therefore '
+        'overstates developing-country competitiveness.'
     )
 
     # ── B4. Sensitivity analysis (KEEP P90) ──
@@ -3028,21 +3019,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'locations such as Northern Virginia reflects these centripetal forces.'
     )
 
-    # KEEP P94
-    p, cur = mkp(doc, body, cur)
-    p.add_run(
-        'The model\u2019s contribution is to identify which countries satisfy the necessary '
-        'cost condition for competitive supply. Even under increasing returns, hyperscalers '
-        'expanding internationally will favor locations with the lowest electricity, cooling, and '
-        'construction costs, conditional on meeting minimum infrastructure '
-        'thresholds. The cost ranking in Table A1 thus identifies the feasibility frontier. '
-        'Cost-competitive countries have a prerequisite for attracting investment, '
-        'though cost competitiveness alone is not sufficient. The thin margins documented '
-        'above (a 12% spread between the cheapest and the most expensive) reinforce this point. Since '
-        'unit cost advantages are modest, institutional and agglomeration factors are often '
-        'decisive in determining which countries are cost-competitive and attract '
-        'investment.'
-    )
 
 
 def write_conclusion(doc, body, hmap, demand_data):
@@ -5232,6 +5208,12 @@ def write_references(doc, body, refs):
 
         'Brainard, S. (1997). \u201CAn Empirical Assessment of the Proximity-Concentration '
         'Trade-off.\u201D American Economic Review, 87(4): 520\u2013544.',
+
+        'Calcaterra, M., L. Reis, P. Fragkos, T. Briera, H. Boer, F. Egli, '
+        'J. Emmerling, G. Iyer, S. Mittal, F. Polzin, M. Sanders, T. Schmidt, '
+        'A. Serebriakova, and B. Steffen. (2024). \u201CReducing the Cost of Capital '
+        'to Finance the Energy Transition in Developing Countries.\u201D '
+        'Nature Energy, 9(10): 1241\u20131251.',
 
         'Cloudscene. (2025). Global Data Center Directory. cloudscene.com.',
 
