@@ -2411,15 +2411,19 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     # 6.2 Cost Rankings and Trade Patterns
     cur = mkh(doc, body, cur, '6.2 Cost Rankings and Trade Patterns', level=2)
 
-    # ── Section 6.2 narrative (v21-style flow, Table 3 as evidence) ──
+    # ══════════════════════════════════════════════════════════════════════
+    # 6.2  Cost Rankings and Trade Patterns
+    # ══════════════════════════════════════════════════════════════════════
     _xi_adj = demand_data.get("xi_adjusted", {})
     _xi_top5 = _xi_adj["top5"] if _xi_adj else []
     _xi_n_changed = _xi_adj.get("n_changed_top10", 0)
     _t3 = demand_data["table3"]
     adj_top5 = demand_data["adj_top5"]
     cheapest = cal[0]
+    max_gap_country = demand_data["max_gap_country"]
+    max_fiscal_m = demand_data["max_fiscal_transfer"] / 1e6
 
-    # P1: Preferred specification — the main result
+    # ── A1. Opening: preferred specification and main result (KEEP P72) ──
     p, cur = mkp(doc, body, cur, space_before=6)
     p._element.append(make_bookmark(100, 'TableA1txt'))
     p._element.append(make_hyperlink('TableA1', 'Table A1'))
@@ -2460,7 +2464,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_bookmark_end(121))
     p.add_run(' illustrates the resulting rank reshuffling.')
 
-    # P2: Raw tariff contrast — Table 3 column (1) as evidence
+    # ── A1. Raw tariff contrast (KEEP P73) — Table 3 col (1) ──
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'For comparison, under observed electricity tariffs and without reliability '
@@ -2483,7 +2487,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'the ranking changes substantially.'
     )
 
-    # P3: Cost-recovery adjustment — Table 3 column (2) as evidence
+    # ── A2. Cost-recovery adjustment (KEEP P74) — Table 3 col (2) ──
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'To distinguish genuine comparative advantage from fiscal artifact, '
@@ -2503,7 +2507,38 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'and {adj_top5[4][1]} (${adj_top5[4][2]:.2f}/hr).'
     )
 
-    # P4: Reliability adjustment — Table 3 column (3) and Δ
+    # ── A2. LRMC detail (MOVED from P87 first half) ──
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'The cost-recovery prices are derived from country-specific LRMC estimates. '
+        'For gas exporters (Iran, Turkmenistan, Algeria, Qatar), the calibration uses '
+        'combined-cycle gas generation at export-parity fuel prices '
+        '($0.065\u2013$0.100/kWh). For the Gulf states, '
+        'it uses the opportunity cost of domestic gas combustion relative to LNG exports. '
+        'For coal-dependent producers (Kazakhstan, South Africa), the calibration uses the '
+        'Eskom-style cost-recovery tariff. For Ethiopia, it uses the IMF\u2019s hydro '
+        'cost-recovery target ($0.050/kWh).'
+    )
+    make_footnote(p,
+                  'The IMF estimates global fossil fuel subsidies at $6.7 trillion in 2024. '
+                  'Explicit subsidies (below-cost pricing) account for 8%; the remainder reflects '
+                  'unpriced environmental costs. This paper uses only the explicit component.',
+                  16)
+    p.add_run(
+        ' The subsidy gap ranges from '
+        f'${demand_data["min_gap_mwh"] / 1000:.3f} to '
+        f'${demand_data["max_gap_mwh_val"] / 1000:.3f}/kWh. '
+        f'For {max_gap_country}, a 100\u2009MW IT-load data center would receive roughly '
+        f'${max_fiscal_m:.0f}\u2009million per year in implicit fiscal transfer. '
+        'At export scale, this fiscal arithmetic becomes unsustainable. '
+        f'{cheapest["country"]} drops from first to '
+        f'{_ordinal(demand_data["adj_rank_map"]["IRN"])}. '
+        f'{_num_word(demand_data["regime_changes"]).capitalize()} '
+        f'{"country changes" if demand_data["regime_changes"] == 1 else "countries change"} '
+        'trade regime.'
+    )
+
+    # ── A3. Reliability adjustment (KEEP P75) — Table 3 col (3) and Δ ──
     _iran_delta = next((d["delta"] for d in _t3 if d["iso"] == "IRN"), 0)
     _kgz_delta = next((d["delta"] for d in _t3 if d["iso"] == "KGZ"), 0)
     _pos_movers = sorted([d for d in _t3 if d["delta"] > 0], key=lambda x: -x["delta"])[:2]
@@ -2537,7 +2572,41 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'even small reliability differences reshuffle adjacent ranks.'
     )
 
-    # P5: Sovereignty — Table 3 column (4)
+    # ── A3. Institutional barriers (MOVED from P84 + P85, with BRIDGE) ──
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'The reliability-adjusted ranking captures governance quality and grid stability, '
+        'but several additional institutional barriers reinforce the same pattern. '
+        'In practice, GPU export controls raise effective '
+    )
+    omath(p, [_msub('c', 'j')])
+    p.add_run(
+        ' for Iran, Russia, and Belarus, and grid reliability varies widely. '
+        'Data center investments are large, long-lived, and immobile, so the viability of a '
+        'country as a compute exporter depends on institutional factors not captured by '
+    )
+    omath(p, [_msub('\u03BE', 'j')])
+    p.add_run(
+        ' alone. Several of the cheapest producers in the calibration (Iran, Turkmenistan, '
+        'Uzbekistan) rank poorly on property rights and rule of law indices, and subsidized '
+        'electricity prices may be politically fragile. Effective entry barriers are therefore '
+        'higher than production costs alone suggest. '
+        'U.S. export controls on advanced GPUs (October 2022 and October 2023 rules, '
+        'expanded in 2025) create a hard binary constraint for certain '
+        'jurisdictions\u2014H100-class GPUs cannot legally be shipped there at all, making the '
+        'relevant question availability rather than price. For countries not under outright '
+        'bans but subject to per-chip caps, the effective hardware cost '
+    )
+    omath(p, [_v('\u03C1')])
+    p.add_run(
+        ' rises through grey-market procurement, potentially offsetting any electricity cost '
+        'advantage and discouraging long-term investment. '
+        'Water is another constraint. Evaporative cooling consumes large volumes, and several '
+        'of the cheapest producers (Iran, Turkmenistan, Egypt, Saudi Arabia) are water-scarce. '
+        'Liquid cooling reduces water needs but does not eliminate them.'
+    )
+
+    # ── A4. Sovereignty — Table 3 col (4) (KEEP P76) ──
     _p_star = demand_data["p_star"]
     ls = demand_data["lambda_star"]
     p, cur = mkp(doc, body, cur)
@@ -2577,7 +2646,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'away from importing.'
     )
 
-    # P6: Bilateral sovereignty nuance
+    # ── A4. Bilateral sovereignty nuance (KEEP P77) ──
     p, cur = mkp(doc, body, cur)
     p.add_run('In practice, ')
     omath(p, [_v('\u03BB')])
@@ -2601,7 +2670,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'so sanctions reinforce rather than alter the cost-recovery ranking.'
     )
 
-    # Demand-weighted trade flows under capacity constraints
+    # ── A4. Trade flows under capacity constraints (KEEP P78) ──
     n_exp = demand_data.get("n_train_exporters", 1)
     cap_hhi = demand_data.get("cap_hhi_t", 1.0)
     p_T_val = demand_data.get("p_T", 1.10)
@@ -2659,7 +2728,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'${p_T_sov:.2f}/hr.'
     )
 
-    # Revenue for developing countries (dynamic, using cost-recovery inference)
+    # ── A4. Developing countries (KEEP P79) ──
     p, cur = mkp(doc, body, cur)
     kgz_clients = demand_data["kgz_inf_clients"]
     kgz_total = sum(w for _, _, w in kgz_clients)
@@ -2677,13 +2746,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
             f'inference demand by serving {kgz_list}, a large share '
             'for a country with a GDP of under $15 billion. '
         )
-    # Find the largest non-self developing-country inference exporter besides KGZ
     _dev = {'DZA', 'KGZ', 'ETH', 'EGY', 'KOS', 'XKX', 'TKM', 'UZB', 'TJK',
             'ALB', 'MKD', 'GEO', 'ARM', 'MDA', 'UKR', 'BIH', 'SRB'}
     for _iso, _share in sorted(ir.items(), key=lambda x: -x[1]):
         if _iso in _dev and _iso != 'KGZ' and _share > 0.01:
             _co = next((r["country"] for r in cal if r["iso3"] == _iso), _iso)
-            # Count how many countries this hub serves
             _n_served = sum(
                 1 for i in demand_data.get("adj_reg", {})
                 if demand_data["adj_reg"][i]["best_inf_source"] == _iso
@@ -2702,14 +2769,12 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'can, in principle, earn export revenue from much larger economies.'
     )
 
-    # Counterfactual
+    # ── A4. Sovereignty counterfactual (KEEP P80) ──
     p, cur = mkp(doc, body, cur)
     es10 = demand_data["export_share_10"]
     es20 = demand_data["export_share_20"]
     extra = demand_data["extra_dom"]
     if es10 < 0.005:
-        # Cost-recovery baseline: costs are so close that even λ=10% makes
-        # nearly all countries domestic; the 10→20% comparison is uninformative.
         p.add_run(
             'Under cost-recovery pricing, the narrow cost spread means that '
             'even a 10% sovereignty premium is sufficient to make domestic '
@@ -2733,7 +2798,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
             'the latency advantage of proximity partially insulates regional hubs.'
         )
 
-    # Welfare cost of sovereignty
+    # ── A4. Welfare cost of sovereignty (KEEP P81) ──
     p, cur = mkp(doc, body, cur)
     add_italic(p, 'Welfare cost of sovereignty. ')
     p.add_run(
@@ -2756,7 +2821,30 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'estimated for goods trade (Eaton and Kortum 2002, Arkolakis et al. 2012).'
     )
 
-    # Major consumer markets (using cost-recovery adj_reg)
+    # ── A5. Sovereignty policy discussion (MOVED P86 + GDPR/WB from P85/P84) ──
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'The sovereignty premium deserves scrutiny. Some domestic processing preference '
+        'is justified for genuinely confidential data (e.g., military intelligence, health records, '
+        'and national statistical systems). But much of the current policy push, particularly in '
+        'the EU, extends the sovereignty logic far beyond these cases to cover routine commercial '
+        'computation that carries no security risk. The welfare cost is not trivial. As shown '
+        'above, a 10% premium already shifts most countries toward domestic production, '
+        'forgoing the cost savings from specialization. Developing countries in Central Asia and '
+        'Africa are likely to follow the EU template, imposing data localization requirements '
+        'that their small markets cannot efficiently serve. A policy tension arises: the same '
+        'countries whose cost advantages position them as natural FLOP exporters may '
+        'simultaneously erect sovereignty barriers against importing compute from their neighbors, '
+        'reducing the welfare gains from regional specialization that the model predicts. '
+        'The EU\u2019s GDPR and AI Act already segment the compute market along regulatory lines, '
+        'reinforcing the sovereignty premium as a structural feature. '
+        'The World Bank (2025) frames the resulting tension as the central policy choice '
+        'for developing countries: whether to build domestic compute capacity or secure '
+        'affordable access to international cloud services\u2014a trade-off the present model '
+        'formalizes through the sovereignty premium and capacity constraints.'
+    )
+
+    # ── A6. Major demand centers (KEEP P82) ──
     p, cur = mkp(doc, body, cur)
     add_italic(p, 'Major demand centers. ')
     ar = demand_data.get("adj_reg", {})
@@ -2793,103 +2881,17 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'domestic production.'
     )
 
-    # 6.3 Robustness and Caveats
+    # ══════════════════════════════════════════════════════════════════════
+    # 6.3  Robustness and Caveats  (lean: 4 paragraphs)
+    # ══════════════════════════════════════════════════════════════════════
     cur = mkh(doc, body, cur, '6.3 Robustness and Caveats', level=2)
 
-    # Governance and Political Economy discussion (condensed to 3 paragraphs)
-    # Para 1: Caveats + Institutional factors
+    # ── B1. Fiscal sustainability (second half of old P87, with BRIDGE) ──
     p, cur = mkp(doc, body, cur, space_before=6)
-    add_italic(p, 'Governance and political economy. ')
+    add_italic(p, 'Fiscal sustainability. ')
     p.add_run(
-        'These cost rankings assume globally uniform hardware prices and abstract from '
-        'institutional heterogeneity. In practice, GPU export controls raise effective '
-    )
-    omath(p, [_msub('c', 'j')])
-    p.add_run(
-        ' for Iran, Russia, and Belarus, and grid reliability varies widely. '
-        'Data center investments are large, long-lived, and immobile, so the viability of a '
-        'country as a compute exporter depends on institutional factors not captured by '
-    )
-    omath(p, [_msub('c', 'j')])
-    p.add_run(
-        ' alone. Several of the cheapest producers in the calibration (Iran, Turkmenistan, '
-        'Uzbekistan) rank poorly on property rights and rule of law indices, and subsidized '
-        'electricity prices may be politically fragile. Effective entry barriers are therefore '
-        'higher than production costs alone suggest. The World Bank (2025) frames this as '
-        'the central policy choice: whether to build domestic compute capacity or secure '
-        'affordable access to international cloud services, a trade-off the present model '
-        'formalizes through the sovereignty premium and capacity constraints.'
-    )
-
-    # Para 2: Regulatory, geopolitical barriers, and infrastructure
-    p, cur = mkp(doc, body, cur)
-    p.add_run(
-        'The EU\u2019s GDPR and AI Act segment the compute market along regulatory lines, '
-        'reinforcing the sovereignty premium '
-    )
-    omath(p, [_v('\u03BB')])
-    p.add_run(
-        ' as a structural feature. U.S. export controls on advanced GPUs (October 2022 and '
-        'October 2023 rules, expanded in 2025) create a hard binary constraint for certain '
-        'jurisdictions\u2014H100-class GPUs cannot legally be shipped there at all, making the '
-        'relevant question availability rather than price. For countries not under outright '
-        'bans but subject to per-chip caps, the effective hardware cost '
-    )
-    omath(p, [_v('\u03C1')])
-    p.add_run(
-        ' rises through grey-market procurement, potentially offsetting any electricity cost '
-        'advantage and discouraging long-term investment. '
-        'As shown above, once reliability and governance are factored into costs, '
-        'viable compute exporters are a strict subset of low-cost producers\u2014those '
-        'that combine cheap energy with adequate institutional quality, such as the '
-        'Nordic countries, Canada, and parts of the Gulf and Central Asia. '
-        'Water is another constraint. Evaporative cooling consumes large volumes, and several '
-        'of the cheapest producers (Iran, Turkmenistan, Egypt, Saudi Arabia) are water-scarce. '
-        'Liquid cooling reduces water needs but does not eliminate them.'
-    )
-
-    # Para 3: Sovereignty skepticism
-    p, cur = mkp(doc, body, cur)
-    p.add_run(
-        'The sovereignty premium deserves scrutiny. Some domestic processing preference '
-        'is justified for genuinely confidential data (e.g., military intelligence, health records, '
-        'and national statistical systems). But much of the current policy push, particularly in '
-        'the EU, extends the sovereignty logic far beyond these cases to cover routine commercial '
-        'computation that carries no security risk. The welfare cost is not trivial. As shown '
-        'above, a 10% premium already shifts most countries toward domestic production, '
-        'forgoing the cost savings from specialization. Developing countries in Central Asia and '
-        'Africa are likely to follow the EU template, imposing data localization requirements '
-        'that their small markets cannot efficiently serve. A policy tension arises: the same countries '
-        'whose cost advantages position them as natural FLOP exporters may simultaneously erect '
-        'sovereignty barriers against importing compute from their neighbors, '
-        'reducing the welfare gains from regional specialization that the model predicts.'
-    )
-
-    # Subsidy sustainability and cost-recovery detail (trimmed)
-    max_gap_country = demand_data["max_gap_country"]
-    max_fiscal_m = demand_data["max_fiscal_transfer"] / 1e6
-    p, cur = mkp(doc, body, cur)
-    add_italic(p, 'Subsidy adjustment. ')
-    p.add_run(
-        'The cost-recovery prices are derived from country-specific LRMC estimates. '
-        'For gas exporters (Iran, Turkmenistan, Algeria, Qatar), the calibration uses combined-cycle gas '
-        'generation at export-parity fuel prices ($0.065\u2013$0.100/kWh). For the Gulf states, '
-        'it uses the opportunity cost of domestic gas combustion relative to LNG exports. '
-        'For coal-dependent producers (Kazakhstan, South Africa), the calibration uses the Eskom-style '
-        'cost-recovery tariff. For Ethiopia, it uses the IMF\u2019s hydro cost-recovery target '
-        '($0.050/kWh).'
-    )
-    make_footnote(p,
-                  'The IMF estimates global fossil fuel subsidies at $6.7 trillion in 2024. '
-                  'Explicit subsidies (below-cost pricing) account for 8%; the remainder reflects '
-                  'unpriced environmental costs. This paper uses only the explicit component.',
-                  16)
-    p.add_run(
-        ' The subsidy gap ranges from '
-        f'${demand_data["min_gap_mwh"] / 1000:.3f} to ${demand_data["max_gap_mwh_val"] / 1000:.3f}/kWh. '
-        f'For {max_gap_country}, a 100\u2009MW IT-load data center would receive roughly '
-        f'${max_fiscal_m:.0f}\u2009million per year in implicit fiscal transfer. '
-        'At export scale, this fiscal arithmetic becomes unsustainable. '
+        'Even after adjusting for cost-recovery pricing, fiscal sustainability remains '
+        'a concern. '
         'Even cost-recovery prices may understate the true resource cost. Regulated tariffs '
         'in many developing countries cover operating expenses but not the full capital cost '
         'of generation, transmission, and distribution infrastructure. State-owned '
@@ -2900,14 +2902,10 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'compute while the domestic energy sector cannot maintain its capital stock? '
         'Governments ultimately face '
         'a choice between raising data center tariffs (eroding the cost advantage), maintaining '
-        'subsidies at growing fiscal cost, or capping capacity. '
-        f'Iran drops from first to {_ordinal(demand_data["adj_rank_map"]["IRN"])}. '
-        f'{_num_word(demand_data["regime_changes"]).capitalize()} '
-        f'{"country changes" if demand_data["regime_changes"] == 1 else "countries change"} '
-        'trade regime.'
+        'subsidies at growing fiscal cost, or capping capacity.'
     )
 
-    # Endogenous electricity prices caveat
+    # ── B2. Endogenous electricity prices (KEEP P88) ──
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Endogenous electricity prices. ')
     p.add_run(
@@ -2942,7 +2940,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'further and narrow the set of viable exporters.'
     )
 
-    # Cost of capital caveat
+    # ── B3. Cost of capital (KEEP P89) ──
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Cost of capital. ')
     p.add_run(
@@ -2973,7 +2971,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'relative to a scenario with heterogeneous cost of capital.'
     )
 
-    # Sensitivity analysis paragraph
+    # ── B4. Sensitivity analysis (KEEP P90) ──
     sens = demand_data.get("sensitivity", [])
     if sens:
         baseline_pT = sens[0]["p_T"]
@@ -2999,14 +2997,15 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         p._element.append(make_bookmark_end(143))
         p.add_run(' in Appendix C reports the full results.')
 
-    # 6.4 Model extensions
+    # ══════════════════════════════════════════════════════════════════════
+    # 6.4  Model Extensions  (trimmed per Phase C)
+    # ══════════════════════════════════════════════════════════════════════
     cur = mkh(doc, body, cur, '6.4 Model extensions', level=2)
 
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'The model can be extended in several directions. It can accommodate endogenous '
-        'capacity investment, allowing countries to optimally choose their capacity ceiling '
-        'rather than taking grid limits as given. It can incorporate stochastic disruptions '
+        'The model can be extended in several directions. '
+        'It can incorporate stochastic disruptions '
         'such as grid outages or political instability, giving buyers a reason to diversify '
         'workloads across providers. Demand can be segmented by latency tolerance to capture '
         'heterogeneous service requirements. Carbon pricing can introduce a \u201Cgreen premium\u201D '
@@ -3015,17 +3014,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'cost shifter on '
     )
     omath(p, [_msub('c', 'j')])
-    p.add_run(
-        '. Country-specific cost of capital can replace the uniform straight-line '
-        'amortization with annuity-based depreciation at heterogeneous discount rates, '
-        'introducing a financing channel that compounds the reliability disadvantage of '
-        'high-risk countries (see Section 6.3). '
-        'New undersea cables, terrestrial fiber, and CDN expansions could cut bilateral '
-        'latencies enough to redraw inference trade patterns, opening distant low-cost '
-        'producers to markets they cannot currently reach.'
-    )
+    p.add_run('.')
 
-    # Agglomeration and market structure
+    # Agglomeration and market structure (KEEP P93)
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Agglomeration and market structure. ')
     p.add_run(
@@ -3039,6 +3030,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'locations such as Northern Virginia reflects these centripetal forces.'
     )
 
+    # KEEP P94
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'The model\u2019s contribution is to identify which countries satisfy the necessary '
