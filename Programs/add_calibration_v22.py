@@ -2888,11 +2888,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
 
     # ── B1. Fiscal sustainability (second half of old P87, with BRIDGE) ──
     p, cur = mkp(doc, body, cur, space_before=6)
-    add_italic(p, 'Fiscal sustainability. ')
     p.add_run(
         'Even after adjusting for cost-recovery pricing, fiscal sustainability remains '
-        'a concern. '
-        'Even cost-recovery prices may understate the true resource cost. Regulated tariffs '
+        'a concern. Regulated tariffs '
         'in many developing countries cover operating expenses but not the full capital cost '
         'of generation, transmission, and distribution infrastructure. State-owned '
         'enterprises (SOEs) accumulate quasi-fiscal deficits that are eventually borne by '
