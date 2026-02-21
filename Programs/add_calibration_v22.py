@@ -1189,7 +1189,17 @@ def write_introduction(doc, body, hmap):
         'the sovereignty premium.'
     )
 
-    # Para 10: Calibration findings preview
+    # Para 10: Calibration caveat
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'Because the compute export market is still emerging and bilateral trade-flow data '
+        'do not yet exist, the paper calibrates the model using engineering cost parameters '
+        'rather than estimating it from observed trade. The calibration identifies the cost '
+        'structure under which FLOP exporting becomes viable and provides a framework that '
+        'can be taken to gravity-style estimation as transaction-level data emerge.'
+    )
+
+    # Para 11: Calibration findings preview
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'The calibration reveals that cheap electricity and favorable cooling conditions '
@@ -1204,16 +1214,6 @@ def write_introduction(doc, body, hmap):
         'replaced by countries with more reliable grids and stronger institutions at '
         'moderately higher energy costs. Durable comparative advantage requires credible '
         'reliability and institutional quality alongside low energy costs.'
-    )
-
-    # Para 10b: Calibration caveat
-    p, cur = mkp(doc, body, cur)
-    p.add_run(
-        'Because the compute export market is still emerging and bilateral trade-flow data '
-        'do not yet exist, the paper calibrates the model using engineering cost parameters '
-        'rather than estimating it from observed trade. The calibration identifies the cost '
-        'structure under which FLOP exporting becomes viable and provides a framework that '
-        'can be taken to gravity-style estimation as transaction-level data emerge.'
     )
 
     # Para 11: Roadmap
