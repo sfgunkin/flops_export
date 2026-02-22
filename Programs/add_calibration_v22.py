@@ -2309,7 +2309,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'logistics costs, insurance, and local distribution markups can raise effective GPU '
         'prices by 5\u201315% in developing countries. A 10% GPU price premium would add '
         'roughly $0.10/hr to unit costs, substantially eroding the thin cost advantages '
-        'documented in Table A1. This assumption thus favors developing-country '
+        'documented in '
+    )
+    p._element.append(make_hyperlink('TableA1', 'Table A1'))
+    p.add_run(
+        '. This assumption thus favors developing-country '
         'exporters and should be kept in mind when interpreting the calibration results.'
     )
 
@@ -2489,7 +2493,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'whose retail electricity prices fall below the estimated LRMC. '
         'Hydropower producers (Kyrgyzstan, Canada, Norway) are not adjusted because '
         'their low prices reflect genuine resource advantages rather than fiscal transfers. '
-        'The resulting cost-recovery ranking\u2014column\u2009(2) of Table 3\u2014'
+        'The resulting cost-recovery ranking\u2014column\u2009(2) of '
+    )
+    p._element.append(make_hyperlink('Table3', 'Table 3'))
+    p.add_run(
+        '\u2014'
         'shifts the top of the ranking toward hydropower-rich countries: '
         f'{adj_top5[0][1]} (${adj_top5[0][2]:.2f}/hr), '
         f'{adj_top5[1][1]} (${adj_top5[1][2]:.2f}/hr), '
@@ -2538,7 +2546,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_msub('\u03BE', 'j')])
     p.add_run(
         ' penalizes countries with weak governance, unreliable grids, '
-        'or sanctions exposure. Column\u2009(3) of Table 3 reports the preferred '
+        'or sanctions exposure. Column\u2009(3) of '
+    )
+    p._element.append(make_hyperlink('Table3', 'Table 3'))
+    p.add_run(
+        ' reports the preferred '
         'reliability-adjusted ranking; '
     )
     p._element.append(make_bookmark(141, 'TableA2txt'))
@@ -2605,7 +2617,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_v('\u03BB'), _t(' = 10%')])
     p.add_run(
         ' shifts the majority of countries to domestic production. '
-        'Column\u2009(4) of Table 3 applies an autarky threshold of '
+        'Column\u2009(4) of '
+    )
+    p._element.append(make_hyperlink('Table3', 'Table 3'))
+    p.add_run(
+        ' applies an autarky threshold of '
     )
     omath(p, [_mbar('\u03c3'), _t(' = 10%')])
     p.add_run(
@@ -2900,7 +2916,10 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         'The model treats electricity prices as exogenous parameters. For large economies, '
         'this is innocuous, but for the small, cheap-energy countries that rank highest in '
-        'Table A1, a hyperscale data center can be large relative to the host grid. '
+    )
+    p._element.append(make_hyperlink('TableA1', 'Table A1'))
+    p.add_run(
+        ', a hyperscale data center can be large relative to the host grid. '
         'Kyrgyzstan\u2019s installed generation capacity is approximately 3,800\u2009MW '
         '(ABD 2020), and '
         'a single 100\u2009MW facility would consume roughly 3% of national electricity output. '
@@ -2924,7 +2943,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         ' partially addresses this concern by capping each country\u2019s compute output '
         'within a feasible range, but the model\u2019s fixed-price assumption means '
-        'the cost advantages in Table A1 are upper bounds. A general equilibrium extension '
+        'the cost advantages in '
+    )
+    p._element.append(make_hyperlink('TableA1', 'Table A1'))
+    p.add_run(
+        ' are upper bounds. A general equilibrium extension '
         'with upward-sloping electricity supply curves would compress these advantages '
         'further and narrow the set of viable exporters.'
     )
@@ -2961,7 +2984,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         p, cur = mkp(doc, body, cur, space_before=6)
         add_italic(p, 'Sensitivity analysis. ')
         p.add_run(
-            'The cost rankings in Table A1 are robust to substantial parameter variation. '
+            'The cost rankings in '
+        )
+        p._element.append(make_hyperlink('TableA1', 'Table A1'))
+        p.add_run(
+            ' are robust to substantial parameter variation. '
             f'Across {_num_word(n_scenarios)} scenarios\u2014electricity prices '
             '\u00b1$0.01/kWh, GPU price \u00b120%, and PUE capped '
             f'at 1.20\u2014the Spearman rank correlation with the baseline never falls below '
@@ -3461,8 +3488,14 @@ def write_table_a2(doc, body, after_el, demand_data):
     rn = note.add_run('Notes: ')
     rn.bold = True
     rn.font.size = Pt(10)
+    rn = note.add_run('See ')
+    rn.font.size = Pt(10)
+    _rPr10 = OxmlElement('w:rPr')
+    _sz10 = OxmlElement('w:sz'); _sz10.set(qn('w:val'), '20')
+    _rPr10.append(_sz10)
+    note._element.append(make_hyperlink('Table3', 'Table 3', rPr_orig=_rPr10))
     rn = note.add_run(
-        'See Table 3 notes for column definitions. '
+        ' notes for column definitions. '
         'Countries sorted by specification (3) rank (ascending). '
         f'p*\u2009=\u2009${p_star:.2f}/hr.'
     )
@@ -4615,8 +4648,14 @@ def write_table1(doc, body, after_el):
         'in Proposition 1. '
         'Letter codes (EE, IE, ID, DD, II) denote training status '
         '(first letter: E\u2009=\u2009export, I\u2009=\u2009import, D\u2009=\u2009domestic) and inference status '
-        '(second letter), used in Table 3.'
+        '(second letter), used in '
     )
+    rn.font.size = Pt(10)
+    _rPr10 = OxmlElement('w:rPr')
+    _sz10 = OxmlElement('w:sz'); _sz10.set(qn('w:val'), '20')
+    _rPr10.append(_sz10)
+    tn._element.append(make_hyperlink('Table3', 'Table 3', rPr_orig=_rPr10))
+    rn = tn.add_run('.')
     rn.font.size = Pt(10)
     tn_el = tn._element
     body.remove(tn_el)
@@ -5135,8 +5174,15 @@ def write_table3(doc, body, after_el, demand_data):
         '(4)\u2009Sovereignty: \u03c3\u0304\u2009=\u200910% autarky threshold applied to (3); '
         f'p*\u2009=\u2009${p_star:.2f}/hr. '
         '\u0394\u2009=\u2009rank change from (1) to (3); positive values indicate improvement. '
-        '25 selected countries; see Table A2 for all 85 countries.'
+        '25 selected countries; see '
     )
+    rn3.font.size = Pt(10)
+    rn3.font.name = 'Times New Roman'
+    _rPr10 = OxmlElement('w:rPr')
+    _sz10 = OxmlElement('w:sz'); _sz10.set(qn('w:val'), '20')
+    _rPr10.append(_sz10)
+    note._element.append(make_hyperlink('TableA2', 'Table A2', rPr_orig=_rPr10))
+    rn3 = note.add_run(' for all 85 countries.')
     rn3.font.size = Pt(10)
     rn3.font.name = 'Times New Roman'
     note.alignment = WD_ALIGN_PARAGRAPH.LEFT
