@@ -2470,19 +2470,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         body.remove(el)
     cur = sec7
 
-    # Introductory paragraph with explanation of costs
-    p, cur = mkp(doc, body, cur)
-    p.add_run('The model is calibrated for ')
-    omath(p, [_v('N'), _t(f' = {n_total}')])
-    p.add_run(f' countries ({n_eca} in ECA, {n_total - n_eca} non-ECA comparators). ')
-    p.add_run('The unit cost ')
-    omath(p, [_msub('c', 'j')])
-    p.add_run(
-        ' represents the total hourly cost of operating one GPU in country '
-    )
-    omath(p, [_v('j')])
-    p.add_run(', measured in dollars per GPU-hour ($/hr).')
-
     # 6.1 Parameter calibration
     cur = mkh(doc, body, cur, '6.1 Parameter calibration', level=2)
 
@@ -2995,8 +2982,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'These patterns illustrate the model\u2019s core prediction that inference organizes around '
         'latency-bounded regional hubs, and each major market has a distinct optimal supplier '
         'determined by geography. '
-        'With the bilateral sovereignty premium, most large economies shift to full '
-        'domestic production.'
     )
 
     # ── A4. Sovereignty counterfactual (KEEP P80) ──
