@@ -40,7 +40,7 @@ v20: Capacity-Constrained Ricardian Model restructuring.
     3.1 Production Technology, 3.2 Trade Costs, 3.3 Demand,
     3.4 Sourcing and Market Equilibrium
   - New Section 4: Equilibrium Properties (Propositions 1-5, purely theoretical)
-  - Renumbered: 5=Data, 6=Calibration, 7=Conclusion
+  - Renumbered: 5=Data, 6=Calibration, 7=Robustness, 8=Conclusion
   - Capacity constraints K_bar_j: training supply stack, market-clearing p_T,
     Ricardian rents, shadow values mu_j (inline), HHI_T < 1
   - New Appendix B: model derivation (B.1-B.6, 5 display equations)
@@ -1808,13 +1808,13 @@ def write_trade_costs(doc, body, hmap):
 
 def renumber_sections(hmap):
     print("Renumbering sections...")
-    # v20 structure: 1=Intro, 2=Lit, 3=Model(3.1,3.2), 4=Equil Props, 5=Data, 6=Calib, 7=Concl
-    # v8 headings: 1→3 (Model), 1.1→3.1, 1.2→3.2, 2→4 (Equil Props), 4→6 (Calib), 5→7 (Concl)
+    # v20 structure: 1=Intro, 2=Lit, 3=Model(3.1,3.2), 4=Equil Props, 5=Data, 6=Calib, 7=Robustness, 8=Concl
+    # v8 headings: 1→3 (Model), 1.1→3.1, 1.2→3.2, 2→4 (Equil Props), 4→6 (Calib), 5→8 (Concl)
     # Section 3 (Make-or-Buy) content will be absorbed; heading removed by write functions
     renumber = [
         ('1.2', '1.2', '3.2'), ('1.1', '1.1', '3.1'), ('1', '1.', '3.'),
         ('2', '2.', '4.'),
-        ('4', '4.', '6.'), ('5', '5.', '7.'),
+        ('4', '4.', '6.'), ('5', '5.', '8.'),
     ]
     for key, old, new in renumber:
         if key in hmap:
@@ -2464,6 +2464,16 @@ def write_data_section(doc, body, hmap, demand_data):
         ', the calibration does not require an estimate of total global compute spending.'
     )
 
+    # Calibration approach note
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'Because the compute export market is still emerging and bilateral trade-flow data '
+        'do not yet exist, the paper calibrates the model using engineering cost parameters '
+        'rather than estimating it from observed trade. The calibration identifies the cost '
+        'structure under which FLOP exporting becomes viable and provides a framework that '
+        'can be taken to gravity-style estimation as transaction-level data emerge.'
+    )
+
 
 def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     print("Replacing Section 6 (Calibration)...")
@@ -2599,22 +2609,27 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_msub('\u03B1', '2'), _t(' = 0.04')])
     p.add_run(' (regulatory incompatibility), and ')
     omath(p, [_msub('\u03B1', '3'), _t(' = 0.10')])
-    p.add_run(
-        ' (sanctions). As a robustness check, we also report results under a uniform premium '
-    )
-    omath(p, [_v('\u03BB'), _t(f' = {LAMBDA:.0%}')])
-    p.add_run(
-        '. The training share of compute demand is '
-    )
-    omath(p, [_v('\u03B1'), _t(' = 0.50')])
-    p.add_run(
-        ', within the industry range of 0.4\u20130.6 (Deloitte 2025).'
-    )
+    p.add_run(' (sanctions). For sanctioned pairs, ')
+    omath(p, [_msub('\u03BB', 'ij'), _t(' = \u221E')])
+    p.add_run(' (trade is prohibited). For allies with mutual data-adequacy agreements '
+              '(e.g., EU member states), ')
+    omath(p, [_msub('\u03BB', 'ij'), _t(' \u2248 0')])
+    p.add_run('. For non-adversarial pairs without regulatory agreements, ')
+    omath(p, [_msub('\u03BB', 'ij')])
+    p.add_run(' falls in the range 0.05\u20130.10. ')
     make_footnote(p, 'The bilateral sovereignty coefficients are calibrated to match observed '
                   'patterns of data localization policy. Survey evidence suggests enterprises pay '
                   '15\u201330% more for guaranteed domestic data residency (UNCTAD 2025). '
                   'The uniform 10% premium serves as a robustness benchmark.', 15)
-    p.add_run(' Construction costs are amortized over 15 years.')
+
+    # Robustness check + training share (moved from above)
+    p, cur = mkp(doc, body, cur)
+    p.add_run('As a robustness check, we also report results under a uniform premium ')
+    omath(p, [_v('\u03BB'), _t(f' = {LAMBDA:.0%}')])
+    p.add_run('. The training share of compute demand is ')
+    omath(p, [_v('\u03B1'), _t(' = 0.50')])
+    p.add_run(', within the industry range of 0.4\u20130.6 (Deloitte 2025). '
+              'Construction costs are amortized over 15 years.')
 
     # Production-efficiency index
     p, cur = mkp(doc, body, cur)
@@ -2811,28 +2826,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_bookmark_end(121))
     p.add_run(' illustrates the resulting rank reshuffling. ')
 
-    # ── A3. Institutional barriers ──
+    # ── A3. Transition to sovereignty ──
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'The efficiency-adjusted ranking captures governance quality and grid stability, '
-        'while the bilateral sovereignty premium captures sanctions, geopolitical distance, '
-        'and regulatory incompatibility. '
-        'In practice, GPU export controls raise effective '
-    )
-    omath(p, [_msub('c', 'j')])
-    p.add_run(
-        ' for Iran, Russia, and Belarus, and grid reliability varies widely. '
-        'Data center investments are large, long-lived, and immobile, so the viability of a '
-        'country as a compute exporter depends on institutional factors not fully captured by '
-    )
-    omath(p, [_msubsup('\u03BE', 'j', 'eff')])
-    p.add_run(
-        ' alone. Several of the cheapest producers in the calibration (Iran, Turkmenistan, '
-        'Uzbekistan) rank poorly on property rights and rule of law indices, and subsidized '
-        'electricity prices may be politically fragile. Effective entry barriers are therefore '
-        'higher than production costs alone suggest. '
-        'GPU export controls (Section 6.1) and water scarcity in Iran, Turkmenistan, Egypt, '
-        'and Saudi Arabia further constrain several low-cost producers.'
+        'The preceding analysis identifies which countries can produce cheaply. '
+        'The bilateral sovereignty premium determines which countries will trade.'
     )
 
     # ── A4. Bilateral sovereignty — Table 3b col (4) ──
@@ -3106,9 +3104,25 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     )
 
     # ══════════════════════════════════════════════════════════════════════
-    # 6.3  Robustness and Caveats  (lean: 4 paragraphs)
+    # 7.  Robustness and Extensions
     # ══════════════════════════════════════════════════════════════════════
-    cur = mkh(doc, body, cur, '6.3 Robustness and Caveats', level=2)
+    cur = mkh(doc, body, cur, '7. Robustness and Extensions', level=1)
+
+    # 7.1 Robustness and Caveats
+    cur = mkh(doc, body, cur, '7.1 Robustness and Caveats', level=2)
+
+    # ── B0. Caveats (moved from old institutional barriers paragraph) ──
+    p, cur = mkp(doc, body, cur, space_before=6)
+    p.add_run(
+        'The calibration likely overstates developing-country competitiveness. '
+        'Several of the cheapest producers (Iran, Turkmenistan, Uzbekistan) rank poorly on '
+        'property rights and rule of law indices, and subsidized electricity prices may be '
+        'politically fragile. Data center investments are large, long-lived, and immobile, '
+        'so viability depends on institutional factors not fully captured by \u03BE alone. '
+        'GPU export controls further constrain Iran, Russia, and Belarus, and water scarcity '
+        'limits Iran, Turkmenistan, Egypt, and Saudi Arabia. Effective entry barriers are '
+        'therefore higher than production costs alone suggest.'
+    )
 
     # ── B1. Fiscal sustainability (second half of old P87, with BRIDGE) ──
     p, cur = mkp(doc, body, cur, space_before=6)
@@ -3240,9 +3254,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     )
 
     # ══════════════════════════════════════════════════════════════════════
-    # 6.4  Model Extensions  (trimmed per Phase C)
+    # 7.2  Model Extensions  (trimmed per Phase C)
     # ══════════════════════════════════════════════════════════════════════
-    cur = mkh(doc, body, cur, '6.4 Model extensions', level=2)
+    cur = mkh(doc, body, cur, '7.2 Model extensions', level=2)
 
     p, cur = mkp(doc, body, cur)
     p.add_run(
@@ -3275,7 +3289,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
 
 
 def write_conclusion(doc, body, hmap, demand_data):
-    print("Rewriting Section 7 (Conclusion)...")
+    print("Rewriting Section 8 (Conclusion)...")
     sec8 = hmap['5']
     refs = hmap['refs']
     all_now = list(body)
