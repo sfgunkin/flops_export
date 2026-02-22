@@ -5626,8 +5626,14 @@ def write_table3(doc, body, after_el, demand_data):
         'from equation (2), with geopolitical, regulatory, and sanctions components. '
         '(5)\u2009Tiered: bilateral \u03bb\u1d62\u2c7c with demand segmented into sovereign '
         '(10%), regulated (20%), and commercial (70%) tiers. '
+        'Under the calibrated parameters, demand tiering leaves regime type assignments '
+        'unchanged for all countries; columns (4) and (5) are therefore identical. '
+        'Tiering affects within-country demand allocation across tiers but not the '
+        'equilibrium set of exporters. '
         '(6)\u2009Uniform: uniform \u03bb\u2009=\u200910% premium (robustness check). '
-        'Rank\u2086 and \u0394\u209b are rank and rank change under specification (6).'
+        'Rank\u2086 reflects the production-cost ranking c\u2c7c/\u03be\u2c7c\u1d49\u1da0\u1da0, '
+        'which is invariant to the sovereignty specification; \u0394\u209b\u2009=\u20090 '
+        'for all countries.'
     )
     rn3b.font.size = Pt(10)
     rn3b.font.name = 'Times New Roman'
@@ -7055,16 +7061,6 @@ def main():
     n_dom_tiered = sum(1 for d in table3_data if d.get("type_tiered") == "DD")
     n_dom_uniform = sum(1 for d in table3_data if d.get("type_uniform") == "DD")
     print(f"  Domestic: bilateral={n_dom_bilat}, tiered={n_dom_tiered}, uniform={n_dom_uniform}")
-    # Debug: check if bilateral vs tiered types differ
-    diffs_bilat_tiered = [(d["country"], d.get("type_bilat"), d.get("type_tiered"))
-                          for d in table3_data if d.get("type_bilat") != d.get("type_tiered")]
-    if diffs_bilat_tiered:
-        print(f"  ** Bilateral vs Tiered type differences: {diffs_bilat_tiered}")
-    else:
-        print(f"  ** Bilateral vs Tiered types: IDENTICAL for all {len(table3_data)} countries")
-    # Also check among ALL countries (not just table3 selection)
-    print(f"  shares_bilat exporters: {sorted(shares_bilat.keys())}")
-    print(f"  shares_tiered exporters: {sorted(shares_tiered.keys())}")
 
     # ═══════════════════════════════════════════════════════════════════════
     # LOAD v8 AND INDEX HEADINGS
