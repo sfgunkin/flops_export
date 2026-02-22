@@ -2454,7 +2454,7 @@ def write_data_section(doc, body, hmap, demand_data):
     p.add_run(
         ' is proxied by installed data center capacity in MW, '
         'as specified in equation (4). '
-        'For the top 15 markets, capacity estimates come from industry reports '
+        'For the top 15 markets, capacity estimates are based on industry reports '
         '(Synergy Research, Cushman & Wakefield, CBRE, Mordor Intelligence). '
         'For smaller markets, capacity is estimated from facility counts (Cloudscene 2025) and regional averages. '
         'Since the results below depend only on demand shares, not on the absolute level '
@@ -2654,7 +2654,12 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_bookmark(103, 'Table2txt'))
     p._element.append(make_hyperlink('Table2', 'Table 2'))
     p._element.append(make_bookmark_end(103))
-    p.add_run(' reports all model parameters.')
+    p.add_run(' reports all model parameters. Country-specific values, such as electricity prices, '
+               'temperatures, construction costs, and the resulting unit costs, are reported in ')
+    p._element.append(make_bookmark(100, 'TableA1txt'))
+    p._element.append(make_hyperlink('TableA1', 'Table A1'))
+    p._element.append(make_bookmark_end(100))
+    p.add_run('.')
 
     # 6.2 Cost Rankings and Trade Patterns
     cur = mkh(doc, body, cur, '6.2 Cost Rankings and Trade Patterns', level=2)
@@ -2671,19 +2676,10 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     max_gap_country = demand_data["max_gap_country"]
     max_fiscal_m = demand_data["max_fiscal_transfer"] / 1e6
 
-    # ── A1. Opening (KEEP P72) ──
-    p, cur = mkp(doc, body, cur, space_before=6)
-    p._element.append(make_bookmark(100, 'TableA1txt'))
-    p._element.append(make_hyperlink('TableA1', 'Table A1'))
-    p._element.append(make_bookmark_end(100))
-    p.add_run(' in the Appendix reports the full calibration parameters for all ')
-    omath(p, [_v('N'), _t(f' = {n_total}')])
-    p.add_run(' countries.')
-
     # ── A1. Raw tariff contrast (KEEP P73) — Table 3 col (1) ──
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'For comparison, under observed electricity tariffs and without efficiency '
+        'Under observed electricity tariffs and without efficiency '
         'adjustment, the cheapest producer is '
         f'{cheapest["country"]} (${float(cheapest["c_j_total"]):.2f}/hr), '
         f'followed by {cal[1]["country"]} (${float(cal[1]["c_j_total"]):.2f}/hr) '
@@ -3091,7 +3087,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'The model\u2019s predictions vary across major AI demand centers because '
         'each faces a different latency geography. '
         'For the United States, the cost-recovery optimum sources training from the cheapest '
-        'available producer and inference from '
+        'available producer, and inference from '
         f'{_iso_name.get(usa_inf, usa_inf)} (${float(usa_inf_cost):.2f}/hr). '
         'For Germany, inference is sourced from '
         f'{_iso_name.get(deu_inf, deu_inf)} '
@@ -3329,8 +3325,8 @@ def write_conclusion(doc, body, hmap, demand_data):
         'with the advantage that the underlying resource (electricity) need not deplete a '
         'finite reserve, and the product '
         '(compute) serves the fastest-growing sector of the world economy. '
-        'That said, the resource curse literature (van der Ploeg 2011) cautions that '
-        'concentrated export revenues can produce Dutch disease, institutional degradation, '
+        'That said, the resource curse literature (van der Ploeg 2011) warns that '
+        'concentrated export revenues can lead to Dutch disease, institutional degradation, '
         'and volatility. Whether FLOP-exporting shares these risks depends on whether '
         'revenues are broadly distributed or concentrated among a narrow set of actors, and on whether '
         'governments invest the proceeds in human capital and institutional development.'
