@@ -2846,8 +2846,10 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     )
 
     # ── A4. Bilateral sovereignty — Table 3b col (4) ──
-    _p_star = demand_data["p_star"]
-    ls = demand_data["lambda_star"]
+    _p_T_bilat = demand_data["p_T_bilat"]
+    # Use table3 lam_k_star for inline values (consistency with table)
+    _t3 = demand_data["table3"]
+    _lks = {d["iso"]: d.get("lam_k_star", 0) for d in _t3}
     p, cur = mkp(doc, body, cur)
     p.add_run('The bilateral sovereignty premium ')
     omath(p, [_msub('\u03BB', 'ij')])
@@ -2865,25 +2867,26 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         ' reports the bilateral specification. '
         'The frontier price is '
     )
-    omath(p, [_msup('p', '*'), _t(f' = ${_p_star:.2f}')])
+    omath(p, [_msup('p', '*'), _t(f' = ${_p_T_bilat:.2f}')])
     p.add_run(
         '/hr. '
         'The country-specific switching threshold '
     )
-    omath(p, [_msup('\u03BB', '*')])
+    omath(p, [_msubsup('\u03BB', 'k', '*')])
     p.add_run(
-        ' from Proposition 3 varies widely: Kyrgyzstan requires only '
+        ' from Proposition 3 varies widely: '
+        'Japan is the first country above the frontier ('
     )
-    omath(p, [_msup('\u03BB', '*'),
-              _t(f' = {ls["KGZ"] * 100:.1f}%')])
+    omath(p, [_msubsup('\u03BB', 'k', '*'),
+              _t(f' = {_lks["JPN"] * 100:.1f}%')])
     p.add_run(
-        f', China {ls["CHN"] * 100:.1f}%, and the United States {ls["USA"] * 100:.1f}%. '
-        'High-cost countries require much larger premia: Germany needs '
+        f'), while China requires {_lks["CHN"] * 100:.1f}% and Saudi Arabia {_lks["SAU"] * 100:.1f}%. '
+        'High-cost countries face much larger thresholds: Kyrgyzstan needs '
     )
-    omath(p, [_msup('\u03BB', '*'),
-              _t(f' = {ls["DEU"] * 100:.1f}%')])
+    omath(p, [_msubsup('\u03BB', 'k', '*'),
+              _t(f' = {_lks["KGZ"] * 100:.1f}%')])
     p.add_run(
-        f' and Japan {ls["JPN"] * 100:.1f}%. '
+        f' and Iran {_lks["IRN"] * 100:.1f}%. '
         'The bilateral sovereignty premium is particularly powerful for inference, '
         'since the latency markup within Europe is moderate (10\u201340\u2009ms, '
         'adding 1\u20133%), and even a small domestic preference can tip the decision '
