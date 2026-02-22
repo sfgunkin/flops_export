@@ -277,12 +277,12 @@ def run_sensitivity(cal, omega, dc_k, k_bar, sanctioned):
     outcomes, and Spearman rank correlations vs. the baseline.
     """
     scenarios = [
-        ("Baseline calibration",                         {}),
+        ("Baseline calibration", {}),
         ("Electricity price +$0.01/kWh (\u224810% above mean)", {"p_E_delta": +0.01}),
         ("Electricity price \u2212$0.01/kWh (\u224810% below mean)", {"p_E_delta": -0.01}),
-        ("GPU hardware cost +20% ($30,000/unit)",        {"gpu_price": 30_000}),
-        ("GPU hardware cost \u221220% ($20,000/unit)",   {"gpu_price": 20_000}),
-        ("Cooling efficiency cap (PUE \u2264 1.20)",     {"pue_cap": 1.20}),
+        ("GPU hardware cost +20% ($30,000/unit)", {"gpu_price": 30_000}),
+        ("GPU hardware cost \u221220% ($20,000/unit)", {"gpu_price": 20_000}),
+        ("Cooling efficiency cap (PUE \u2264 1.20)", {"pue_cap": 1.20}),
     ]
 
     def _solve_mini(supply_stack_s, costs_s):
@@ -292,7 +292,7 @@ def run_sensitivity(cal, omega, dc_k, k_bar, sanctioned):
             Q_TX = 0
             for iso in dc_k:
                 if iso in costs_s and costs_s[iso] > p_T:
-                        Q_TX += ALPHA * omega.get(iso, 0) * Q_TOTAL
+                    Q_TX += ALPHA * omega.get(iso, 0) * Q_TOTAL
             cum_cap = 0
             found = False
             p_T_new = p_T
@@ -1261,7 +1261,8 @@ def write_introduction(doc, body, hmap):
         'to more than double by 2030 '
         '(IEA 2025). '
         'AI-oriented facilities are qualitatively different from traditional cloud or enterprise '
-        'data centers. They deploy thousands of graphic processing units (GPUs) at power densities of 40\u2013100 kW per rack '
+        'data centers. They deploy thousands of graphic processing units (GPUs) at power '
+        'densities of 40\u2013100 kW per rack '
         '(versus 5\u201310 kW in conventional facilities), and can consume over 500,000 gallons of cooling '
         'water per day (Turner Lee and West 2025).'
     )
@@ -1300,7 +1301,8 @@ def write_introduction(doc, body, hmap):
     # Para 6: Real data center plans + profit estimate
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Recent megaprojects across Africa, the Middle East, and Central Asia suggest that FLOP exporting is technically and commercially '
+        'Recent megaprojects across Africa, the Middle East, and Central Asia suggest that '
+        'FLOP exporting is technically and commercially '
         'feasible. Armenia is deploying 50,000 GPUs in a $4 billion '
         'investment (Firebird 2026), while Kenya, Saudi Arabia, Morocco, Malaysia, and '
         'Indonesia have each attracted billion-dollar data center commitments.'
@@ -1616,14 +1618,18 @@ def write_trade_costs(doc, body, hmap):
         'offshoring costs. '
     )
     add_italic(p, 'Training services')
-    p.add_run(' (denoted T) encompass batch workloads such as model training, fine-tuning, and large-scale data '
+    p.add_run(
+        ' (denoted T) encompass batch workloads such as model training, fine-tuning, '
+        'and large-scale data '
         'processing. Training a state-of-the-art AI model can take weeks to months across '
         'thousands of GPUs. The client ships its data to a data center, the computation '
-        'executes locally, and the output is returned to the client. Since neither input nor output is '
-        'time-sensitive, network latency plays no role. '
+        'executes locally, and the output is returned to the client. Since neither input '
+        'nor output is time-sensitive, network latency plays no role. '
     )
     add_italic(p, 'Inference services')
-    p.add_run(' (denoted I) encompass real-time workloads such as chatbot responses, autonomous decisions, and interactive '
+    p.add_run(
+        ' (denoted I) encompass real-time workloads such as chatbot responses, autonomous '
+        'decisions, and interactive '
         'agents. Each query must travel to the server and back within milliseconds, so the '
         'service quality degrades as delivery delays (latency) increase. '
     )
@@ -1872,7 +1878,6 @@ def write_demand(doc, body, hmap, demand_data):
                   'per capita than their GDP shares would predict, while large economies like '
                   'India and Brazil account for modest shares of global data center power.',
                   20)
-
 
     # Training/inference split
     p, cur = mkp(doc, body, cur)
@@ -2639,8 +2644,10 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_bookmark(103, 'Table2txt'))
     p._element.append(make_hyperlink('Table2', 'Table 2'))
     p._element.append(make_bookmark_end(103))
-    p.add_run(' reports all model parameters. Country-specific values, including electricity prices, '
-               'temperatures, construction costs, and resulting unit costs, are reported in ')
+    p.add_run(
+        ' reports all model parameters. Country-specific values, including electricity prices, '
+        'temperatures, construction costs, and resulting unit costs, are reported in '
+    )
     p._element.append(make_bookmark(100, 'TableA1txt'))
     p._element.append(make_hyperlink('TableA1', 'Table A1'))
     p._element.append(make_bookmark_end(100))
@@ -3261,7 +3268,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     )
 
 
-
 def write_conclusion(doc, body, hmap, demand_data):
     print("Rewriting Section 8 (Conclusion)...")
     sec8 = hmap['5']
@@ -3470,8 +3476,10 @@ def write_appendix(doc, body, last_ref_el, eca_cal, non_eca_cal, reg, demand_dat
         'Constr. = predicted data center construction cost ($/W of IT load). '
         'k\u0304\u2c7c = installed data center power capacity (MW). '
         '\u03C9\u2c7c = country share of global compute demand from equation (4). '
-        '\u03BE\u2c7c\u1d49\u1da0\u1da0 = production-efficiency index combining governance quality and grid reliability '
-        '(geometric mean; see equation 3). Sanctions captured by bilateral \u03BB\u1d62\u2c7c (equation 2). '
+        '\u03BE\u2c7c\u1d49\u1da0\u1da0 = production-efficiency index combining governance quality '
+        'and grid reliability '
+        '(geometric mean; see equation 3). Sanctions captured by bilateral '
+        '\u03BB\u1d62\u2c7c (equation 2). '
         'c\u2c7c = hourly cost of operating one H100 GPU (electricity + '
         'hardware at $1.36/hr + amortized construction; excludes networking \u03B7 = $0.15/hr, '
         'which is added in the equilibrium computations in Section 6). '
@@ -3514,13 +3522,13 @@ def write_table_a2(doc, body, after_el, demand_data):
     print("Inserting Table A2 (Complete country rankings, landscape)...")
 
     table3_data = demand_data["table3"]
-    p_star = demand_data["p_star"]
 
     _short = {
         "United Arab Emirates": "UAE", "United Kingdom": "UK",
         "United States": "USA", "Bosnia and Herzegovina": "Bosnia & Herz.",
         "North Macedonia": "N. Macedonia", "Czech Republic": "Czechia",
     }
+
     def _sn(full):
         return _short.get(full, full[:18] + '.' if len(full) > 19 else full)
 
@@ -4209,7 +4217,7 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
         ['Total power (with cooling)', f'{TOTAL_MW:.1f} MW (PUE = {PUE_KGZ:.2f})'],
         ['GPU count', f'{N_GPU:,} (H100-class, {G_TDP_W}W each)'],
         ['GPU cost / lifetime', f'${GP:,} / {G_LIFE} yr (\u221210% per generation)'],
-        ['Construction cost', f'${CONSTR/1e6:.0f}M (${P_CONSTR_W:.2f}/W)'],
+        ['Construction cost', f'${CONSTR / 1e6:.0f}M (${P_CONSTR_W:.2f}/W)'],
         ['Electricity price', f'${P_ELEC:.3f}/kWh (+2%/yr real)'],
         ['Revenue price', f'${REV_HR:.2f}/GPU-hr (wholesale)'],
         ['Utilization', f'{G_UTIL:.0%} steady-state (40% yr 1, 60% yr 2)'],
@@ -4247,21 +4255,21 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
     for r in results:
         cf_rows.append([
             str(r['year']),
-            f'{r["capex"]/1e6:.1f}',
-            f'{r["revenue"]/1e6:.1f}',
-            f'{r["opex"]/1e6:.1f}',
-            f'{r["ebitda"]/1e6:.1f}',
-            f'{r["fcf"]/1e6:.1f}',
-            f'{r["cum"]/1e6:.1f}',
+            f'{r["capex"] / 1e6:.1f}',
+            f'{r["revenue"] / 1e6:.1f}',
+            f'{r["opex"] / 1e6:.1f}',
+            f'{r["ebitda"] / 1e6:.1f}',
+            f'{r["fcf"] / 1e6:.1f}',
+            f'{r["cum"] / 1e6:.1f}',
         ])
     # Totals row
     cf_rows.append([
         'Total',
-        f'{tot_cx/1e6:.1f}',
-        f'{tot_rev/1e6:.1f}',
-        f'{tot_ox/1e6:.1f}',
-        f'{sum(r["ebitda"] for r in results)/1e6:.1f}',
-        f'{sum(r["fcf"] for r in results)/1e6:.1f}',
+        f'{tot_cx / 1e6:.1f}',
+        f'{tot_rev / 1e6:.1f}',
+        f'{tot_ox / 1e6:.1f}',
+        f'{sum(r["ebitda"] for r in results) / 1e6:.1f}',
+        f'{sum(r["fcf"] for r in results) / 1e6:.1f}',
         '',
     ])
     tbl_a5 = add_table(doc, body, cur, cf_headers, cf_rows,
@@ -4276,11 +4284,11 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
     p.paragraph_format.space_after = Pt(4)
     p.paragraph_format.first_line_indent = Inches(0)
     p.add_run(
-        f'The project yields an NPV of ${npv/1e6:,.0f}M at a {WACC:.1%} WACC, '
+        f'The project yields an NPV of ${npv / 1e6:,.0f}M at a {WACC:.1%} WACC, '
         f'an IRR of {irr:.1%}, and a simple payback in year\u2009{payback}. '
-        f'GPU hardware accounts for ${tot_gpu_cx/1e6:.0f}M of the '
-        f'${tot_cx/1e6:.0f}M total CAPEX ({tot_gpu_cx/tot_cx:.0%}), '
-        f'and electricity represents {tot_elec/tot_ox:.0%} of operating costs.'
+        f'GPU hardware accounts for ${tot_gpu_cx / 1e6:.0f}M of the '
+        f'${tot_cx / 1e6:.0f}M total CAPEX ({tot_gpu_cx / tot_cx:.0%}), '
+        f'and electricity represents {tot_elec / tot_ox:.0%} of operating costs.'
     )
     met_el = p._element
     body.remove(met_el)
@@ -4289,11 +4297,12 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
 
     # ── Table A6: Sensitivity analysis ────────────────────────────────────
     cur = add_page_break(doc, body, cur)
+
     def _run_scen(label, wacc_adj=0, price_adj=0, elec_adj=0, gpu_adj=0, util_adj=0):
         rows = _dcf_years(gpu_adj=gpu_adj, elec_adj=elec_adj,
                           price_adj=price_adj, util_adj=util_adj)
         npv_s, irr_s = _npv_irr(rows, WACC + wacc_adj)
-        return [label, f'${npv_s/1e6:,.0f}', f'{irr_s:.1%}']
+        return [label, f'${npv_s / 1e6:,.0f}', f'{irr_s:.1%}']
 
     sens_scenarios = [
         _run_scen('Base case'),
@@ -5135,7 +5144,6 @@ def write_table3(doc, body, after_el, demand_data):
     print("Inserting Table 3a/3b (Country rankings, landscape)...")
 
     table3_data = demand_data["table3"]
-    p_star = demand_data["p_star"]
 
     # ─── Attach portrait sectPr to previous paragraph (no empty page) ───
     sect_port = OxmlElement('w:sectPr')
@@ -5348,12 +5356,14 @@ def write_table3(doc, body, after_el, demand_data):
         _cell_border_t3(tbl.cell(last_data_row, j)._tc, ['bottom'], style='double')
 
     # Column widths (landscape ~13,000 twips usable)
-    _cw = [1800,   # Country
-            900, 540, 540,   # (1)
-            900, 540, 540,   # (2)
-            900, 540, 540,   # (3)
-            900, 540, 540,   # (4)
-            540]             # Delta
+    _cw = [
+        1800,                # Country
+        900, 540, 540,       # (1)
+        900, 540, 540,       # (2)
+        900, 540, 540,       # (3)
+        900, 540, 540,       # (4)
+        540,                 # Delta
+    ]
     for j, w in enumerate(_cw):
         for i in range(n_rows):
             try:
@@ -5549,7 +5559,7 @@ def write_table3(doc, body, after_el, demand_data):
         _set_cell_3b(row_3b, 3, d.get("type_uniform", "II"), font_size=8)
         _set_cell_3b(row_3b, 4, str(d.get("rank_sov", d["rank_eff"])), font_size=8)
         lks = d.get("lam_k_star", 0)
-        lks_str = f'{lks*100:.1f}%' if lks >= 0 else f'\u2212{abs(lks)*100:.1f}%'
+        lks_str = f'{lks * 100:.1f}%' if lks >= 0 else f'\u2212{abs(lks) * 100:.1f}%'
         _set_cell_3b(row_3b, 5, lks_str, font_size=8)
         row_3b += 1
 
@@ -5698,8 +5708,9 @@ def write_references(doc, body, refs):
         'Firebird. (2026). \u201CPhase 2 of Armenia AI Megaproject, Scaling to $4 Billion '
         'and 50,000 GPUs.\u201D Press release, January 2026.',
 
-        'Flucker, S., R. Tozer, and R. Whitehead. (2013). \u201CData Centre Energy Efficiency '
-        'Analysis to Minimize Total Cost of Ownership.\u201D Building Services Engineering Research and Technology, 34(1): 103\u2013117.',
+        'Flucker, S., R. Tozer, and R. Whitehead. (2013). \u201CData Centre Energy '
+        'Efficiency Analysis to Minimize Total Cost of Ownership.\u201D Building Services '
+        'Engineering Research and Technology, 34(1): 103\u2013117.',
 
         'GlobalPetrolPrices. (2025). Electricity Prices Around the World. '
         'globalpetrolprices.com.',
@@ -6674,7 +6685,6 @@ def main():
             if iso_k in adj_reg_bilat:
                 tier_info = adj_reg_bilat[iso_k].get(tier, {})
                 P_I_dom = float(adj_reg[iso_k]["P_I_domestic"])
-                best_inf_t = tier_info.get('cost', P_I_dom)
                 if tier_info.get('source', iso_k) == iso_k:
                     # Domestic: welfare cost = domestic - best free-trade foreign
                     best_free_inf = float(adj_reg[iso_k]["best_inf_cost"])
@@ -6739,9 +6749,6 @@ def main():
             return "domestic"
         # Type (v): imports both
         return "full importer"
-
-    # Training exporters: countries with positive training export shares
-    train_exporter_isos = set(shares_0.keys())
 
     # Inference exporters: countries that serve at least one other country
     inf_exporter_isos = set()
@@ -6974,8 +6981,9 @@ def main():
 
     # Type assignment for specs (1)-(3): free trade
     for d in table3_data:
-        for rank_key, type_key in [("rank_raw", "type_raw"), ("rank_cr", "type_cr"),
-                                    ("rank_eff", "type_eff")]:
+        for rank_key, type_key in [("rank_raw", "type_raw"),
+                                   ("rank_cr", "type_cr"),
+                                   ("rank_eff", "type_eff")]:
             if d[rank_key] <= 5:
                 d[type_key] = "EE"
             elif d[rank_key] <= 12 and dc_k.get(d["iso"], 9999) < 1000:
