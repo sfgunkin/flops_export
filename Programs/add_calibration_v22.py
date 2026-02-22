@@ -572,6 +572,15 @@ def make_hyperlink(anchor, text, rPr_orig=None, color=LINK_COLOR):
     return hl
 
 
+def _rPr_pt(pt_size):
+    """Return a w:rPr element with the given font size (in points)."""
+    rPr = OxmlElement('w:rPr')
+    sz = OxmlElement('w:sz')
+    sz.set(qn('w:val'), str(pt_size * 2))  # half-points
+    rPr.append(sz)
+    return rPr
+
+
 # ═══════════════════════════════════════════════════════════════════════
 # FOOTNOTE HELPER
 # ═══════════════════════════════════════════════════════════════════════
@@ -3490,10 +3499,7 @@ def write_table_a2(doc, body, after_el, demand_data):
     rn.font.size = Pt(10)
     rn = note.add_run('See ')
     rn.font.size = Pt(10)
-    _rPr10 = OxmlElement('w:rPr')
-    _sz10 = OxmlElement('w:sz'); _sz10.set(qn('w:val'), '20')
-    _rPr10.append(_sz10)
-    note._element.append(make_hyperlink('Table3', 'Table 3', rPr_orig=_rPr10))
+    note._element.append(make_hyperlink('Table3', 'Table 3', rPr_orig=_rPr_pt(10)))
     rn = note.add_run(
         ' notes for column definitions. '
         'Countries sorted by specification (3) rank (ascending). '
@@ -4651,10 +4657,7 @@ def write_table1(doc, body, after_el):
         '(second letter), used in '
     )
     rn.font.size = Pt(10)
-    _rPr10 = OxmlElement('w:rPr')
-    _sz10 = OxmlElement('w:sz'); _sz10.set(qn('w:val'), '20')
-    _rPr10.append(_sz10)
-    tn._element.append(make_hyperlink('Table3', 'Table 3', rPr_orig=_rPr10))
+    tn._element.append(make_hyperlink('Table3', 'Table 3', rPr_orig=_rPr_pt(10)))
     rn = tn.add_run('.')
     rn.font.size = Pt(10)
     tn_el = tn._element
@@ -5178,10 +5181,7 @@ def write_table3(doc, body, after_el, demand_data):
     )
     rn3.font.size = Pt(10)
     rn3.font.name = 'Times New Roman'
-    _rPr10 = OxmlElement('w:rPr')
-    _sz10 = OxmlElement('w:sz'); _sz10.set(qn('w:val'), '20')
-    _rPr10.append(_sz10)
-    note._element.append(make_hyperlink('TableA2', 'Table A2', rPr_orig=_rPr10))
+    note._element.append(make_hyperlink('TableA2', 'Table A2', rPr_orig=_rPr_pt(10)))
     rn3 = note.add_run(' for all 85 countries.')
     rn3.font.size = Pt(10)
     rn3.font.name = 'Times New Roman'
