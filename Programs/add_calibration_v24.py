@@ -2846,7 +2846,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     )
 
     # ── A4. Bilateral sovereignty — Table 3b col (4) ──
-    _p_T_bilat = demand_data["p_T_bilat"]
     # Use table3 lam_k_star for inline values (consistency with table)
     _t3 = demand_data["table3"]
     _lks = {d["iso"]: d.get("lam_k_star", 0) for d in _t3}
@@ -2865,28 +2864,29 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_hyperlink('Table3b', 'Table 3b'))
     p.add_run(
         ' reports the bilateral specification. '
-        'The frontier price is '
-    )
-    omath(p, [_msup('p', '*'), _t(f' = ${_p_T_bilat:.2f}')])
-    p.add_run(
-        '/hr. '
-        'The country-specific switching threshold '
+        'The last column reports the switching threshold '
     )
     omath(p, [_msubsup('\u03BB', 'k', '*')])
     p.add_run(
-        ' from Proposition 3 varies widely: '
-        'Japan is the first country above the frontier ('
+        ' from Proposition 3: negative values indicate countries cheap enough to export '
+        '(e.g., Canada at '
+    )
+    omath(p, [_msubsup('\u03BB', 'k', '*'),
+              _t(f' = \u2212{abs(_lks["CAN"]) * 100:.1f}%')])
+    p.add_run(
+        '), while positive values indicate the minimum premium for domestic production '
+        '(e.g., Japan '
     )
     omath(p, [_msubsup('\u03BB', 'k', '*'),
               _t(f' = {_lks["JPN"] * 100:.1f}%')])
-    p.add_run(
-        f'), while China requires {_lks["CHN"] * 100:.1f}% and Saudi Arabia {_lks["SAU"] * 100:.1f}%. '
-        'High-cost countries face much larger thresholds: Kyrgyzstan needs '
-    )
+    p.add_run(', China ')
+    omath(p, [_msubsup('\u03BB', 'k', '*'),
+              _t(f' = {_lks["CHN"] * 100:.1f}%')])
+    p.add_run(', Kyrgyzstan ')
     omath(p, [_msubsup('\u03BB', 'k', '*'),
               _t(f' = {_lks["KGZ"] * 100:.1f}%')])
     p.add_run(
-        f' and Iran {_lks["IRN"] * 100:.1f}%. '
+        '). '
         'The bilateral sovereignty premium is particularly powerful for inference, '
         'since the latency markup within Europe is moderate (10\u201340\u2009ms, '
         'adding 1\u20133%), and even a small domestic preference can tip the decision '
