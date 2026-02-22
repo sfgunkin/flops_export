@@ -38,22 +38,24 @@ v20: Capacity-Constrained Ricardian Model restructuring.
   - 6 main-text display equations (p_T inlined), 5 propositions
 """
 
+import copy
 import csv
+import io
 import pathlib
 import sys
-import io
-import copy
 from datetime import datetime
-from lxml import etree
+
+import matplotlib
+
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt  # noqa: E402
 from docx import Document
-from docx.shared import Pt, Inches, RGBColor
-from docx.oxml.ns import qn
-from docx.oxml import OxmlElement
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
+from docx.shared import Inches, Pt, RGBColor
+from lxml import etree
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
@@ -149,8 +151,7 @@ def run_sensitivity(cal, omega, dc_k, k_bar, sanctioned):
         for _ in range(30):
             Q_TX = 0
             for iso in dc_k:
-                if iso in costs_s:
-                    if costs_s[iso] > p_T:
+                if iso in costs_s and costs_s[iso] > p_T:
                         Q_TX += ALPHA * omega.get(iso, 0) * Q_TOTAL
             cum_cap = 0
             found = False
@@ -560,10 +561,7 @@ def make_hyperlink(anchor, text, rPr_orig=None, color=LINK_COLOR):
     hl.set(qn('w:anchor'), anchor)
     hl.set(qn('w:history'), '1')
     r = OxmlElement('w:r')
-    if rPr_orig is not None:
-        new_rPr = copy.deepcopy(rPr_orig)
-    else:
-        new_rPr = OxmlElement('w:rPr')
+    new_rPr = copy.deepcopy(rPr_orig) if rPr_orig is not None else OxmlElement('w:rPr')
     clr = OxmlElement('w:color')
     clr.set(qn('w:val'), color)
     uu = OxmlElement('w:u')
@@ -2735,10 +2733,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
             co for _, co, _ in sorted(kgz_clients, key=lambda x: -x[2])
             if co != "Kyrgyzstan"]
         names = kgz_client_names[:3]
-        if len(names) <= 2:
-            kgz_list = " and ".join(names)
-        else:
-            kgz_list = f'{", ".join(names[:-1])}, and {names[-1]}'
+        kgz_list = " and ".join(names) if len(names) <= 2 else f'{", ".join(names[:-1])}, and {names[-1]}'
         p.add_run(
             f'Among developing countries, Kyrgyzstan captures {kgz_total:.0f}% of global '
             f'inference demand by serving {kgz_list}, a large share '
@@ -3914,11 +3909,11 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
     def _npv_irr(rows, wacc):
         """Compute NPV at given WACC and IRR via bisection."""
         fcfs = [r['fcf'] for r in rows]
-        npv_val = sum(f / (1 + wacc) ** y for f, y in zip(fcfs, years))
+        npv_val = sum(f / (1 + wacc) ** y for f, y in zip(fcfs, years, strict=False))
         lo, hi = -0.50, 2.0
         for _ in range(200):
             mid = (lo + hi) / 2
-            if sum(f / (1 + mid) ** y for f, y in zip(fcfs, years)) > 0:
+            if sum(f / (1 + mid) ** y for f, y in zip(fcfs, years, strict=False)) > 0:
                 lo = mid
             else:
                 hi = mid
@@ -5656,10 +5651,7 @@ def main():
     dc_k = {}
     for row in cal:
         iso = row["iso3"]
-        if iso in dc_capacity:
-            dc_k[iso] = dc_capacity[iso]
-        else:
-            dc_k[iso] = 5.0  # minimum 5 MW for countries with no data
+        dc_k[iso] = dc_capacity.get(iso, 5.0)  # minimum 5 MW if no data
     total_dc = sum(dc_k.values())
     omega = {iso: d / total_dc for iso, d in dc_k.items()}
 
@@ -6402,8 +6394,8 @@ def main():
     # AUTO-COMMIT to git (preserves every successful generation)
     # ═══════════════════════════════════════════════════════════════════════
     try:
-        import subprocess
         import datetime as _dt
+        import subprocess
         _repo = str(DOCS.parent)  # F:\onedrive\...\FLOPsExport
         _script = str(pathlib.Path(__file__).resolve())
         _ts = _dt.datetime.now().strftime('%Y-%m-%d %H:%M')
