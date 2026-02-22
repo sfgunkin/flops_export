@@ -2296,13 +2296,13 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     add_italic(p, 'Hardware. ')
     p.add_run(
         'The calibration uses the NVIDIA H100 SXM GPU as the reference hardware platform, with a list price '
-        'of $25,000, a thermal design power of 700W, an economic lifetime of 3 years, and a utilization rate 70% '
+        'of $25,000, a power of 700W, an economic lifetime of 3 years, and a utilization rate 70% '
         '(Barroso et al. 2018; NVIDIA 2024). '
         'Google\u2019s fleet-wide GPU utilization, '
-        'after years of optimization with custom schedulers and workload packing, runs in the '
+        'after years of optimization, runs in the '
         '60\u201375% range (Barroso et al. 2018). A new entrant '
-        'would likely achieve 40\u201360% utilization in the early years, roughly '
-        'doubling the effective hardware cost per useful GPU-hour. '
+        'would likely achieve 40\u201360% utilization in the early years, '
+        'doubling the effective hardware cost per GPU-hour. '
         'This yields an amortized hardware cost '
     )
     omath(p, [_v('\u03C1'), _t(f' = ${RHO:.3f}')])
@@ -2312,8 +2312,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     )
     omath(p, [_v('\u03B7'), _t(f' = ${ETA:.2f}')])
     p.add_run(
-        '/hr, based on InfiniBand interconnect fabric amortized '
-        'over the same three-year horizon (Barroso et al. 2018). '
+        '/hr, based on the same three-year horizon (Barroso et al. 2018). '
         'GPU and networking equipment prices are assumed to be uniform across countries. In practice, export controls, '
         'logistics costs, insurance, and local distribution markups can raise effective GPU '
         'prices by 5\u201315% in developing countries. A 10% GPU price premium would add '
@@ -2337,7 +2336,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'However, late entrants selling older-generation GPU-hours must discount to compete '
         'with competitors using newer hardware, potentially eroding their cost advantage. '
         'Since hardware amortization remains 80\u201385 percent of total cost across GPU '
-        'generations, the qualitative findings are robust to hardware choice.'
+        'generations, our qualitative findings are robust to hardware choice.'
     )
 
     # Other parameters (τ, λ, α)
@@ -2427,46 +2426,14 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     max_gap_country = demand_data["max_gap_country"]
     max_fiscal_m = demand_data["max_fiscal_transfer"] / 1e6
 
-    # ── A1. Opening: preferred specification and main result (KEEP P72) ──
+    # ── A1. Opening (KEEP P72) ──
     p, cur = mkp(doc, body, cur, space_before=6)
     p._element.append(make_bookmark(100, 'TableA1txt'))
     p._element.append(make_hyperlink('TableA1', 'Table A1'))
     p._element.append(make_bookmark_end(100))
     p.add_run(' in the Appendix reports the full calibration parameters for all ')
     omath(p, [_v('N'), _t(f' = {n_total}')])
-    p.add_run(
-        ' countries. The paper\u2019s preferred specification applies cost-recovery '
-        'electricity prices (replacing subsidized tariffs with long-run marginal cost) '
-        'and adjusts for institutional reliability using the index '
-    )
-    omath(p, [_msub('\u03BE', 'j')])
-    p.add_run(
-        ' defined in equation (2). Under this specification, the five cheapest '
-        'producers are '
-    )
-    if _xi_top5:
-        p.add_run(
-            f'{_xi_top5[0][0]} (${_xi_top5[0][1]:.2f}/hr), '
-            f'{_xi_top5[1][0]} (${_xi_top5[1][1]:.2f}/hr), '
-            f'{_xi_top5[2][0]} (${_xi_top5[2][1]:.2f}/hr), '
-            f'{_xi_top5[3][0]} (${_xi_top5[3][1]:.2f}/hr), '
-            f'and {_xi_top5[4][0]} (${_xi_top5[4][1]:.2f}/hr). '
-        )
-    p.add_run(
-        f'{_num_word(_xi_n_changed).capitalize()} of the ten cheapest countries under the '
-        'pure engineering cost ranking fall out of the top ten after reliability adjustment, '
-        'replaced by countries with stronger institutions and more reliable grids. '
-        'Because hardware and networking costs account for roughly 94% of engineering costs '
-        'and are identical everywhere, the cross-country cost spread is narrow (about 20%). '
-        'Even modest institutional penalties are large relative to this thin margin, '
-        'so governance quality can easily dominate the cost ranking. '
-        'An engineering cost advantage is therefore necessary but not sufficient for '
-        'FLOP exporting. '
-    )
-    p._element.append(make_bookmark(121, 'Figure1txt'))
-    p._element.append(make_hyperlink('Figure1', 'Figure 1'))
-    p._element.append(make_bookmark_end(121))
-    p.add_run(' illustrates the resulting rank reshuffling.')
+    p.add_run(' countries.')
 
     # ── A1. Raw tariff contrast (KEEP P73) — Table 3 col (1) ──
     p, cur = mkp(doc, body, cur)
@@ -2475,7 +2442,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'adjustment, the cheapest producer is '
         f'{cheapest["country"]} (${float(cheapest["c_j_total"]):.2f}/hr), '
         f'followed by {cal[1]["country"]} (${float(cal[1]["c_j_total"]):.2f}/hr) '
-        f'and {cal[2]["country"]} (${float(cal[2]["c_j_total"]):.2f}/hr)\u2014'
+        f'and {cal[2]["country"]} (${float(cal[2]["c_j_total"]):.2f}/hr),'
         'as shown in column\u2009(1) of '
     )
     p._element.append(make_bookmark(112, 'Table3txt'))
@@ -2487,22 +2454,18 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'${float(cheapest["p_E_usd_kwh"]):.3f}/kWh, a figure sustained by one of the '
         'world\u2019s largest fossil fuel subsidies. Turkmenistan, Algeria, Qatar, and '
         'several other low-cost producers face similar distortions. '
-        'Once subsidies are removed and institutional reliability is factored in, '
-        'the ranking changes substantially.'
     )
 
     # ── A2. Cost-recovery adjustment (KEEP P74) — Table 3 col (2) ──
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'To distinguish genuine comparative advantage from fiscal artifact, '
-        'the calibration replaces subsidized tariffs with cost-recovery prices, '
+        'we replace subsidized tariffs with cost-recovery prices. These are '
         'defined as the long-run marginal cost (LRMC) of the dominant generation '
         'technology at opportunity-cost fuel prices (IMF 2025, Lazard 2025). '
         f'This adjustment is applied to {demand_data["n_adjusted"]} countries '
         'whose retail electricity prices fall below the estimated LRMC. '
-        'Hydropower producers (Kyrgyzstan, Canada, Norway) are not adjusted because '
-        'their low prices reflect genuine resource advantages rather than fiscal transfers. '
-        'The resulting cost-recovery ranking\u2014column\u2009(2) of '
+        ' The resulting cost-recovery ranking\u2014column\u2009(2) of '
     )
     p._element.append(make_hyperlink('Table3', 'Table 3'))
     p.add_run(
@@ -2538,12 +2501,12 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'${demand_data["max_gap_mwh_val"] / 1000:.3f}/kWh. '
         f'For {max_gap_country}, a 100\u2009MW IT-load data center would receive roughly '
         f'${max_fiscal_m:.0f}\u2009million per year in implicit fiscal transfer. '
-        'At export scale, this fiscal arithmetic becomes unsustainable. '
+        'At the export scale, this fiscal arithmetic becomes unsustainable. '
         f'{cheapest["country"]} drops from first to '
         f'{_ordinal(demand_data["adj_rank_map"]["IRN"])}. '
         f'{_num_word(demand_data["regime_changes"]).capitalize()} '
         f'{"country changes" if demand_data["regime_changes"] == 1 else "countries change"} '
-        'trade regime.'
+        'their trade regimes.'
     )
 
     # ── A3. Reliability adjustment (KEEP P75) — Table 3 col (3) and Δ ──
@@ -2551,7 +2514,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     _kgz_delta = next((d["delta"] for d in _t3 if d["iso"] == "KGZ"), 0)
     _pos_movers = sorted([d for d in _t3 if d["delta"] > 0], key=lambda x: -x["delta"])[:2]
     p, cur = mkp(doc, body, cur)
-    p.add_run('Dividing cost-recovery costs by ')
+    p.add_run('Dividing the cost-recovery costs by ')
     omath(p, [_msub('\u03BE', 'j')])
     p.add_run(
         ' penalizes countries with weak governance, unreliable grids, '
@@ -2567,6 +2530,18 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_bookmark_end(141))
     p.add_run(
         ' extends it to all countries. '
+        'Under cost-recovery pricing with reliability adjustment, the five cheapest '
+        'producers are '
+    )
+    if _xi_top5:
+        p.add_run(
+            f'{_xi_top5[0][0]} (${_xi_top5[0][1]:.2f}/hr), '
+            f'{_xi_top5[1][0]} (${_xi_top5[1][1]:.2f}/hr), '
+            f'{_xi_top5[2][0]} (${_xi_top5[2][1]:.2f}/hr), '
+            f'{_xi_top5[3][0]} (${_xi_top5[3][1]:.2f}/hr), '
+            f'and {_xi_top5[4][0]} (${_xi_top5[4][1]:.2f}/hr). '
+        )
+    p.add_run(
         'The \u0394 column records the rank change from raw tariffs to the preferred '
         'specification: '
         f'{cheapest["country"]} drops {abs(_iran_delta)} places'
@@ -2575,16 +2550,27 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         p.add_run(f', Kyrgyzstan drops {abs(_kgz_delta)}')
     if _pos_movers:
         p.add_run(
-            f', while {_pos_movers[0]["country"]} rises {_pos_movers[0]["delta"]} places'
+            f', while {_pos_movers[0]["country"]} rises {_pos_movers[0]["delta"]} places, '
         )
         if len(_pos_movers) > 1:
-            p.add_run(f' and {_pos_movers[1]["country"]} rises {_pos_movers[1]["delta"]}')
+            p.add_run(f'and {_pos_movers[1]["country"]} rises {_pos_movers[1]["delta"]}')
     p.add_run(
-        '. The rank reshuffling is large because the cross-country cost spread is narrow; '
-        'even small reliability differences reshuffle adjacent ranks.'
+        f'. {_num_word(_xi_n_changed).capitalize()} of the ten cheapest countries under the '
+        'pure engineering cost ranking fall out of the top ten after reliability adjustment, '
+        'replaced by countries with stronger institutions and more reliable grids. '
+        'Because hardware and networking costs account for roughly 94% of engineering costs '
+        'and are identical everywhere, the cross-country cost spread is narrow (about 20%). '
+        'Even modest institutional penalties are large relative to this thin margin, '
+        'so governance quality can easily dominate the cost ranking. '
+        'An engineering cost advantage is therefore necessary but not sufficient for '
+        'FLOP exporting. '
     )
+    p._element.append(make_bookmark(121, 'Figure1txt'))
+    p._element.append(make_hyperlink('Figure1', 'Figure 1'))
+    p._element.append(make_bookmark_end(121))
+    p.add_run(' illustrates the resulting rank reshuffling. ')
 
-    # ── A3. Institutional barriers (MOVED from P84 + P85, with BRIDGE) ──
+    # ── A3. Institutional barriers ──
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'The reliability-adjusted ranking captures governance quality and grid stability, '
@@ -2603,19 +2589,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'Uzbekistan) rank poorly on property rights and rule of law indices, and subsidized '
         'electricity prices may be politically fragile. Effective entry barriers are therefore '
         'higher than production costs alone suggest. '
-        'U.S. export controls on advanced GPUs (October 2022 and October 2023 rules, '
-        'expanded in 2025) create a hard binary constraint for certain '
-        'jurisdictions\u2014H100-class GPUs cannot legally be shipped there at all, making the '
-        'relevant question availability rather than price. For countries not under outright '
-        'bans but subject to per-chip caps, the effective hardware cost '
-    )
-    omath(p, [_v('\u03C1')])
-    p.add_run(
-        ' rises through grey-market procurement, potentially offsetting any electricity cost '
-        'advantage and discouraging long-term investment. '
-        'Water is another constraint. Evaporative cooling consumes large volumes, and several '
-        'of the cheapest producers (Iran, Turkmenistan, Egypt, Saudi Arabia) are water-scarce. '
-        'Liquid cooling reduces water needs but does not eliminate them.'
+        'GPU export controls (Section 6.1) and water scarcity in Iran, Turkmenistan, Egypt, '
+        'and Saudi Arabia further constrain several low-cost producers.'
     )
 
     # ── A4. Sovereignty — Table 3 col (4) (KEEP P76) ──
@@ -3085,16 +3060,9 @@ def write_conclusion(doc, body, hmap, demand_data):
         'This geographic structure is consistent with Lehdonvirta et al. (2024), '
         'who independently find that training-capable GPU infrastructure is concentrated in '
         'roughly 30 countries, while the rest are limited to inference-grade hardware. '
-        'A central finding is that electricity costs, while the main source of cross-country '
-        'cost variation, are not the dominant determinant of actual data center location. '
-        'Because hardware and networking costs are uniform and account for over 90% of per-GPU-hour costs, '
-        'the cost spread across countries is narrow. Institutional quality, '
-        'sovereignty preferences, and access to GPU hardware frequently outweigh these thin '
-        'cost margins.'
-    )
-
-    p, cur_concl = mkp(doc, body, cur_concl)
-    p.add_run(
+        'Given the narrow cross-country cost spread documented in Section 6, institutional '
+        'quality, sovereignty preferences, and access to GPU hardware are often decisive in '
+        'determining actual data center location.'
         'For developing countries, the results point to a new avenue for economic participation '
         'in the global economy. Countries like Kyrgyzstan, Uzbekistan, and Egypt, which rank '
         'among the cheapest FLOP producers in the calibration, could use their energy '
