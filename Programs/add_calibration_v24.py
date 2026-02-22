@@ -2893,17 +2893,16 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     # ── A4. Demand tiering ──
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Column\u2009(5) of '
-    )
-    p._element.append(make_hyperlink('Table3b', 'Table 3b'))
-    p.add_run(
-        ' introduces demand tiering, segmenting each country\u2019s compute demand into three tiers: '
+        'As a refinement, the model segments each country\u2019s compute demand into three tiers: '
         'sovereign workloads (10% of demand, domestic only), '
         'regulated workloads (20%, higher regulatory compatibility weight), '
         'and commercial workloads (70%, geopolitical alignment only). '
-        'Tiering has a modest effect on aggregate trade patterns because the sovereign '
-        'tier is small and most countries already produce domestically under the bilateral '
-        'specification. The main impact is on inference sourcing: regulated workloads shift '
+        'Under the calibrated parameters, tiering leaves regime type assignments unchanged '
+        'for all countries (hence columns (4) and (5) of '
+    )
+    p._element.append(make_hyperlink('Table3b', 'Table 3b'))
+    p.add_run(
+        ' are merged). The main impact is on inference sourcing: regulated workloads shift '
         'toward suppliers with strong data governance frameworks, favoring EU member states '
         'and APEC CBPR participants over geographically closer but less regulated alternatives.'
     )
@@ -3666,7 +3665,7 @@ def write_table_a2(doc, body, after_el, demand_data):
     # Row 1: sub-headers
     sub_h = ['Country', 'c\u2c7c', 'Rank', 'Type',
              'c\u2c7c', 'Rank', 'Type',
-             'c\u2c7c/\u03be\u2c7c', 'Rank', 'Type',
+             'c\u2c7c/\u03be\u2c7c\u1d49\u1da0\u1da0', 'Rank', 'Type',
              'p\u2c7c', 'Rank', 'Type', '\u0394']
     for j, h in enumerate(sub_h):
         _sc(1, j, h, bold=True, fs=7, align='left' if j == 0 else 'center')
@@ -3970,28 +3969,16 @@ def write_model_appendix(doc, body, last_note):
     p.add_run('The welfare cost has two components. For each importing country ')
     omath(p, [_v('k')])
     p.add_run(', let ')
-    omath(p, [_msubsup('j', 'k', '*')])
+    omath(p, [_v('i'), _t(' = '), _msubsup('j', 'k', '*')])
     p.add_run(' denote its equilibrium supplier (the seller minimizing delivered cost). '
               'Import markup:')
     p.paragraph_format.space_after = Pt(2)
-
-    # Build λ with complex subscript j*(k),k
-    lam_jstar = OxmlElement('m:sSub')
-    lam_jstar.append(OxmlElement('m:sSubPr'))
-    lam_e = OxmlElement('m:e')
-    lam_e.append(_mr('\u03BB', True))
-    lam_jstar.append(lam_e)
-    lam_s = OxmlElement('m:sub')
-    lam_s.append(_msubsup('j', 'k', '*'))
-    lam_s.append(_mr(',\u2009', False))
-    lam_s.append(_mr('k', True))
-    lam_jstar.append(lam_s)
 
     _, cur = omath_display(doc, body, cur, [
         _msub('DWL', 'import'), _t(' = '),
         _nary('\u2211', [_v('k'), _t(' \u2208 '), _msub('M', 'T')], [],
               [_msub('q', 'Tk'), _t(' \u00b7 '),
-               lam_jstar,
+               _msub('\u03BB', 'ik'),
                _t(' \u00b7 '), _msub('p', 'T')]), _t('.'),
     ], eq_num='B.4')
 
@@ -5480,9 +5467,9 @@ def write_table3(doc, body, after_el, demand_data):
     body.remove(tp3b_el)
     note_el.addnext(tp3b_el)
 
-    # Table 3b: 7 columns — Country, c/ξ^eff, (4) Bilateral, (5) Tiered, (6) Uniform, Rank_6, Δ_sov
+    # Table 3b: 6 columns — Country, c/ξ^eff, (4)/(5) Bilateral, (6) Uniform, Rank_6, λ_k^*
     n_rows_3b = 2 + n_data
-    n_cols_3b = 7
+    n_cols_3b = 6
     tbl3b = doc.add_table(rows=n_rows_3b, cols=n_cols_3b)
     tbl3b.alignment = WD_TABLE_ALIGNMENT.CENTER
     tbl3b.style = 'Table Grid'
@@ -5543,17 +5530,16 @@ def write_table3(doc, body, after_el, demand_data):
     # Row 0: Group headers
     _set_cell_3b(0, 0, '', font_size=8)
     _set_cell_3b(0, 1, '', font_size=8)
-    _set_cell_3b(0, 2, '(4) Bilateral', bold=True, font_size=8)
-    _set_cell_3b(0, 3, '(5) Tiered', bold=True, font_size=8)
-    _set_cell_3b(0, 4, '(6) Uniform', bold=True, font_size=8)
+    _set_cell_3b(0, 2, '(4)/(5) Bilateral', bold=True, font_size=8)
+    _set_cell_3b(0, 3, '(6) Uniform', bold=True, font_size=8)
+    _set_cell_3b(0, 4, '', font_size=8)
     _set_cell_3b(0, 5, '', font_size=8)
-    _set_cell_3b(0, 6, '', font_size=8)
     for j in range(n_cols_3b):
         _cell_border_3b(tbl3b.cell(0, j)._tc, ['top'], sz='4')
 
     # Row 1: Sub-headers
     sub_hdr_3b = ['Country', 'c\u2c7c/\u03be\u2c7c\u1d49\u1da0\u1da0',
-                  'Type', 'Type', 'Type', 'Rank\u2086', '\u0394\u209b']
+                  'Type', 'Type', 'Rank\u2086', '\u03bb\u2096*']
     for j, hdr in enumerate(sub_hdr_3b):
         _set_cell_3b(1, j, hdr, bold=True, font_size=8,
                      align='left' if j == 0 else 'center')
@@ -5565,12 +5551,11 @@ def write_table3(doc, body, after_el, demand_data):
         _set_cell_3b(row_3b, 0, _sname(d["country"]), font_size=8, align='left')
         _set_cell_3b(row_3b, 1, f'${d["cj_eff"]:.2f}', font_size=8)
         _set_cell_3b(row_3b, 2, d.get("type_bilat", "II"), font_size=8)
-        _set_cell_3b(row_3b, 3, d.get("type_tiered", "II"), font_size=8)
-        _set_cell_3b(row_3b, 4, d.get("type_uniform", "II"), font_size=8)
-        _set_cell_3b(row_3b, 5, str(d.get("rank_sov", d["rank_eff"])), font_size=8)
-        delta_sov = d["rank_eff"] - d.get("rank_sov", d["rank_eff"])
-        delta_str = f'+{delta_sov}' if delta_sov > 0 else str(delta_sov)
-        _set_cell_3b(row_3b, 6, delta_str, font_size=8)
+        _set_cell_3b(row_3b, 3, d.get("type_uniform", "II"), font_size=8)
+        _set_cell_3b(row_3b, 4, str(d.get("rank_sov", d["rank_eff"])), font_size=8)
+        lks = d.get("lam_k_star", 0)
+        lks_str = f'{lks*100:.1f}%' if lks >= 0 else f'\u2212{abs(lks)*100:.1f}%'
+        _set_cell_3b(row_3b, 5, lks_str, font_size=8)
         row_3b += 1
 
     # Bottom border
@@ -5578,7 +5563,7 @@ def write_table3(doc, body, after_el, demand_data):
         _cell_border_3b(tbl3b.cell(row_3b - 1, j)._tc, ['bottom'], style='double')
 
     # Column widths
-    _cw3b = [2200, 1200, 900, 900, 900, 900, 700]
+    _cw3b = [2400, 1300, 1000, 1000, 900, 1100]
     for j, w in enumerate(_cw3b):
         for i in range(n_rows_3b):
             try:
@@ -5622,18 +5607,16 @@ def write_table3(doc, body, after_el, demand_data):
         'Type codes: EE\u2009=\u2009training + inference exporter; '
         'IE\u2009=\u2009inference exporter; DD\u2009=\u2009domestic producer; '
         'II\u2009=\u2009full importer. '
-        '(4)\u2009Bilateral: bilateral sovereignty premium \u03bb\u1d62\u2c7c '
+        '(4)/(5)\u2009Bilateral: bilateral sovereignty premium \u03bb\u1d62\u2c7c '
         'from equation (2), with geopolitical, regulatory, and sanctions components. '
-        '(5)\u2009Tiered: bilateral \u03bb\u1d62\u2c7c with demand segmented into sovereign '
-        '(10%), regulated (20%), and commercial (70%) tiers. '
-        'Under the calibrated parameters, demand tiering leaves regime type assignments '
-        'unchanged for all countries; columns (4) and (5) are therefore identical. '
-        'Tiering affects within-country demand allocation across tiers but not the '
+        'Under the calibrated parameters, demand tiering (sovereign 10%, regulated 20%, '
+        'commercial 70%) leaves regime type assignments unchanged for all countries; '
+        'tiering affects within-country demand allocation across tiers but not the '
         'equilibrium set of exporters. '
         '(6)\u2009Uniform: uniform \u03bb\u2009=\u200910% premium (robustness check). '
-        'Rank\u2086 reflects the production-cost ranking c\u2c7c/\u03be\u2c7c\u1d49\u1da0\u1da0, '
-        'which is invariant to the sovereignty specification; \u0394\u209b\u2009=\u20090 '
-        'for all countries.'
+        '\u03bb\u2096*\u2009=\u2009c\u2096/p\u209c\u2009\u2212\u20091 is the minimum '
+        'bilateral sovereignty premium at which country k switches from importing to '
+        'domestic training production (Proposition 3); negative values indicate exporters.'
     )
     rn3b.font.size = Pt(10)
     rn3b.font.name = 'Times New Roman'
@@ -7007,6 +6990,8 @@ def main():
             d["type_bilat"] = "IE"
         else:
             d["type_bilat"] = "II"
+        # Switching threshold: λ_k^* = c_k^{eff} / p_T^{bilat} - 1
+        d["lam_k_star"] = d["cj_eff"] / p_T_bilat - 1 if p_T_bilat > 0 else 0
 
     # Spec (5): Bilateral λ_{ij}, tiered demand
     for d in table3_data:
