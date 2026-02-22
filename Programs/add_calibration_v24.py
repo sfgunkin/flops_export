@@ -1267,7 +1267,7 @@ def write_introduction(doc, body, hmap):
     )
     # footnote 2 removed (unclear)
 
-    # Para 3: FLOP exporting as value chain upgrading
+    # Para 3: FLOP exporting
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'This surge in demand for compute creates a new type of export opportunity. '
@@ -1276,7 +1276,7 @@ def write_introduction(doc, body, hmap):
     )
     add_italic(p, 'FLOP exporting')
     p.add_run(
-        '. FLOP exporting is a form of value chain upgrading. Rather than '
+        '. Rather than '
         'exporting raw energy resources as primary commodities, '
         'countries can convert electricity into a higher value-added digital service. '
         'For resource-rich developing countries, FLOP exporting could offer a route up the '
@@ -2652,8 +2652,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_bookmark(103, 'Table2txt'))
     p._element.append(make_hyperlink('Table2', 'Table 2'))
     p._element.append(make_bookmark_end(103))
-    p.add_run(' reports all model parameters. Country-specific values, such as electricity prices, '
-               'temperatures, construction costs, and the resulting unit costs, are reported in ')
+    p.add_run(' reports all model parameters. Country-specific values, including electricity prices, '
+               'temperatures, construction costs, and resulting unit costs, are reported in ')
     p._element.append(make_bookmark(100, 'TableA1txt'))
     p._element.append(make_hyperlink('TableA1', 'Table A1'))
     p._element.append(make_bookmark_end(100))
@@ -2681,7 +2681,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'adjustment, the cheapest producer is '
         f'{cheapest["country"]} (${float(cheapest["c_j_total"]):.2f}/hr), '
         f'followed by {cal[1]["country"]} (${float(cal[1]["c_j_total"]):.2f}/hr) '
-        f'and {cal[2]["country"]} (${float(cal[2]["c_j_total"]):.2f}/hr),'
+        f'and {cal[2]["country"]} (${float(cal[2]["c_j_total"]):.2f}/hr), '
         'as shown in column\u2009(1) of '
     )
     p._element.append(make_bookmark(112, 'Table3txt'))
@@ -2924,11 +2924,14 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'${p_T_sov:.2f}/hr.'
     )
 
-    # ── A4. Developing countries (KEEP P79) ──
-    p, cur = mkp(doc, body, cur)
+    # ── A4. Developing countries (KEEP P79) ── (only create paragraph if content)
+    _dev_para_created = False
     kgz_clients = demand_data["kgz_inf_clients"]
     kgz_total = sum(w for _, _, w in kgz_clients)
     if kgz_total > 0:
+        if not _dev_para_created:
+            p, cur = mkp(doc, body, cur)
+            _dev_para_created = True
         kgz_client_names = [
             co for _, co, _ in sorted(kgz_clients, key=lambda x: -x[2])
             if co != "Kyrgyzstan"]
@@ -2949,6 +2952,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
                 if demand_data["adj_reg"][i]["best_inf_source"] == _iso
                 and i != _iso)
             if _n_served > 0:
+                if not _dev_para_created:
+                    p, cur = mkp(doc, body, cur)
+                    _dev_para_created = True
                 p.add_run(
                     f'{_co} serves as an inference hub for {_n_served} '
                     f'{"country" if _n_served == 1 else "countries"}, '
@@ -3312,6 +3318,10 @@ def write_conclusion(doc, body, hmap, demand_data):
         'Given the narrow cross-country cost spread documented in Section 6, production '
         'efficiency, bilateral trade frictions, and access to GPU hardware are often decisive in '
         'determining actual data center location. '
+    )
+
+    p, cur_concl = mkp(doc, body, cur_concl)
+    p.add_run(
         'For developing countries, the results point to a new avenue for economic participation '
         'in the global economy. Countries like Kyrgyzstan, Uzbekistan, and Egypt, which rank '
         'among the cheapest FLOP producers in the calibration, could use their energy '
