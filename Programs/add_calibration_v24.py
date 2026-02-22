@@ -1334,13 +1334,12 @@ def write_introduction(doc, body, hmap):
         'This paper offers the first such model, treating FLOPs as commodities produced and exported '
         'according to Ricardian comparative advantage. '
         'The paper makes three contributions. First, it develops a capacity-constrained '
-        'Ricardian model in which countries produce and export compute services, facing an '
-        'iceberg trade cost that captures inference latency degradation and a sovereignty '
-        'premium reflecting governments\u2019 preference for domestic data processing, '
-        'varying with geopolitical alignment, regulatory compatibility, and sanctions exposure. '
-        'Capacity ceilings generate market-clearing prices and scarcity rents, yielding '
-        'predictions about market concentration, export patterns, and the value of grid '
-        'expansion. Second, it calibrates the model for 85 countries using data on electricity '
+        'Ricardian model in which countries produce and export compute services. '
+        'An iceberg trade cost captures latency degradation for inference, and a bilateral '
+        'sovereignty premium captures geopolitical and regulatory frictions. '
+        'Capacity ceilings generate scarcity rents and predictions about concentration '
+        'and trade patterns. '
+        'Second, it calibrates the model for 85 countries using data on electricity '
         'prices, climate, data center construction costs, and inter-country network latency, '
         'correcting for energy subsidies that distort headline cost rankings. '
         'Third, it characterizes the resulting trade regimes\u2014which countries export, which '
@@ -1365,12 +1364,9 @@ def write_introduction(doc, body, hmap):
         'are necessary but not sufficient for competitive compute exporting. Hardware '
         'amortization accounts for over 80 percent of the compute unit cost and '
         'is identical across countries, compressing the total cost spread to roughly '
-        '12 percent across 85 countries. Since electricity and construction account for '
-        'only a small share of total cost, cross-country cost differences are narrow. '
+        '12 percent under raw electricity tariffs (20 percent after efficiency adjustment). '
         'Once production-efficiency penalties for grid outages and weak governance '
-        'are applied, the cost ranking changes substantially. Bilateral trade frictions\u2014'
-        'geopolitical distance, regulatory incompatibility, and sanctions\u2014further reshape '
-        'trade patterns. Several '
+        'are applied, the cost ranking changes substantially. Several '
         'energy-abundant but institutionally fragile economies fall out of the top tier, '
         'replaced by countries with more reliable grids and stronger institutions at '
         'moderately higher energy costs. Durable comparative advantage requires credible '
@@ -1470,8 +1466,6 @@ def write_production_technology(doc, body, hmap):
     # Para 1: linking paragraph from lit review to model (before 3.1 subtitle)
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'The existing literature documents where compute infrastructure is located and who '
-        'controls it, but no formal framework links production costs to trade patterns. '
         'This section models compute as a tradable good with '
         'country-specific production costs, a delivery cost that depends on whether the '
         'workload is training (latency-insensitive) or inference (latency-sensitive), and '
@@ -1775,7 +1769,11 @@ def write_trade_costs(doc, body, hmap):
         'bilateral sovereignty premium '
     )
     omath(p, [_msub('\u03BB', 'ij')])
-    p.add_run('. The parameter ')
+    p.add_run('.')
+
+    # New paragraph: τ latency degradation (split from ξ paragraph)
+    p, cur = mkp(doc, body, cur)
+    p.add_run('The parameter ')
     omath(p, [_v('\u03C4')])
     p.add_run(
         ' measures the rate of quality degradation per millisecond of round-trip latency, with '
@@ -2501,7 +2499,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run('The baseline ')
     omath(p, [_v('\u03C6'), _t(' = 1.08')])
     p.add_run(
-        ' matches Google\u2019s reported fleet-wide PUE for facilities with free-air cooling '
+        ' matches Google\u2019s reported PUE for facilities with free-air cooling '
         'in cold climates (Uptime Institute 2024). The sensitivity coefficient '
     )
     omath(p, [_v('\u03B4'), _t(' = 0.015')])
@@ -2529,13 +2527,10 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     add_italic(p, 'Hardware. ')
     p.add_run(
         'The calibration uses the NVIDIA H100 SXM GPU as the reference hardware platform, with a list price '
-        'of $25,000, a power of 700W, an economic lifetime of 3 years, and a utilization rate 70% '
-        '(Barroso et al. 2018; NVIDIA 2024). '
-        'Google\u2019s fleet-wide GPU utilization, '
+        'of $25,000, a power of 700W, an economic lifetime of 3 years, and a utilization rate 70%. '
+        'Google\u2019s GPU utilization, '
         'after years of optimization, runs in the '
-        '60\u201375% range (Barroso et al. 2018). A new entrant '
-        'would likely achieve 40\u201360% utilization in the early years, '
-        'doubling the effective hardware cost per GPU-hour. '
+        '60\u201375% range (Barroso et al. 2018). '
         'This yields an amortized hardware cost '
     )
     omath(p, [_v('\u03C1'), _t(f' = ${RHO:.3f}')])
@@ -2568,8 +2563,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'countries, modestly strengthening developing-country comparative advantage. '
         'However, late entrants selling older-generation GPU-hours must discount to compete '
         'with competitors using newer hardware, potentially eroding their cost advantage. '
-        'Since hardware amortization remains 80\u201385 percent of total cost across GPU '
-        'generations, our qualitative findings are robust to hardware choice.'
+        'Our qualitative findings are therefore robust to hardware choice.'
     )
 
     # Other parameters (τ, λ, α)
@@ -2809,8 +2803,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'. {_num_word(_xi_n_changed).capitalize()} of the ten cheapest countries under the '
         'pure engineering cost ranking fall out of the top ten after efficiency adjustment, '
         'replaced by countries with stronger institutions and more reliable grids. '
-        'Because hardware and networking costs account for roughly 94% of engineering costs '
-        'and are identical everywhere, the cross-country cost spread is narrow (about 20%). '
+        'Because hardware and networking costs account for roughly 94% of engineering costs, '
+        'the cross-country cost spread is narrow (about 20%). '
         'Even modest institutional penalties are large relative to this thin margin, '
         'so governance quality can easily dominate the cost ranking. '
         'An engineering cost advantage is therefore necessary but not sufficient for '
@@ -3003,12 +2997,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
                     f'accounting for {_share * 100:.0f}% of global inference demand. '
                 )
             break
-    p.add_run(
-        'These results are illustrative, not forecasts. They show the cost structure that '
-        'would make FLOP exporting viable, not that specific countries will necessarily capture '
-        'these market shares. Cheap-energy developing countries '
-        'can, in principle, earn export revenue from much larger economies.'
-    )
 
     # ── A4. Sovereignty counterfactual (KEEP P80) ──
     p, cur = mkp(doc, body, cur)
@@ -3073,16 +3061,13 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'above, the bilateral premium already shifts most countries toward domestic production, '
         'forgoing the cost savings from specialization. Developing countries in Central Asia and '
         'Africa are likely to follow the EU template, imposing data localization requirements '
-        'that their small markets cannot efficiently serve. A policy tension arises: the same '
-        'countries whose cost advantages position them as natural FLOP exporters may '
-        'simultaneously erect sovereignty barriers against importing compute from their neighbors, '
-        'reducing the welfare gains from regional specialization that the model predicts. '
+        'that their small markets cannot efficiently serve. '
+        'Natural FLOP exporters may simultaneously erect sovereignty barriers against '
+        'importing from neighbors, forgoing the regional specialization gains the model predicts. '
         'The EU\u2019s GDPR and AI Act already segment the compute market along regulatory lines, '
         'reinforcing the sovereignty premium as a structural feature. '
-        'The World Bank (2025) frames the resulting tension as the central policy choice '
-        'for developing countries: whether to build domestic compute capacity or secure '
-        'affordable access to international cloud services\u2014a trade-off the present model '
-        'formalizes through the bilateral sovereignty premium and capacity constraints.'
+        'The World Bank (2025) frames this as the central policy choice: building domestic '
+        'capacity versus securing affordable access to international cloud services.'
     )
 
     # ── A6. Major demand centers (KEEP P82) ──
@@ -3154,14 +3139,13 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_hyperlink('TableA1', 'Table A1'))
     p.add_run(
         ', a hyperscale data center can be large relative to the host grid. '
-        'Kyrgyzstan\u2019s installed generation capacity is approximately 3,800\u2009MW '
-        '(ABD 2020), and '
-        'a single 100\u2009MW facility would consume roughly 3% of national electricity output. '
+        'Kyrgyzstan\u2019s 3,800\u2009MW grid (Appendix D) would face significant strain from '
+        'a single 100\u2009MW facility consuming roughly 3% of national electricity output. '
         'At the multi-facility scale implied by the model\u2019s export predictions, '
-        'data centers would become the dominant industrial load. '
-        'At that scale, the assumption of price-taking behaviour breaks down. Increased '
-        'demand would bid up wholesale electricity prices, competing with residential heating '
-        'in winter (when Kyrgyz hydropower output drops), and likely triggering regulatory '
+        'data centers would become the dominant industrial load '
+        'competing with residential heating '
+        'in winter when hydropower output drops '
+        'and likely triggering regulatory '
         'intervention. The cheap electricity that attracts investment would be partially '
         'eroded by the investment itself.'
     )
@@ -3324,9 +3308,7 @@ def write_conclusion(doc, body, hmap, demand_data):
         'The bilateral sovereignty premium rationalizes widespread domestic investment, shifting '
         'the majority of countries from import to domestic production, '
         f'at a demand-weighted welfare cost of {demand_data["welfare_pct"]:.1f}% of '
-        'average compute spending, comparable in magnitude to the 0.2\u201310% welfare losses '
-        'from trade barriers estimated for goods trade '
-        '(Eaton and Kortum 2002, Arkolakis et al. 2012). '
+        'compute spending. '
         'The model generates a country taxonomy (full importers, training exporters, '
         'inference hubs, and hybrid regimes) that maps onto observed investment patterns. '
         'This geographic structure is consistent with Lehdonvirta et al. (2024), '
