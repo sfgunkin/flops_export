@@ -3640,7 +3640,7 @@ def write_table_a2(doc, body, after_el, demand_data):
     _mc(0, 4, 6)
     _sc(0, 4, '(2) Cost-Recovery', bold=True, fs=7)
     _mc(0, 7, 9)
-    _sc(0, 7, '(3) Efficiency-Adj.', bold=True, fs=7)
+    _sc(0, 7, '(3) Efficiency-Adjusted', bold=True, fs=7)
     _mc(0, 10, 12)
     _sc(0, 10, '(4) Bilateral \u03bb\u1d62\u2c7c', bold=True, fs=7)
     _sc(0, 13, '', fs=7)
@@ -5305,9 +5305,9 @@ def write_table3(doc, body, after_el, demand_data):
     # Merge cols 4-6: "(2) Cost-Recovery"
     _merge_cells(0, 4, 6)
     _set_cell(0, 4, '(2) Cost-Recovery', bold=True, font_size=8)
-    # Merge cols 7-9: "(3) Efficiency-Adj."
+    # Merge cols 7-9: "(3) Efficiency-Adjusted"
     _merge_cells(0, 7, 9)
-    _set_cell(0, 7, '(3) Efficiency-Adj.', bold=True, font_size=8)
+    _set_cell(0, 7, '(3) Efficiency-Adjusted', bold=True, font_size=8)
     # Merge cols 10-12: "(4) Bilateral \u03bb\u1d62\u2c7c"
     _merge_cells(0, 10, 12)
     _set_cell(0, 10, '(4) Bilateral \u03bb\u1d62\u2c7c', bold=True, font_size=8)
@@ -5435,8 +5435,9 @@ def write_table3(doc, body, after_el, demand_data):
     # ═══════════════════════════════════════════════════════════════════════
     print("  Inserting Table 3b (Sovereignty specifications)...")
 
-    # Table 3b title
+    # Table 3b title (new page)
     tp3b = doc.add_paragraph()
+    tp3b.paragraph_format.page_break_before = True
     tp3b.paragraph_format.space_before = Pt(12)
     tp3b.paragraph_format.space_after = Pt(3)
     tp3b.paragraph_format.first_line_indent = Inches(0)
