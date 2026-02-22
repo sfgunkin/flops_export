@@ -11,7 +11,7 @@ delta,PUE temperature sensitivity per degree C,0.015,per C,(1),Flucker et al. (2
 theta_bar,Free-cooling temperature threshold,15,C,(1),Industry standard
 D,Data center facility lifetime,15,years,(1),Turner and Townsend (2025)
 tau,Latency degradation per ms of RTT,0.0008,per ms,(2),Calibrated
-lambda,Sovereignty premium,0.10,,(2),UNCTAD (2025)
+lambda,Bilateral sovereignty premium,Eq. (2),,(2),Bailey et al. (2017)
 alpha,Training share of compute demand,0.50,,(3),Deloitte (2025)
 Q,Total global compute demand,6e10,GPU-hr/yr,(3),Epoch AI (2024)
-xi_j,Reliability index (baseline),1.00,,(2),WGI and Enterprise Surveys
+xi_j,Production-efficiency index (baseline),1.00,,(3),WGI and Enterprise Surveys
