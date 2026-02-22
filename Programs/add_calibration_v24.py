@@ -1667,17 +1667,17 @@ def write_trade_costs(doc, body, hmap):
     p.add_run(' ')
     omath(p, [_msub('\u03BB', 'ij'), _t(' \u2265 0')])
     p.add_run(
-        ', which acts as a proportional markup on the cost of compute sourced by buyer '
+        ', which acts as a proportional markup on the cost of compute sourced from seller '
     )
     omath(p, [_v('i')])
-    p.add_run(' from foreign seller ')
+    p.add_run(' by buyer ')
     omath(p, [_v('j')])
     p.add_run(
-        '. When country '
+        '. When buyer '
     )
-    omath(p, [_v('i')])
-    p.add_run(' sources compute from ')
-    omath(p, [_v('j'), _t(' \u2260 '), _v('i')])
+    omath(p, [_v('j')])
+    p.add_run(' sources compute from seller ')
+    omath(p, [_v('i'), _t(' \u2260 '), _v('j')])
     p.add_run(', the effective cost is inflated by the factor ')
     omath(p, [_t('(1 + '), _msub('\u03BB', 'ij'), _t(')')])
     p.add_run(
@@ -2224,8 +2224,10 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     p.add_run(
         ', so the bilateral sovereignty premium is large enough to justify '
         'domestic production of both training and inference.'
-        '(v) '
     )
+
+    p, cur = mkp(doc, body, cur)
+    p.add_run('(v) ')
     r_code = p.add_run('II')
     r_code.bold = True
     p.add_run(
@@ -2322,6 +2324,21 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     omath(p, [_msub('\u03BB', 'jk'), _t(' \u2265 '),
               _msubsup('\u03BB', 'k', '*'), _t(' = '),
               _msub('c', 'k'), _t('/'), _msub('p', 'T'), _t(' \u2212 1')])
+    p.add_run(
+        ' for every potential supplier '
+    )
+    omath(p, [_v('j')])
+    p.add_run(' with ')
+    omath(p, [_msub('c', 'j'), _t(' < '), _msub('c', 'k')])
+    p.add_run(
+        '; equivalently, '
+    )
+    omath(p, [_v('k')])
+    p.add_run(' imports whenever there exists a supplier ')
+    omath(p, [_v('j')])
+    p.add_run(' for which ')
+    omath(p, [_msub('\u03BB', 'jk'), _t(' < '),
+              _msubsup('\u03BB', 'k', '*')])
     p.add_run(
         '. The threshold is increasing in '
     )
@@ -3950,13 +3967,31 @@ def write_model_appendix(doc, body, last_note):
     # B.6 Welfare
     cur = mkh(doc, body, cur, 'B.6 Welfare Cost of Sovereignty', level=2)
     p, cur = mkp(doc, body, cur)
-    p.add_run('The welfare cost has two components. Import markup:')
+    p.add_run('The welfare cost has two components. For each importing country ')
+    omath(p, [_v('k')])
+    p.add_run(', let ')
+    omath(p, [_msubsup('j', 'k', '*')])
+    p.add_run(' denote its equilibrium supplier (the seller minimizing delivered cost). '
+              'Import markup:')
     p.paragraph_format.space_after = Pt(2)
+
+    # Build λ with complex subscript j*(k),k
+    lam_jstar = OxmlElement('m:sSub')
+    lam_jstar.append(OxmlElement('m:sSubPr'))
+    lam_e = OxmlElement('m:e')
+    lam_e.append(_mr('\u03BB', True))
+    lam_jstar.append(lam_e)
+    lam_s = OxmlElement('m:sub')
+    lam_s.append(_msubsup('j', 'k', '*'))
+    lam_s.append(_mr(',\u2009', False))
+    lam_s.append(_mr('k', True))
+    lam_jstar.append(lam_s)
 
     _, cur = omath_display(doc, body, cur, [
         _msub('DWL', 'import'), _t(' = '),
         _nary('\u2211', [_v('k'), _t(' \u2208 '), _msub('M', 'T')], [],
-              [_msub('q', 'Tk'), _t(' \u00b7 '), _msub('\u03BB', 'jk'),
+              [_msub('q', 'Tk'), _t(' \u00b7 '),
+               lam_jstar,
                _t(' \u00b7 '), _msub('p', 'T')]), _t('.'),
     ], eq_num='B.4')
 
@@ -3967,7 +4002,9 @@ def write_model_appendix(doc, body, last_note):
     _, cur = omath_display(doc, body, cur, [
         _msub('DWL', 'alloc'), _t(' = '),
         _nary('\u2211', [_v('k'), _t(' : '), _msub('p', 'T'), _t(' < '),
-                         _msub('c', 'k'), _t(' \u2264 (1+'), _msub('\u03BB', 'jk'), _t(')'),
+                         _msub('c', 'k'), _t(' \u2264 (1+'),
+                         _limlow([_t('min')], [_v('j')]),
+                         _t(' '), _msub('\u03BB', 'jk'), _t(')'),
                          _msub('p', 'T')], [],
               [_msub('q', 'Tk'), _t(' \u00b7 ('),
                _msub('c', 'k'), _t(' \u2212 '), _msub('p', 'T'), _t(').')]),
@@ -4674,9 +4711,9 @@ def write_figure4b(doc, body, last_ref, demand_data):
         'adjustment; countries below it fall. Stars (\u2605) indicate countries '
         'with active data center construction announcements. '
         'Values in parentheses show the production-efficiency index \u03BE\u1d49\u1da0\u1da0. '
-        'Even countries with \u03BE \u2248 1 shift off the diagonal because '
-        'penalizing low-\u03BE competitors pushes them down, mechanically '
-        'raising higher-\u03BE countries.'
+        'Even countries with \u03BE\u1d49\u1da0\u1da0 \u2248 1 shift off the diagonal because '
+        'penalizing low-\u03BE\u1d49\u1da0\u1da0 competitors pushes them down, mechanically '
+        'raising higher-\u03BE\u1d49\u1da0\u1da0 countries.'
     )
     rn2.font.size = Pt(10)
     note_p.paragraph_format.line_spacing = 1.0
@@ -4959,6 +4996,7 @@ def write_table2(doc, body, after_el, demand_data):
         'Turner and Townsend (2025)': 'TurnerTownsend2025',
         'UNCTAD (2025)': 'UNCTAD2025',
         'Deloitte (2025)': 'Deloitte2025',
+        'Bailey et al. (2017)': 'Bailey2017',
         'Epoch AI (2024)': 'EpochAI2024',
         'Google (2024)': 'Google2024',
         'WGI and Enterprise Surveys': 'WorldBank2024',
@@ -5057,6 +5095,8 @@ def write_table2(doc, body, after_el, demand_data):
                 rPr_sub.append(vertAlign)
             elif j == 1 and pr['symbol'] == 'theta_bar':
                 omath(p_c, [_mbar('\u03B8')])
+            elif j == 1 and pr['symbol'] == 'lambda':
+                omath(p_c, [_msub('\u03BB', 'ij')])
             elif j == 1 and pr['symbol'] == 'xi_j':
                 omath(p_c, [_msubsup('\u03BE', 'j', 'eff')])
             else:
@@ -7003,6 +7043,11 @@ def main():
 
     demand_data["table3"] = table3_data
     demand_data["p_star"] = p_star
+
+    # Override xi_top5 to match Table 3 ranking (same cj_eff formula)
+    t3_sorted_eff = sorted(table3_data, key=lambda x: x["cj_eff"])[:5]
+    demand_data["xi_adjusted"]["top5"] = [(d["country"], d["cj_eff"]) for d in t3_sorted_eff]
+
     print(f"  Table 3: {len(table3_data)} countries, p* = ${p_star:.4f}/hr")
     print(f"  Spec (1) top 5: {[d['country'] for d in sorted(table3_data, key=lambda x: x['cj_raw'])[:5]]}")
     print(f"  Spec (3) top 5: {[d['country'] for d in sorted(table3_data, key=lambda x: x['cj_eff'])[:5]]}")
@@ -7010,6 +7055,16 @@ def main():
     n_dom_tiered = sum(1 for d in table3_data if d.get("type_tiered") == "DD")
     n_dom_uniform = sum(1 for d in table3_data if d.get("type_uniform") == "DD")
     print(f"  Domestic: bilateral={n_dom_bilat}, tiered={n_dom_tiered}, uniform={n_dom_uniform}")
+    # Debug: check if bilateral vs tiered types differ
+    diffs_bilat_tiered = [(d["country"], d.get("type_bilat"), d.get("type_tiered"))
+                          for d in table3_data if d.get("type_bilat") != d.get("type_tiered")]
+    if diffs_bilat_tiered:
+        print(f"  ** Bilateral vs Tiered type differences: {diffs_bilat_tiered}")
+    else:
+        print(f"  ** Bilateral vs Tiered types: IDENTICAL for all {len(table3_data)} countries")
+    # Also check among ALL countries (not just table3 selection)
+    print(f"  shares_bilat exporters: {sorted(shares_bilat.keys())}")
+    print(f"  shares_tiered exporters: {sorted(shares_tiered.keys())}")
 
     # ═══════════════════════════════════════════════════════════════════════
     # LOAD v8 AND INDEX HEADINGS
