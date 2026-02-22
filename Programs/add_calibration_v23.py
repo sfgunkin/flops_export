@@ -1,5 +1,12 @@
 """
-Produce flop_trade_model_v22.docx from v8.docx.
+Produce flop_trade_model_v23.docx from v8.docx.
+
+v23: Based on v22 with the following changes:
+  - Table 3 (country rankings under alternative pricing assumptions)
+  - Section 6.2 restructured around Table 3 columns
+  - Appendix tables renumbered (A2→A3 through A7→A8)
+  - Letter codes (EE, IE, ID, DD, II) in Proposition 1 and Table 1
+  - All Table/Figure references hyperlinked
 
 v22: Based on v21 with the following changes:
   - 5-type regime classification (Proposition 1) replacing old 4-type scheme
@@ -1022,7 +1029,7 @@ def write_title_and_abstract(doc, body, all_el, hmap):
     ver_p, ver_el = mkp(doc, body, author_el, space_before=2)
     ver_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     ver_p.paragraph_format.space_after = Pt(12)
-    r_ver = ver_p.add_run(f'v22  \u2014  {datetime.now().strftime("%B %d, %Y  %H:%M")}')
+    r_ver = ver_p.add_run(f'v23  \u2014  {datetime.now().strftime("%B %d, %Y  %H:%M")}')
     r_ver.font.size = Pt(9)
     r_ver.font.color.rgb = RGBColor(128, 128, 128)
     r_ver.font.name = TIMES_NEW_ROMAN
@@ -1624,7 +1631,7 @@ def write_demand(doc, body, hmap, demand_data):
     print("Inserting Section 3.3 (Demand)...")
 
     # Insert 3.3 heading after the end of Section 3.2 content (before old Section 2 heading)
-    s2 = hmap['2']  # was v8 "2. Comparative Advantage", now will be "4. Equilibrium Properties"
+    s2 = hmap['2']  # v8 heading "2", becomes Section 4
     cur = mkh(doc, body, s2.getprevious(), '3.3 Global Compute Demand', level=2)
 
     # Demand specification: Equation (4)
@@ -1905,7 +1912,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     # Also remove the old Make-or-Buy heading and its content
     all_now = list(body)
     s4 = hmap['2']
-    s4_old_next = hmap['4']  # old calibration heading (now renumbered to 6)
+    s4_old_next = hmap['4']  # v8 heading "4", becomes Section 6
     s4i = all_now.index(s4)
     s4_next_i = all_now.index(s4_old_next)
     # Remove everything from after Section 4 heading to before old Calibration heading
@@ -2159,7 +2166,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
 def write_data_section(doc, body, hmap, demand_data):
     print("Inserting Section 5: Data...")
 
-    sec6_heading = hmap['4']  # was v8 "4", now renumbered to "6"
+    sec6_heading = hmap['4']  # v8 heading "4", becomes Section 6
     cur = mkh(doc, body, sec6_heading.getprevious(), '5. Data', level=1)
 
     p, cur = mkp(doc, body, cur)
@@ -6403,7 +6410,7 @@ def main():
         subprocess.run(['git', 'add', _script, str(out)],
                        cwd=_repo, capture_output=True, timeout=10)
         result = subprocess.run(
-            ['git', 'commit', '-m', f'Auto-save v22: {_ts}'],
+            ['git', 'commit', '-m', f'Auto-save v23: {_ts}'],
             cwd=_repo, capture_output=True, text=True, timeout=10)
         if result.returncode == 0:
             _hash = result.stdout.strip().split()[1].rstrip(']')
