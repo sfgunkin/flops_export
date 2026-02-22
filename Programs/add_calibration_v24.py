@@ -2680,7 +2680,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'as shown in column\u2009(1) of '
     )
     p._element.append(make_bookmark(112, 'Table3txt'))
-    p._element.append(make_hyperlink('Table3', 'Table 3'))
+    p._element.append(make_hyperlink('Table3', 'Table 3a'))
     p._element.append(make_bookmark_end(112))
     p.add_run(
         '. But this ranking is misleading. '
@@ -2701,7 +2701,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'whose retail electricity prices fall below the estimated LRMC. '
         ' The resulting cost-recovery ranking\u2014column\u2009(2) of '
     )
-    p._element.append(make_hyperlink('Table3', 'Table 3'))
+    p._element.append(make_hyperlink('Table3', 'Table 3a'))
     p.add_run(
         '\u2014'
         'shifts the top of the ranking toward hydropower-rich countries: '
@@ -2754,7 +2754,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         ' penalizes countries with weak governance and unreliable grids. '
         'Column\u2009(3) of '
     )
-    p._element.append(make_hyperlink('Table3', 'Table 3'))
+    p._element.append(make_hyperlink('Table3', 'Table 3a'))
     p.add_run(
         ' reports the preferred '
         'efficiency-adjusted ranking; '
@@ -2843,7 +2843,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'make such transactions illegal. '
         'Column\u2009(4) of '
     )
-    p._element.append(make_hyperlink('Table3', 'Table 3b'))
+    p._element.append(make_hyperlink('Table3b', 'Table 3b'))
     p.add_run(
         ' reports the bilateral specification. '
         'The frontier price is '
@@ -2878,7 +2878,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         'Column\u2009(5) of '
     )
-    p._element.append(make_hyperlink('Table3', 'Table 3b'))
+    p._element.append(make_hyperlink('Table3b', 'Table 3b'))
     p.add_run(
         ' introduces demand tiering, segmenting each country\u2019s compute demand into three tiers: '
         'sovereign workloads (10% of demand, domestic only), '
@@ -4885,7 +4885,7 @@ def write_table1(doc, body, after_el):
         '(second letter), used in '
     )
     rn.font.size = Pt(10)
-    tn._element.append(make_hyperlink('Table3', 'Table 3', rPr_orig=_rPr_pt(10)))
+    tn._element.append(make_hyperlink('Table3', 'Table 3a', rPr_orig=_rPr_pt(10)))
     rn = tn.add_run('.')
     rn.font.size = Pt(10)
     tn_el = tn._element
