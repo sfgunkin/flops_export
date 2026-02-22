@@ -2855,7 +2855,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'make such transactions illegal. '
         'Column\u2009(4) of '
     )
+    p._element.append(make_bookmark(115, 'Table3btxt'))
     p._element.append(make_hyperlink('Table3b', 'Table 3b'))
+    p._element.append(make_bookmark_end(115))
     p.add_run(
         ' reports the bilateral specification. '
         'The last column reports the switching threshold '
@@ -5442,9 +5444,28 @@ def write_table3(doc, body, after_el, demand_data):
     tp3b.paragraph_format.space_after = Pt(3)
     tp3b.paragraph_format.first_line_indent = Inches(0)
     tp3b._element.append(make_bookmark(114, 'Table3b'))
-    r_3b_title = tp3b.add_run('Table 3b')
-    r_3b_title.bold = True
-    r_3b_title.font.size = Pt(10)
+    hl_t3b = OxmlElement('w:hyperlink')
+    hl_t3b.set(qn('w:anchor'), 'Table3btxt')
+    hl_t3b.set(qn('w:history'), '1')
+    r_t3b = OxmlElement('w:r')
+    rPr_t3b = OxmlElement('w:rPr')
+    b_t3b = OxmlElement('w:b')
+    rPr_t3b.append(b_t3b)
+    sz_t3b = OxmlElement('w:sz')
+    sz_t3b.set(qn('w:val'), '20')
+    rPr_t3b.append(sz_t3b)
+    clr_t3b = OxmlElement('w:color')
+    clr_t3b.set(qn('w:val'), LINK_COLOR)
+    uu_t3b = OxmlElement('w:u')
+    uu_t3b.set(qn('w:val'), 'single')
+    rPr_t3b.append(clr_t3b)
+    rPr_t3b.append(uu_t3b)
+    r_t3b.append(rPr_t3b)
+    t_t3b = OxmlElement('w:t')
+    t_t3b.text = 'Table 3b'
+    r_t3b.append(t_t3b)
+    hl_t3b.append(r_t3b)
+    tp3b._element.append(hl_t3b)
     r_3b_sub = tp3b.add_run('. Country rankings under alternative sovereignty specifications')
     r_3b_sub.bold = True
     r_3b_sub.font.size = Pt(10)
@@ -5953,6 +5974,20 @@ def apply_formatting(doc, body, refs, title_el, author_el, ver_el, abs_text_el):
     normal.font.name = TIMES_NEW_ROMAN
     normal.font.size = Pt(12)
     normal.paragraph_format.line_spacing = 1.5
+
+    # Fix Heading 1 style: remove theme font, set blue color at style level
+    h1 = doc.styles['Heading 1']
+    h1.font.name = TIMES_NEW_ROMAN
+    h1.font.size = Pt(14)
+    h1.font.bold = True
+    h1.font.color.rgb = HEADING_BLUE
+    # Remove theme font attributes that override explicit font names
+    h1_rPr = h1._element.find(qn('w:rPr'))
+    if h1_rPr is not None:
+        h1_fonts = h1_rPr.find(qn('w:rFonts'))
+        if h1_fonts is not None:
+            for attr in ['asciiTheme', 'hAnsiTheme', 'eastAsiaTheme', 'cstheme']:
+                h1_fonts.attrib.pop(qn(f'w:{attr}'), None)
 
     # Identify reference paragraphs to protect their spacing
     refs_idx = list(body).index(refs)
