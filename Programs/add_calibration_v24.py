@@ -1347,16 +1347,6 @@ def write_introduction(doc, body, hmap):
         'the sovereignty premium.'
     )
 
-    # Para 10: Calibration caveat
-    p, cur = mkp(doc, body, cur)
-    p.add_run(
-        'Because the compute export market is still emerging and bilateral trade-flow data '
-        'do not yet exist, the paper calibrates the model using engineering cost parameters '
-        'rather than estimating it from observed trade. The calibration identifies the cost '
-        'structure under which FLOP exporting becomes viable and provides a framework that '
-        'can be taken to gravity-style estimation as transaction-level data emerge.'
-    )
-
     # Para 11: Calibration findings preview
     p, cur = mkp(doc, body, cur)
     p.add_run(
@@ -1382,8 +1372,8 @@ def write_introduction(doc, body, hmap):
         'and the capacity-constrained market equilibrium. Section 4 derives the equilibrium '
         'properties, including propositions on country taxonomy, concentration, sovereignty '
         'thresholds, and the nesting of training within inference exporters. Section 5 '
-        'describes the data. Section 6 calibrates the model and discusses the results. '
-        'Section 7 concludes.'
+        'describes the data. Section 6 calibrates the model. '
+        'Section 7 examines robustness and extensions. Section 8 concludes.'
     )
 
 
@@ -1710,20 +1700,7 @@ def write_trade_costs(doc, body, hmap):
     ], eq_num='2')
 
     p, cur = mkp(doc, body, cur)
-    p.add_run('For sanctioned pairs, ')
-    omath(p, [_msub('\u03BB', 'ij'), _t(' = \u221E')])
-    p.add_run(
-        ' (trade is prohibited). For allies with mutual data-adequacy agreements '
-        '(e.g., EU member states), '
-    )
-    omath(p, [_msub('\u03BB', 'ij'), _t(' \u2248 0')])
-    p.add_run(
-        '. For non-adversarial pairs without regulatory agreements, '
-    )
-    omath(p, [_msub('\u03BB', 'ij')])
-    p.add_run(
-        ' falls in the range 0.05\u20130.10. The coefficients are calibrated in Section 6.1.'
-    )
+    p.add_run('The calibration of these coefficients is described in Section 6.1.')
 
     # Equation (3): delivered cost with ξ_j^{eff} (was eq 2)
     p, cur = mkp(doc, body, cur)
@@ -1823,6 +1800,12 @@ def renumber_sections(hmap):
                 if t.text and old in t.text:
                     t.text = t.text.replace(old, new, 1)
                     break
+    # Rename Section 6 heading: "Discussion" → "Results"
+    if '4' in hmap:
+        for t in hmap['4'].findall(f'.//{qn("w:t")}'):
+            if t.text and 'Discussion' in t.text:
+                t.text = t.text.replace('Discussion', 'Results')
+                break
     # Rename Section 3.1 heading
     if '1.1' in hmap:
         for t in hmap['1.1'].findall(f'.//{qn("w:t")}'):
@@ -2883,27 +2866,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'away from importing.'
     )
 
-    # ── A4. Demand tiering ──
-    p, cur = mkp(doc, body, cur)
-    p.add_run(
-        'As a refinement, the model segments each country\u2019s compute demand into three tiers: '
-        'sovereign workloads (10% of demand, domestic only), '
-        'regulated workloads (20%, higher regulatory compatibility weight), '
-        'and commercial workloads (70%, geopolitical alignment only). '
-        'Under the calibrated parameters, tiering leaves regime type assignments unchanged '
-        'for all countries (hence columns (4) and (5) of '
-    )
-    p._element.append(make_hyperlink('Table3b', 'Table 3b'))
-    p.add_run(
-        ' are merged). The main impact is on inference sourcing: regulated workloads shift '
-        'toward suppliers with strong data governance frameworks, favoring EU member states '
-        'and APEC CBPR participants over geographically closer but less regulated alternatives.'
-    )
-    make_footnote(p, 'The tier shares (10/20/70) are assumptions calibrated to match the '
-                  'approximate composition of government, regulated-industry, and commercial '
-                  'AI workloads (Deloitte 2025). Results are robust to moderate variation in '
-                  'these shares.', 17)
-
     # ── A4. Trade flows under capacity constraints (KEEP P78) ──
     n_exp = demand_data.get("n_train_exporters", 1)
     cap_hhi = demand_data.get("cap_hhi_t", 1.0)
@@ -2994,6 +2956,43 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
                 )
             break
 
+    # ── A6. Major demand centers (KEEP P82) — moved before sovereignty ──
+    p, cur = mkp(doc, body, cur)
+    add_italic(p, 'Major demand centers. ')
+    ar = demand_data.get("adj_reg", {})
+    _iso_name = {r["iso3"]: r["country"] for r in cal}
+    usa_inf = ar.get('USA', {}).get('best_inf_source', 'CAN')
+    usa_inf_cost = ar.get('USA', {}).get('best_inf_cost', '1.190')
+    deu_inf = ar.get('DEU', {}).get('best_inf_source', 'KOS')
+    deu_inf_cost = ar.get('DEU', {}).get('best_inf_cost', '1.180')
+    gbr_inf = ar.get('GBR', {}).get('best_inf_source', 'GBR')
+    gbr_inf_cost = ar.get('GBR', {}).get('best_inf_cost', '1.176')
+    fra_inf = ar.get('FRA', {}).get('best_inf_source', 'FRA')
+    fra_inf_cost = ar.get('FRA', {}).get('best_inf_cost', '1.174')
+    chn_inf = ar.get('CHN', {}).get('best_inf_source', 'KGZ')
+    chn_inf_cost = ar.get('CHN', {}).get('best_inf_cost', '1.161')
+    p.add_run(
+        'The model\u2019s predictions vary across major AI demand centers because '
+        'each faces a different latency geography. '
+        'For the United States, the cost-recovery optimum sources training from the cheapest '
+        'available producer, and inference from '
+        f'{_iso_name.get(usa_inf, usa_inf)} (${float(usa_inf_cost):.2f}/hr). '
+        'For Germany, inference is sourced from '
+        f'{_iso_name.get(deu_inf, deu_inf)} '
+        f'(${float(deu_inf_cost):.2f}/hr), '
+        f'for the United Kingdom {"domestically" if gbr_inf == "GBR" else "from " + _iso_name.get(gbr_inf, gbr_inf)} '
+        f'(${float(gbr_inf_cost):.2f}/hr), '
+        f'and for France {"domestically" if fra_inf == "FRA" else "from " + _iso_name.get(fra_inf, fra_inf)} '
+        f'(${float(fra_inf_cost):.2f}/hr). '
+        f'For China, the cheapest source of inference is {_iso_name.get(chn_inf, chn_inf)} '
+        f'(${float(chn_inf_cost):.2f}/hr), a neighboring country with hydropower-based electricity. '
+        'These patterns illustrate the model\u2019s core prediction that inference organizes around '
+        'latency-bounded regional hubs, and each major market has a distinct optimal supplier '
+        'determined by geography. '
+        'With the bilateral sovereignty premium, most large economies shift to full '
+        'domestic production.'
+    )
+
     # ── A4. Sovereignty counterfactual (KEEP P80) ──
     p, cur = mkp(doc, body, cur)
     es10 = demand_data["export_share_10"]
@@ -3064,43 +3063,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'reinforcing the sovereignty premium as a structural feature. '
         'The World Bank (2025) frames this as the central policy choice: building domestic '
         'capacity versus securing affordable access to international cloud services.'
-    )
-
-    # ── A6. Major demand centers (KEEP P82) ──
-    p, cur = mkp(doc, body, cur)
-    add_italic(p, 'Major demand centers. ')
-    ar = demand_data.get("adj_reg", {})
-    _iso_name = {r["iso3"]: r["country"] for r in cal}
-    usa_inf = ar.get('USA', {}).get('best_inf_source', 'CAN')
-    usa_inf_cost = ar.get('USA', {}).get('best_inf_cost', '1.190')
-    deu_inf = ar.get('DEU', {}).get('best_inf_source', 'KOS')
-    deu_inf_cost = ar.get('DEU', {}).get('best_inf_cost', '1.180')
-    gbr_inf = ar.get('GBR', {}).get('best_inf_source', 'GBR')
-    gbr_inf_cost = ar.get('GBR', {}).get('best_inf_cost', '1.176')
-    fra_inf = ar.get('FRA', {}).get('best_inf_source', 'FRA')
-    fra_inf_cost = ar.get('FRA', {}).get('best_inf_cost', '1.174')
-    chn_inf = ar.get('CHN', {}).get('best_inf_source', 'KGZ')
-    chn_inf_cost = ar.get('CHN', {}).get('best_inf_cost', '1.161')
-    p.add_run(
-        'The model\u2019s predictions vary across major AI demand centers because '
-        'each faces a different latency geography. '
-        'For the United States, the cost-recovery optimum sources training from the cheapest '
-        'available producer, and inference from '
-        f'{_iso_name.get(usa_inf, usa_inf)} (${float(usa_inf_cost):.2f}/hr). '
-        'For Germany, inference is sourced from '
-        f'{_iso_name.get(deu_inf, deu_inf)} '
-        f'(${float(deu_inf_cost):.2f}/hr), '
-        f'for the United Kingdom {"domestically" if gbr_inf == "GBR" else "from " + _iso_name.get(gbr_inf, gbr_inf)} '
-        f'(${float(gbr_inf_cost):.2f}/hr), '
-        f'and for France {"domestically" if fra_inf == "FRA" else "from " + _iso_name.get(fra_inf, fra_inf)} '
-        f'(${float(fra_inf_cost):.2f}/hr). '
-        f'For China, the cheapest source of inference is {_iso_name.get(chn_inf, chn_inf)} '
-        f'(${float(chn_inf_cost):.2f}/hr), a neighboring country with hydropower-based electricity. '
-        'These patterns illustrate the model\u2019s core prediction that inference organizes around '
-        'latency-bounded regional hubs, and each major market has a distinct optimal supplier '
-        'determined by geography. '
-        'With the bilateral sovereignty premium, most large economies shift to full '
-        'domestic production.'
     )
 
     # ══════════════════════════════════════════════════════════════════════
@@ -3252,6 +3214,27 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'identically. The bilateral specification is preferred because it captures the '
         'observed heterogeneity in sovereignty preferences across country pairs.'
     )
+
+    # ── B6. Demand tiering (moved from Section 6.2) ──
+    p, cur = mkp(doc, body, cur, space_before=6)
+    p.add_run(
+        'As a refinement, the model segments each country\u2019s compute demand into three tiers: '
+        'sovereign workloads (10% of demand, domestic only), '
+        'regulated workloads (20%, higher regulatory compatibility weight), '
+        'and commercial workloads (70%, geopolitical alignment only). '
+        'Under the calibrated parameters, tiering leaves regime type assignments unchanged '
+        'for all countries (hence columns (4) and (5) of '
+    )
+    p._element.append(make_hyperlink('Table3b', 'Table 3b'))
+    p.add_run(
+        ' are merged). The main impact is on inference sourcing: regulated workloads shift '
+        'toward suppliers with strong data governance frameworks, favoring EU member states '
+        'and APEC CBPR participants over geographically closer but less regulated alternatives.'
+    )
+    make_footnote(p, 'The tier shares (10/20/70) are assumptions calibrated to match the '
+                  'approximate composition of government, regulated-industry, and commercial '
+                  'AI workloads (Deloitte 2025). Results are robust to moderate variation in '
+                  'these shares.', 17)
 
     # ══════════════════════════════════════════════════════════════════════
     # 7.2  Model Extensions  (trimmed per Phase C)
