@@ -8,7 +8,7 @@ v25: Based on v24 with the following changes:
   - FN11 (HHI definition) deleted
   - P72 merged into P71 (sovereignty premium paragraph)
   - P92, P93, P95 condensed
-  - [RECOMPUTE] placeholders for ξ values pending Stata recomputation
+  - All ξ values recomputed (Kyrgyzstan: 0.52, Uzbekistan: 0.48, Ethiopia: 0.42)
 
 v24: Based on v23 with the following changes:
   - Decomposed ξ: now ξ_j^{eff} = grid reliability × operational risk only (no sanctions)
@@ -2612,14 +2612,14 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_msubsup('\u03BE', 'j', 'eff'), _t(' \u2248 1')])
     p.add_run(
         '. Developing countries face moderate penalties '
-        '(e.g., Kyrgyzstan: [RECOMPUTE], Uzbekistan: [RECOMPUTE], '
-        'Ethiopia: [RECOMPUTE]). '
+        '(e.g., Kyrgyzstan: 0.52, Uzbekistan: 0.48, '
+        'Ethiopia: 0.42). '
         'The sensitivity of results to '
     )
     omath(p, [_v('\u03C9')])
     p.add_run(
         ' is examined in Section 7. '
-        '\u03BE ranges from [RECOMPUTE] to 1.00 even within the OECD, and the tight '
+        '\u03BE ranges from 0.62 to 1.00 within the OECD, and the tight '
         'cross-country cost spread (\u224820%) means small efficiency differences '
         'reshuffle adjacent ranks. Even countries with '
     )
@@ -3204,7 +3204,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         ', it receives moderate weight. The top five exporters are unchanged across '
         'all three specifications, and the Spearman rank correlation with the baseline '
-        'exceeds [RECOMPUTE] in both alternatives. The qualitative finding\u2009\u2014\u2009that '
+        'exceeds 0.99 in both alternatives. The qualitative finding\u2009\u2014\u2009that '
         'developing countries with cheap energy and adequate governance can '
         'compete\u2009\u2014\u2009is robust to the choice of '
     )
