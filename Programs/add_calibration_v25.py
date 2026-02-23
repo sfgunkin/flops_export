@@ -5340,7 +5340,7 @@ def write_table3(doc, body, after_el, demand_data):
     # ─── Build table ───
     n_data = len(top_rows)
     n_rows = 2 + n_data  # 2 header rows + data
-    n_cols = 14
+    n_cols = 15  # added ξ sub-column under (3)
     tbl = doc.add_table(rows=n_rows, cols=n_cols)
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     tbl.style = 'Table Grid'
@@ -5414,29 +5414,29 @@ def write_table3(doc, body, after_el, demand_data):
     # Merge cols 4-6: "(2) Cost-Recovery"
     _merge_cells(0, 4, 6)
     _set_cell(0, 4, '(2) Cost-Recovery', bold=True, font_size=8)
-    # Merge cols 7-9: "(3) Efficiency-Adjusted"
-    _merge_cells(0, 7, 9)
+    # Merge cols 7-10: "(3) Efficiency-Adjusted" (4 cols: cⱼ/ξ, ξ, Rank, Type)
+    _merge_cells(0, 7, 10)
     _set_cell(0, 7, '(3) Efficiency-Adjusted', bold=True, font_size=8)
-    # Merge cols 10-12: "(4) Bilateral \u03bb\u1d62\u2c7c"
-    _merge_cells(0, 10, 12)
-    _set_cell(0, 10, '(4) Bilateral \u03bb\u1d62\u2c7c', bold=True, font_size=8)
-    _set_cell(0, 13, '', font_size=8)
+    # Merge cols 11-13: "(4) Bilateral λᵢⱼ"
+    _merge_cells(0, 11, 13)
+    _set_cell(0, 11, '(4) Bilateral \u03bb\u1d62\u2c7c', bold=True, font_size=8)
+    _set_cell(0, 14, '', font_size=8)
 
-    # Top border on row 0 (4pt, matching sub-header bottom)
+    # Top + bottom border on row 0
     for j in range(n_cols):
-        _cell_border_t3(tbl.cell(0, j)._tc, ['top'], sz='4')
+        _cell_border_t3(tbl.cell(0, j)._tc, ['top', 'bottom'], sz='4')
 
     # ─── Row 1: Sub-headers ───
     sub_headers = ['Country',
                    'c\u2c7c', 'Rank', 'Type',
                    'c\u2c7c', 'Rank', 'Type',
-                   'c\u2c7c/\u03be\u2c7c\u1d49\u1da0\u1da0', 'Rank', 'Type',
+                   'c\u2c7c/\u03be\u2c7c\u1d49\u1da0\u1da0', '\u03be\u2c7c\u1d49\u1da0\u1da0', 'Rank', 'Type',
                    'c\u2c7c/\u03be\u2c7c\u1d49\u1da0\u1da0', 'Rank', 'Type',
                    '\u0394']
     for j, hdr in enumerate(sub_headers):
         _set_cell(1, j, hdr, bold=True, font_size=8,
                   align='left' if j == 0 else 'center')
-        _cell_border_t3(tbl.cell(1, j)._tc, ['bottom'], sz='4')
+        _cell_border_t3(tbl.cell(1, j)._tc, ['top', 'bottom'], sz='4')
 
     # ─── Data rows ───
     row_idx = 2
@@ -5451,14 +5451,15 @@ def write_table3(doc, body, after_el, demand_data):
         _set_cell(row_idx, 5, str(d["rank_cr"]), font_size=8)
         _set_cell(row_idx, 6, d["type_cr"], font_size=8)
         _set_cell(row_idx, 7, f'${d["cj_eff"]:.2f}', font_size=8)
-        _set_cell(row_idx, 8, str(d["rank_eff"]), font_size=8)
-        _set_cell(row_idx, 9, d["type_eff"], font_size=8)
-        _set_cell(row_idx, 10, f'${d["cj_eff"]:.2f}', font_size=8)
-        _set_cell(row_idx, 11, str(d["rank_eff"]), font_size=8, bold=True)
-        _set_cell(row_idx, 12, d.get("type_bilat", d.get("type_sov", "II")), font_size=8)
+        _set_cell(row_idx, 8, f'{d["xi"]:.2f}', font_size=8)
+        _set_cell(row_idx, 9, str(d["rank_eff"]), font_size=8)
+        _set_cell(row_idx, 10, d["type_eff"], font_size=8)
+        _set_cell(row_idx, 11, f'${d["cj_eff"]:.2f}', font_size=8)
+        _set_cell(row_idx, 12, str(d["rank_eff"]), font_size=8, bold=True)
+        _set_cell(row_idx, 13, d.get("type_bilat", d.get("type_sov", "II")), font_size=8)
         delta_val = d["delta"]
         delta_str = f'+{delta_val}' if delta_val > 0 else str(delta_val)
-        _set_cell(row_idx, 13, delta_str, font_size=8)
+        _set_cell(row_idx, 14, delta_str, font_size=8)
         row_idx += 1
 
     # Double bottom border on last data row
@@ -5471,7 +5472,7 @@ def write_table3(doc, body, after_el, demand_data):
         1800,                # Country
         900, 540, 540,       # (1)
         900, 540, 540,       # (2)
-        900, 540, 540,       # (3)
+        900, 450, 540, 540,  # (3): cⱼ/ξ, ξ, Rank, Type
         900, 540, 540,       # (4)
         540,                 # Delta
     ]
@@ -5524,7 +5525,8 @@ def write_table3(doc, body, after_el, demand_data):
         '(1)\u2009Raw: observed electricity tariffs. '
         '(2)\u2009Cost-recovery: subsidized tariffs replaced with LRMC. '
         '(3)\u2009Efficiency-adjusted: cost-recovery price divided by production-efficiency '
-        'index \u03be\u2c7c\u1d49\u1da0\u1da0 (preferred specification). '
+        'index \u03be\u2c7c\u1d49\u1da0\u1da0; the \u03be column reports each country\u2019s '
+        'efficiency index (preferred specification). '
         '(4)\u2009Bilateral: efficiency-adjusted cost with bilateral sovereignty premium '
         '\u03bb\u1d62\u2c7c from equation (2). '
         'Ranks in columns (3) and (4) are the same, because the sovereignty premium '
@@ -5645,15 +5647,16 @@ def write_table3(doc, body, after_el, demand_data):
             rr.bold = True
         return cell
 
-    # Row 0: Group headers
+    # Row 0: Group headers (merged)
     _set_cell_3b(0, 0, '', font_size=8)
-    _set_cell_3b(0, 1, '', font_size=8)
-    _set_cell_3b(0, 2, '(4)/(5) Bilateral', bold=True, font_size=8)
+    # Merge cols 1-2: "(4)/(5) Bilateral"
+    tbl3b.cell(0, 1).merge(tbl3b.cell(0, 2))
+    _set_cell_3b(0, 1, '(4)/(5) Bilateral', bold=True, font_size=8)
+    # Merge cols 3-5: "(6) Uniform"
+    tbl3b.cell(0, 3).merge(tbl3b.cell(0, 5))
     _set_cell_3b(0, 3, '(6) Uniform', bold=True, font_size=8)
-    _set_cell_3b(0, 4, '', font_size=8)
-    _set_cell_3b(0, 5, '', font_size=8)
     for j in range(n_cols_3b):
-        _cell_border_3b(tbl3b.cell(0, j)._tc, ['top'], sz='4')
+        _cell_border_3b(tbl3b.cell(0, j)._tc, ['top', 'bottom'], sz='4')
 
     # Row 1: Sub-headers
     sub_hdr_3b = ['Country', 'c\u2c7c/\u03be\u2c7c\u1d49\u1da0\u1da0',
@@ -5661,7 +5664,7 @@ def write_table3(doc, body, after_el, demand_data):
     for j, hdr in enumerate(sub_hdr_3b):
         _set_cell_3b(1, j, hdr, bold=True, font_size=8,
                      align='left' if j == 0 else 'center')
-        _cell_border_3b(tbl3b.cell(1, j)._tc, ['bottom'], sz='4')
+        _cell_border_3b(tbl3b.cell(1, j)._tc, ['top', 'bottom'], sz='4')
 
     # Data rows
     row_3b = 2
