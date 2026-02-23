@@ -1874,7 +1874,7 @@ def write_trade_costs(doc, body, hmap):
         'risk mitigation\u2009\u2014\u2009international arbitration, dedicated infrastructure, '
         'and special economic zone provisions\u2009\u2014\u2009consistent with evidence that '
         'zone-level governance outperforms national averages '
-        '(Farole 2011; Frick, Rodr\u00EDguez-Pose, and Wong 2019). '
+        '(Farole 2011; World Bank 2017; Frick, Rodr\u00EDguez-Pose, and Wong 2019). '
         'The baseline sets '
     )
     omath(p, [_msub('\u03BE', 'floor'), _t(' = 0.50')])
@@ -2745,7 +2745,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'The institutional floor reflects the minimum operational quality achievable '
         'when a hyperscaler structures the investment through international arbitration, '
         'a dedicated power purchase agreement, and special economic zone provisions '
-        '(Farole 2011; Frick, Rodr\u00EDguez-Pose, and Wong 2019). '
+        '(Farole 2011; World Bank 2017; Frick, Rodr\u00EDguez-Pose, and Wong 2019). '
         'For OECD countries with strong institutions and negligible outages, '
     )
     omath(p, [_msubsup('\u03BE', 'j', 'eff'), _t(' \u2248 1')])
