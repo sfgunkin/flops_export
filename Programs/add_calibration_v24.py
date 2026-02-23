@@ -1473,8 +1473,6 @@ def write_production_technology(doc, body, hmap):
     p.add_run(
         ' depends on three inputs: electricity, hardware, and data center construction.'
     )
-    # Bump all subsequent footnotes by 1
-    # (old fn 6 becomes 7, old fn 7 becomes 8, etc.)
 
     # PUE inlined (no display equation) — merged with equation lead-in
     p, cur = mkp(doc, body, cur)
