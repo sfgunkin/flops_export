@@ -1365,11 +1365,11 @@ def write_introduction(doc, body, hmap):
         'amortization accounts for over 80 percent of the compute unit cost and '
         'is identical across countries, compressing the total cost spread to roughly '
         '12 percent under raw electricity tariffs (20 percent after efficiency adjustment). '
-        'Once production-efficiency penalties for grid outages and weak governance '
-        'are applied, the cost ranking changes substantially. Several '
-        'energy-abundant but institutionally fragile economies fall out of the top tier, '
-        'replaced by countries with more reliable grids and stronger institutions at '
-        'moderately higher energy costs. Durable comparative advantage requires credible '
+        'Once production-efficiency penalties for weak governance '
+        'are applied, the cost ranking changes substantially. Some '
+        'energy-abundant economies with weak governance fall in the rankings, but '
+        'countries that combine cheap energy with adequate institutions remain competitive. '
+        'Durable comparative advantage requires credible '
         'production efficiency alongside low energy costs, while market access depends on '
         'bilateral trust and regulatory alignment.'
     )
@@ -2745,12 +2745,16 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     _pos_movers = sorted([d for d in _t3 if d["delta"] > 0], key=lambda x: -x["delta"])[:2]
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Cost advantages mean little if power outages halt operations or weak institutions '
-        'deter investment. Dividing the cost-recovery costs by '
+        'Cost advantages must be weighed against institutional quality. '
+        'While data centers can mitigate grid unreliability through private infrastructure, '
+        'governance weaknesses\u2009\u2014\u2009contract enforcement, expropriation risk, '
+        'regulatory instability\u2009\u2014\u2009cannot be engineered away. '
+        'Dividing the cost-recovery costs by '
     )
     omath(p, [_msubsup('\u03BE', 'j', 'eff')])
     p.add_run(
-        ' penalizes countries with weak governance and unreliable grids. '
+        ' penalizes countries primarily for weak governance (weight 0.85) and secondarily for '
+        'unreliable grids (weight 0.15). '
         'Column\u2009(3) of '
     )
     p._element.append(make_hyperlink('Table3', 'Table 3a'))
@@ -2789,11 +2793,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         f'. {_num_word(_xi_n_changed).capitalize()} of the ten cheapest countries under the '
         'pure engineering cost ranking fall out of the top ten after efficiency adjustment, '
-        'replaced by countries with stronger institutions and more reliable grids. '
+        'replaced by countries with stronger governance. '
         'Because hardware and networking costs account for roughly 94% of engineering costs, '
         'the cross-country cost spread is narrow (about 20%). '
-        'Even modest institutional penalties are large relative to this thin margin, '
-        'so governance quality can easily dominate the cost ranking. '
+        'Even modest governance penalties are large relative to this thin margin, '
+        'so institutional quality can easily dominate the cost ranking. '
         'An engineering cost advantage is therefore necessary but not sufficient for '
         'FLOP exporting. '
     )
