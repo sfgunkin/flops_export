@@ -2726,13 +2726,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'{adj_top5[1][1]}, '
         f'{adj_top5[2][1]}, '
         f'{adj_top5[3][1]}, '
-        f'and {adj_top5[4][1]}.'
-    )
-
-    # ── A2b. Iran drops (short bridge) ──
-    p, cur = mkp(doc, body, cur)
-    p.add_run(
-        f' {cheapest["country"]} drops from first to '
+        f'and {adj_top5[4][1]}. '
+        f'{cheapest["country"]} drops from first to '
         f'{_ordinal(demand_data["adj_rank_map"]["IRN"])}. '
         f'{_num_word(demand_data["regime_changes"]).capitalize()} '
         f'{"country changes" if demand_data["regime_changes"] == 1 else "countries change"} '
