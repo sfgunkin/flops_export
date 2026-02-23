@@ -1123,7 +1123,7 @@ ITALIC_IN_REFS = {
     'Stojkoski': 'Nature Communications',
     'World Bank. (2025)': 'Digital Progress and Trends Report 2025',
     'World Bank. (2017)': 'Special Economic Zones: An Operational Review of Their Impacts',
-    'Farole': 'Special Economic Zones in Africa',
+    'Farole': 'Special Economic Zones in Africa: Comparing Performance and Learning from Global Experiences',
     'Frick': 'Economic Geography',
 }
 
@@ -6545,14 +6545,19 @@ def main():
     # ═══════════════════════════════════════════════════════════════════════
     print("Re-computing equilibrium on cost-recovery baseline...")
 
-    # Build cost-recovery supply stack and override closure variables
+    # Build efficiency-adjusted cost-recovery costs for training equilibrium
+    # Sensitivity analysis (Table A3) uses c/ξ; main equilibrium must match
+    adj_costs_eff = {}
+    for iso in adj_costs:
+        xi_j = xi.get(iso, 1.0)
+        adj_costs_eff[iso] = adj_costs[iso] / xi_j if xi_j > 0 else 999
     adj_supply_stack = sorted(
-        [(iso, adj_costs[iso], k_bar.get(iso, 1e12))
-         for iso in adj_costs if iso in k_bar],
+        [(iso, adj_costs_eff[iso], k_bar.get(iso, 1e12))
+         for iso in adj_costs_eff if iso in k_bar],
         key=lambda x: x[1]
     )
     supply_stack = adj_supply_stack  # noqa: F841
-    costs_dict = adj_costs
+    costs_dict = adj_costs_eff
 
     # Re-run capacity equilibrium on cost-recovery costs
     (p_T_0, _, shares_0, cap_hhi_0, mu_0, ls_0, n_exp_0
