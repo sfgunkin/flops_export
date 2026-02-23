@@ -3598,7 +3598,7 @@ def write_table_a2(doc, body, after_el, demand_data):
     all_sorted = sorted(table3_data, key=lambda x: x["rank_eff"])
 
     n_rows = 2 + len(all_sorted)
-    n_cols = 14
+    n_cols = 15
     tbl = doc.add_table(rows=n_rows, cols=n_cols)
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     tbl.style = 'Table Grid'
@@ -3663,18 +3663,18 @@ def write_table_a2(doc, body, after_el, demand_data):
     _sc(0, 1, '(1) Raw Electricity', bold=True, fs=7)
     _mc(0, 4, 6)
     _sc(0, 4, '(2) Cost-Recovery', bold=True, fs=7)
-    _mc(0, 7, 9)
+    _mc(0, 7, 10)
     _sc(0, 7, '(3) Efficiency-Adjusted', bold=True, fs=7)
-    _mc(0, 10, 12)
-    _sc(0, 10, '(4) Bilateral \u03bb\u1d62\u2c7c', bold=True, fs=7)
-    _sc(0, 13, '', fs=7)
+    _mc(0, 11, 13)
+    _sc(0, 11, '(4) Bilateral \u03bb\u1d62\u2c7c', bold=True, fs=7)
+    _sc(0, 14, '', fs=7)
     for j in range(n_cols):
         _cb(tbl.cell(0, j)._tc, ['top'], sz='4')
 
     # Row 1: sub-headers
     sub_h = ['Country', 'c\u2c7c', 'Rank', 'Type',
              'c\u2c7c', 'Rank', 'Type',
-             'c\u2c7c/\u03be\u2c7c\u1d49\u1da0\u1da0', 'Rank', 'Type',
+             'c\u2c7c/\u03be\u2c7c\u1d49\u1da0\u1da0', '\u03be\u2c7c\u1d49\u1da0\u1da0', 'Rank', 'Type',
              'p\u2c7c', 'Rank', 'Type', '\u0394']
     for j, h in enumerate(sub_h):
         _sc(1, j, h, bold=True, fs=7, align='left' if j == 0 else 'center')
@@ -3691,20 +3691,21 @@ def write_table_a2(doc, body, after_el, demand_data):
         _sc(ri, 5, str(d["rank_cr"]), fs=7)
         _sc(ri, 6, d["type_cr"], fs=7)
         _sc(ri, 7, f'${d["cj_eff"]:.2f}', fs=7)
-        _sc(ri, 8, str(d["rank_eff"]), fs=7)
-        _sc(ri, 9, d["type_eff"], fs=7)
-        _sc(ri, 10, f'${d["cj_eff"]:.2f}', fs=7)
-        _sc(ri, 11, str(d["rank_eff"]), fs=7)
-        _sc(ri, 12, d.get("type_bilat", d.get("type_sov", "II")), fs=7)
+        _sc(ri, 8, f'{d["xi"]:.2f}', fs=7)
+        _sc(ri, 9, str(d["rank_eff"]), fs=7)
+        _sc(ri, 10, d["type_eff"], fs=7)
+        _sc(ri, 11, f'${d["cj_eff"]:.2f}', fs=7)
+        _sc(ri, 12, str(d["rank_eff"]), fs=7)
+        _sc(ri, 13, d.get("type_bilat", d.get("type_sov", "II")), fs=7)
         dv = d["delta"]
-        _sc(ri, 13, f'+{dv}' if dv > 0 else str(dv), fs=7)
+        _sc(ri, 14, f'+{dv}' if dv > 0 else str(dv), fs=7)
 
     # Bottom border on last row
     for j in range(n_cols):
         _cb(tbl.cell(n_rows - 1, j)._tc, ['bottom'], style='double')
 
     # Column widths
-    _cw = [1800, 900, 540, 540, 900, 540, 540, 900, 540, 540, 900, 540, 540, 540]
+    _cw = [1800, 900, 540, 540, 900, 540, 540, 900, 450, 540, 540, 900, 540, 540, 540]
     for j, w in enumerate(_cw):
         for i in range(n_rows):
             try:
