@@ -63,6 +63,7 @@ import io
 import pathlib
 import sys
 from datetime import datetime
+from decimal import Decimal, ROUND_HALF_UP
 from functools import partial
 
 import matplotlib
@@ -113,6 +114,20 @@ Q_TOTAL = 60_000_000_000   # 60 billion GPU-hours
 
 # Grid capacity CSV unit correction (kWh→GWh used /1e9 instead of /1e6)
 K_BAR_SCALE = 1000
+
+# OECD members (38) for computing ξ range in body text
+OECD_ISOS = {
+    'AUS', 'AUT', 'BEL', 'CAN', 'CHL', 'COL', 'CRI', 'CZE', 'DNK', 'EST',
+    'FIN', 'FRA', 'DEU', 'GRC', 'HUN', 'ISL', 'IRL', 'ISR', 'ITA', 'JPN',
+    'KOR', 'LVA', 'LTU', 'LUX', 'MEX', 'NLD', 'NZL', 'NOR', 'POL', 'PRT',
+    'SVK', 'SVN', 'ESP', 'SWE', 'CHE', 'TUR', 'GBR', 'USA',
+}
+
+
+def rhup(value, dp=2):
+    """Round half-up (0.985 → 0.99, 0.765 → 0.77). Avoids banker's rounding."""
+    return float(Decimal(str(value)).quantize(Decimal(10) ** -dp,
+                                              rounding=ROUND_HALF_UP))
 
 # Cost-reflective electricity prices for cost-recovery adjustment ($/kWh)
 # Replacement = estimated LRMC of dominant generation at opportunity-cost fuel price
@@ -2751,8 +2766,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_msubsup('\u03BE', 'j', 'eff'), _t(' \u2248 1')])
     p.add_run(
         '. Developing countries face moderate penalties '
-        '(e.g., Kyrgyzstan:\u20090.76, Uzbekistan:\u20090.74, '
-        'Ethiopia:\u20090.71). '
+        f'(e.g., Kyrgyzstan:\u2009{rhup(demand_data["xi"].get("KGZ", 0.76)):.2f}, '
+        f'Uzbekistan:\u2009{rhup(demand_data["xi"].get("UZB", 0.74)):.2f}, '
+        f'Ethiopia:\u2009{rhup(demand_data["xi"].get("ETH", 0.71)):.2f}). '
         'The sensitivity of results to both '
     )
     omath(p, [_v('\u03C9')])
@@ -2760,7 +2776,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_msub('\u03BE', 'floor')])
     p.add_run(
         ' is examined in Section 7. '
-        '\u03BE ranges from 0.81 to 1.00 within the OECD, and the tight '
+        f'\u03BE ranges from {rhup(min(demand_data["xi"].get(c, 1.0) for c in OECD_ISOS if c in demand_data["xi"])):.2f} '
+        f'to {rhup(max(demand_data["xi"].get(c, 1.0) for c in OECD_ISOS if c in demand_data["xi"])):.2f} within the OECD, '
+        'and the tight '
         'cross-country cost spread (\u224820%) means small efficiency differences '
         'reshuffle adjacent ranks. Even countries with '
     )
@@ -3351,7 +3369,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         ' from 0.70 to 1.00 leaves the top five exporters unchanged and the '
         'Spearman rank correlation above 0.99. The floor compresses the \u03BE range from '
-        f'[{xi_raw_min:.2f},\u2009{xi_raw_max:.2f}] to [{xi_eff_min:.2f},\u2009{xi_eff_max:.2f}]. '
+        f'[{rhup(xi_raw_min):.2f},\u2009{rhup(xi_raw_max):.2f}] to [{rhup(xi_eff_min):.2f},\u2009{rhup(xi_eff_max):.2f}]. '
         'Setting '
     )
     omath(p, [_msub('\u03BE', 'floor'), _t(' = 0.30')])
@@ -3617,7 +3635,7 @@ def write_appendix(doc, body, last_ref_el, eca_cal, non_eca_cal, reg, demand_dat
             f'${float(r_row["p_L_usd_per_W"]):.2f}',
             cap_str,
             f'{share * 100:.1f}',
-            f'{xi_j:.2f}',
+            f'{rhup(xi_j):.2f}',
             f'${float(r_row["c_j_total"]):.2f}',
             cr_str,
         ))
@@ -3805,7 +3823,7 @@ def write_table_a2(doc, body, after_el, demand_data):
         _s(ri, 5, str(d["rank_cr"]))
         _s(ri, 6, d["type_cr"])
         _s(ri, 7, f'${d["cj_eff"]:.2f}')
-        _s(ri, 8, f'{d["xi"]:.2f}')
+        _s(ri, 8, f'{rhup(d["xi"]):.2f}')
         _s(ri, 9, str(d["rank_eff"]))
         _s(ri, 10, d["type_eff"])
         _s(ri, 11, f'${d["cj_eff"]:.2f}')
@@ -4790,7 +4808,7 @@ def write_figure4b(doc, body, last_ref, demand_data):
     def _label(iso):
         name = iso_country.get(iso, iso)
         if iso in XI_SHOW:
-            return f'{name} (\u03BE={xi.get(iso, 1.0):.2f})'
+            return f'{name} (\u03BE={rhup(xi.get(iso, 1.0)):.2f})'
         return name
 
     try:
@@ -5455,7 +5473,7 @@ def write_table3(doc, body, after_el, demand_data):
         _s(row_idx, 5, str(d["rank_cr"]))
         _s(row_idx, 6, d["type_cr"])
         _s(row_idx, 7, f'${d["cj_eff"]:.2f}')
-        _s(row_idx, 8, f'{d["xi"]:.2f}')
+        _s(row_idx, 8, f'{rhup(d["xi"]):.2f}')
         _s(row_idx, 9, str(d["rank_eff"]))
         _s(row_idx, 10, d["type_eff"])
         _s(row_idx, 11, f'${d["cj_eff"]:.2f}')
