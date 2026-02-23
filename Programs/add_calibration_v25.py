@@ -63,6 +63,7 @@ import io
 import pathlib
 import sys
 from datetime import datetime
+from functools import partial
 
 import matplotlib
 
@@ -740,6 +741,105 @@ def _rPr_pt(pt_size):
 
 
 # ═══════════════════════════════════════════════════════════════════════
+# TABLE CELL HELPERS (shared across Table 3a, 3b, A2)
+# ═══════════════════════════════════════════════════════════════════════
+
+def _tbl_border(tc, sides, sz='4', style='single'):
+    """Add borders to a table cell element."""
+    tcPr = tc.get_or_add_tcPr()
+    tcB = OxmlElement('w:tcBorders')
+    for s in sides:
+        b = OxmlElement(f'w:{s}')
+        b.set(qn('w:val'), style)
+        b.set(qn('w:sz'), sz)
+        b.set(qn('w:space'), '0')
+        b.set(qn('w:color'), 'auto')
+        tcB.append(b)
+    tcPr.append(tcB)
+
+
+def _tbl_set(tbl, row_i, col_j, text, bold=False, align='center', font_size=9):
+    """Set text content and formatting of a table cell."""
+    cell = tbl.cell(row_i, col_j)
+    cell.text = ''
+    pp = cell.paragraphs[0]
+    if align == 'left':
+        pp.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    elif align == 'right':
+        pp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    else:
+        pp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    rr = pp.add_run(text)
+    rr.font.size = Pt(font_size)
+    rr.font.name = 'Times New Roman'
+    if bold:
+        rr.bold = True
+    return cell
+
+
+def _tbl_merge(tbl, row_i, col_start, col_end):
+    """Merge cells in a row from col_start to col_end (inclusive)."""
+    tbl.cell(row_i, col_start).merge(tbl.cell(row_i, col_end))
+
+
+def _tbl_clear_borders(tbl):
+    """Remove all table-level borders and set width to 100%."""
+    tblPr = tbl._tbl.find(qn('w:tblPr'))
+    if tblPr is None:
+        tblPr = OxmlElement('w:tblPr')
+        tbl._tbl.insert(0, tblPr)
+    old_bdr = tblPr.find(qn('w:tblBorders'))
+    if old_bdr is not None:
+        tblPr.remove(old_bdr)
+    tblBorders = OxmlElement('w:tblBorders')
+    for side in ('top', 'left', 'bottom', 'right', 'insideH', 'insideV'):
+        b = OxmlElement(f'w:{side}')
+        b.set(qn('w:val'), 'none')
+        b.set(qn('w:sz'), '0')
+        b.set(qn('w:space'), '0')
+        b.set(qn('w:color'), 'auto')
+        tblBorders.append(b)
+    tblPr.append(tblBorders)
+    tblW = tblPr.find(qn('w:tblW'))
+    if tblW is None:
+        tblW = OxmlElement('w:tblW')
+        tblPr.append(tblW)
+    tblW.set(qn('w:w'), '5000')
+    tblW.set(qn('w:type'), 'pct')
+
+
+def _tbl_col_widths(tbl, col_widths):
+    """Set column widths (in twips) for all rows."""
+    n_rows = len(tbl.rows)
+    for j, w in enumerate(col_widths):
+        for i in range(n_rows):
+            try:
+                c = tbl.cell(i, j)
+            except IndexError:
+                continue
+            tcPr = c._tc.get_or_add_tcPr()
+            tcW = OxmlElement('w:tcW')
+            tcW.set(qn('w:w'), str(w))
+            tcW.set(qn('w:type'), 'dxa')
+            old = tcPr.find(qn('w:tcW'))
+            if old is not None:
+                tcPr.remove(old)
+            tcPr.append(tcW)
+
+
+def _tbl_cell_spacing(tbl, before='10', after='10'):
+    """Set paragraph spacing inside all table cells."""
+    for row in tbl.rows:
+        for cell in row.cells:
+            for pp in cell.paragraphs:
+                pPr = pp._element.get_or_add_pPr()
+                sp = OxmlElement('w:spacing')
+                sp.set(qn('w:before'), before)
+                sp.set(qn('w:after'), after)
+                pPr.append(sp)
+
+
+# ═══════════════════════════════════════════════════════════════════════
 # FOOTNOTE HELPER
 # ═══════════════════════════════════════════════════════════════════════
 _fn_xml = [None]   # cached parsed footnotes XML
@@ -1063,43 +1163,8 @@ def add_table(doc, body, after_el, headers, rows, col_widths=None, title=None,
     table = doc.add_table(rows=nr, cols=nc)
     table.alignment = WD_TABLE_ALIGNMENT.CENTER
     table.style = 'Table Grid'
-    # Remove all table-level borders
-    tblPr = table._tbl.find(qn('w:tblPr'))
-    if tblPr is None:
-        tblPr = OxmlElement('w:tblPr')
-        table._tbl.insert(0, tblPr)
-    old_borders = tblPr.find(qn('w:tblBorders'))
-    if old_borders is not None:
-        tblPr.remove(old_borders)
-    tblBorders = OxmlElement('w:tblBorders')
-    for side in ('top', 'left', 'bottom', 'right', 'insideH', 'insideV'):
-        b = OxmlElement(f'w:{side}')
-        b.set(qn('w:val'), 'none')
-        b.set(qn('w:sz'), '0')
-        b.set(qn('w:space'), '0')
-        b.set(qn('w:color'), 'auto')
-        tblBorders.append(b)
-    tblPr.append(tblBorders)
-    # AutoFit to window: 100% page width
-    tblW = tblPr.find(qn('w:tblW'))
-    if tblW is None:
-        tblW = OxmlElement('w:tblW')
-        tblPr.append(tblW)
-    tblW.set(qn('w:w'), TABLE_WIDTH_PCT)
-    tblW.set(qn('w:type'), 'pct')
+    _tbl_clear_borders(table)
     # Academic-style horizontal rules on header row (top + bottom)
-
-    def _cell_border(tc, sides, style='single'):
-        tcPr = tc.get_or_add_tcPr()
-        tcB = OxmlElement('w:tcBorders')
-        for s in sides:
-            b = OxmlElement(f'w:{s}')
-            b.set(qn('w:val'), style)
-            b.set(qn('w:sz'), '4')
-            b.set(qn('w:space'), '0')
-            b.set(qn('w:color'), 'auto')
-            tcB.append(b)
-        tcPr.append(tcB)
     for j, h in enumerate(headers):
         c = table.cell(0, j)
         c.text = ""
@@ -1108,7 +1173,7 @@ def add_table(doc, body, after_el, headers, rows, col_widths=None, title=None,
         run = pp.add_run(h)
         run.bold = True
         run.font.size = Pt(8)
-        _cell_border(c._tc, ['top', 'bottom'])
+        _tbl_border(c._tc, ['top', 'bottom'])
     _center_set = set(center_cols) if center_cols else set()
     for i, row in enumerate(rows):
         for j, val in enumerate(row):
@@ -1123,7 +1188,7 @@ def add_table(doc, body, after_el, headers, rows, col_widths=None, title=None,
             run.font.size = Pt(8)
             # Double bottom border on last data row
             if i == len(rows) - 1:
-                _cell_border(c._tc, ['bottom'], style='double')
+                _tbl_border(c._tc, ['bottom'], style='double')
     if col_widths:
         for j, w in enumerate(col_widths):
             for i in range(nr):
@@ -3602,74 +3667,23 @@ def write_table_a2(doc, body, after_el, demand_data):
     tbl = doc.add_table(rows=n_rows, cols=n_cols)
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     tbl.style = 'Table Grid'
+    _tbl_clear_borders(tbl)
 
-    tblPr = tbl._tbl.find(qn('w:tblPr'))
-    if tblPr is None:
-        tblPr = OxmlElement('w:tblPr')
-        tbl._tbl.insert(0, tblPr)
-    old_bdr = tblPr.find(qn('w:tblBorders'))
-    if old_bdr is not None:
-        tblPr.remove(old_bdr)
-    tblBorders = OxmlElement('w:tblBorders')
-    for side in ('top', 'left', 'bottom', 'right', 'insideH', 'insideV'):
-        b = OxmlElement(f'w:{side}')
-        b.set(qn('w:val'), 'none')
-        b.set(qn('w:sz'), '0')
-        b.set(qn('w:space'), '0')
-        b.set(qn('w:color'), 'auto')
-        tblBorders.append(b)
-    tblPr.append(tblBorders)
-    tblW = tblPr.find(qn('w:tblW'))
-    if tblW is None:
-        tblW = OxmlElement('w:tblW')
-        tblPr.append(tblW)
-    tblW.set(qn('w:w'), '5000')
-    tblW.set(qn('w:type'), 'pct')
-
-    def _cb(tc, sides, sz='4', style='single'):
-        tcPr = tc.get_or_add_tcPr()
-        tcB = OxmlElement('w:tcBorders')
-        for s in sides:
-            b = OxmlElement(f'w:{s}')
-            b.set(qn('w:val'), style)
-            b.set(qn('w:sz'), sz)
-            b.set(qn('w:space'), '0')
-            b.set(qn('w:color'), 'auto')
-            tcB.append(b)
-        tcPr.append(tcB)
-
-    def _sc(ri, ci, txt, bold=False, align='center', fs=7):
-        cell = tbl.cell(ri, ci)
-        cell.text = ''
-        pp = cell.paragraphs[0]
-        if align == 'left':
-            pp.alignment = WD_ALIGN_PARAGRAPH.LEFT
-        elif align == 'right':
-            pp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        else:
-            pp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        rr = pp.add_run(txt)
-        rr.font.size = Pt(fs)
-        rr.font.name = 'Times New Roman'
-        if bold:
-            rr.bold = True
-
-    def _mc(ri, cs, ce):
-        tbl.cell(ri, cs).merge(tbl.cell(ri, ce))
+    _s = partial(_tbl_set, tbl, font_size=7)  # default fs=7 for A2
 
     # Row 0: group headers
-    _sc(0, 0, '', fs=7)
-    _mc(0, 1, 3)
-    _sc(0, 1, '(1) Raw Electricity', bold=True, fs=7)
-    _mc(0, 4, 6)
-    _sc(0, 4, '(2) Cost-Recovery', bold=True, fs=7)
-    _mc(0, 7, 10)
-    _sc(0, 7, '(3) Efficiency-Adjusted', bold=True, fs=7)
-    _mc(0, 11, 13)
-    _sc(0, 11, '(4) Bilateral \u03bb\u1d62\u2c7c', bold=True, fs=7)
-    _sc(0, 14, '', fs=7)
+    _s(0, 0, '')
+    _tbl_merge(tbl, 0, 1, 3)
+    _s(0, 1, '(1) Raw Electricity', bold=True)
+    _tbl_merge(tbl, 0, 4, 6)
+    _s(0, 4, '(2) Cost-Recovery', bold=True)
+    _tbl_merge(tbl, 0, 7, 10)
+    _s(0, 7, '(3) Efficiency-Adjusted', bold=True)
+    _tbl_merge(tbl, 0, 11, 13)
+    _s(0, 11, '(4) Bilateral \u03bb\u1d62\u2c7c', bold=True)
+    _s(0, 14, '')
     for j in range(n_cols):
-        _cb(tbl.cell(0, j)._tc, ['top', 'bottom'], sz='4')
+        _tbl_border(tbl.cell(0, j)._tc, ['top', 'bottom'])
 
     # Row 1: sub-headers
     sub_h = ['Country', 'c\u2c7c', 'Rank', 'Type',
@@ -3677,59 +3691,36 @@ def write_table_a2(doc, body, after_el, demand_data):
              'c\u2c7c/\u03be\u2c7c\u1d49\u1da0\u1da0', '\u03be\u2c7c\u1d49\u1da0\u1da0', 'Rank', 'Type',
              'p\u2c7c', 'Rank', 'Type', '\u0394']
     for j, h in enumerate(sub_h):
-        _sc(1, j, h, bold=True, fs=7, align='left' if j == 0 else 'center')
-        _cb(tbl.cell(1, j)._tc, ['top', 'bottom'], sz='4')
+        _s(1, j, h, bold=True, align='left' if j == 0 else 'center')
+        _tbl_border(tbl.cell(1, j)._tc, ['top', 'bottom'])
 
     # Data rows
     for i, d in enumerate(all_sorted):
         ri = i + 2
-        _sc(ri, 0, _sn(d["country"]), fs=7, align='left')
-        _sc(ri, 1, f'${d["cj_raw"]:.2f}', fs=7)
-        _sc(ri, 2, str(d["rank_raw"]), fs=7)
-        _sc(ri, 3, d["type_raw"], fs=7)
-        _sc(ri, 4, f'${d["cj_cr"]:.2f}', fs=7)
-        _sc(ri, 5, str(d["rank_cr"]), fs=7)
-        _sc(ri, 6, d["type_cr"], fs=7)
-        _sc(ri, 7, f'${d["cj_eff"]:.2f}', fs=7)
-        _sc(ri, 8, f'{d["xi"]:.2f}', fs=7)
-        _sc(ri, 9, str(d["rank_eff"]), fs=7)
-        _sc(ri, 10, d["type_eff"], fs=7)
-        _sc(ri, 11, f'${d["cj_eff"]:.2f}', fs=7)
-        _sc(ri, 12, str(d["rank_eff"]), fs=7)
-        _sc(ri, 13, d.get("type_bilat", d.get("type_sov", "II")), fs=7)
+        _s(ri, 0, _sn(d["country"]), align='left')
+        _s(ri, 1, f'${d["cj_raw"]:.2f}')
+        _s(ri, 2, str(d["rank_raw"]))
+        _s(ri, 3, d["type_raw"])
+        _s(ri, 4, f'${d["cj_cr"]:.2f}')
+        _s(ri, 5, str(d["rank_cr"]))
+        _s(ri, 6, d["type_cr"])
+        _s(ri, 7, f'${d["cj_eff"]:.2f}')
+        _s(ri, 8, f'{d["xi"]:.2f}')
+        _s(ri, 9, str(d["rank_eff"]))
+        _s(ri, 10, d["type_eff"])
+        _s(ri, 11, f'${d["cj_eff"]:.2f}')
+        _s(ri, 12, str(d["rank_eff"]))
+        _s(ri, 13, d.get("type_bilat", d.get("type_sov", "II")))
         dv = d["delta"]
-        _sc(ri, 14, f'+{dv}' if dv > 0 else str(dv), fs=7)
+        _s(ri, 14, f'+{dv}' if dv > 0 else str(dv))
 
     # Bottom border on last row
     for j in range(n_cols):
-        _cb(tbl.cell(n_rows - 1, j)._tc, ['bottom'], style='double')
+        _tbl_border(tbl.cell(n_rows - 1, j)._tc, ['bottom'], style='double')
 
-    # Column widths
-    _cw = [1800, 900, 540, 540, 900, 540, 540, 900, 450, 540, 540, 900, 540, 540, 540]
-    for j, w in enumerate(_cw):
-        for i in range(n_rows):
-            try:
-                c = tbl.cell(i, j)
-            except IndexError:
-                continue
-            tcPr = c._tc.get_or_add_tcPr()
-            tcW = OxmlElement('w:tcW')
-            tcW.set(qn('w:w'), str(w))
-            tcW.set(qn('w:type'), 'dxa')
-            old = tcPr.find(qn('w:tcW'))
-            if old is not None:
-                tcPr.remove(old)
-            tcPr.append(tcW)
-
-    # Cell spacing
-    for row in tbl.rows:
-        for cell in row.cells:
-            for pp in cell.paragraphs:
-                pPr = pp._element.get_or_add_pPr()
-                sp = OxmlElement('w:spacing')
-                sp.set(qn('w:before'), '5')
-                sp.set(qn('w:after'), '5')
-                pPr.append(sp)
+    # Column widths and spacing
+    _tbl_col_widths(tbl, [1800, 900, 540, 540, 900, 540, 540, 900, 450, 540, 540, 900, 540, 540, 540])
+    _tbl_cell_spacing(tbl, before='5', after='5')
 
     tbl_el = tbl._tbl
     body.remove(tbl_el)
@@ -5088,43 +5079,10 @@ def write_table2(doc, body, after_el, demand_data):
     param_tbl = doc.add_table(rows=n_params + 1, cols=4)
     param_tbl.style = 'Table Grid'
     param_tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
-    tblPr = param_tbl._tbl.find(qn('w:tblPr'))
-    if tblPr is None:
-        tblPr = OxmlElement('w:tblPr')
-        param_tbl._tbl.insert(0, tblPr)
-    old_bdr = tblPr.find(qn('w:tblBorders'))
-    if old_bdr is not None:
-        tblPr.remove(old_bdr)
-    tblBorders = OxmlElement('w:tblBorders')
-    for side in ('top', 'left', 'bottom', 'right', 'insideH', 'insideV'):
-        b = OxmlElement(f'w:{side}')
-        b.set(qn('w:val'), 'none')
-        b.set(qn('w:sz'), '0')
-        b.set(qn('w:space'), '0')
-        b.set(qn('w:color'), 'auto')
-        tblBorders.append(b)
-    tblPr.append(tblBorders)
-    tblW = tblPr.find(qn('w:tblW'))
-    if tblW is None:
-        tblW = OxmlElement('w:tblW')
-        tblPr.append(tblW)
-    tblW.set(qn('w:w'), TABLE_WIDTH_PCT)
-    tblW.set(qn('w:type'), 'pct')
+    _tbl_clear_borders(param_tbl)
 
     _pcw = [Inches(2.6), Inches(0.6), Inches(1.5), Inches(1.8)]
     _pcw_labels = ['Parameter', 'Symbol', 'Value', 'Source']
-
-    def _cell_border(tc, sides, style='single'):
-        tcPr = tc.get_or_add_tcPr()
-        tcB = OxmlElement('w:tcBorders')
-        for s in sides:
-            b = OxmlElement(f'w:{s}')
-            b.set(qn('w:val'), style)
-            b.set(qn('w:sz'), '4')
-            b.set(qn('w:space'), '0')
-            b.set(qn('w:color'), 'auto')
-            tcB.append(b)
-        tcPr.append(tcB)
 
     for j, lbl in enumerate(_pcw_labels):
         cell = param_tbl.rows[0].cells[j]
@@ -5136,7 +5094,7 @@ def write_table2(doc, body, after_el, demand_data):
         rh.font.size = Pt(10)
         rh.font.name = TIMES_NEW_ROMAN
         cell.width = _pcw[j]
-        _cell_border(cell._tc, ['top', 'bottom'])
+        _tbl_border(cell._tc, ['top', 'bottom'])
 
     for i, pr in enumerate(param_rows):
         sym_display = _sym_map.get(pr['symbol'], pr['symbol'])
@@ -5208,7 +5166,7 @@ def write_table2(doc, body, after_el, demand_data):
             rc_src.font.name = TIMES_NEW_ROMAN
         if i == n_params - 1:
             for j in range(4):
-                _cell_border(param_tbl.rows[i + 1].cells[j]._tc, ['bottom'], style='double')
+                _tbl_border(param_tbl.rows[i + 1].cells[j]._tc, ['bottom'], style='double')
 
     for row in param_tbl.rows:
         for cell in row.cells:
@@ -5345,87 +5303,25 @@ def write_table3(doc, body, after_el, demand_data):
     tbl = doc.add_table(rows=n_rows, cols=n_cols)
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     tbl.style = 'Table Grid'
+    _tbl_clear_borders(tbl)
 
-    # Remove all table-level borders
-    tblPr = tbl._tbl.find(qn('w:tblPr'))
-    if tblPr is None:
-        tblPr = OxmlElement('w:tblPr')
-        tbl._tbl.insert(0, tblPr)
-    old_bdr = tblPr.find(qn('w:tblBorders'))
-    if old_bdr is not None:
-        tblPr.remove(old_bdr)
-    tblBorders = OxmlElement('w:tblBorders')
-    for side in ('top', 'left', 'bottom', 'right', 'insideH', 'insideV'):
-        b = OxmlElement(f'w:{side}')
-        b.set(qn('w:val'), 'none')
-        b.set(qn('w:sz'), '0')
-        b.set(qn('w:space'), '0')
-        b.set(qn('w:color'), 'auto')
-        tblBorders.append(b)
-    tblPr.append(tblBorders)
-
-    # Table width: 100% pct
-    tblW = tblPr.find(qn('w:tblW'))
-    if tblW is None:
-        tblW = OxmlElement('w:tblW')
-        tblPr.append(tblW)
-    tblW.set(qn('w:w'), '5000')
-    tblW.set(qn('w:type'), 'pct')
-
-    def _cell_border_t3(tc, sides, sz='4', style='single'):
-        tcPr = tc.get_or_add_tcPr()
-        tcB = OxmlElement('w:tcBorders')
-        for s in sides:
-            b = OxmlElement(f'w:{s}')
-            b.set(qn('w:val'), style)
-            b.set(qn('w:sz'), sz)
-            b.set(qn('w:space'), '0')
-            b.set(qn('w:color'), 'auto')
-            tcB.append(b)
-        tcPr.append(tcB)
-
-    def _set_cell(row_i, col_j, text, bold=False, align='center', font_size=9):
-        cell = tbl.cell(row_i, col_j)
-        cell.text = ''
-        pp = cell.paragraphs[0]
-        if align == 'left':
-            pp.alignment = WD_ALIGN_PARAGRAPH.LEFT
-        elif align == 'right':
-            pp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        else:
-            pp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        rr = pp.add_run(text)
-        rr.font.size = Pt(font_size)
-        rr.font.name = 'Times New Roman'
-        if bold:
-            rr.bold = True
-        return cell
-
-    def _merge_cells(row_i, col_start, col_end):
-        """Merge cells in a row from col_start to col_end (inclusive)."""
-        a = tbl.cell(row_i, col_start)
-        b = tbl.cell(row_i, col_end)
-        a.merge(b)
+    _s = partial(_tbl_set, tbl, font_size=8)  # default fs=8 for Table 3a
 
     # ─── Row 0: Group headers ───
-    _set_cell(0, 0, '', font_size=8)
-    # Merge cols 1-3: "(1) Raw Electricity"
-    _merge_cells(0, 1, 3)
-    _set_cell(0, 1, '(1) Raw Electricity', bold=True, font_size=8)
-    # Merge cols 4-6: "(2) Cost-Recovery"
-    _merge_cells(0, 4, 6)
-    _set_cell(0, 4, '(2) Cost-Recovery', bold=True, font_size=8)
-    # Merge cols 7-10: "(3) Efficiency-Adjusted" (4 cols: cⱼ/ξ, ξ, Rank, Type)
-    _merge_cells(0, 7, 10)
-    _set_cell(0, 7, '(3) Efficiency-Adjusted', bold=True, font_size=8)
-    # Merge cols 11-13: "(4) Bilateral λᵢⱼ"
-    _merge_cells(0, 11, 13)
-    _set_cell(0, 11, '(4) Bilateral \u03bb\u1d62\u2c7c', bold=True, font_size=8)
-    _set_cell(0, 14, '', font_size=8)
+    _s(0, 0, '')
+    _tbl_merge(tbl, 0, 1, 3)
+    _s(0, 1, '(1) Raw Electricity', bold=True)
+    _tbl_merge(tbl, 0, 4, 6)
+    _s(0, 4, '(2) Cost-Recovery', bold=True)
+    _tbl_merge(tbl, 0, 7, 10)
+    _s(0, 7, '(3) Efficiency-Adjusted', bold=True)
+    _tbl_merge(tbl, 0, 11, 13)
+    _s(0, 11, '(4) Bilateral \u03bb\u1d62\u2c7c', bold=True)
+    _s(0, 14, '')
 
     # Top + bottom border on row 0
     for j in range(n_cols):
-        _cell_border_t3(tbl.cell(0, j)._tc, ['top', 'bottom'], sz='4')
+        _tbl_border(tbl.cell(0, j)._tc, ['top', 'bottom'])
 
     # ─── Row 1: Sub-headers ───
     sub_headers = ['Country',
@@ -5435,72 +5331,48 @@ def write_table3(doc, body, after_el, demand_data):
                    'c\u2c7c/\u03be\u2c7c\u1d49\u1da0\u1da0', 'Rank', 'Type',
                    '\u0394']
     for j, hdr in enumerate(sub_headers):
-        _set_cell(1, j, hdr, bold=True, font_size=8,
-                  align='left' if j == 0 else 'center')
-        _cell_border_t3(tbl.cell(1, j)._tc, ['top', 'bottom'], sz='4')
+        _s(1, j, hdr, bold=True, align='left' if j == 0 else 'center')
+        _tbl_border(tbl.cell(1, j)._tc, ['top', 'bottom'])
 
     # ─── Data rows ───
     row_idx = 2
     all_data_rows = list(top_rows)
 
     for d in all_data_rows:
-        _set_cell(row_idx, 0, _sname(d["country"]), font_size=8, align='left')
-        _set_cell(row_idx, 1, f'${d["cj_raw"]:.2f}', font_size=8)
-        _set_cell(row_idx, 2, str(d["rank_raw"]), font_size=8)
-        _set_cell(row_idx, 3, d["type_raw"], font_size=8)
-        _set_cell(row_idx, 4, f'${d["cj_cr"]:.2f}', font_size=8)
-        _set_cell(row_idx, 5, str(d["rank_cr"]), font_size=8)
-        _set_cell(row_idx, 6, d["type_cr"], font_size=8)
-        _set_cell(row_idx, 7, f'${d["cj_eff"]:.2f}', font_size=8)
-        _set_cell(row_idx, 8, f'{d["xi"]:.2f}', font_size=8)
-        _set_cell(row_idx, 9, str(d["rank_eff"]), font_size=8)
-        _set_cell(row_idx, 10, d["type_eff"], font_size=8)
-        _set_cell(row_idx, 11, f'${d["cj_eff"]:.2f}', font_size=8)
-        _set_cell(row_idx, 12, str(d["rank_eff"]), font_size=8, bold=True)
-        _set_cell(row_idx, 13, d.get("type_bilat", d.get("type_sov", "II")), font_size=8)
+        _s(row_idx, 0, _sname(d["country"]), align='left')
+        _s(row_idx, 1, f'${d["cj_raw"]:.2f}')
+        _s(row_idx, 2, str(d["rank_raw"]))
+        _s(row_idx, 3, d["type_raw"])
+        _s(row_idx, 4, f'${d["cj_cr"]:.2f}')
+        _s(row_idx, 5, str(d["rank_cr"]))
+        _s(row_idx, 6, d["type_cr"])
+        _s(row_idx, 7, f'${d["cj_eff"]:.2f}')
+        _s(row_idx, 8, f'{d["xi"]:.2f}')
+        _s(row_idx, 9, str(d["rank_eff"]))
+        _s(row_idx, 10, d["type_eff"])
+        _s(row_idx, 11, f'${d["cj_eff"]:.2f}')
+        _s(row_idx, 12, str(d["rank_eff"]), bold=True)
+        _s(row_idx, 13, d.get("type_bilat", d.get("type_sov", "II")))
         delta_val = d["delta"]
         delta_str = f'+{delta_val}' if delta_val > 0 else str(delta_val)
-        _set_cell(row_idx, 14, delta_str, font_size=8)
+        _s(row_idx, 14, delta_str)
         row_idx += 1
 
     # Double bottom border on last data row
     last_data_row = row_idx - 1
     for j in range(n_cols):
-        _cell_border_t3(tbl.cell(last_data_row, j)._tc, ['bottom'], style='double')
+        _tbl_border(tbl.cell(last_data_row, j)._tc, ['bottom'], style='double')
 
-    # Column widths (landscape ~13,000 twips usable)
-    _cw = [
+    # Column widths and spacing
+    _tbl_col_widths(tbl, [
         1800,                # Country
         900, 540, 540,       # (1)
         900, 540, 540,       # (2)
         900, 450, 540, 540,  # (3): cⱼ/ξ, ξ, Rank, Type
         900, 540, 540,       # (4)
         540,                 # Delta
-    ]
-    for j, w in enumerate(_cw):
-        for i in range(n_rows):
-            try:
-                c = tbl.cell(i, j)
-            except IndexError:
-                continue
-            tcPr = c._tc.get_or_add_tcPr()
-            tcW = OxmlElement('w:tcW')
-            tcW.set(qn('w:w'), str(w))
-            tcW.set(qn('w:type'), 'dxa')
-            old = tcPr.find(qn('w:tcW'))
-            if old is not None:
-                tcPr.remove(old)
-            tcPr.append(tcW)
-
-    # Cell spacing
-    for row in tbl.rows:
-        for cell in row.cells:
-            for pp in cell.paragraphs:
-                pPr = pp._element.get_or_add_pPr()
-                sp = OxmlElement('w:spacing')
-                sp.set(qn('w:before'), '10')
-                sp.set(qn('w:after'), '10')
-                pPr.append(sp)
+    ])
+    _tbl_cell_spacing(tbl)
 
     # Position table after title
     tbl_el = tbl._tbl
@@ -5594,122 +5466,46 @@ def write_table3(doc, body, after_el, demand_data):
     tbl3b = doc.add_table(rows=n_rows_3b, cols=n_cols_3b)
     tbl3b.alignment = WD_TABLE_ALIGNMENT.CENTER
     tbl3b.style = 'Table Grid'
+    _tbl_clear_borders(tbl3b)
 
-    # Remove borders
-    tblPr3b = tbl3b._tbl.find(qn('w:tblPr'))
-    if tblPr3b is None:
-        tblPr3b = OxmlElement('w:tblPr')
-        tbl3b._tbl.insert(0, tblPr3b)
-    old_bdr3b = tblPr3b.find(qn('w:tblBorders'))
-    if old_bdr3b is not None:
-        tblPr3b.remove(old_bdr3b)
-    tblBorders3b = OxmlElement('w:tblBorders')
-    for side in ('top', 'left', 'bottom', 'right', 'insideH', 'insideV'):
-        b = OxmlElement(f'w:{side}')
-        b.set(qn('w:val'), 'none')
-        b.set(qn('w:sz'), '0')
-        b.set(qn('w:space'), '0')
-        b.set(qn('w:color'), 'auto')
-        tblBorders3b.append(b)
-    tblPr3b.append(tblBorders3b)
-    tblW3b = tblPr3b.find(qn('w:tblW'))
-    if tblW3b is None:
-        tblW3b = OxmlElement('w:tblW')
-        tblPr3b.append(tblW3b)
-    tblW3b.set(qn('w:w'), '5000')
-    tblW3b.set(qn('w:type'), 'pct')
-
-    def _cell_border_3b(tc, sides, sz='4', style='single'):
-        tcPr = tc.get_or_add_tcPr()
-        tcB = OxmlElement('w:tcBorders')
-        for s in sides:
-            b = OxmlElement(f'w:{s}')
-            b.set(qn('w:val'), style)
-            b.set(qn('w:sz'), sz)
-            b.set(qn('w:space'), '0')
-            b.set(qn('w:color'), 'auto')
-            tcB.append(b)
-        tcPr.append(tcB)
-
-    def _set_cell_3b(row_i, col_j, text, bold=False, align='center', font_size=9):
-        cell = tbl3b.cell(row_i, col_j)
-        cell.text = ''
-        pp = cell.paragraphs[0]
-        if align == 'left':
-            pp.alignment = WD_ALIGN_PARAGRAPH.LEFT
-        elif align == 'right':
-            pp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        else:
-            pp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        rr = pp.add_run(text)
-        rr.font.size = Pt(font_size)
-        rr.font.name = 'Times New Roman'
-        if bold:
-            rr.bold = True
-        return cell
+    _s3b = partial(_tbl_set, tbl3b, font_size=8)  # default fs=8 for Table 3b
 
     # Row 0: Group headers (merged)
-    _set_cell_3b(0, 0, '', font_size=8)
-    # Merge cols 1-2: "(4)/(5) Bilateral"
-    tbl3b.cell(0, 1).merge(tbl3b.cell(0, 2))
-    _set_cell_3b(0, 1, '(4)/(5) Bilateral', bold=True, font_size=8)
-    # Merge cols 3-5: "(6) Uniform"
-    tbl3b.cell(0, 3).merge(tbl3b.cell(0, 5))
-    _set_cell_3b(0, 3, '(6) Uniform', bold=True, font_size=8)
+    _s3b(0, 0, '')
+    _tbl_merge(tbl3b, 0, 1, 2)
+    _s3b(0, 1, '(4)/(5) Bilateral', bold=True)
+    _tbl_merge(tbl3b, 0, 3, 5)
+    _s3b(0, 3, '(6) Uniform', bold=True)
     for j in range(n_cols_3b):
-        _cell_border_3b(tbl3b.cell(0, j)._tc, ['top', 'bottom'], sz='4')
+        _tbl_border(tbl3b.cell(0, j)._tc, ['top', 'bottom'])
 
     # Row 1: Sub-headers
     sub_hdr_3b = ['Country', 'c\u2c7c/\u03be\u2c7c\u1d49\u1da0\u1da0',
                   'Type', 'Type', 'Rank\u2086', '\u03bb\u2096*']
     for j, hdr in enumerate(sub_hdr_3b):
-        _set_cell_3b(1, j, hdr, bold=True, font_size=8,
-                     align='left' if j == 0 else 'center')
-        _cell_border_3b(tbl3b.cell(1, j)._tc, ['top', 'bottom'], sz='4')
+        _s3b(1, j, hdr, bold=True, align='left' if j == 0 else 'center')
+        _tbl_border(tbl3b.cell(1, j)._tc, ['top', 'bottom'])
 
     # Data rows
     row_3b = 2
     for d in all_data_rows:
-        _set_cell_3b(row_3b, 0, _sname(d["country"]), font_size=8, align='left')
-        _set_cell_3b(row_3b, 1, f'${d["cj_eff"]:.2f}', font_size=8)
-        _set_cell_3b(row_3b, 2, d.get("type_bilat", "II"), font_size=8)
-        _set_cell_3b(row_3b, 3, d.get("type_uniform", "II"), font_size=8)
-        _set_cell_3b(row_3b, 4, str(d.get("rank_sov", d["rank_eff"])), font_size=8)
+        _s3b(row_3b, 0, _sname(d["country"]), align='left')
+        _s3b(row_3b, 1, f'${d["cj_eff"]:.2f}')
+        _s3b(row_3b, 2, d.get("type_bilat", "II"))
+        _s3b(row_3b, 3, d.get("type_uniform", "II"))
+        _s3b(row_3b, 4, str(d.get("rank_sov", d["rank_eff"])))
         lks = d.get("lam_k_star", 0)
         lks_str = f'{lks * 100:.1f}%' if lks >= 0 else f'\u2212{abs(lks) * 100:.1f}%'
-        _set_cell_3b(row_3b, 5, lks_str, font_size=8)
+        _s3b(row_3b, 5, lks_str)
         row_3b += 1
 
     # Bottom border
     for j in range(n_cols_3b):
-        _cell_border_3b(tbl3b.cell(row_3b - 1, j)._tc, ['bottom'], style='double')
+        _tbl_border(tbl3b.cell(row_3b - 1, j)._tc, ['bottom'], style='double')
 
-    # Column widths
-    _cw3b = [2400, 1300, 1000, 1000, 900, 1100]
-    for j, w in enumerate(_cw3b):
-        for i in range(n_rows_3b):
-            try:
-                c = tbl3b.cell(i, j)
-            except IndexError:
-                continue
-            tcPr3bc = c._tc.get_or_add_tcPr()
-            tcW3bc = OxmlElement('w:tcW')
-            tcW3bc.set(qn('w:w'), str(w))
-            tcW3bc.set(qn('w:type'), 'dxa')
-            old3bc = tcPr3bc.find(qn('w:tcW'))
-            if old3bc is not None:
-                tcPr3bc.remove(old3bc)
-            tcPr3bc.append(tcW3bc)
-
-    # Cell spacing
-    for row in tbl3b.rows:
-        for cell in row.cells:
-            for pp in cell.paragraphs:
-                pPr = pp._element.get_or_add_pPr()
-                sp = OxmlElement('w:spacing')
-                sp.set(qn('w:before'), '10')
-                sp.set(qn('w:after'), '10')
-                pPr.append(sp)
+    # Column widths and spacing
+    _tbl_col_widths(tbl3b, [2400, 1300, 1000, 1000, 900, 1100])
+    _tbl_cell_spacing(tbl3b)
 
     tbl3b_el = tbl3b._tbl
     body.remove(tbl3b_el)
