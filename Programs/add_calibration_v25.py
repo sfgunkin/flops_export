@@ -3669,7 +3669,7 @@ def write_table_a2(doc, body, after_el, demand_data):
     _sc(0, 11, '(4) Bilateral \u03bb\u1d62\u2c7c', bold=True, fs=7)
     _sc(0, 14, '', fs=7)
     for j in range(n_cols):
-        _cb(tbl.cell(0, j)._tc, ['top'], sz='4')
+        _cb(tbl.cell(0, j)._tc, ['top', 'bottom'], sz='4')
 
     # Row 1: sub-headers
     sub_h = ['Country', 'c\u2c7c', 'Rank', 'Type',
@@ -3678,7 +3678,7 @@ def write_table_a2(doc, body, after_el, demand_data):
              'p\u2c7c', 'Rank', 'Type', '\u0394']
     for j, h in enumerate(sub_h):
         _sc(1, j, h, bold=True, fs=7, align='left' if j == 0 else 'center')
-        _cb(tbl.cell(1, j)._tc, ['bottom'], sz='4')
+        _cb(tbl.cell(1, j)._tc, ['top', 'bottom'], sz='4')
 
     # Data rows
     for i, d in enumerate(all_sorted):
