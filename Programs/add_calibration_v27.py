@@ -1380,15 +1380,15 @@ def write_introduction(doc, body, hmap):
     # Para 3: FLOP exporting
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'This surge in demand for compute creates a new type of export opportunity. '
-        'This paper refers to the production of compute services in one country '
+        'This surge in demand for compute creates a export opportunity. '
+        'We refer to the production of compute services in one country '
         'for consumption in another as '
     )
     add_italic(p, 'FLOP exporting')
     p.add_run(
         '. Rather than '
         'exporting raw energy resources as primary commodities, '
-        'countries can convert electricity into a higher value-added digital service. '
+        'countries can use cheap electricity to produce a higher value-added digital service. '
         'For resource-rich developing countries, FLOP exporting could offer a route up the '
         'value chain without the heavy industrialization traditionally required for '
         'such upgrading (Hausmann et al. 2007).'
@@ -1500,8 +1500,8 @@ def write_literature(doc, body, hmap):
         ' depends on electricity costs and climate, so resource-rich countries could become '
         'compute exporters without domestic AI research industries. Korinek and Stiglitz (2021) '
         'suggest that developing countries could be left behind in the AI '
-        'revolution. FLOP exporting offers a route for energy-rich developing '
-        'countries to participate in that revolution. The concept of FLOP exporting as value chain upgrading '
+        'revolution. FLOP exporting would allow energy-rich developing '
+        'countries participate in that revolution. The concept of FLOP exporting as value chain upgrading '
         'connects to Hausmann et al. (2007), who show that what a country exports '
         'matters for growth. Lim\u00E3o and Venables (2001) demonstrate that infrastructure quality '
         'determines trade costs. In our model, network infrastructure plays the analogous role '
@@ -1982,7 +1982,7 @@ def write_demand(doc, body, hmap, demand_data):
     )
     omath(p, [_v('k')])
     p.add_run(
-        '. The paper measures compute demand '
+        '. We measure compute demand '
         'using installed data center capacity in megawatts (MW):'
     )
     p.paragraph_format.space_after = Pt(2)
@@ -2046,7 +2046,7 @@ def write_demand(doc, body, hmap, demand_data):
                   'reasoning tasks) and fine-tuning (rapid iterative retraining on proprietary data), '
                   'occupy a middle ground, tolerating moderate latency but requiring sustained GPU '
                   'allocation and proximity to data. Using installed capacity to proxy demand is a '
-                  'static assumption; endogenizing demand, for instance proportional to GDP or digital '
+                  'static assumption; endogenizing demand, for instance, proportional to GDP or digital '
                   'adoption, is a natural extension.', 21)
 
 
@@ -2636,7 +2636,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     make_footnote(p,
                   'Capping PUE at 1.20 (simulating universal liquid cooling) '
                   'yields a Kendall rank correlation of 0.96 with the baseline rankings. The top five '
-                  'countries are unchanged and the maximum rank shift is six positions. Gulf states and '
+                  'countries are unchanged, and the maximum rank shift is six positions. Gulf states and '
                   'North Africa gain the most (UAE moves from 26th to 20th, Qatar from 15th to 11th), '
                   'but the effect is small because electricity prices, not cooling, dominate '
                   'cross-country cost variation.', 13)
@@ -2887,12 +2887,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'Cost advantages must be weighed against institutional quality. '
-        'While data centers can mitigate grid unreliability through private infrastructure, '
-        'governance weaknesses\u2009\u2014\u2009contract enforcement, expropriation risk, '
-        'regulatory instability\u2009\u2014\u2009cannot be engineered away. '
-        'Because hardware costs are globally uniform, the efficiency adjustment applies only '
-        'to the country-specific cost component\u2009\u2014\u2009energy procurement, cooling '
-        'infrastructure, construction, and grid connection\u2009\u2014\u2009assigning equal weight '
+        'Private infrastructure mitigates grid unreliability, but governance weaknesses '
+        'lie outside the investor\u2019s control. '
+        'Efficiency adjustment applies only '
+        'to the country-specific cost component (energy procurement, cooling '
+        'infrastructure, construction, and grid connection), assigning equal weight '
         'to governance quality and grid reliability ('
     )
     omath(p, [_v('\u03C9'), _t(' = 0.50')])
@@ -2929,12 +2928,10 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'and Iceland rises {abs(_isl_delta)}. '
         'Countries that combine cheap energy with adequate institutions retain their '
         'cost advantage after governance adjustment, while those with very weak '
-        'governance\u2009\u2014\u2009Turkmenistan, Tajikistan, Russia\u2009\u2014\u2009lose ground. '
-        'Because hardware accounts for roughly 90% of cost-recovery costs, '
-        'the non-hardware spread is narrow, and even modest governance penalties '
-        'on local costs can reshuffle adjacent ranks. '
-        'An engineering cost advantage is therefore necessary but not sufficient for '
-        'FLOP exporting. '
+        'governance (Turkmenistan, Tajikistan, Russia) lose ground. '
+        'With hardware dominating unit costs, the remaining cross-country variation is '
+        'narrow, and even modest governance penalties reshuffle adjacent ranks. '
+        'Cheap energy is necessary but not sufficient for FLOP exporting. '
     )
     p._element.append(make_bookmark(121, 'Figure2txt'))
     p._element.append(make_hyperlink('Figure2', 'Figure 2'))
@@ -3113,9 +3110,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'and for France {"domestically" if fra_inf == "FRA" else "from " + _iso_name.get(fra_inf, fra_inf)}. '
         f'For China, the cheapest source of inference is {_iso_name.get(chn_inf, chn_inf)}, '
         'a neighboring country with hydropower-based electricity. '
-        'These patterns illustrate the model\u2019s core prediction that inference organizes around '
-        'latency-bounded regional hubs, and each major market has a distinct optimal supplier '
-        'determined by geography. '
+        'Inference supply thus concentrates around latency-bounded regional hubs, '
+        'each major market sourcing from a distinct nearby supplier.'
     )
 
     # ── A4. Sovereignty counterfactual (KEEP P80) ──
@@ -3323,7 +3319,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_v('\u03C9')])
     p.add_run(
         ' from 0.30 to 0.85 changes the number of developing countries in the '
-        'top fifteen from 7 to 5 but leaves the top five exporters largely unchanged. '
+        'top fifteen from 7 to 5, but leaves the top five exporters largely unchanged. '
         'Second, raising the floor from 0.00 to 0.50 increases developing-country '
         'representation from 3 to 9 in the top fifteen. '
         'Third, the results are most sensitive to the hardware cost share '
@@ -3335,9 +3331,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_v('\u03C1')])
     p.add_run(
         ' by \u00b14 percent changes the developing-country count by up to 7. '
-        'This sensitivity reinforces the structural argument\u2009\u2014\u2009the finding that '
-        'energy-rich developing countries can compete depends primarily on the observation '
-        'that hardware is globally priced, not on any particular parameter choice. '
+        'The qualitative result, that energy-rich developing countries can compete in '
+        'compute exports, follows from hardware being globally priced, not from any '
+        'particular parameter choice. '
         'The qualitative finding is robust across all specifications.'
     )
 
@@ -3435,7 +3431,7 @@ def write_conclusion(doc, body, hmap, demand_data):
         'This paper develops a capacity-constrained Ricardian model of compute trade, '
         'distinguishing latency-insensitive training from latency-sensitive inference and '
         'incorporating bilateral sovereignty premia. '
-        'Across 85 countries, low-energy-cost countries export training compute, '
+        'Across 85 countries, low-energy-cost producers export training compute, '
         'while inference is served by regional hubs close enough to users to meet latency requirements. '
         'The bilateral sovereignty premium rationalizes widespread domestic investment, shifting '
         'the majority of countries from import to domestic production, '
@@ -3456,20 +3452,20 @@ def write_conclusion(doc, body, hmap, demand_data):
         'For developing countries, the results point to a new avenue for economic participation '
         'in the global economy. Countries like Kyrgyzstan, Montenegro, and Egypt, which rank '
         'among the cheapest FLOP producers in the calibration, could use their energy '
-        'resource endowments\u2014hydropower, natural gas, and solar irradiance\u2014to convert '
-        'cheap electricity into a high-value digital export without building a domestic AI '
+        'resource endowments\u2014hydropower, natural gas, and solar irradiance\u2014to turn '
+        'cheap power into a high-value digital export without building a domestic AI '
         'research ecosystem. '
-        'FLOP exporting is the digital equivalent of resource-based industrialization, but '
-        'with the advantage that the underlying resource (electricity) need not deplete a '
-        'finite reserve, and the product '
-        '(compute) serves the fastest-growing sector of the world economy. '
-        'That said, the resource curse literature (van der Ploeg 2011) warns that '
+        'FLOP exporting resembles resource-based industrialization, but electricity, '
+        'unlike oil or minerals, is renewable where generated from hydro, solar, or '
+        'geothermal sources, and compute demand is growing faster than any other sector '
+        'of the world economy. '
+        'The resource curse literature (van der Ploeg 2011) warns, however, that '
         'concentrated export revenues can lead to Dutch disease, institutional degradation, '
-        'and volatility. Whether FLOP exporting countries share these risks depends on '
-        'the revenue-sharing model they adopt: a sovereign wealth fund approach (Norway) '
-        'versus elite capture (Dutch disease). '
+        'and exposure to demand cycles. Whether FLOP exporting countries share these risks '
+        'depends on the revenue-sharing model they adopt: a sovereign wealth fund approach '
+        '(Norway) versus elite capture (Dutch disease). '
         'Large-scale compute export revenues could also appreciate the real exchange rate, '
-        'crowding out other tradable sectors \u2014 a channel particularly relevant for small, '
+        'crowding out other tradable sectors, a channel particularly relevant for small, '
         'open economies where data center electricity consumption rivals existing industrial '
         'load. '
         'The institutional investments required to '
