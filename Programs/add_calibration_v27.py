@@ -3033,7 +3033,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         'Inference is more dispersed, with the top five suppliers being '
         f'{inf_list}, collectively accounting for '
-        f'{sum(s for _, s in top5_inf) * 100:.0f}% of global inference demand '
+        f'{sum(round(s * 100) for _, s in top5_inf):.0f}% of global inference demand '
         f'(HHI = {demand_data["hhi_i"]:.2f}). '
     )
 
