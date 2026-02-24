@@ -3259,7 +3259,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     add_italic(p, 'GPU upgrades. ')
     p.add_run(
         'The calibration uses the NVIDIA H100, but successor GPUs (B200, shipping 2025) '
-        'deliver roughly four times the training throughput at about 1\u2009kW. '
+        'deliver roughly four times the training throughput at about 1kW. '
         'Higher power draw widens the absolute electricity cost gap across '
         'countries, modestly strengthening developing-country comparative advantage. '
         'Countries operating older-generation GPU-hours must discount to compete '
