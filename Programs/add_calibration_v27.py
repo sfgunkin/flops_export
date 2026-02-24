@@ -1311,7 +1311,14 @@ def write_title_and_abstract(doc, body, all_el, hmap):
         'form around major demand centers. Because hardware costs are globally uniform, '
         'compressing cross-country cost differences, production efficiency and bilateral trust '
         'are decisive. Countries combining cheap energy with adequate institutions remain '
-        'competitive after governance adjustment. For energy-rich developing '
+        'competitive after governance adjustment. '
+    )
+    p.add_run(
+        'The resulting cost spread across 85 countries is only 12\u201320 percent, '
+        'making compute one of the most contested tradable goods in the world economy: '
+        'small policy-induced frictions \u2014 sovereignty premia, governance penalties, '
+        'capital cost differences \u2014 are sufficient to reshuffle the entire ranking. '
+        'For energy-rich developing '
         'countries, FLOP exporting offers a route to integrate into the global economy '
         'without heavy industrialization.'
     )
@@ -1859,8 +1866,18 @@ def write_trade_costs(doc, body, hmap):
     omath(p, [_v('G')])
     p.add_run(
         ' is the Rule of Law percentile (rescaled to [0,\u20091]) '
-        '(World Bank 2024), '
+        '(World Bank 2024)'
     )
+    make_footnote(p,
+        'The Rule of Law percentile is a country-level composite capturing perceptions '
+        'of contract enforcement, property rights, courts, and police across the entire '
+        'economy. The governance relevant to a data center investment is narrower: '
+        'credibility of long-term power purchase agreements, stability of the tax regime, '
+        'and enforceability of international arbitration clauses. Sector-specific measures '
+        'such as bilateral investment treaty coverage or ICSID arbitration caseload would '
+        'be preferable if available across all 85 countries.',
+        23)
+    p.add_run(', ')
     omath(p, [_v('R')])
     p.add_run(
         ' is grid reliability '
@@ -2240,6 +2257,22 @@ def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
         'training exports, inference exports to various destinations, or domestic supply.'
     )
 
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'The cost-based equilibrium identifies the set of countries that could profitably '
+        'produce and export compute. Which countries from this set actually attract '
+        'investment depends additionally on agglomeration economies, hyperscaler market '
+        'structure, and network connectivity (Krugman 1991). The cloud compute market is '
+        'dominated by three firms (AWS, Azure, Google Cloud) whose location decisions '
+        'reflect scale economies and self-reinforcing colocation dynamics that the '
+        'competitive framework abstracts from. The capacity ceilings '
+    )
+    omath(p, [_msub('K\u0304', 'j')])
+    p.add_run(
+        ' partially capture the resulting gap between cost-based potential and realized '
+        'investment; Section 7 discusses these limitations further.'
+    )
+
 
 def write_equilibrium_properties(doc, body, hmap, demand_data):
     print("Rewriting Section 4 (Equilibrium Properties)...")
@@ -2480,6 +2513,13 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         'Capacity constraints reduce the sovereignty premium required for domestic production '
         'because higher world prices make imports more expensive.'
     )
+    make_footnote(p,
+        'For large-demand countries (e.g., the United States with 43% of global compute '
+        'demand), the observed domestic production may partly reflect scale economies '
+        'rather than sovereignty preferences. The switching threshold \u03bb\u2096* conflates '
+        'the home market effect with the sovereignty premium; disentangling the two would '
+        'require a model with increasing returns, which lies outside the present framework.',
+        22)
 
     # Corollary
     p, cur = mkp(doc, body, cur, space_before=6)
@@ -2938,6 +2978,26 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_bookmark_end(121))
     p.add_run(' illustrates the resulting rank reshuffling. ')
 
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'The gap between cost-based comparative advantage and actual investment is wide. '
+        'Among the twenty cheapest producers after efficiency adjustment, five have less '
+        'than 100\u2009MW of installed data center capacity: Kyrgyzstan (rank 5, 5\u2009MW), '
+        'Kosovo (rank 7, 5\u2009MW), Montenegro (rank 8, 5\u2009MW), Ethiopia '
+        '(rank 10, 10\u2009MW), and Iceland (rank 11, 60\u2009MW). Meanwhile, several high-cost '
+        'countries host large data center clusters: the Netherlands (rank 31, 1,800\u2009MW), '
+        'Ireland (rank 71, 1,260\u2009MW), and Singapore (rank 66, 1,130\u2009MW). These patterns '
+        'reflect agglomeration economies, hyperscaler location strategies, and network '
+        'infrastructure that the cost-based ranking captures only through the capacity '
+        'ceiling '
+    )
+    omath(p, [_msub('K\u0304', 'j')])
+    p.add_run(
+        '. The cost ranking should therefore be read as identifying the feasible set '
+        'of exporters, not predicting which countries will attract investment absent the '
+        'institutional and market-structure conditions discussed in Section 7.'
+    )
+
     # ── A4. Bilateral sovereignty — Table 3b col (4) ──
     # Use table3 lam_k_star for inline values (consistency with table)
     _t3 = demand_data["table3"]
@@ -3168,6 +3228,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'The demand-weighted welfare cost is {demand_data["welfare_pct"]:.1f}% of '
         'average compute spending, comparable to the 0.2\u201310% welfare losses from trade barriers '
         'estimated for goods trade (Eaton and Kortum 2002, Arkolakis et al. 2012).'
+        ' At current demand levels (approximately 6\u2009\u00d7\u200910\u00b9\u2070 GPU-hours at '
+        '$1.50/hr), this amounts to roughly $1.3\u2009billion per year. This cost is small '
+        'enough that governments with legitimate data-sovereignty objectives \u2014 military '
+        'applications, health records, national statistical systems \u2014 may rationally '
+        'prefer domestic production even at the efficiency loss the model documents.'
     )
 
     # ── A5. Sovereignty policy discussion (MOVED P86 + GDPR/WB from P85/P84) ──
@@ -3399,20 +3464,13 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Agglomeration and market structure. ')
     p.add_run(
-        'The competitive framework abstracts from the industrial organization of the '
-        'cloud compute market, which is dominated by a small number of hyperscalers '
-        '(AWS, Azure, Google Cloud) with significant scale economies, proprietary networks, '
-        'and market power. In practice, whether a country becomes a compute exporter depends '
-        'not only on unit costs but on whether a hyperscaler or colocation provider chooses '
-        'to invest there, a decision shaped by agglomeration economies, institutional quality, '
-        'and network connectivity (Krugman 1991). The concentration of data centers in '
-        'locations such as Northern Virginia reflects these centripetal forces. '
-        'The cost-based ranking should therefore be interpreted as a necessary condition '
-        'for competitiveness, not a sufficient one: a country must be cheap enough to attract '
-        'investment, but whether a hyperscaler actually builds there depends on agglomeration '
-        'economies and network effects the model abstracts from. This distinction motivates '
-        'the capacity ceilings in Section 3, which partially capture the gap between '
-        'cost-based potential and realized investment.'
+        'As noted in Section 3, the competitive framework abstracts from the industrial '
+        'organization of the cloud market. The concentration of data centers in locations '
+        'such as Northern Virginia \u2014 despite above-median electricity costs \u2014 reflects '
+        'centripetal forces that the cost-based ranking cannot capture. The cost-competitive '
+        'set identified in Section 6 should be interpreted as a necessary condition: a '
+        'country must be cheap enough to attract investment, but whether investment '
+        'materializes depends on agglomeration economies and network effects.'
     )
 
 
@@ -3442,9 +3500,12 @@ def write_conclusion(doc, body, hmap, demand_data):
         'This geographic structure is consistent with Lehdonvirta et al. (2024), '
         'who independently find that training-capable GPU infrastructure is concentrated in '
         'roughly 30 countries, while the rest are limited to inference-grade hardware. '
-        'Given the narrow cross-country cost spread documented in Section 6, production '
-        'efficiency, bilateral trade frictions, and access to GPU hardware are often decisive in '
-        'determining actual data center location. '
+        'Because hardware accounts for roughly 90 percent of the unit cost and is globally '
+        'priced, the cross-country cost spread is only 12\u201320 percent \u2014 narrower than in '
+        'virtually any other tradable good. This makes compute both the easiest sector for '
+        'developing countries to enter on cost grounds and the one most vulnerable to small '
+        'frictions: a modest sovereignty premium, a slight governance penalty, or a higher '
+        'cost of capital is sufficient to shift a country from exporter to importer. '
     )
 
     p, cur_concl = mkp(doc, body, cur_concl)
@@ -3455,10 +3516,11 @@ def write_conclusion(doc, body, hmap, demand_data):
         'resource endowments\u2014hydropower, natural gas, and solar irradiance\u2014to turn '
         'cheap power into a high-value digital export without building a domestic AI '
         'research ecosystem. '
-        'FLOP exporting resembles resource-based industrialization, but electricity, '
-        'unlike oil or minerals, is renewable where generated from hydro, solar, or '
-        'geothermal sources, and compute demand is growing faster than any other sector '
-        'of the world economy. '
+        'FLOP exporting resembles aluminum smelting near cheap hydropower \u2014 imported '
+        'capital equipment transforms local electricity into an exportable product with '
+        'minimal domestic labor \u2014 but with two differences: the input is renewable where '
+        'generated from hydro, solar, or geothermal sources, and compute demand is growing '
+        'faster than demand for any physical commodity. '
         'The resource curse literature (van der Ploeg 2011) warns, however, that '
         'concentrated export revenues can lead to Dutch disease, institutional degradation, '
         'and exposure to demand cycles. Whether FLOP exporting countries share these risks '
@@ -4399,6 +4461,11 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
         'electricity at $0.038/kWh and a PUE of 1.08 yield production costs well below '
         'the global median, and the positive NPV survives eight of ten '
         'perturbations in Table\u2009A6.'
+        ' The share of this surplus retained in Kyrgyzstan depends on the ownership and '
+        'fiscal structure: if the facility is owned by a foreign hyperscaler, most operating '
+        'surplus flows abroad as repatriated profits, and the host country retains only the '
+        'electricity payment and construction-phase employment unless the government '
+        'captures rent through taxation, equity participation, or resource royalties.'
     )
     risk_el = p._element
     body.remove(risk_el)
