@@ -2694,7 +2694,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_msub('\u03BB', 'ij'), _t(' \u2248 0')])
     p.add_run('. For non-adversarial pairs without regulatory agreements, ')
     omath(p, [_msub('\u03BB', 'ij')])
-    p.add_run(' falls in the range 0.05\u20130.10. ')
+    p.add_run(' falls in the range 0.05\u20130.10.')
     make_footnote(p, 'The bilateral sovereignty coefficients are calibrated to match observed '
                   'patterns of data localization policy. Survey evidence suggests enterprises pay '
                   '15\u201330% more for guaranteed domestic data residency (UNCTAD 2025). '
@@ -2837,7 +2837,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'The cost-recovery prices are defined as the long-run marginal cost (LRMC) of the dominant '
         'generation technology at opportunity-cost fuel prices (IMF 2025, Lazard 2025). '
         f'We apply this adjustment to {demand_data["n_adjusted"]} countries '
-        'whose retail electricity prices fall below the estimated LRMC. '
+        'whose retail electricity prices fall below the estimated LRMC.'
     )
     make_footnote(p,
                   'For gas exporters (Iran, Turkmenistan, Algeria, Qatar), the calibration uses '
@@ -5498,9 +5498,9 @@ def write_table3(doc, body, after_el, demand_data):
     # Row 0: Group headers (merged)
     _s3b(0, 0, '')
     _tbl_merge(tbl3b, 0, 1, 2)
-    _s3b(0, 1, '(4)/(5) Bilateral', bold=True)
+    _s3b(0, 1, '(4)/(5) Bilateral sovereignty premium', bold=True)
     _tbl_merge(tbl3b, 0, 3, 5)
-    _s3b(0, 3, '(6) Uniform', bold=True)
+    _s3b(0, 3, '(6) Uniform sovereignty premium (\u03bb = 10%)', bold=True)
     for j in range(n_cols_3b):
         _tbl_border(tbl3b.cell(0, j)._tc, ['top', 'bottom'])
 
