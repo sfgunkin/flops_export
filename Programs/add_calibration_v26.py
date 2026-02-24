@@ -7213,7 +7213,7 @@ def main():
         subprocess.run(['git', 'add', _script, str(out)],
                        cwd=_repo, capture_output=True, timeout=10)
         result = subprocess.run(
-            ['git', 'commit', '-m', f'Auto-save v24: {_ts}'],
+            ['git', 'commit', '-m', f'Auto-save v26: {_ts}'],
             cwd=_repo, capture_output=True, text=True, timeout=10)
         if result.returncode == 0:
             _hash = result.stdout.strip().split()[1].rstrip(']')
