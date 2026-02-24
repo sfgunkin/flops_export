@@ -1572,7 +1572,8 @@ def write_literature(doc, body, hmap):
         'Biglaiser et al. (2024) survey the economics of cloud '
         'markets, including switching costs, egress fees, and platform competition among '
         'hyperscalers, but the supply-side question of where compute is produced and '
-        'whether developing countries can become competitive exporters has not been addressed.'
+        'whether developing countries can become competitive exporters has not been addressed. '
+        'This paper provides the formal framework these studies lack.'
     )
 
 
@@ -2535,6 +2536,8 @@ def write_data_section(doc, body, hmap, demand_data):
 
     p, cur = mkp(doc, body, cur)
     p.add_run(
+        'The propositions above generate testable predictions that depend on '
+        'country-specific costs and bilateral frictions. '
         'Calibrating the production-cost and trade-cost parameters in equations (1)\u2013(4) requires data on '
         'electricity prices, temperatures, construction costs, bilateral latencies, and bilateral '
         'sovereignty frictions (geopolitical alignment, regulatory compatibility, sanctions). '
@@ -2977,8 +2980,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         ' from equation (2) reshapes trade patterns along geopolitical lines. '
         'Between allies with mutual data adequacy '
-        'agreements (e.g., EU member states), the effective premium is near zero; '
-        'between geopolitical adversaries, it is effectively infinite\u2014the United States '
+        'agreements (e.g., EU member states), the effective premium is near zero. '
+        'Between geopolitical adversaries, it is effectively infinite\u2014the United States '
         'would not source training from Iran regardless of cost, and current sanctions '
         'make such transactions illegal. '
         'Column\u2009(4) of '
