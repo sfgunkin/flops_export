@@ -938,7 +938,7 @@ CITATIONS = [
     ('Ohlin', '1933', 'Ohlin1933', 'Ohlin, B.'),
     ('Biglaiser et al.', '2024', 'Biglaiser2024', 'Biglaiser, G.'),
     ('Stojkoski et al.', '2024', 'Stojkoski2024', 'Stojkoski, V.'),
-    ('World Bank', '2025', 'WorldBank2025', 'World Bank. (2025)'),
+    ('World Bank', '2025', 'WorldBank2025', 'World Bank. (2025). Digital'),
     ('Hausmann et al.', '2007', 'Hausmann2007', 'Hausmann, R.'),
     ('Uptime Institute', '2024', 'UptimeInstitute2024',
      'Uptime Institute. (2024)'),
@@ -987,6 +987,9 @@ CITATIONS = [
     ('Farole', '2011', 'Farole2011', 'Farole, T.'),
     ('Frick, Rodr\u00EDguez-Pose, and Wong', '2019', 'Frick2019', 'Frick, S.'),
     ('World Bank', '2017', 'WorldBank2017', 'World Bank. (2017)'),
+    # v27: Enterprise Surveys reference for grid reliability data
+    ('World Bank Enterprise Survey', '2025', 'WBES2025',
+     'World Bank. (2025). Enterprise'),
 ]
 
 # Auto-generate CITE_MAP: both "Author (Year)" and "Author Year" forms
@@ -1097,7 +1100,8 @@ ITALIC_IN_REFS = {
     'Ohlin': 'Interregional and International Trade',
     'Biglaiser': 'Toulouse School of Economics Working Paper',
     'Stojkoski': 'Nature Communications',
-    'World Bank. (2025)': 'Digital Progress and Trends Report 2025',
+    'World Bank. (2025). Digital': 'Digital Progress and Trends Report 2025',
+    'World Bank. (2025). Enterprise': 'Enterprise Surveys',
     'World Bank. (2017)': 'Special Economic Zones: An Operational Review of Their Impacts',
     'Farole': 'Special Economic Zones in Africa: Comparing Performance and Learning from Global Experiences',
     'Frick': 'Economic Geography',
@@ -1838,34 +1842,31 @@ def write_trade_costs(doc, body, hmap):
     p.add_run(', where ')
     omath(p, [_v('G')])
     p.add_run(
-        ' is the World Bank Rule of Law percentile (rescaled to [0,\u20091]), '
+        ' is the Rule of Law percentile (rescaled to [0,\u20091]) '
+        '(World Bank 2024), '
     )
     omath(p, [_v('R')])
     p.add_run(
-        ' is the inverse of hours without electricity per firm per year '
-        '(World Bank Enterprise Surveys, also rescaled to [0,\u20091]), and '
+        ' is grid reliability '
+        '(World Bank Enterprise Survey 2025), also rescaled to [0,\u20091]), and '
     )
     omath(p, [_v('\u03C9'), _t(' = 0.50')])
     p.add_run(
-        ' assigns equal weight to governance and grid reliability, reflecting '
-        'the enclave character of data center operations. '
+        ' assigns equal weight to governance and grid reliability. '
         'The floor '
     )
     omath(p, [_msub('\u03BE', 'floor')])
     p.add_run(
         ' reflects the minimum operational quality achievable through investor-side '
-        'risk mitigation\u2009\u2014\u2009international arbitration, dedicated infrastructure, '
-        'and special economic zone provisions\u2009\u2014\u2009consistent with evidence that '
-        'zone-level governance outperforms national averages '
-        '(Farole 2011; World Bank 2017; Frick, Rodr\u00EDguez-Pose, and Wong 2019). '
-        'The baseline sets '
+        'risk mitigation, calibrated to evidence on zone-level governance in '
+        'special economic zones (Section 6). '
+        'The efficiency adjustment applies only to the non-hardware cost component: '
+        'since hardware is priced on global markets, governance penalties operate on '
+        'local costs rather than on the full unit '
+        'cost (see equation 3). The baseline sets '
     )
     omath(p, [_msub('\u03BE', 'floor'), _t(' = 0.30')])
-    p.add_run(
-        '. The efficiency adjustment applies only to the non-hardware cost component: '
-        'since hardware is priced on global markets, governance penalties operate on '
-        'local costs (energy, cooling, construction) rather than on the full unit '
-        'cost (see equation 3). '
+    p.add_run('. '
         'The index approaches one for countries with strong institutions and '
         'reliable power, and falls below one for countries where institutional weakness '
         'or operational risk reduces effective delivery. '
@@ -2644,19 +2645,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'GPU and networking equipment prices are assumed to be uniform across countries.'
     )
 
-    # GPU upgrades paragraph
-    p, cur = mkp(doc, body, cur)
-    add_italic(p, 'GPU upgrades. ')
-    p.add_run(
-        'The calibration uses the NVIDIA H100, but successor GPUs (B200, shipping 2025) '
-        'deliver roughly four times the training throughput at about 1kW. '
-        'Higher power draw widens the absolute electricity cost gap across '
-        'countries, modestly strengthening developing-country comparative advantage. '
-        'Countries operating older-generation GPU-hours must discount to compete '
-        'with competitors using newer hardware, potentially eroding their cost advantage. '
-        'Our qualitative findings are therefore robust to GPU generation choices.'
-    )
-
     # Latency degradation (split from old "Other parameters")
     p, cur = mkp(doc, body, cur)
     add_italic(p, 'Latency degradation. ')
@@ -2940,7 +2928,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     # ── A3. Transition to sovereignty ──
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'The preceding analysis identifies which countries can produce cheaply. '
         'The bilateral sovereignty premium determines which countries will trade.'
     )
 
@@ -3265,6 +3252,19 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'baseline rankings hold. If locally financed, the same institutional weaknesses '
         'that lower \u03BE also raise the country risk premium. '
         'The uniform-financing assumption therefore overstates developing-country competitiveness.'
+    )
+
+    # ── B3b. GPU upgrades (moved from Data section) ──
+    p, cur = mkp(doc, body, cur, space_before=6)
+    add_italic(p, 'GPU upgrades. ')
+    p.add_run(
+        'The calibration uses the NVIDIA H100, but successor GPUs (B200, shipping 2025) '
+        'deliver roughly four times the training throughput at about 1\u2009kW. '
+        'Higher power draw widens the absolute electricity cost gap across '
+        'countries, modestly strengthening developing-country comparative advantage. '
+        'Countries operating older-generation GPU-hours must discount to compete '
+        'with competitors using newer hardware, potentially eroding their cost advantage. '
+        'Our qualitative findings are therefore robust to GPU generation choices.'
     )
 
     # ── B5. Sensitivity analysis (v27: references Table A3 with 7 scenarios) ──
@@ -5740,6 +5740,9 @@ def write_references(doc, body, refs):
 
         'World Bank. (2025). Digital Progress and Trends Report 2025: '
         'Strengthening AI Foundations. Washington, DC: World Bank.',
+
+        'World Bank. (2025). Enterprise Surveys. '
+        'Washington, DC: World Bank. enterprisesurveys.org.',
 
         'Farole, T. (2011). Special Economic Zones in Africa: '
         'Comparing Performance and Learning from Global Experiences. '
