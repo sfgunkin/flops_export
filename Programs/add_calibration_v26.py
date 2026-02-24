@@ -70,13 +70,13 @@ import matplotlib
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt  # noqa: E402
-from docx import Document
-from docx.enum.table import WD_TABLE_ALIGNMENT
-from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.oxml import OxmlElement
-from docx.oxml.ns import qn
-from docx.shared import Inches, Pt, RGBColor
-from lxml import etree
+from docx import Document  # noqa: E402
+from docx.enum.table import WD_TABLE_ALIGNMENT  # noqa: E402
+from docx.enum.text import WD_ALIGN_PARAGRAPH  # noqa: E402
+from docx.oxml import OxmlElement  # noqa: E402
+from docx.oxml.ns import qn  # noqa: E402
+from docx.shared import Inches, Pt, RGBColor  # noqa: E402
+from lxml import etree  # noqa: E402
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
@@ -128,6 +128,7 @@ def rhup(value, dp=2):
     """Round half-up (0.985 → 0.99, 0.765 → 0.77). Avoids banker's rounding."""
     return float(Decimal(str(value)).quantize(Decimal(10) ** -dp,
                                               rounding=ROUND_HALF_UP))
+
 
 # Cost-reflective electricity prices for cost-recovery adjustment ($/kWh)
 # Replacement = estimated LRMC of dominant generation at opportunity-cost fuel price
@@ -2779,8 +2780,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_msub('\u03BE', 'floor')])
     p.add_run(
         ' is examined in Section 7. '
-        f'\u03BE ranges from {rhup(min(demand_data["xi"].get(c, 1.0) for c in OECD_ISOS if c in demand_data["xi"])):.2f} '
-        f'to {rhup(max(demand_data["xi"].get(c, 1.0) for c in OECD_ISOS if c in demand_data["xi"])):.2f} within the OECD, '
+        f'\u03BE ranges from '
+        f'{rhup(min(demand_data["xi"].get(c, 1.0) for c in OECD_ISOS if c in demand_data["xi"])):.2f} '
+        f'to '
+        f'{rhup(max(demand_data["xi"].get(c, 1.0) for c in OECD_ISOS if c in demand_data["xi"])):.2f} '
+        'within the OECD, '
         'and the tight '
         'cross-country cost spread (\u224820%) means small efficiency differences '
         'reshuffle adjacent ranks. Even countries with '
@@ -3122,15 +3126,10 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     ar = demand_data.get("adj_reg", {})
     _iso_name = {r["iso3"]: r["country"] for r in cal}
     usa_inf = ar.get('USA', {}).get('best_inf_source', 'CAN')
-    usa_inf_cost = ar.get('USA', {}).get('best_inf_cost', '1.190')
     deu_inf = ar.get('DEU', {}).get('best_inf_source', 'KOS')
-    deu_inf_cost = ar.get('DEU', {}).get('best_inf_cost', '1.180')
     gbr_inf = ar.get('GBR', {}).get('best_inf_source', 'GBR')
-    gbr_inf_cost = ar.get('GBR', {}).get('best_inf_cost', '1.176')
     fra_inf = ar.get('FRA', {}).get('best_inf_source', 'FRA')
-    fra_inf_cost = ar.get('FRA', {}).get('best_inf_cost', '1.174')
     chn_inf = ar.get('CHN', {}).get('best_inf_source', 'KGZ')
-    chn_inf_cost = ar.get('CHN', {}).get('best_inf_cost', '1.161')
     p.add_run(
         'The model\u2019s predictions vary across major AI demand centers because '
         'each faces a different latency geography. '
@@ -3348,7 +3347,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         ' from 0.70 to 1.00 leaves the top five exporters unchanged and the '
         'Spearman rank correlation above 0.99. The floor compresses the \u03BE range from '
-        f'[{rhup(xi_raw_min):.2f},\u2009{rhup(xi_raw_max):.2f}] to [{rhup(xi_eff_min):.2f},\u2009{rhup(xi_eff_max):.2f}]. '
+        f'[{rhup(xi_raw_min):.2f},\u2009{rhup(xi_raw_max):.2f}] to '
+        f'[{rhup(xi_eff_min):.2f},\u2009{rhup(xi_eff_max):.2f}]. '
         'Setting '
     )
     omath(p, [_msub('\u03BE', 'floor'), _t(' = 0.30')])

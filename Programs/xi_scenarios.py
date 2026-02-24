@@ -12,8 +12,6 @@ Output:
 
 import csv
 import pathlib
-import sys
-import time
 import warnings
 
 import numpy as np
@@ -27,7 +25,7 @@ except ImportError:
     warnings.warn("wbgapi not installed; will fall back to cached/CSV data")
 
 import openpyxl
-from openpyxl.styles import Font, PatternFill, Alignment, numbers
+from openpyxl.styles import Font, PatternFill, Alignment
 from openpyxl.utils import get_column_letter
 
 # =====================================================================
@@ -316,7 +314,7 @@ def fetch_wgi_data(iso_list):
                     if g_regq:
                         result[iso]["G_RegQ"] = float(g_regq)
         cached_count = sum(1 for v in result.values()
-                          if v["G_RoL"] is not None)
+                           if v["G_RoL"] is not None)
         if cached_count >= 80:
             print(f"  Cache has {cached_count}/{len(iso_list)} countries")
             return result
@@ -520,7 +518,7 @@ def fetch_fdi_data(iso_list):
 def _apply_fdi_logistic(result):
     """Apply logistic transformation to FDI raw values."""
     raw = np.array([v["fdi_raw"] for v in result.values()
-                     if v["fdi_raw"] is not None])
+                    if v["fdi_raw"] is not None])
     if len(raw) == 0:
         return
     median = float(np.median(raw))
@@ -906,7 +904,9 @@ def write_excel(data):
 
     # ── Summary block (starting at row 90) ──
     summary_row = 90
-    non_oecd = lambda d: d["iso"] not in OECD_ISOS
+
+    def non_oecd(d):
+        return d["iso"] not in OECD_ISOS
 
     # Compute summary statistics
     scenarios = {
@@ -1024,7 +1024,7 @@ def main():
 
     # Verification: top 5 efficiency-adjusted
     top5_v26 = sorted(data, key=lambda x: x["rank_v26"])[:5]
-    print(f"\n  v26 efficiency-adjusted top 5:")
+    print("\n  v26 efficiency-adjusted top 5:")
     for d in top5_v26:
         print(f"    {d['rank_v26']:2d}. {d['iso']} ({d['country']}) "
               f"${d['cj_eff_v26']:.2f}  xi_eff={d['xi_eff_v26']:.4f}")

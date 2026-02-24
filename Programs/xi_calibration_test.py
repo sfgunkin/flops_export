@@ -12,7 +12,6 @@ Does NOT modify the docx.
 
 import os
 import shutil
-import sys
 import tempfile
 import pathlib
 
@@ -259,7 +258,7 @@ def verify(countries):
         print(f"  FAIL [1]: {n} countries, {n_unique} unique (expected 85)")
         ok = False
     else:
-        print(f"  OK   [1]: 85 countries, no duplicates")
+        print("  OK   [1]: 85 countries, no duplicates")
 
     # [2] All xi_eff <= 1.00
     for cfg in CONFIGS:
@@ -297,10 +296,10 @@ def verify(countries):
     if actual_top5 == expected_top5:
         print(f"  OK   [4]: Baseline top 5 = {actual_top5}")
     else:
-        print(f"  FAIL [4]: Baseline top 5 mismatch!")
+        print("  FAIL [4]: Baseline top 5 mismatch!")
         print(f"    Expected: {expected_top5}")
         print(f"    Actual:   {actual_top5}")
-        print(f"    Top 10 details:")
+        print("    Top 10 details:")
         for c in sorted(countries, key=lambda c: c['rank_BL'])[:10]:
             print(f"      {c['rank_BL']:2d}. {c['name']:30s} "
                   f"cr={c['cr_cost']:.4f} xi_eff={c['xi_eff_BL']:.4f} "
@@ -318,13 +317,13 @@ def verify(countries):
             print(f"  OK   [5-{label}]: ranks 1-85 complete")
     cr_ranks = sorted(c['cr_rank'] for c in countries)
     if cr_ranks != list(range(1, 86)):
-        print(f"  FAIL [5-cr]: cr_rank not 1-85")
+        print("  FAIL [5-cr]: cr_rank not 1-85")
         ok = False
     else:
-        print(f"  OK   [5-cr]: cr_rank 1-85 complete")
+        print("  OK   [5-cr]: cr_rank 1-85 complete")
 
     # [6] cr_cost identical across configs (trivially true: single source)
-    print(f"  OK   [6]: cr_cost identical across configs (single source)")
+    print("  OK   [6]: cr_cost identical across configs (single source)")
 
     # [7] xi_raw=1.00 countries -> xi_eff=1.00 under all configs
     xi1 = [c for c in countries if abs(c['xi_raw'] - 1.0) < 0.005]
@@ -358,9 +357,9 @@ def verify(countries):
 
     linear_rhos = [r for lbl, r in rhos if lbl != 'C5']
     if all(a <= b + 0.001 for a, b in zip(linear_rhos, linear_rhos[1:])):
-        print(f"  OK   [8]: Spearman rho increases with floor (linear)")
+        print("  OK   [8]: Spearman rho increases with floor (linear)")
     else:
-        print(f"  WARN [8]: Spearman rho NOT strictly increasing")
+        print("  WARN [8]: Spearman rho NOT strictly increasing")
 
     # [9] Spearman(BL vs BL) = 1.0
     bl_ranks = [c['rank_BL'] for c in countries]
@@ -383,9 +382,9 @@ def verify(countries):
 
     linear_devs = [n for lbl, n in dev_counts if lbl != 'C5']
     if all(a <= b for a, b in zip(linear_devs, linear_devs[1:])):
-        print(f"  OK   [10]: Dev count weakly increases with floor")
+        print("  OK   [10]: Dev count weakly increases with floor")
     else:
-        print(f"  WARN [10]: Dev count NOT weakly increasing")
+        print("  WARN [10]: Dev count NOT weakly increasing")
 
     print(f"{'='*60}\n")
     return ok
@@ -402,11 +401,11 @@ SPEARMAN_FMT = '0.0000'
 
 HEADER_FONT = Font(bold=True, size=10)
 HEADER_FILL = PatternFill(start_color="D9E2F3", end_color="D9E2F3",
-                           fill_type="solid")
+                          fill_type="solid")
 GREEN_FILL = PatternFill(start_color="C6EFCE", end_color="C6EFCE",
-                          fill_type="solid")
+                         fill_type="solid")
 BLUE_FILL = PatternFill(start_color="BDD7EE", end_color="BDD7EE",
-                          fill_type="solid")
+                        fill_type="solid")
 BOLD = Font(bold=True)
 BOLD_10 = Font(bold=True, size=10)
 

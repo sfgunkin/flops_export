@@ -13,7 +13,6 @@ Data sources:
 Output: form_b_simulations.xlsx (5 sheets)
 """
 
-import math
 import pathlib
 
 import openpyxl
@@ -259,15 +258,15 @@ def validate(countries):
         print(f"  FAIL [1]: {n} countries (expected 85)")
         ok = False
     else:
-        print(f"  OK   [1]: 85 countries")
+        print("  OK   [1]: 85 countries")
 
     # [2] No duplicates
     names = [c['name'] for c in countries]
     if len(set(names)) != n:
-        print(f"  FAIL [2]: duplicate names found")
+        print("  FAIL [2]: duplicate names found")
         ok = False
     else:
-        print(f"  OK   [2]: 85 unique names")
+        print("  OK   [2]: 85 unique names")
 
     # [3] REF_CR ranking = cr_rank
     mismatches = [c for c in countries
@@ -280,7 +279,7 @@ def validate(countries):
                   f"cr={m['cr_rank']}")
         ok = False
     else:
-        print(f"  OK   [3]: REF_CR rank = cr_rank for all")
+        print("  OK   [3]: REF_CR rank = cr_rank for all")
 
     # [4] Perfect-governance countries (G=1, R=1) have xi_eff=1, markup=0
     perfect = [c for c in countries
@@ -304,7 +303,6 @@ def validate(countries):
 
     # [5] Monotonicity: for fixed omega, increasing floor weakly increases
     #     dev in top 15
-    all_ok_5 = True
     for letter, omega in [('A', 0.85), ('B', 0.70),
                           ('C', 0.50), ('D', 0.30)]:
         devs = []
@@ -316,7 +314,6 @@ def validate(countries):
         if not all(a <= b for a, b in zip(devs, devs[1:])):
             print(f"  WARN [5]: omega={omega}: dev top 15 = {devs} "
                   f"(not monotone)")
-            all_ok_5 = False
         else:
             print(f"  OK   [5-{letter}]: omega={omega}: "
                   f"dev top 15 = {devs} (monotone)")
@@ -351,7 +348,7 @@ def validate(countries):
         print(f"           xi_raw={xi_raw_exp:.4f}, "
               f"xi_eff={xi_eff_exp:.4f}")
     else:
-        print(f"  FAIL [7]: Kyrgyzstan not found")
+        print("  FAIL [7]: Kyrgyzstan not found")
         ok = False
 
     print(f"{'='*60}\n")
@@ -371,13 +368,13 @@ RHO_FMT = '0.0000'
 
 HEADER_FONT = Font(bold=True, size=10)
 HEADER_FILL = PatternFill(start_color="D9E2F3", end_color="D9E2F3",
-                           fill_type="solid")
+                          fill_type="solid")
 GREEN_FILL = PatternFill(start_color="C6EFCE", end_color="C6EFCE",
-                          fill_type="solid")
+                         fill_type="solid")
 BLUE_FILL = PatternFill(start_color="BDD7EE", end_color="BDD7EE",
-                          fill_type="solid")
+                        fill_type="solid")
 YELLOW_FILL = PatternFill(start_color="FFF2CC", end_color="FFF2CC",
-                           fill_type="solid")
+                          fill_type="solid")
 BOLD = Font(bold=True)
 BOLD_10 = Font(bold=True, size=10)
 
