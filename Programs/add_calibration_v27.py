@@ -6939,6 +6939,50 @@ def main():
         assert abs(d["cj_raw"] - d["cj_reported"]) < 0.015, \
             f'{d["iso"]}: raw={d["cj_raw"]:.4f} vs reported={d["cj_reported"]:.4f}'
 
+    # v27: Override spec (3) with exact values from form_b_simulations.xlsx (C2 scenario)
+    # This ensures rankings match the protocol lookup table exactly
+    _sim_wb = openpyxl.load_workbook(DATA / "form_b_simulations.xlsx", read_only=True)
+    _sim_ws = _sim_wb['Rankings']
+    _sim_hdr = [c.value for c in next(_sim_ws.iter_rows(max_row=1))]
+    _c2_cadj_i = _sim_hdr.index('c_adj\nC2')
+    _c2_rank_i = _sim_hdr.index('rank\nC2')
+    _c2_xieff_i = _sim_hdr.index('xi_eff\nC2')
+    _sim_data = {}
+    # Need country-to-ISO mapping
+    _sim_data_ws = _sim_wb['Data']
+    _sim_data_hdr = [c.value for c in next(_sim_data_ws.iter_rows(max_row=1))]
+    _ctry_to_iso = {}
+    for _r in _sim_data_ws.iter_rows(min_row=2, values_only=True):
+        _dd = dict(zip(_sim_data_hdr, _r))
+        # form_b_simulations Data sheet doesn't have ISO, but xi_scenarios does
+    _sim_data_ws = None
+    # Use country name matching from Rankings sheet
+    for _r in _sim_ws.iter_rows(min_row=2, values_only=True):
+        _country = _r[0]  # Column 0 is Country
+        _sim_data[_country] = {
+            'c_adj': float(_r[_c2_cadj_i]),
+            'rank': int(_r[_c2_rank_i]),
+            'xi_eff': float(_r[_c2_xieff_i]),
+        }
+    _sim_wb.close()
+    # Map country names to table3_data countries
+    _t3_country_map = {d["country"]: d for d in table3_data}
+    _matched = 0
+    for _sname, _svals in _sim_data.items():
+        # Try exact match or common abbreviation
+        d = _t3_country_map.get(_sname)
+        if d is None:
+            # Try partial match
+            for _tname, _td in _t3_country_map.items():
+                if _sname.startswith(_tname[:10]) or _tname.startswith(_sname[:10]):
+                    d = _td
+                    break
+        if d is not None:
+            d["cj_eff"] = _svals["c_adj"]
+            d["xi"] = _svals["xi_eff"]
+            _matched += 1
+    print(f"  Table 3: matched {_matched}/{len(_sim_data)} countries from C2 scenario")
+
     # Rank under specs (1)-(3)
     for key, spec in [("rank_raw", "cj_raw"), ("rank_cr", "cj_cr"), ("rank_eff", "cj_eff")]:
         sorted_by = sorted(table3_data, key=lambda x: x[spec])
