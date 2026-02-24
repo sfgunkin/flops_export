@@ -3042,14 +3042,18 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     else:
         inf_list = inf_labels[0] if inf_labels else ''
     p.add_run(
+        'Under the bilateral sovereignty premium, most training demand '
+        'shifts to domestic production, and the residual export market is '
+        f'served by a single exporter at ${p_T_sov:.2f}/hr.'
+    )
+
+    # ── Inference dispersion ──
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
         'Inference is more dispersed, with the top five suppliers being '
         f'{inf_list}, collectively accounting for '
         f'{sum(s for _, s in top5_inf) * 100:.0f}% of global inference demand '
         f'(HHI = {demand_data["hhi_i"]:.2f}). '
-        'Under the bilateral sovereignty premium, most training demand is served '
-        'domestically, and the smaller export market is served by '
-        f'{n_exp_sov} exporter{"s" if n_exp_sov > 1 else ""} (HHI = {cap_hhi_sov:.2f}) at '
-        f'${p_T_sov:.2f}/hr.'
     )
 
     # ── A4. Developing countries (KEEP P79) ── (only create paragraph if content)
@@ -3132,7 +3136,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
             f'{"country" if extra == 1 else "countries"} to domestic '
             'production, but the marginal effect is small. '
             'Inference exports are more resilient to sovereignty premia because '
-            'the latency advantage of proximity partially insulates regional hubs.'
+            'the latency advantage of proximity partially insulates regional hubs. '
+            'The ease with which modest premia eliminate trade explains the '
+            'welfare costs documented below.'
         )
     else:
         p.add_run(
@@ -3143,7 +3149,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
             f'from {es10 * 100:.0f}% to '
             f'{es20 * 100:.0f}%. '
             'Inference exports are more resilient to sovereignty premia because '
-            'the latency advantage of proximity partially insulates regional hubs.'
+            'the latency advantage of proximity partially insulates regional hubs. '
+            'The ease with which modest premia eliminate trade explains the '
+            'welfare costs documented below.'
         )
 
     # ── A4. Welfare cost of sovereignty (KEEP P81) ──
@@ -3174,17 +3182,15 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         'The sovereignty premium deserves scrutiny. Some domestic processing preference '
         'is justified for genuinely confidential data (e.g., military intelligence, health records, '
-        'and national statistical systems). But much of the current policy push, particularly in '
-        'the EU, extends the sovereignty logic far beyond these cases to cover routine commercial '
-        'computation that carries no security risk. The welfare cost is not trivial. As shown '
+        'and national statistical systems), but much of the current policy push extends the '
+        'sovereignty logic to routine commercial computation. '
+        'The welfare cost is not trivial. As shown '
         'above, the bilateral premium already shifts most countries toward domestic production, '
         'forgoing the cost savings from specialization. Developing countries in Central Asia and '
         'Africa are likely to follow the EU template, imposing data localization requirements '
         'that their small markets cannot efficiently serve. '
         'Natural FLOP exporters may simultaneously erect sovereignty barriers against '
         'importing from neighbors, forgoing the regional specialization gains the model predicts. '
-        'The EU\u2019s GDPR and AI Act already segment the compute market along regulatory lines, '
-        'reinforcing the sovereignty premium as a structural feature. '
         'The World Bank (2025) frames this as the central policy choice: building domestic '
         'capacity versus securing affordable access to international cloud services.'
     )
@@ -3402,21 +3408,9 @@ def write_conclusion(doc, body, hmap, demand_data):
 
     p, cur_concl = mkp(doc, body, sec8)
     p.add_run(
-        'This paper develops a capacity-constrained model of trade in computing '
-        'services (FLOPs) in which countries produce and export computing capacity based on '
-        'their energy-resource endowments, as reflected in electricity prices, climate, '
-        'and construction costs. The model distinguishes '
-        'two service types, latency-insensitive training and latency-sensitive inference, and '
-        'introduces a bilateral sovereignty premium to capture governments\u2019 preference for domestic '
-        'data processing, varying with geopolitical alignment, regulatory compatibility, '
-        'and sanctions exposure. Capacity ceilings transform the classical cost-based assignment into '
-        'a framework with market-clearing prices and scarcity rents. '
-        'The paper calibrates the model for 85 countries using data on electricity '
-        'prices, temperatures, construction costs, bilateral latencies, and grid capacity.'
-    )
-
-    p, cur_concl = mkp(doc, body, cur_concl)
-    p.add_run(
+        'This paper develops a capacity-constrained Ricardian model of compute trade, '
+        'distinguishing latency-insensitive training from latency-sensitive inference and '
+        'incorporating bilateral sovereignty premia. '
         'Across 85 countries, low-energy-cost countries export training compute, '
         'while inference is served by regional hubs close enough to users to meet latency requirements. '
         'The bilateral sovereignty premium rationalizes widespread domestic investment, shifting '
