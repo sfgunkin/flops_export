@@ -937,6 +937,7 @@ CITATIONS = [
     ('IEA', '2025', 'IEA2025', 'IEA. (2025)'),
     ('Ohlin', '1933', 'Ohlin1933', 'Ohlin, B.'),
     ('Biglaiser et al.', '2024', 'Biglaiser2024', 'Biglaiser, G.'),
+    ('Blinder', '2006', 'Blinder2006', 'Blinder, A.'),
     ('Stojkoski et al.', '2024', 'Stojkoski2024', 'Stojkoski, V.'),
     ('World Bank', '2025', 'WorldBank2025', 'World Bank. (2025). Digital'),
     ('Hausmann et al.', '2007', 'Hausmann2007', 'Hausmann, R.'),
@@ -1099,6 +1100,7 @@ ITALIC_IN_REFS = {
     'Barroso': 'The Datacenter as a Computer',
     'Ohlin': 'Interregional and International Trade',
     'Biglaiser': 'Toulouse School of Economics Working Paper',
+    'Blinder': 'Foreign Affairs',
     'Stojkoski': 'Nature Communications',
     'World Bank. (2025). Digital': 'Digital Progress and Trends Report 2025',
     'World Bank. (2025). Enterprise': 'Enterprise Surveys',
@@ -1506,6 +1508,15 @@ def write_literature(doc, body, hmap):
         'for digital trade.'
     )
 
+    # IT-offshoring contrast (ChatGPT review)
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'Unlike the offshoring of IT services, which is labor-intensive and skill-biased '
+        '(Blinder 2006), FLOP exporting is capital- and energy-intensive: the binding input '
+        'is cheap electricity, not cheap labor, so the set of potential exporters is '
+        'fundamentally different.'
+    )
+
     # Para 2: Data center location literature
     p, cur = mkp(doc, body, cur)
     p.add_run(
@@ -1541,6 +1552,10 @@ def write_literature(doc, body, hmap):
         'markets, including switching costs, egress fees, and platform competition among '
         'hyperscalers, but the supply-side question of where compute is produced and '
         'whether developing countries can become competitive exporters has not been addressed. '
+        'Existing digital trade models treat cloud services as homogeneous and demand-driven '
+        '(Stojkoski et al. 2024); this paper models the supply side, where location-specific '
+        'energy costs and institutional quality determine which countries can produce compute '
+        'competitively. '
         'This paper provides the formal framework these studies lack.'
     )
 
@@ -1736,7 +1751,8 @@ def write_trade_costs(doc, body, hmap):
     p.add_run(' to buyer ')
     omath(p, [_v('k')])
     p.add_run(
-        ', typically 5\u201310 ms within a country and over 150 ms across continents.'
+        ', typically 5\u201310 ms within a country and over 150 ms across continents '
+        '(Appendix F summarizes workload types and their latency sensitivity).'
     )
 
     # v24: Bilateral sovereignty premium definition
@@ -3274,6 +3290,23 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
             'governance weight, institutional floor, hardware cost share, and functional form.'
         )
 
+    # Comparative statics intuition (ChatGPT review)
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'The sensitivity results can be read as comparative statics. A rise in global '
+        'hardware costs increases the globally-priced cost share, compressing the '
+        'locally-penalized component and muting governance penalties for '
+        'developing-country exporters: the high-hardware scenario raises the '
+        'developing-country count in the top fifteen to 10. Conversely, improved cooling '
+        'technology that flattens the PUE\u2013temperature curve narrows the advantage of '
+        'cold-climate countries but leaves energy-price differences intact. A reduction in '
+        'sovereignty frictions shifts countries from domestic production to importing, '
+        'expanding trade volumes but reducing rents for exporters. An increase in local '
+        'energy prices \u2014 whether from subsidy removal or demand-driven grid strain \u2014 '
+        'erodes the cost advantage that defines FLOP-exporting potential, as the endogenous '
+        'electricity price extension above illustrates.'
+    )
+
     # ── B5b. Efficiency parameters (ω + ξ_floor + ρ robustness) ──
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Efficiency parameters. ')
@@ -3434,7 +3467,12 @@ def write_conclusion(doc, body, hmap, demand_data):
         'concentrated export revenues can lead to Dutch disease, institutional degradation, '
         'and volatility. Whether FLOP exporting countries share these risks depends on '
         'the revenue-sharing model they adopt: a sovereign wealth fund approach (Norway) '
-        'versus elite capture (Dutch disease). The institutional investments required to '
+        'versus elite capture (Dutch disease). '
+        'Large-scale compute export revenues could also appreciate the real exchange rate, '
+        'crowding out other tradable sectors \u2014 a channel particularly relevant for small, '
+        'open economies where data center electricity consumption rivals existing industrial '
+        'load. '
+        'The institutional investments required to '
         'attract hyperscaler FDI may provide the governance improvements that prevent '
         'resource-curse dynamics.'
     )
@@ -3458,7 +3496,7 @@ def write_appendix(doc, body, last_ref_el, eca_cal, non_eca_cal, reg, demand_dat
 
     # Appendix heading — on the same landscape page as Table A1
     # (previous landscape sectPr already on Table 3 notes paragraph)
-    cur_app = mkh(doc, body, last_ref_el, 'Appendix', level=1)
+    cur_app = mkh(doc, body, last_ref_el, 'Appendix A', level=1)
 
     # ═══════════════════════════════════════════════════════════════════════
     # TABLE A1: COUNTRY-SPECIFIC CALIBRATION PARAMETERS (landscape)
@@ -4546,6 +4584,69 @@ def write_construction_regression_appendix(doc, body, last_el):
         f'R\u00b2 = {r2:.2f}, adjusted R\u00b2 = {adj_r2:.2f}, RMSE = {rmse:.3f}. '
         f'Reference region: Europe & Central Asia. '
         f'*** p < 0.01, ** p < 0.05, * p < 0.10.'
+    )
+    rn.font.size = Pt(10)
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    note_el = p._element
+    body.remove(note_el)
+    tbl.addnext(note_el)
+
+    return note_el
+
+
+def write_workload_appendix(doc, body, last_el):
+    """Appendix F: Workload Classification (Table A8)."""
+    print("Inserting Appendix F (Workload Classification)...")
+
+    pb = add_page_break(doc, body, last_el)
+    cur = mkh(doc, body, pb, 'Appendix F: Workload Classification', level=1)
+
+    # Introductory paragraph
+    p, cur = mkp(doc, body, cur)
+    p._element.append(make_bookmark(153, 'TableA8txt'))
+    p._element.append(make_hyperlink('TableA8', 'Table A8'))
+    p._element.append(make_bookmark_end(153))
+    p.add_run(
+        ' summarizes the latency sensitivity and offshorability of major AI workload '
+        'types. The model collapses these into two categories \u2014 training '
+        '(\u03C4 = 0) and inference (\u03C4 > 0) \u2014 but the intermediate workloads '
+        'noted in footnote 7 occupy a middle ground that may narrow the effective '
+        'offshorable share.'
+    )
+
+    # Table A8
+    headers = ['Workload', 'Example', 'Latency tolerance',
+               'Offshorable?', 'Model treatment']
+    rows = [
+        ['Large-scale training', 'Foundation model pre-training',
+         'Days\u2013weeks', 'Fully', '\u03C4\u1D1B = 0'],
+        ['Fine-tuning', 'Domain adaptation on proprietary data',
+         'Hours', 'Mostly', 'Treated as training'],
+        ['Agentic inference', 'Multi-step reasoning, tool use',
+         '500\u20132,000 ms', 'Regionally', 'Intermediate (fn.\u00A07)'],
+        ['Interactive inference', 'Chatbot, search, recommendation',
+         '50\u2013200 ms', 'Limited', '\u03C4\u1D62 > 0, threshold l\u0304'],
+        ['Real-time control', 'Autonomous vehicles, robotics',
+         '< 20 ms', 'No', 'Domestic only'],
+    ]
+    tbl = add_table(doc, body, cur, headers, rows,
+                    col_widths=[2000, 2800, 1500, 1200, 1860],
+                    title='Table A8. Workload classification and offshorability',
+                    bookmark_id=154, bookmark_name='TableA8',
+                    backlink_name='TableA8txt')
+
+    # Notes paragraph
+    p = doc.add_paragraph()
+    p.paragraph_format.space_before = Pt(2)
+    p.paragraph_format.space_after = Pt(4)
+    p.paragraph_format.first_line_indent = Inches(0)
+    p.paragraph_format.line_spacing = 1.0
+    rn = p.add_run(
+        'Notes: Latency tolerance is approximate round-trip time. '
+        '\u201COffshorable\u201D refers to whether the workload can be processed in a '
+        'different country from the end user without significant quality degradation. '
+        'The model treats fine-tuning and agentic inference as part of the training '
+        'share \u03B1; footnote 7 notes this simplification.'
     )
     rn.font.size = Pt(10)
     p.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -5724,6 +5825,9 @@ def write_references(doc, body, refs):
 
         'Biglaiser, G., J. Cr\u00E9mer, and A. Mantovani. (2024). \u201CThe Economics of the Cloud.\u201D '
         'Toulouse School of Economics Working Paper No. 24-1520.',
+
+        'Blinder, A. (2006). \u201COffshoring: The Next Industrial Revolution?\u201D '
+        'Foreign Affairs, 85(2): 113\u2013128.',
 
         'Stojkoski, V., P. Koch, E. Coll, and C. A. Hidalgo. (2024). '
         '\u201CEstimating Digital Product Trade through Corporate Revenue Data.\u201D '
@@ -7242,7 +7346,8 @@ def main():
     last_model_app = write_model_appendix(doc, body, last_table_a2)
     last_sens_app = write_sensitivity_appendix(doc, body, last_model_app, demand_data)
     last_dcf_app = write_kyrgyzstan_appendix(doc, body, last_sens_app)
-    write_construction_regression_appendix(doc, body, last_dcf_app)
+    last_reg_app = write_construction_regression_appendix(doc, body, last_dcf_app)
+    write_workload_appendix(doc, body, last_reg_app)
     link_citations(body)
     link_equations(body)
     fix_orphan_backlinks(body, refs)
