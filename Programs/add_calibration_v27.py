@@ -7275,23 +7275,7 @@ def main():
     print(f"\nSaved {out}")
 
     # ═══════════════════════════════════════════════════════════════════════
-    # POST-PROCESSING: Add Word comments (author verification flags)
-    # ═══════════════════════════════════════════════════════════════════════
-    _add_word_comments(str(out), [
-        (200, 'Claude', 'AUTHOR: Regenerate Figure 2 with Form B adjusted costs. '
-         'Rank changes are now smaller (max +57 Turkmenistan vs previous +82 Iran). '
-         'Current embedded figure was auto-generated from Form B values but should '
-         'be verified.',
-         'Rank change with efficiency adjustment'),
-        (201, 'Claude', 'AUTHOR: Verify welfare cost with new Form B specification '
-         'and \u03BE values. This number derives from the bilateral sovereignty '
-         'premium equilibrium and may change.',
-         'welfare cost is'),
-        (202, 'Claude', 'AUTHOR: Verify trade regime count with new Form B '
-         'specification. This number is dynamically computed and should be '
-         'checked against the equilibrium results.',
-         'countries change their trade regimes'),
-    ])
+    # POST-PROCESSING: Word comments removed per author request
 
     # ═══════════════════════════════════════════════════════════════════════
     # AUTO-COMMIT to git (preserves every successful generation)
