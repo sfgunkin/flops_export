@@ -2925,12 +2925,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_bookmark_end(121))
     p.add_run(' illustrates the resulting rank reshuffling. ')
 
-    # ── A3. Transition to sovereignty ──
-    p, cur = mkp(doc, body, cur)
-    p.add_run(
-        'The bilateral sovereignty premium determines which countries will trade.'
-    )
-
     # ── A4. Bilateral sovereignty — Table 3b col (4) ──
     # Use table3 lam_k_star for inline values (consistency with table)
     _t3 = demand_data["table3"]
@@ -3167,17 +3161,14 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     # ── A5. Sovereignty policy discussion (MOVED P86 + GDPR/WB from P85/P84) ──
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'The sovereignty premium deserves scrutiny. Some domestic processing preference '
-        'is justified for genuinely confidential data (e.g., military intelligence, health records, '
-        'and national statistical systems), but much of the current policy push extends the '
-        'sovereignty logic to routine commercial computation. '
-        'The welfare cost is not trivial. As shown '
-        'above, the bilateral premium already shifts most countries toward domestic production, '
-        'forgoing the cost savings from specialization. Developing countries in Central Asia and '
-        'Africa are likely to follow the EU template, imposing data localization requirements '
-        'that their small markets cannot efficiently serve. '
-        'Natural FLOP exporters may simultaneously erect sovereignty barriers against '
-        'importing from neighbors, forgoing the regional specialization gains the model predicts. '
+        'The welfare implications of the sovereignty premium depend on whether it reflects '
+        'genuine security externalities or regulatory overreach. Some domestic processing '
+        'preference is justified for genuinely confidential data, but much of the current '
+        'policy push extends the sovereignty logic to routine commercial computation. '
+        'The welfare cost is not trivial: the bilateral premium shifts most countries toward '
+        'domestic production, forgoing the cost savings from specialization. Developing countries '
+        'that adopt broad data localization requirements risk foreclosing both import savings and '
+        'regional export opportunities \u2014 the very specialization gains the model predicts. '
         'The World Bank (2025) frames this as the central policy choice: building domestic '
         'capacity versus securing affordable access to international cloud services.'
     )
@@ -3430,7 +3421,7 @@ def write_conclusion(doc, body, hmap, demand_data):
     p, cur_concl = mkp(doc, body, cur_concl)
     p.add_run(
         'For developing countries, the results point to a new avenue for economic participation '
-        'in the global economy. Countries like Kyrgyzstan, Uzbekistan, and Egypt, which rank '
+        'in the global economy. Countries like Kyrgyzstan, Montenegro, and Egypt, which rank '
         'among the cheapest FLOP producers in the calibration, could use their energy '
         'resource endowments\u2014hydropower, natural gas, and solar irradiance\u2014to convert '
         'cheap electricity into a high-value digital export without building a domestic AI '
