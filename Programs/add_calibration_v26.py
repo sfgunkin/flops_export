@@ -3228,32 +3228,24 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     # 7.1 Robustness and Caveats
     cur = mkh(doc, body, cur, '7.1 Robustness and Caveats', level=2)
 
-    # ── B0. GPU controls + water scarcity (rewritten) ──
+    # ── B0. Caveats (consolidated: GPU controls, water, fiscal, hardware) ──
     p, cur = mkp(doc, body, cur, space_before=6)
     p.add_run(
-        'The calibration in Section 6 adjusts for energy subsidies and institutional '
-        'quality, but several constraints remain outside the model. GPU export controls '
-        'bar Iran, Russia, and Belarus from acquiring current-generation hardware, '
-        'effectively excluding them regardless of cost. Water scarcity constrains cooling '
-        'in Iran, Turkmenistan, Egypt, and Saudi Arabia, where data center water consumption '
-        'would compete with agriculture and residential use. These entry barriers are not '
-        'captured by \u03BE or by cost-recovery pricing, and they further narrow the set of '
-        'viable exporters.'
+        'The calibration adjusts for energy subsidies and institutional '
+        'quality, but several constraints remain outside the model and would further narrow '
+        'the set of viable exporters. GPU export controls bar Iran, Russia, and Belarus from '
+        'acquiring current-generation hardware. Water scarcity constrains cooling in the Middle '
+        'East and North Africa. Fiscal sustainability is a concern: regulated tariffs in many '
+        'developing countries cover operating expenses but not full capital cost, so exporting '
+        'compute at scale while the domestic energy sector cannot maintain its capital stock may '
+        'prove politically unsustainable. Finally, export controls, logistics costs, and local '
+        'distribution markups can raise effective GPU prices by 5\u201315% in developing countries, '
+        'substantially eroding the thin cost advantages documented in '
     )
-
-    # ── B1. Fiscal sustainability (condensed) ──
-    p, cur = mkp(doc, body, cur, space_before=6)
+    p._element.append(make_hyperlink('TableA1', 'Table A1'))
     p.add_run(
-        'Even after cost-recovery adjustment, fiscal sustainability remains '
-        'a concern. Regulated tariffs '
-        'in many developing countries cover operating expenses but not the full capital cost '
-        'of generation, transmission, and distribution. State-owned '
-        'enterprises accumulate quasi-fiscal deficits eventually borne by '
-        'taxpayers. At hyperscale, exporting compute while the domestic energy sector cannot '
-        'maintain its capital stock is politically unsustainable. '
-        'Governments face '
-        'a choice between raising data center tariffs, maintaining '
-        'subsidies at growing fiscal cost, or capping capacity.'
+        '. These omitted constraints all work against developing-country competitiveness; '
+        'the calibration results should therefore be read as upper bounds.'
     )
 
     # ── B2. Endogenous electricity prices (condensed, ~110w) ──
@@ -3298,22 +3290,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'baseline rankings hold. If locally financed, the same institutional weaknesses '
         'that lower \u03BE also raise the country risk premium. '
         'The uniform-financing assumption therefore overstates developing-country competitiveness.'
-    )
-
-    # ── B4. Hardware prices (moved from Section 6.1 ¶69) ──
-    p, cur = mkp(doc, body, cur, space_before=6)
-    add_italic(p, 'Hardware prices. ')
-    p.add_run(
-        'In practice, export controls, '
-        'logistics costs, insurance, and local distribution markups can raise effective GPU '
-        'prices by 5\u201315% in developing countries. A 10% GPU price premium would add '
-        'roughly $0.10/hr to unit costs, substantially eroding the thin cost advantages '
-        'documented in '
-    )
-    p._element.append(make_hyperlink('TableA1', 'Table A1'))
-    p.add_run(
-        '. This assumption thus favors developing-country '
-        'exporters and should be kept in mind when interpreting the calibration results.'
     )
 
     # ── B5. Sensitivity analysis (condensed, ~55w) ──
@@ -3447,16 +3423,12 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'The model can be extended in several directions. '
-        'It can incorporate stochastic disruptions '
-        'such as grid outages or political instability, giving buyers a reason to diversify '
-        'workloads across providers. Demand can be segmented by latency tolerance to capture '
-        'heterogeneous service requirements. Carbon pricing can introduce a \u201Cgreen premium\u201D '
-        'that favors hydropower-rich countries. The framework can also accommodate strategic '
-        'interaction among oligopolistic providers, and governance can enter as a multiplicative '
-        'cost shifter on '
+        'Carbon pricing could introduce a \u201Cgreen premium\u201D '
+        'favoring hydropower-rich countries. Demand segmentation by latency tolerance would '
+        'capture heterogeneous service requirements. Stochastic disruptions\u2009\u2014\u2009grid outages, '
+        'political instability\u2009\u2014\u2009would give buyers a reason to diversify across providers, '
+        'a feature the current deterministic framework lacks.'
     )
-    omath(p, [_msub('c', 'j')])
-    p.add_run('.')
 
     # Agglomeration and market structure (KEEP P93)
     p, cur = mkp(doc, body, cur, space_before=6)
@@ -3469,7 +3441,13 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'not only on unit costs but on whether a hyperscaler or colocation provider chooses '
         'to invest there, a decision shaped by agglomeration economies, institutional quality, '
         'and network connectivity (Krugman 1991). The concentration of data centers in '
-        'locations such as Northern Virginia reflects these centripetal forces.'
+        'locations such as Northern Virginia reflects these centripetal forces. '
+        'The cost-based ranking should therefore be interpreted as a necessary condition '
+        'for competitiveness, not a sufficient one: a country must be cheap enough to attract '
+        'investment, but whether a hyperscaler actually builds there depends on agglomeration '
+        'economies and network effects the model abstracts from. This distinction motivates '
+        'the capacity ceilings in Section 3, which partially capture the gap between '
+        'cost-based potential and realized investment.'
     )
 
 
@@ -3530,9 +3508,11 @@ def write_conclusion(doc, body, hmap, demand_data):
         '(compute) serves the fastest-growing sector of the world economy. '
         'That said, the resource curse literature (van der Ploeg 2011) warns that '
         'concentrated export revenues can lead to Dutch disease, institutional degradation, '
-        'and volatility. Whether FLOP-exporting shares these risks depends on whether '
-        'revenues are broadly distributed or concentrated among a narrow set of actors, and on whether '
-        'governments invest the proceeds in human capital and institutional development.'
+        'and volatility. Whether FLOP exporting countries share these risks depends on '
+        'the revenue-sharing model they adopt: a sovereign wealth fund approach (Norway) '
+        'versus elite capture (Dutch disease). The institutional investments required to '
+        'attract hyperscaler FDI may provide the governance improvements that prevent '
+        'resource-curse dynamics.'
     )
 
     p, _ = mkp(doc, body, cur_concl)
@@ -3543,9 +3523,9 @@ def write_conclusion(doc, body, hmap, demand_data):
         'Inference, by contrast, is latency-sensitive, giving domestic production a genuine '
         'quality-of-service advantage\u2014though this rationale weakens for countries close '
         'to low-cost neighbors. For developing countries seeking to enter the compute export '
-        'market, the binding constraints are not technological but institutional. '
-        'Reliable power grids, production efficiency, bilateral trust, and data governance frameworks '
-        'determine whether cost advantages translate into actual exports.'
+        'market, the binding constraints are not technological but institutional: '
+        'without credible governance, bilateral trust, and data protection frameworks, '
+        'cheap energy alone will not attract hyperscaler investment.'
     )
 
 
