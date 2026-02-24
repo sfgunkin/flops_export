@@ -359,7 +359,7 @@ def run_sensitivity(cal, omega, dc_k, k_bar, sanctioned, xi_vals, xi_raw_vals):
     for config_key, label, param_change in scenario_defs:
         s = sim_rows[config_key]
         dev_top15 = int(s.get('Dev top15', 0))
-        max_markup = float(s.get('Max markup%', 0))
+        max_markup = float(s.get('Max markup%', 0)) * 100  # xlsx stores as fraction
         spearman = float(s.get('Spearman vs cr', 0))
         top5_str = str(s.get('Top 5 countries', ''))
         # Clean star markers
@@ -6035,6 +6035,118 @@ def add_page_numbers_and_break(doc, body, kw_el):
     add_page_break(doc, body, kw_el)
 
 
+def _add_word_comments(docx_path, comments):
+    """Add Word comments to a saved docx file (post-processing).
+
+    comments: list of (id, author, text, anchor_text) tuples.
+    anchor_text is a substring to search for in paragraph text; the comment
+    is anchored to the first paragraph containing that substring.
+    """
+    import zipfile
+    from io import BytesIO
+
+    W = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'
+    R_NS = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
+    CT_NS = 'http://schemas.openxmlformats.org/package/2006/content-types'
+    COMMENT_REL = ('http://schemas.openxmlformats.org/officeDocument/2006/'
+                   'relationships/comments')
+    NSMAP = {'w': W, 'r': R_NS}
+
+    # Read all files from the docx
+    files = {}
+    with zipfile.ZipFile(docx_path, 'r') as zin:
+        for name in zin.namelist():
+            files[name] = zin.read(name)
+
+    # Parse document.xml
+    doc_xml = etree.fromstring(files['word/document.xml'])
+    doc_body = doc_xml.find(f'{{{W}}}body')
+
+    # Build comments.xml
+    comments_root = etree.Element(f'{{{W}}}comments', nsmap=NSMAP)
+    now_str = datetime.now().strftime('%Y-%m-%dT%H:%M:%S') + 'Z'
+
+    placed = 0
+    for cid, author, text, anchor_text in comments:
+        # Create comment element
+        c_el = etree.SubElement(comments_root, f'{{{W}}}comment')
+        c_el.set(f'{{{W}}}id', str(cid))
+        c_el.set(f'{{{W}}}author', author)
+        c_el.set(f'{{{W}}}date', now_str)
+        c_el.set(f'{{{W}}}initials', author[0])
+        cp = etree.SubElement(c_el, f'{{{W}}}p')
+        cr = etree.SubElement(cp, f'{{{W}}}r')
+        ct = etree.SubElement(cr, f'{{{W}}}t')
+        ct.text = text
+
+        # Find anchor paragraph in document body
+        for p_el in doc_body.iter(f'{{{W}}}p'):
+            p_text = ''.join(t.text or '' for t in p_el.iter(f'{{{W}}}t'))
+            if anchor_text in p_text:
+                # Insert commentRangeStart before first run
+                first_r = p_el.find(f'{{{W}}}r')
+                if first_r is None:
+                    continue
+                cs = etree.Element(f'{{{W}}}commentRangeStart')
+                cs.set(f'{{{W}}}id', str(cid))
+                first_r.addprevious(cs)
+                # Insert commentRangeEnd after last run
+                runs = list(p_el.findall(f'{{{W}}}r'))
+                last_r = runs[-1] if runs else first_r
+                ce = etree.Element(f'{{{W}}}commentRangeEnd')
+                ce.set(f'{{{W}}}id', str(cid))
+                last_r.addnext(ce)
+                # Insert commentReference run after rangeEnd
+                ref_r = etree.Element(f'{{{W}}}r')
+                ref_rPr = etree.SubElement(ref_r, f'{{{W}}}rPr')
+                ref_style = etree.SubElement(ref_rPr, f'{{{W}}}rStyle')
+                ref_style.set(f'{{{W}}}val', 'CommentReference')
+                ref_cr = etree.SubElement(ref_r, f'{{{W}}}commentReference')
+                ref_cr.set(f'{{{W}}}id', str(cid))
+                ce.addnext(ref_r)
+                placed += 1
+                break
+
+    if placed == 0:
+        print("  Warning: no comment anchors found, skipping comments")
+        return
+
+    # Serialize comments.xml
+    files['word/comments.xml'] = etree.tostring(
+        comments_root, xml_declaration=True, encoding='UTF-8', standalone=True)
+
+    # Update [Content_Types].xml
+    ct_xml = etree.fromstring(files['[Content_Types].xml'])
+    ct_override = etree.SubElement(ct_xml, 'Override')
+    ct_override.set('PartName', '/word/comments.xml')
+    ct_override.set('ContentType',
+                    'application/vnd.openxmlformats-officedocument.'
+                    'wordprocessingml.comments+xml')
+    files['[Content_Types].xml'] = etree.tostring(
+        ct_xml, xml_declaration=True, encoding='UTF-8', standalone=True)
+
+    # Update word/_rels/document.xml.rels
+    rels_key = 'word/_rels/document.xml.rels'
+    rels_xml = etree.fromstring(files[rels_key])
+    rel_el = etree.SubElement(rels_xml, 'Relationship')
+    rel_el.set('Id', 'rIdComments')
+    rel_el.set('Type', COMMENT_REL)
+    rel_el.set('Target', 'comments.xml')
+    files[rels_key] = etree.tostring(
+        rels_xml, xml_declaration=True, encoding='UTF-8', standalone=True)
+
+    # Serialize updated document.xml
+    files['word/document.xml'] = etree.tostring(
+        doc_xml, xml_declaration=True, encoding='UTF-8', standalone=True)
+
+    # Write back
+    with zipfile.ZipFile(docx_path, 'w', zipfile.ZIP_DEFLATED) as zout:
+        for name, data in files.items():
+            zout.writestr(name, data)
+
+    print(f"  Added {placed} Word comment(s)")
+
+
 def main():
     # ═══════════════════════════════════════════════════════════════════════
     # LOAD DATA (v3)
@@ -7167,6 +7279,25 @@ def main():
     else:
         raise PermissionError(f"Could not save {out} after 60 seconds. Close Word and retry.")
     print(f"\nSaved {out}")
+
+    # ═══════════════════════════════════════════════════════════════════════
+    # POST-PROCESSING: Add Word comments (author verification flags)
+    # ═══════════════════════════════════════════════════════════════════════
+    _add_word_comments(str(out), [
+        (200, 'Claude', 'AUTHOR: Regenerate Figure 2 with Form B adjusted costs. '
+         'Rank changes are now smaller (max +57 Turkmenistan vs previous +82 Iran). '
+         'Current embedded figure was auto-generated from Form B values but should '
+         'be verified.',
+         'Rank change with efficiency adjustment'),
+        (201, 'Claude', 'AUTHOR: Verify welfare cost with new Form B specification '
+         'and \u03BE values. This number derives from the bilateral sovereignty '
+         'premium equilibrium and may change.',
+         'welfare cost is'),
+        (202, 'Claude', 'AUTHOR: Verify trade regime count with new Form B '
+         'specification. This number is dynamically computed and should be '
+         'checked against the equilibrium results.',
+         'countries change their trade regimes'),
+    ])
 
     # ═══════════════════════════════════════════════════════════════════════
     # AUTO-COMMIT to git (preserves every successful generation)
