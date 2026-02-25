@@ -5948,7 +5948,7 @@ def link_equations(body):
     import re
     count = 0
     bm_id_eq = [900]
-    eq_pattern = re.compile(r'equation \((\d+)\)')
+    eq_pattern = re.compile(r'(?:equation|eq\.) \((\d+)\)')
     for p_el in list(body.findall(qn('w:p'))):
         for child in list(p_el):
             if child.tag != qn('w:r'):
