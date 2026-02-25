@@ -1286,7 +1286,7 @@ def add_table(doc, body, after_el, headers, rows, col_widths=None, title=None,
     return tbl_el
 
 
-def write_title_and_abstract(doc, body, all_el, hmap):
+def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
     print("Rewriting title and abstract...")
     # Replace title (first element — no previous, so clear and rewrite in place)
     title_el = all_el[0]
@@ -1353,7 +1353,8 @@ def write_title_and_abstract(doc, body, all_el, hmap):
         'eliminate all developing-country exports under the standard sovereignty specification. '
         'When a hyperscaler intermediates the transaction, the buyer\u2019s trust attaches to '
         'the operator rather than the host country, restoring developing-country '
-        'competitiveness: seven developing economies re-enter as potential exporters. '
+        f'competitiveness: {_num_word(demand_data.get("n_dev_fdi_exporters", 7) if demand_data else 7)} '
+        'developing economies re-enter as potential exporters. '
         'The cross-country cost spread is only 12\u201320 percent, making compute both the '
         'easiest tradable sector for developing countries to enter on cost grounds and the '
         'one most vulnerable to small policy-induced frictions. For energy-rich developing '
@@ -3245,6 +3246,17 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
 
     # ── v28: Hyperscaler FDI and the trust channel ──
     n_dev_fdi = demand_data.get("n_dev_fdi_exporters", 7)
+    # Build dynamic list of developing-country FDI exporters
+    _fdi_regime = demand_data.get("regime_5_fdi", {})
+    _DEVELOPING = demand_data.get("DEVELOPING", set())
+    _iso_country = demand_data.get("iso_country", {})
+    _dev_fdi_names = sorted(
+        _iso_country.get(iso, iso)
+        for iso, r in _fdi_regime.items()
+        if iso in _DEVELOPING and r in ("T+I exporter", "inference hub"))
+    _n_total_fdi_exp = sum(1 for r in _fdi_regime.values()
+                           if r in ("T+I exporter", "inference hub"))
+    _dev_fdi_str = ', '.join(_dev_fdi_names[:-1]) + ', and ' + _dev_fdi_names[-1] if len(_dev_fdi_names) > 1 else (_dev_fdi_names[0] if _dev_fdi_names else '')
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Hyperscaler FDI and the trust channel. ')
     p.add_run(
@@ -3274,10 +3286,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         ' reports regime assignments under the FDI specification. '
         'Under bilateral sovereignty (column 4), only Canada exports; all other countries '
         'either produce domestically or import. Under hyperscaler FDI (column 7), '
-        f'{demand_data.get("n_train_exporters_fdi", 14)} countries become exporters, '
+        f'{_n_total_fdi_exp} countries become exporters, '
         f'{n_dev_fdi} of them developing economies: '
-        'China, Kyrgyzstan, Kosovo, Montenegro, Ethiopia, Vietnam, and India. '
-        'Kenya and the UAE re-enter as regional inference hubs. '
+        f'{_dev_fdi_str}. '
         'The developing-country export opportunity identified in the cost rankings '
         '(column 3) is not eliminated by sovereignty \u2014 it is blocked by the absence of '
         'a trust intermediary and restored when one is present.'
@@ -3611,7 +3622,8 @@ def write_conclusion(doc, body, hmap, demand_data):
         'compute spending. '
         'The resolution lies in the hyperscaler FDI channel: when a trusted cloud provider '
         'operates the facility, the buyer\u2019s sovereignty concern attaches to the operator, '
-        'not the host country. Under this specification, seven developing countries re-enter '
+        'not the host country. Under this specification, '
+        f'{_num_word(demand_data.get("n_dev_fdi_exporters", 7))} developing countries re-enter '
         'as exporters, and the model\u2019s predictions align with observed hyperscaler investment '
         'in India, Kenya, Malaysia, and Southeast Asia. '
         'Because hardware accounts for roughly 90 percent of unit cost and is globally '
@@ -7734,7 +7746,7 @@ def main():
     # STEPS
     # ═══════════════════════════════════════════════════════════════════════
 
-    title_el, author_el, ver_el, abs_text_el, kw_el = write_title_and_abstract(doc, body, all_el, hmap)
+    title_el, author_el, ver_el, abs_text_el, kw_el = write_title_and_abstract(doc, body, all_el, hmap, demand_data)
     write_introduction(doc, body, hmap)
     write_literature(doc, body, hmap)
     write_production_technology(doc, body, hmap)
