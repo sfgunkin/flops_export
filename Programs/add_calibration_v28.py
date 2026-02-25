@@ -3247,6 +3247,22 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     _n_total_fdi_exp = sum(1 for r in _fdi_regime.values()
                            if r in ("T+I exporter", "inference hub"))
     _dev_fdi_str = ', '.join(_dev_fdi_names[:-1]) + ', and ' + _dev_fdi_names[-1] if len(_dev_fdi_names) > 1 else (_dev_fdi_names[0] if _dev_fdi_names else '')
+    # Build note about FDI exporters outside the Table 3b top 25
+    _table3b_show = {
+        'CAN', 'FIN', 'NOR', 'CHN', 'KGZ', 'SWE', 'XKX', 'MNE', 'USA', 'ETH',
+        'ISL', 'NZL', 'AUS', 'VNM', 'GBR', 'ARG', 'IND', 'FRA', 'COL', 'PRT',
+        'ARE', 'LVA', 'BEL', 'MLT', 'GEO',
+    }
+    _t3_rank_eff = {d["iso"]: d["rank_eff"] for d in demand_data["table3"]}
+    _dev_fdi_below25 = sorted(
+        [(iso, _iso_country.get(iso, iso), _t3_rank_eff.get(iso, 999))
+         for iso, r in _fdi_regime.items()
+         if iso in _DEVELOPING and r in ("T+I exporter", "inference hub")
+         and iso not in _table3b_show],
+        key=lambda x: x[2])
+    _dev_fdi_visible = [iso for iso in _DEVELOPING
+                        if iso in _table3b_show
+                        and _fdi_regime.get(iso) in ("T+I exporter", "inference hub")]
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Hyperscaler FDI and the trust channel. ')
     p.add_run(
@@ -3297,6 +3313,22 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         '(column 3) is not eliminated by sovereignty \u2014 it is blocked by the absence of '
         'a trust intermediary and restored when one is present.'
     )
+    # Fix 4(B): note developing FDI exporters outside the top-25 shown in Table 3b
+    if _dev_fdi_below25:
+        _below_parts = [f'{name} (rank {rank})' for _, name, rank in _dev_fdi_below25]
+        if len(_below_parts) > 1:
+            _below_str = ', '.join(_below_parts[:-1]) + ', and ' + _below_parts[-1]
+        else:
+            _below_str = _below_parts[0]
+        _vis_names = sorted(_iso_country.get(iso, iso) for iso in _dev_fdi_visible)
+        _vis_str = ' and '.join(_vis_names) if len(_vis_names) == 2 else ', '.join(_vis_names)
+        p.add_run(
+            f' Within the top 25 countries shown in Table 3b, '
+            f'{_vis_str} are the visible developing-country exporters; '
+            f'the remaining developing-country exporters ({_below_str}) appear at lower '
+            f'efficiency-adjusted ranks where their FDI-intermediated costs fall below the '
+            f'import threshold.'
+        )
 
     p, cur = mkp(doc, body, cur)
     p.add_run(
