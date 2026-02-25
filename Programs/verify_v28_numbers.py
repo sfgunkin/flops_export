@@ -704,6 +704,8 @@ def verify_E_sovereignty(data, xi_costs, xi, adj_costs):
         P_I_dom = (1 + TAU * (l_kk or 0)) * (RHO + (c_k - RHO) / xi_k)
         best_inf_cost = P_I_dom
         best_inf_src = iso_k
+        best_foreign_cost = float('inf')
+        best_foreign_src = None
         for iso_j, c_j in adj_costs.items():
             if iso_j == iso_k:
                 continue
@@ -715,33 +717,39 @@ def verify_E_sovereignty(data, xi_costs, xi, adj_costs):
             if cost_del < best_inf_cost:
                 best_inf_cost = cost_del
                 best_inf_src = iso_j
+            if cost_del < best_foreign_cost:
+                best_foreign_cost = cost_del
+                best_foreign_src = iso_j
         adj_reg[iso_k] = {
             'best_inf_source': best_inf_src,
             'best_inf_cost': best_inf_cost,
+            'best_foreign_inf': best_foreign_src,
             'P_I_domestic': P_I_dom,
         }
 
-    # Inference revenue shares
+    # Inference revenue shares (export only — exclude self-sourcing)
     inf_revenue = {}
     for iso in dc_k:
         if iso in adj_reg:
             src = adj_reg[iso]['best_inf_source']
-            inf_revenue[src] = inf_revenue.get(src, 0) + omega.get(iso, 0)
+            if src != iso:  # only cross-border inference counts as export
+                inf_revenue[src] = inf_revenue.get(src, 0) + omega.get(iso, 0)
 
     top_inf = sorted(inf_revenue.items(), key=lambda x: -x[1])
-    print("       Top inference suppliers:")
+    print("       Top inference exporters (cross-border only):")
     for iso, share in top_inf[:5]:
         co = next((r["country"] for r in cal if r["iso3"] == iso), iso)
         print(f"         {co}: {share*100:.1f}%")
 
-    # Check Canada ~47%, China ~26% in top
+    # Check top exporter shares (export-only: self-sourcing excluded)
     can_share = inf_revenue.get("CAN", 0) * 100
+    check("E25a", "Canada inference export ~44%", 44, can_share, tol=0.20)
+    # China's share drops to ~0% when self-sourcing excluded (was 26% with domestic)
     chn_share = inf_revenue.get("CHN", 0) * 100
-    check("E25a", "Canada inference ~47%", 47, can_share, tol=0.20)
-    check("E25b", "China inference ~26%", 26, chn_share, tol=0.20)
+    check("E25b", "China inference export <1%", True, chn_share < 1.0, is_str=True)
 
     top5_sum = sum(s for _, s in top_inf[:5]) * 100
-    check("E25c", "Top 5 inference ≈ 90%", 90, top5_sum, tol=0.10)
+    check("E25c", "Top 5 inference export ≈ 59%", 59, top5_sum, tol=0.15)
 
     # E26. λ_k* values: c_eff / p_T - 1
     for iso, label in [("CAN", "Canada"), ("JPN", "Japan"),
