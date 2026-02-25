@@ -1,0 +1,24 @@
+#!/bin/bash
+# Pre-commit hook: run paper value tests when relevant files change
+# Triggers on changes to: generation script (any version), calibration,
+# test suite, verification script, or data files
+
+RELEVANT_PATTERNS="Programs/add_calibration_v[0-9]+\.py|Programs/calibrate_model_v[0-9]+\.py|Programs/test_paper_values\.py|Programs/verify_v[0-9]+_numbers\.py|Data/.*\.csv|Data/.*\.xlsx"
+
+# Check staged files against relevant patterns
+STAGED=$(git diff --cached --name-only)
+if echo "$STAGED" | grep -qE "$RELEVANT_PATTERNS"; then
+    echo "=== Running paper value tests ==="
+    cd "$(git rev-parse --show-toplevel)/Programs"
+    python -m pytest test_paper_values.py -v --tb=short
+    EXIT_CODE=$?
+    if [ $EXIT_CODE -ne 0 ]; then
+        echo ""
+        echo "=== COMMIT BLOCKED: paper value tests failed ==="
+        echo "Fix the failing tests before committing."
+        echo "To skip (not recommended): git commit --no-verify"
+        exit 1
+    fi
+    echo ""
+    echo "=== All paper value tests passed ==="
+fi
