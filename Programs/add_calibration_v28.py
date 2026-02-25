@@ -1819,29 +1819,6 @@ def write_trade_costs(doc, body, hmap):
         _msub('S', 'ij'), _t('.'),
     ], eq_num='2')
 
-    # v28: Equation (2') — Hyperscaler FDI trust specification
-    p, cur = mkp(doc, body, cur)
-    p.add_run(
-        'This specification treats the host country as the relevant trust counterparty. '
-        'When a hyperscaler intermediates the transaction, the relevant counterparty is '
-        'the operator, not the host. For a facility in host country '
-    )
-    omath(p, [_v('j')])
-    p.add_run(' operated by a hyperscaler headquartered in country ')
-    omath(p, [_v('h')])
-    p.add_run(', the effective premium becomes:')
-    p.paragraph_format.space_after = Pt(2)
-
-    _, cur = omath_display(doc, body, cur, [
-        _msubsup('\u03BB', 'jk', 'FDI'), _t(' = '),
-        _msub('\u03B1', '1'), _t(' \u00b7 '),
-        _v('G'), _t('('), _v('h'), _t(', '), _v('k'), _t(') + '),
-        _msub('\u03B1', '2'), _t(' \u00b7 (1 \u2212 '),
-        _v('R'), _t('('), _v('h'), _t(', '), _v('k'), _t(')) + '),
-        _msub('\u03B1', '3'), _t(' \u00b7 '),
-        _v('S'), _t('('), _v('j'), _t(', '), _v('k'), _t(').'),
-    ], eq_num='2\u2032')
-
     # Equation (3): delivered cost with ξ_j^{eff} (was eq 2)
     p, cur = mkp(doc, body, cur)
     p.add_run('The delivered cost of service ')
@@ -3117,7 +3094,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     for iso, share in top5_inf:
         co = next(r["country"] for r in cal if r["iso3"] == iso)
         prefix = 'the ' if co in _the_countries else ''
-        inf_labels.append(f'{prefix}{co} ({share * 100:.0f}%)')
+        pct = share * 100
+        fmt = f'{pct:.0f}%' if pct >= 1 else f'{pct:.1f}%'
+        inf_labels.append(f'{prefix}{co} ({fmt})')
     if len(inf_labels) > 1:
         inf_list = ', '.join(inf_labels[:-1]) + ', and ' + inf_labels[-1]
     else:
@@ -3131,9 +3110,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     # ── Inference dispersion ──
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Inference is more dispersed, with the top five suppliers being '
+        'Inference exports are more dispersed, with the top five exporters being '
         f'{inf_list}, collectively accounting for '
-        f'{sum(round(s * 100) for _, s in top5_inf):.0f}% of global inference demand '
+        f'{sum(round(s * 100) for _, s in top5_inf):.0f}% of cross-border inference demand '
         f'(HHI = {demand_data["hhi_i"]:.2f}). '
     )
 
@@ -3184,7 +3163,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     deu_inf = ar.get('DEU', {}).get('best_inf_source', 'KOS')
     gbr_inf = ar.get('GBR', {}).get('best_inf_source', 'GBR')
     fra_inf = ar.get('FRA', {}).get('best_inf_source', 'FRA')
-    chn_inf = ar.get('CHN', {}).get('best_inf_source', 'KGZ')
+    # For China: use cheapest *foreign* inference source (exclude self-sourcing)
+    chn_inf = ar.get('CHN', {}).get('best_foreign_inf') or 'KGZ'
     p.add_run(
         'The model\u2019s predictions vary across major AI demand centers because '
         'each faces a different latency geography. '
@@ -3195,8 +3175,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'{_iso_name.get(deu_inf, deu_inf)}, '
         f'for the United Kingdom {"domestically" if gbr_inf == "GBR" else "from " + _iso_name.get(gbr_inf, gbr_inf)}, '
         f'and for France {"domestically" if fra_inf == "FRA" else "from " + _iso_name.get(fra_inf, fra_inf)}. '
-        f'For China, the cheapest source of inference is {_iso_name.get(chn_inf, chn_inf)}, '
-        'a neighboring country with hydropower-based electricity. '
+        f'For China, the cheapest foreign source of inference is {_iso_name.get(chn_inf, chn_inf)}. '
         'Inference supply thus concentrates around latency-bounded regional hubs, '
         'each major market sourcing from a distinct nearby producer.'
     )
@@ -3278,6 +3257,17 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_v('h')])
     p.add_run(', the effective premium becomes:')
     p.paragraph_format.space_after = Pt(2)
+
+    # Display equation (2') — moved here from Section 3.2
+    _, cur = omath_display(doc, body, cur, [
+        _msubsup('\u03BB', 'jk', 'FDI'), _t(' = '),
+        _msub('\u03B1', '1'), _t(' \u00b7 '),
+        _v('G'), _t('('), _v('h'), _t(', '), _v('k'), _t(') + '),
+        _msub('\u03B1', '2'), _t(' \u00b7 (1 \u2212 '),
+        _v('R'), _t('('), _v('h'), _t(', '), _v('k'), _t(')) + '),
+        _msub('\u03B1', '3'), _t(' \u00b7 '),
+        _v('S'), _t('('), _v('j'), _t(', '), _v('k'), _t(').'),
+    ], eq_num='2\u2032')
 
     p, cur = mkp(doc, body, cur)
     p.add_run(
@@ -6581,12 +6571,13 @@ def main():
             src = reg[iso]["best_train_source"]
             train_revenue[src] = train_revenue.get(src, 0) + omega[iso]
 
-    # Inference export revenue shares
+    # Inference export revenue shares (export only — exclude self-sourcing)
     inf_revenue = {}
     for iso in dc_k:
         if iso in reg:
             src = reg[iso]["best_inf_source"]
-            inf_revenue[src] = inf_revenue.get(src, 0) + omega[iso]
+            if src != iso:  # only cross-border inference counts as export
+                inf_revenue[src] = inf_revenue.get(src, 0) + omega[iso]
 
     # HHI
     hhi_t = sum(s**2 for s in train_revenue.values())
@@ -6978,6 +6969,8 @@ def main():
         # Free-trade inference (no sovereignty, for comparison)
         best_inf_cost = P_I_dom
         best_inf_src = iso_k
+        best_foreign_cost = float('inf')
+        best_foreign_src = None
         for iso_j, c_j in adj_costs.items():
             if iso_j == iso_k:
                 continue
@@ -6989,9 +6982,13 @@ def main():
             if cost_del < best_inf_cost:
                 best_inf_cost = cost_del
                 best_inf_src = iso_j
+            if cost_del < best_foreign_cost:
+                best_foreign_cost = cost_del
+                best_foreign_src = iso_j
         adj_reg[iso_k] = {
             'best_inf_source': best_inf_src,
             'best_inf_cost': f'{best_inf_cost:.4f}',
+            'best_foreign_inf': best_foreign_src,
             'P_I_domestic': f'{P_I_dom:.4f}',
         }
         # v24: bilateral inference sourcing per tier
@@ -7027,12 +7024,13 @@ def main():
             tier_inf[tier] = {'source': best_src_t, 'cost': best_cost_t}
         adj_reg_bilat[iso_k] = tier_inf
 
-    # Recompute inference revenue shares
+    # Recompute inference revenue shares (export only — exclude self-sourcing)
     adj_inf_revenue = {}
     for iso in dc_k:
         if iso in adj_reg:
             src = adj_reg[iso]['best_inf_source']
-            adj_inf_revenue[src] = adj_inf_revenue.get(src, 0) + omega.get(iso, 0)
+            if src != iso:  # only cross-border inference counts as export
+                adj_inf_revenue[src] = adj_inf_revenue.get(src, 0) + omega.get(iso, 0)
     adj_hhi_i = sum(s**2 for s in adj_inf_revenue.values())
     demand_data["inf_revenue"] = adj_inf_revenue
     demand_data["hhi_i"] = adj_hhi_i
