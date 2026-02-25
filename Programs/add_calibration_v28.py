@@ -1470,17 +1470,17 @@ def write_introduction(doc, body, hmap):
         'Pilz et al. 2025), but no formal trade model of compute exists. '
         'We offer the first such model, treating FLOPs as commodities produced and exported '
         'according to Ricardian comparative advantage. '
-        'We make three contributions. First, it develops a capacity-constrained '
+        'We make three contributions. First, we develop a capacity-constrained '
         'Ricardian model in which countries produce and export compute services. '
         'An iceberg trade cost captures latency degradation for inference, and a bilateral '
         'sovereignty premium captures geopolitical and regulatory frictions. '
         'Capacity ceilings generate scarcity rents and predictions about concentration '
         'and trade patterns. '
-        'Second, it calibrates the model for 85 countries using data on electricity '
+        'Second, we calibrate the model for 85 countries using data on electricity '
         'prices, climate, data center construction costs, and inter-country network latency, '
         'correcting for energy subsidies that distort headline cost rankings. '
-        'Third, it characterizes the resulting trade regimes\u2014which countries export, which '
-        'import, and which adopt hybrid strategies\u2014and quantifies the welfare cost of '
+        'Third, we characterize the resulting trade regimes\u2014which countries export, which '
+        'import, and which adopt hybrid strategies\u2014and quantify the welfare cost of '
         'the sovereignty premium.'
     )
 
@@ -1924,7 +1924,7 @@ def write_trade_costs(doc, body, hmap):
     omath(p, [_v('R')])
     p.add_run(
         ' is grid reliability '
-        '(World Bank Enterprise Surveys 2025), also rescaled to [0,\u20091]), and '
+        '(World Bank Enterprise Surveys 2025), also rescaled to [0,\u20091], and '
     )
     omath(p, [_v('\u03C9'), _t(' = 0.50')])
     p.add_run(
@@ -3066,17 +3066,18 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_msubsup('\u03BB', 'k', '*'),
               _t(f' = \u2212{abs(_lks["CAN"]) * 100:.1f}%')])
     p.add_run(
-        '), while positive values indicate the minimum premium for domestic production '
+        '); values closer to zero flag thinner cost advantages '
+        'more easily erased by sovereignty frictions '
         '(e.g., Japan '
     )
     omath(p, [_msubsup('\u03BB', 'k', '*'),
-              _t(f' = {_lks["JPN"] * 100:.1f}%')])
+              _t(f' = \u2212{abs(_lks["JPN"]) * 100:.1f}%')])
     p.add_run(', China ')
     omath(p, [_msubsup('\u03BB', 'k', '*'),
-              _t(f' = {_lks["CHN"] * 100:.1f}%')])
+              _t(f' = \u2212{abs(_lks["CHN"]) * 100:.1f}%')])
     p.add_run(', Kyrgyzstan ')
     omath(p, [_msubsup('\u03BB', 'k', '*'),
-              _t(f' = {_lks["KGZ"] * 100:.1f}%')])
+              _t(f' = \u2212{abs(_lks["KGZ"]) * 100:.1f}%')])
     p.add_run(
         '). '
         'The bilateral sovereignty premium is particularly powerful for inference, '
