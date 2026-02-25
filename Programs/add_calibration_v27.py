@@ -1256,7 +1256,7 @@ def write_title_and_abstract(doc, body, all_el, hmap):
     title_p.paragraph_format.first_line_indent = Inches(0)
     title_p.paragraph_format.space_before = Pt(0)
     title_p.paragraph_format.space_after = Pt(0)
-    r_title = title_p.add_run('Selling FLOPs:\nCompute Exports as a New Industry for Developing Countries')
+    r_title = title_p.add_run('Cheap Energy Might Not Be Enough:\nA Trade Model of AI Compute Services')
     r_title.bold = False
     r_title.font.size = Pt(16)
     r_title.font.name = TIMES_NEW_ROMAN
@@ -1478,17 +1478,6 @@ def write_introduction(doc, body, hmap):
         'bilateral trust and regulatory alignment.'
     )
 
-    # Para 11: Roadmap
-    p, cur = mkp(doc, body, cur)
-    p.add_run(
-        'The remainder of the paper is organized as follows. Section 2 reviews the related '
-        'literature. Section 3 develops the model, covering production technology, trade costs, demand, '
-        'and the capacity-constrained market equilibrium. Section 4 derives the equilibrium '
-        'properties, including propositions on country taxonomy, concentration, sovereignty '
-        'thresholds, and the nesting of training within inference exporters. Section 5 '
-        'describes the data. Section 6 calibrates the model. '
-        'Section 7 examines robustness and extensions. Section 8 concludes.'
-    )
 
 
 def write_literature(doc, body, hmap):
@@ -2766,24 +2755,17 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_msub('\u03BE', 'floor'), _t(' = 0.30')])
     p.add_run(
         '. The equal weighting reflects the enclave character of '
-        'data center operations. Unlike general manufacturing, hyperscale facilities connect '
-        'at transmission voltage with dedicated substations, maintain on-site diesel backup '
-        'covering 48\u201372\u2009hours, and operate battery UPS systems that bridge the seconds '
-        'between grid failure and generator start. General grid reliability is therefore '
-        'a weak predictor of data center uptime. Governance, by contrast, captures contract '
-        'enforcement, expropriation risk, and regulatory stability\u2009\u2014\u2009none of which '
+        'data center operations: hyperscale facilities maintain independent backup power, '
+        'making general grid reliability a weak predictor of data center uptime. '
+        'Governance, by contrast, captures contract '
+        'enforcement, expropriation risk, and regulatory stability, none of which '
         'can be mitigated through private infrastructure investment. '
         'The institutional floor reflects the minimum operational quality achievable '
-        'when a hyperscaler structures the investment through international arbitration, '
-        'a dedicated power purchase agreement, and special economic zone provisions '
+        'through special economic zone provisions and international arbitration '
         '(Farole 2011; World Bank 2017; Frick, Rodr\u00EDguez-Pose, and Wong 2019). '
-        'Because hardware costs\u2009\u2014\u2009comprising GPU depreciation and networking\u2009\u2014\u2009'
-        'account for approximately 90 percent of cost-recovery costs and are determined on '
-        'global markets at uniform prices, the efficiency adjustment operates only on the '
-        'remaining country-specific cost component (equation 3). This ensures that governance '
-        'penalties affect power purchase agreements, construction permits, and grid connections, '
-        'but not globally-priced capital equipment. '
-        'For OECD countries with strong institutions and negligible outages, '
+        'The efficiency adjustment operates only on the '
+        'country-specific cost component (equation 3), since hardware is globally priced. '
+        'For OECD countries, '
     )
     omath(p, [_msubsup('\u03BE', 'j', 'eff'), _t(' \u2248 1')])
     p.add_run(
@@ -2791,27 +2773,12 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'(e.g., Kyrgyzstan:\u2009{rhup(demand_data["xi"].get("KGZ", 0.50)):.2f}, '
         f'Uzbekistan:\u2009{rhup(demand_data["xi"].get("UZB", 0.58)):.2f}, '
         f'Ethiopia:\u2009{rhup(demand_data["xi"].get("ETH", 0.57)):.2f}). '
-        'The sensitivity of results to both '
+        'Sensitivity to both '
     )
     omath(p, [_v('\u03C9')])
     p.add_run(' and ')
     omath(p, [_msub('\u03BE', 'floor')])
-    p.add_run(
-        ' is examined in Section 7. '
-        f'\u03BE ranges from '
-        f'{rhup(min(demand_data["xi"].get(c, 1.0) for c in OECD_ISOS if c in demand_data["xi"])):.2f} '
-        f'to '
-        f'{rhup(max(demand_data["xi"].get(c, 1.0) for c in OECD_ISOS if c in demand_data["xi"])):.2f} '
-        'within the OECD, '
-        'and the tight '
-        'cross-country cost spread (\u224820%) means small efficiency differences '
-        'reshuffle adjacent ranks. Even countries with '
-    )
-    omath(p, [_msubsup('\u03BE', 'j', 'eff'), _t(' = 1')])
-    p.add_run(
-        ' can shift in rank because penalizing low-\u03BE '
-        'competitors mechanically raises others.'
-    )
+    p.add_run(' is examined in Section 7.')
 
     # Table 2 reference (end of parameter calibration subsection)
     p, cur = mkp(doc, body, cur)
