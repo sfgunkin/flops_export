@@ -7227,42 +7227,90 @@ def main():
     # ═══════════════════════════════════════════════════════════════════════
     print("\nComputing hyperscaler FDI equilibrium...")
 
-    # FDI training: identify which countries can export/import under FDI
-    # Under FDI, the hyperscaler operates the facility and mitigates the host's
-    # governance penalty. The host's supply cost is therefore the cost-recovery
-    # cost (adj_costs) WITHOUT the ξ efficiency adjustment. The buyer still faces
-    # full ξ-adjusted domestic cost (costs_dict = adj_costs_eff).
-    #   Country j can export to buyer k if:
-    #     (1 + λ^FDI_{jk}) * c_j^CR < c_k^eff
-    fdi_can_export_train = set()
-    fdi_would_import_train = {}  # iso_k → cheapest FDI supplier
+    # FDI training: capacity-constrained equilibrium with FDI lambda.
+    # Under FDI, the hyperscaler operates the facility and partially mitigates
+    # the host's governance penalty. We use cost-recovery costs for the supply
+    # stack (hosts) and ξ-adjusted costs for the demand side (buyers).
+    # Build FDI supply stack from cost-recovery costs (non-sanctioned)
+    fdi_supply_stack = sorted(
+        [(iso, adj_costs[iso], k_bar.get(iso, 1e12))
+         for iso in adj_costs if iso in k_bar and iso not in SANCTIONED],
+        key=lambda x: x[1]
+    )
+
+    def _solve_fdi_equilibrium():
+        """Capacity-constrained FDI training equilibrium."""
+        p_T = fdi_supply_stack[0][1]
+        for iso_j, c_j, k_j in fdi_supply_stack:
+            p_T = c_j
+            break
+        Q_TX = 0
+        for _ in range(30):
+            Q_TX = 0
+            for iso_k in dc_k:
+                c_k = costs_dict.get(iso_k)  # buyer's ξ-adjusted domestic cost
+                if c_k is None:
+                    continue
+                w_k = omega.get(iso_k, 0)
+                # FDI lambda: min across non-sanctioned hosts
+                lam_fdi_min = float('inf')
+                for iso_j in adj_costs:
+                    if iso_j == iso_k or iso_j in SANCTIONED:
+                        continue
+                    lam = compute_fdi_lambda(iso_j, iso_k, hyperscaler_h='USA')
+                    if lam < lam_fdi_min:
+                        lam_fdi_min = lam
+                if lam_fdi_min < float('inf') and c_k > (1 + lam_fdi_min) * p_T:
+                    Q_TX += ALPHA * w_k * Q_TOTAL
+            # Walk up supply stack
+            cum_cap = 0
+            p_T_new = p_T
+            for iso_j, c_j, k_j in fdi_supply_stack:
+                cum_cap += k_j * ALPHA
+                if cum_cap >= Q_TX and Q_TX > 0:
+                    p_T_new = c_j
+                    break
+            if abs(p_T_new - p_T) < 0.0001:
+                p_T = p_T_new
+                break
+            p_T = p_T_new
+        # Compute shares
+        shares = {}
+        remaining = Q_TX
+        for iso_j, c_j, k_j in fdi_supply_stack:
+            if c_j > p_T:
+                break
+            ca = min(k_j * ALPHA, remaining)
+            if ca > 0:
+                shares[iso_j] = ca
+                remaining -= ca
+            if remaining <= 0:
+                break
+        return p_T, shares
+
+    p_T_fdi, shares_fdi = _solve_fdi_equilibrium()
+    fdi_can_export_train = set(shares_fdi.keys())
+
+    # Also identify countries that would import training under FDI
+    fdi_would_import_train = {}
     for iso_k in dc_k:
-        c_k = costs_dict.get(iso_k)  # buyer's ξ-adjusted domestic cost
+        c_k = costs_dict.get(iso_k)
         if c_k is None:
             continue
         best_supplier = None
-        best_delivered = c_k  # domestic baseline
+        best_delivered = c_k
         for iso_j in adj_costs:
-            if iso_j == iso_k:
-                continue
-            if iso_j not in dc_k:
+            if iso_j == iso_k or iso_j in SANCTIONED:
                 continue
             lam_fdi = compute_fdi_lambda(iso_j, iso_k, hyperscaler_h='USA')
             if lam_fdi >= float('inf'):
                 continue
-            c_j_cr = adj_costs[iso_j]  # host's cost-recovery cost (hyperscaler mitigates ξ)
-            delivered = (1 + lam_fdi) * c_j_cr
-            if delivered < c_k:
-                fdi_can_export_train.add(iso_j)
+            delivered = (1 + lam_fdi) * adj_costs[iso_j]
             if delivered < best_delivered:
                 best_delivered = delivered
                 best_supplier = iso_j
         if best_supplier is not None:
             fdi_would_import_train[iso_k] = best_supplier
-
-    # FDI training price: use marginal exporter cost-recovery cost
-    fdi_exporter_costs = sorted(adj_costs[j] for j in fdi_can_export_train if j in adj_costs)
-    p_T_fdi = fdi_exporter_costs[-1] if fdi_exporter_costs else p_T_tiered
     demand_data["p_T_fdi"] = p_T_fdi
     demand_data["shares_fdi"] = {j: 1 for j in fdi_can_export_train}
     demand_data["n_train_exporters_fdi"] = len(fdi_can_export_train)
