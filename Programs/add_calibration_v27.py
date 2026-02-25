@@ -2713,7 +2713,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_msub('\u03BB', 'ij')])
     p.add_run(
         ' is constructed from geopolitical distance, regulatory compatibility, and sanctions '
-        'exposure, as specified in equation (2), with coefficient weights '
+        'exposure, (eq. (2)), with coefficient weights '
     )
     omath(p, [_msub('\u03B1', '1'), _t(' = 0.08')])
     p.add_run(' (geopolitical distance), ')
@@ -2745,7 +2745,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run('The production-efficiency index ')
     omath(p, [_msubsup('\u03BE', 'j', 'eff')])
     p.add_run(
-        ' from equation (3) combines a weighted geometric mean of governance quality and grid '
+        ' (eq. (3)) combines a weighted geometric mean of governance quality and grid '
         'reliability (weight '
     )
     omath(p, [_v('\u03C9'), _t(' = 0.50')])
@@ -2757,7 +2757,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         '. The equal weighting reflects the enclave character of '
         'data center operations: hyperscale facilities maintain independent backup power, '
         'making general grid reliability a weak predictor of data center uptime. '
-        'Governance, by contrast, captures contract '
+        'Governance captures contract '
         'enforcement, expropriation risk, and regulatory stability, none of which '
         'can be mitigated through private infrastructure investment. '
         'The institutional floor reflects the minimum operational quality achievable '
@@ -2816,7 +2816,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_bookmark_end(150))
     p.add_run(
         ' summarizes the calibration strategy. '
-        'The analysis proceeds in two steps: first adjusting production costs, '
+        'The analysis proceeds first by adjusting production costs, '
         'then applying trade frictions.'
     )
 
@@ -2825,9 +2825,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         'Under observed electricity tariffs and without efficiency '
         'adjustment, the cheapest producer in our sample of 85 countries is '
-        f'{cheapest["country"]} (${float(cheapest["c_j_total"]):.2f}/hr), '
-        f'followed by {cal[1]["country"]} (${float(cal[1]["c_j_total"]):.2f}/hr) '
-        f'and {cal[2]["country"]} (${float(cal[2]["c_j_total"]):.2f}/hr) '
+        f'{cheapest["country"]}, '
+        f'followed by {cal[1]["country"]} '
+        f'and {cal[2]["country"]} '
         '(Column\u2009(1) of '
     )
     p._element.append(make_bookmark(112, 'Table3txt'))
