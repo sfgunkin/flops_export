@@ -2929,7 +2929,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
                   'tariff. For Ethiopia, it uses the IMF\u2019s hydro cost-recovery target ($0.050/kWh). '
                   'The IMF estimates global fossil fuel subsidies at $6.7 trillion in 2024. '
                   'Explicit subsidies (below-cost pricing) account for 8%; the remainder reflects '
-                  'unpriced environmental costs. This paper uses only the explicit component.',
+                  'unpriced environmental costs. The calibration uses only the explicit component.',
                   16)
     p.add_run(
         ' The subsidy gap ranges from '
