@@ -185,7 +185,7 @@ W_TIER2 = 0.20   # Regulated: health, financial, GDPR-covered personal data
 W_TIER3 = 0.70   # Commercial: routine training, commercial inference, non-personal
 
 # Countries under comprehensive sanctions (S_{ij} = 1 for Western buyers)
-SANCTIONED = {'IRN', 'RUS', 'BLR', 'PRK', 'SYR'}
+SANCTIONED = {'IRN', 'RUS', 'BLR', 'PRK', 'SYR', 'TKM'}
 
 # Geopolitical blocs for G_{ij} computation
 # Bloc assignments based on UN General Assembly voting patterns
@@ -3276,7 +3276,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         ' for allied buyers, so the premium collapses to the sanctions indicator alone. '
         'Sanctions still bind on the host country: GPUs cannot be shipped to Iran, Russia, '
-        'or Belarus regardless of who operates the facility. GPU export controls partially '
+        'Belarus, or Turkmenistan regardless of who operates the facility. GPU export controls partially '
         'restrict China\u2019s access to training-grade hardware.'
     )
 
@@ -7591,6 +7591,10 @@ def main():
         sorted_by = sorted(table3_data, key=lambda x: x[spec])
         for rank, d in enumerate(sorted_by, 1):
             d[key] = rank
+
+    # Override adj_rank_map with table-consistent CR ranks (table3_data uses
+    # recomputed costs that may differ slightly from the costs_dict path)
+    demand_data["adj_rank_map"] = {d["iso"]: d["rank_cr"] for d in table3_data}
 
     # Type assignment for specs (1)-(3): free trade
     for d in table3_data:
