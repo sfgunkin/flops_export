@@ -47,7 +47,7 @@ W_TIER3 = 0.70
 
 RHO = GPU_PRICE / (GPU_LIFE * H_YR * GPU_UTIL)
 
-SANCTIONED = {'IRN', 'RUS', 'BLR', 'PRK', 'SYR'}
+SANCTIONED = {'IRN', 'RUS', 'BLR', 'PRK', 'SYR', 'TKM'}
 
 SUBSIDY_ADJ = {
     'IRN': 0.085, 'TKM': 0.070, 'DZA': 0.065, 'EGY': 0.080,
@@ -414,9 +414,30 @@ def verify_C_cost_recovery(data):
     expected_cr5 = ["KGZ", "CAN", "ETH", "XKX", "TJK"]
     check("C11", "CR top 5: KGZ, CAN, ETH, XKX, TJK", expected_cr5, adj_top5, is_str=True)
 
-    # C12. Iran drops from 1st to 24th
-    adj_rank_map = {iso: rank for rank, (iso, _) in enumerate(adj_ranked, 1)}
-    check("C12", "Iran drops to 24th under CR", 24, adj_rank_map.get("IRN", -1), tol=0.05)
+    # C12. Iran drops from 1st to 21st under CR
+    # Paper uses table3_data rank_cr (recomputed costs with rho_net, construction
+    # includes GPU_UTIL divisor) rather than adj_rank_map (CSV costs + ETA).
+    rho_hw = GPU_PRICE / (GPU_LIFE * H_YR * GPU_UTIL)
+    table3_cr = []
+    for r in cal:
+        iso = r["iso3"]
+        p_E_raw = float(r["p_E_usd_kwh"])
+        pue = float(r["pue"])  # use CSV PUE directly (matches table3_data path)
+        constr = float(r["p_L_usd_per_W"])
+        elec_raw = GAMMA * p_E_raw * pue
+        cr_price = SUBSIDY_ADJ.get(iso, p_E_raw)
+        elec_cr = GAMMA * cr_price * pue
+        constr_cost = (constr * GAMMA * 1000) / (DC_LIFE * H_YR * GPU_UTIL)
+        cj_reported = float(r["c_j_total"])
+        residual = cj_reported - (elec_raw + rho_hw + constr_cost)
+        table3_cr.append({"iso": iso, "elec_cr": elec_cr, "rho_hw": rho_hw,
+                          "constr_cost": constr_cost, "residual": residual})
+    rho_net = sum(d["residual"] for d in table3_cr) / len(table3_cr)
+    for d in table3_cr:
+        d["cj_cr"] = d["elec_cr"] + d["rho_hw"] + d["constr_cost"] + rho_net
+    table3_cr_sorted = sorted(table3_cr, key=lambda x: x["cj_cr"])
+    rank_cr_map = {d["iso"]: rank for rank, d in enumerate(table3_cr_sorted, 1)}
+    check("C12", "Iran drops to 21st under CR", 21, rank_cr_map.get("IRN", -1), tol=0.05)
 
     return adj_costs, adj_ranked
 
