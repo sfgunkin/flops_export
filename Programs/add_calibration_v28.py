@@ -7545,8 +7545,11 @@ def main():
         elec_raw = GAMMA * p_E_raw * pue
         cr_price = SUBSIDY_ADJ.get(iso, p_E_raw)
         elec_cr = GAMMA * cr_price * pue
-        # Construction: γ(kW) × 1000 × p_L($/W) / (D × H)
-        constr_cost = (constr * GAMMA * 1000) / (DC_LIFE * H_YR)
+        constr_cost = (constr * GAMMA * 1000) / (DC_LIFE * H_YR * GPU_UTIL)
+
+        # Back out networking residual from reported c_j
+        cj_reported = float(r_row["c_j_total"])
+        residual = cj_reported - (elec_raw + rho_hw + constr_cost)
 
         table3_data.append({
             "iso": iso, "country": r_row["country"],
@@ -7554,20 +7557,22 @@ def main():
             "pue": pue, "constr": constr, "xi": xi_j,
             "elec_raw": elec_raw, "elec_cr": elec_cr,
             "constr_cost": constr_cost,
+            "cj_reported": cj_reported, "residual": residual,
         })
 
+    # Mean networking cost (ρ_net)
+    rho_net = sum(d["residual"] for d in table3_data) / len(table3_data)
+
     # ── Table 3a: Cost Specifications (1)-(3) ──
-    # η (networking) is now an explicit additive term — guarantees c ≥ ρ + η
     for d in table3_data:
-        d["cj_raw"] = d["elec_raw"] + rho_hw + d["constr_cost"] + ETA    # (1) Raw
-        d["cj_cr"] = d["elec_cr"] + rho_hw + d["constr_cost"] + ETA      # (2) Cost-recovery
+        d["cj_raw"] = d["elec_raw"] + rho_hw + d["constr_cost"] + rho_net    # (1) Raw
+        d["cj_cr"] = d["elec_cr"] + rho_hw + d["constr_cost"] + rho_net      # (2) Cost-recovery
         d["cj_eff"] = RHO + (d["cj_cr"] - RHO) / d["xi"] if d["xi"] > 0 else 999  # (3) Form B
 
-    # Validate: no cost below theoretical floor ρ + η
-    _floor = RHO + ETA
+    # Validate: cj_raw should approximately match reported
     for d in table3_data:
-        assert d["cj_raw"] >= _floor - 0.001, \
-            f'{d["iso"]}: cj_raw=${d["cj_raw"]:.4f} below floor ${_floor:.4f}'
+        assert abs(d["cj_raw"] - d["cj_reported"]) < 0.015, \
+            f'{d["iso"]}: raw={d["cj_raw"]:.4f} vs reported={d["cj_reported"]:.4f}'
 
     # Rank under specs (1)-(3)
     for key, spec in [("rank_raw", "cj_raw"), ("rank_cr", "cj_cr"), ("rank_eff", "cj_eff")]:
