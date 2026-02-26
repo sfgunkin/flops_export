@@ -102,6 +102,7 @@ DOCS = pathlib.Path(r"F:\onedrive\__documents\papers\FLOPsExport\Documents")
 DATA = pathlib.Path(r"F:\onedrive\__documents\papers\FLOPsExport\Data")
 
 TAU = 0.0008
+L_BAR = 200.0          # Inference latency threshold (ms)
 LAMBDA = 0.10
 PHI = 1.08
 DELTA_PUE = 0.015
@@ -6584,6 +6585,7 @@ def main():
 
     # Lambda* for each country (cost-based threshold)
     costs_dict = {row["iso3"]: float(row["c_j_total"]) + ETA for row in cal}
+    costs_dict_raw = dict(costs_dict)  # save raw costs for spec (1) classification
     lambda_star = {}
     for iso, c_k in costs_dict.items():
         min_foreign = min(c for i, c in costs_dict.items() if i != iso)
@@ -6908,7 +6910,24 @@ def main():
         print(f"    {adj_rank_map[iso]:>2}. {co:<24} ${c:.3f}/hr{flag}")
 
     # ═══════════════════════════════════════════════════════════════════════
-    # RE-COMPUTE EQUILIBRIUM ON COST-RECOVERY BASELINE
+    # COST-RECOVERY EQUILIBRIUM (no efficiency adjustment)
+    # ═══════════════════════════════════════════════════════════════════════
+    # Run a separate equilibrium on cost-recovery costs (for Table 3a spec (2))
+    costs_dict_cr = dict(adj_costs)  # save CR costs before efficiency adjustment
+    cr_supply_stack = sorted(
+        [(iso, adj_costs[iso], k_bar.get(iso, 1e12))
+         for iso in adj_costs if iso in k_bar],
+        key=lambda x: x[1]
+    )
+    # Temporarily swap supply_stack/costs_dict for CR equilibrium
+    _save_ss, _save_cd = supply_stack, costs_dict
+    supply_stack, costs_dict = cr_supply_stack, costs_dict_cr
+    (p_T_cr, _, shares_cr, _, _, _, _
+     ) = solve_capacity_equilibrium(0.0, "λ=0 CR (no ξ)")
+    supply_stack, costs_dict = _save_ss, _save_cd  # restore
+
+    # ═══════════════════════════════════════════════════════════════════════
+    # RE-COMPUTE EQUILIBRIUM ON EFFICIENCY-ADJUSTED BASELINE
     # ═══════════════════════════════════════════════════════════════════════
     print("Re-computing equilibrium on cost-recovery baseline...")
 
@@ -7584,17 +7603,70 @@ def main():
     # recomputed costs that may differ slightly from the costs_dict path)
     demand_data["adj_rank_map"] = {d["iso"]: d["rank_cr"] for d in table3_data}
 
-    # Type assignment for specs (1)-(3): free trade
-    for d in table3_data:
-        for rank_key, type_key in [("rank_raw", "type_raw"),
-                                   ("rank_cr", "type_cr"),
-                                   ("rank_eff", "type_eff")]:
-            if d[rank_key] <= 5:
-                d[type_key] = "EE"
-            elif d[rank_key] <= 12 and dc_k.get(d["iso"], 9999) < 1000:
-                d[type_key] = "IE"
+    # ── Equilibrium-based type assignment for specs (1)-(3) ──
+    # Helper: compute inference sourcing for a given cost dict (no sovereignty)
+    def _simple_inference(cost_d):
+        """Return {iso_k: source_iso_j} for free-trade inference."""
+        inf_src = {}
+        all_isos = list(cost_d.keys())
+        for iso_k in all_isos:
+            c_k = cost_d[iso_k]
+            l_kk = _get_latency(iso_k, iso_k) or DOMESTIC_LATENCY_DEFAULT
+            best_cost = (1 + TAU * l_kk) * c_k
+            best_src = iso_k
+            for iso_j in all_isos:
+                if iso_j == iso_k or iso_j in SANCTIONED:
+                    continue
+                lat = _get_latency(iso_j, iso_k)
+                if lat is None or lat > L_BAR:
+                    continue
+                delivered = (1 + TAU * lat) * cost_d[iso_j]
+                if delivered < best_cost:
+                    best_cost = delivered
+                    best_src = iso_j
+            inf_src[iso_k] = best_src
+        return inf_src
+
+    # Helper: classify regimes given training shares, inference, costs, p_T
+    def _classify_types(shares_t, inf_src, cost_d, p_T, lam_val=0.0):
+        """Classify into EE/IE/DD/II."""
+        train_exp = set(shares_t.keys())
+        inf_exp = set()
+        for iso_k, src in inf_src.items():
+            if src != iso_k:
+                inf_exp.add(src)
+        types = {}
+        for iso in cost_d:
+            c_k = cost_d[iso]
+            is_dom_train = (c_k <= (1 + lam_val) * p_T)
+            is_dom_inf = (inf_src.get(iso, iso) == iso)
+            if iso in train_exp:
+                types[iso] = "EE"
+            elif iso in inf_exp and not is_dom_train:
+                types[iso] = "IE"
+            elif is_dom_train and is_dom_inf:
+                types[iso] = "DD"
             else:
-                d[type_key] = "II"
+                types[iso] = "II"
+        return types
+
+    # Spec (1) raw: use shares_0_orig / p_T_0_orig from initial Pass 1
+    inf_raw = _simple_inference(costs_dict_raw)
+    types_raw = _classify_types(shares_0_orig, inf_raw, costs_dict_raw, p_T_0_orig)
+
+    # Spec (2) CR: use shares_cr / p_T_cr from CR equilibrium
+    inf_cr = _simple_inference(costs_dict_cr)
+    types_cr = _classify_types(shares_cr, inf_cr, costs_dict_cr, p_T_cr)
+
+    # Spec (3) efficiency-adjusted: use shares_0 / p_T_0 from eff equilibrium
+    inf_eff = _simple_inference(adj_costs_eff)
+    types_eff = _classify_types(shares_0, inf_eff, adj_costs_eff, p_T_0)
+
+    for d in table3_data:
+        iso = d["iso"]
+        d["type_raw"] = types_raw.get(iso, "II")
+        d["type_cr"] = types_cr.get(iso, "II")
+        d["type_eff"] = types_eff.get(iso, "II")
         # Delta: rank improvement from raw to efficiency-adjusted
         d["delta"] = d["rank_raw"] - d["rank_eff"]
 
