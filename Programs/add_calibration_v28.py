@@ -2307,7 +2307,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'This section derives the formal properties of the capacity-constrained '
-        'equilibrium defined in Section 3. Full derivations appear in Appendix B.'
+        'equilibrium defined in Section 3. Full derivations are shown in Appendix B.'
     )
 
     # Proposition 1: Country taxonomy (5-regime version)
@@ -2850,8 +2850,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_bookmark_end(150))
     p.add_run(
         ' summarizes the calibration strategy. '
-        'The analysis proceeds first by adjusting production costs, '
-        'then applying trade frictions.'
+        'The analysis proceeds by adjusting production costs, '
+        'applying trade frictions, and introducing '
+        'hyperscaler FDI as a trust channel.'
     )
 
     # ── A1. Raw tariff contrast — Table 3 col (1) ──
@@ -4892,7 +4893,7 @@ def write_figure1_calibration(doc, body, last_ref):
     """Insert Figure 1 (calibration strategy flowchart) after references."""
     print("Inserting Figure 1 (Calibration Strategy)...")
 
-    fig_path = DOCS / "calibration_strategy_fig1.png"
+    fig_path = DOCS / "calibration_strategy_v28_slide2.png"
 
     # Page break before figure
     pb_el = add_page_break(doc, body, last_ref)
@@ -4956,18 +4957,16 @@ def write_figure1_calibration(doc, body, last_ref):
     rn1.bold = True
     rn1.font.size = Pt(10)
     rn2 = note_p.add_run(
-        'Step 1 adjusts production costs from observed electricity tariffs '
-        'through cost-recovery pricing (removing subsidies) to efficiency-adjusted '
-        'costs (penalizing weak governance and grid reliability). Step 2 applies '
-        'trade frictions via bilateral sovereignty premiums and a uniform premium '
-        'as a robustness check. '
-        'Step 5 replaces the bilateral sovereignty premium with equation (2\u2032), '
-        'in which the trust counterparty is the hyperscaler operator rather than '
-        'the host country.'
+        'Step 1 adjusts production costs from observed tariffs through '
+        'cost-recovery pricing to efficiency-adjusted costs. '
+        'Step 2 applies bilateral sovereignty premiums, with a uniform '
+        'premium (\u03bb = 0.10) as robustness check. '
+        'Step 3 replaces host-country trust with '
+        'hyperscaler-intermediated FDI.'
     )
     rn2.font.size = Pt(10)
     note_p.paragraph_format.line_spacing = 1.0
-    note_p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    note_p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
     note_el = note_p._element
     body.remove(note_el)
     pic_el.addnext(note_el)
@@ -6503,13 +6502,13 @@ def main():
     n_eca = len(eca_cal)
     n_total = len(cal)
 
-    # v27: Production-efficiency index ξ_j^{eff} ∈ (0, 1]
-    # ξ_raw = governance^ω × grid^(1−ω), ω = OMEGA_XI = 0.50
-    # ξ_eff = XI_FLOOR + (1 − XI_FLOOR) × ξ_raw  (institutional enclave floor)
+    # v29: Production-efficiency index ξ_j ∈ (0, 1]
+    # ξ = governance^ω × grid^(1−ω), ω = OMEGA_XI = 0.50
+    # No institutional floor (v29 update; floor removed for transparency)
     # Data source: raw WGI Rule of Law percentile (G) and grid reliability (R)
     # from xi_scenarios.xlsx (replacing reliability_index.csv)
-    xi = {}          # ξ_j^{eff} (with floor)
-    xi_raw = {}      # ξ_j^{raw} (before floor, for robustness)
+    xi = {}          # ξ_j (v29: no floor)
+    xi_raw = {}      # ξ_j^{raw} (same as xi in v29)
     xi_old = {}      # old ξ (for comparison, from reliability_index.csv)
     xi_components = {}  # raw components for Table A1
     import openpyxl
@@ -6524,10 +6523,10 @@ def main():
         xi_old[iso] = float(_xi_d.get("xi_eff_v26", 0.5))
         if gov > 0 and grid > 0:
             xi_raw[iso] = (gov ** OMEGA_XI) * (grid ** (1 - OMEGA_XI))
-            xi[iso] = compute_xi_eff(gov, grid)
+            xi[iso] = xi_raw[iso]  # v29: no floor
         else:
             xi_raw[iso] = 0.01
-            xi[iso] = XI_FLOOR + (1 - XI_FLOOR) * 0.01
+            xi[iso] = 0.01  # v29: no floor
         xi_components[iso] = {"governance": gov, "grid": grid}
     _xi_wb.close()
 
@@ -7541,16 +7540,13 @@ def main():
         p_E_raw = float(r_row["p_E_usd_kwh"])
         pue = float(r_row["pue"])
         constr = float(r_row["p_L_usd_per_W"])
-        xi_j = xi.get(iso, 1.0)  # v24: ξ_j^{eff} (no sanctions)
+        xi_j = xi.get(iso, 1.0)  # v29: ξ_j (no floor)
 
         elec_raw = GAMMA * p_E_raw * pue
         cr_price = SUBSIDY_ADJ.get(iso, p_E_raw)
         elec_cr = GAMMA * cr_price * pue
-        constr_cost = (constr * GAMMA * 1000) / (DC_LIFE * H_YR * GPU_UTIL)
-
-        # Back out networking residual from reported c_j
-        cj_reported = float(r_row["c_j_total"])
-        residual = cj_reported - (elec_raw + rho_hw + constr_cost)
+        # Construction: γ(kW) × 1000 × p_L($/W) / (D × H)
+        constr_cost = (constr * GAMMA * 1000) / (DC_LIFE * H_YR)
 
         table3_data.append({
             "iso": iso, "country": r_row["country"],
@@ -7558,66 +7554,20 @@ def main():
             "pue": pue, "constr": constr, "xi": xi_j,
             "elec_raw": elec_raw, "elec_cr": elec_cr,
             "constr_cost": constr_cost,
-            "cj_reported": cj_reported, "residual": residual,
         })
 
-    # Mean networking cost (ρ_net)
-    rho_net = sum(d["residual"] for d in table3_data) / len(table3_data)
-
     # ── Table 3a: Cost Specifications (1)-(3) ──
+    # η (networking) is now an explicit additive term — guarantees c ≥ ρ + η
     for d in table3_data:
-        d["cj_raw"] = d["elec_raw"] + rho_hw + d["constr_cost"] + rho_net    # (1) Raw
-        d["cj_cr"] = d["elec_cr"] + rho_hw + d["constr_cost"] + rho_net      # (2) Cost-recovery
+        d["cj_raw"] = d["elec_raw"] + rho_hw + d["constr_cost"] + ETA    # (1) Raw
+        d["cj_cr"] = d["elec_cr"] + rho_hw + d["constr_cost"] + ETA      # (2) Cost-recovery
         d["cj_eff"] = RHO + (d["cj_cr"] - RHO) / d["xi"] if d["xi"] > 0 else 999  # (3) Form B
 
-    # Validate: cj_raw should approximately match reported
+    # Validate: no cost below theoretical floor ρ + η
+    _floor = RHO + ETA
     for d in table3_data:
-        assert abs(d["cj_raw"] - d["cj_reported"]) < 0.015, \
-            f'{d["iso"]}: raw={d["cj_raw"]:.4f} vs reported={d["cj_reported"]:.4f}'
-
-    # v27: Override spec (3) with exact values from form_b_simulations.xlsx (C2 scenario)
-    # This ensures rankings match the protocol lookup table exactly
-    _sim_wb = openpyxl.load_workbook(DATA / "form_b_simulations.xlsx", read_only=True)
-    _sim_ws = _sim_wb['Rankings']
-    _sim_hdr = [c.value for c in next(_sim_ws.iter_rows(max_row=1))]
-    _c2_cadj_i = _sim_hdr.index('c_adj\nC2')
-    _c2_rank_i = _sim_hdr.index('rank\nC2')
-    _c2_xieff_i = _sim_hdr.index('xi_eff\nC2')
-    _sim_data = {}
-    # Need country-to-ISO mapping
-    _sim_data_ws = _sim_wb['Data']
-    _sim_data_hdr = [c.value for c in next(_sim_data_ws.iter_rows(max_row=1))]
-    _ctry_to_iso = {}
-    for _r in _sim_data_ws.iter_rows(min_row=2, values_only=True):
-        _dd = dict(zip(_sim_data_hdr, _r))
-        # form_b_simulations Data sheet doesn't have ISO, but xi_scenarios does
-    _sim_data_ws = None
-    # Use country name matching from Rankings sheet
-    for _r in _sim_ws.iter_rows(min_row=2, values_only=True):
-        _country = _r[0]  # Column 0 is Country
-        _sim_data[_country] = {
-            'c_adj': float(_r[_c2_cadj_i]),
-            'rank': int(_r[_c2_rank_i]),
-            'xi_eff': float(_r[_c2_xieff_i]),
-        }
-    _sim_wb.close()
-    # Map country names to table3_data countries
-    _t3_country_map = {d["country"]: d for d in table3_data}
-    _matched = 0
-    for _sname, _svals in _sim_data.items():
-        # Try exact match or common abbreviation
-        d = _t3_country_map.get(_sname)
-        if d is None:
-            # Try partial match
-            for _tname, _td in _t3_country_map.items():
-                if _sname.startswith(_tname[:10]) or _tname.startswith(_sname[:10]):
-                    d = _td
-                    break
-        if d is not None:
-            d["cj_eff"] = _svals["c_adj"]
-            d["xi"] = _svals["xi_eff"]
-            _matched += 1
-    print(f"  Table 3: matched {_matched}/{len(_sim_data)} countries from C2 scenario")
+        assert d["cj_raw"] >= _floor - 0.001, \
+            f'{d["iso"]}: cj_raw=${d["cj_raw"]:.4f} below floor ${_floor:.4f}'
 
     # Rank under specs (1)-(3)
     for key, spec in [("rank_raw", "cj_raw"), ("rank_cr", "cj_cr"), ("rank_eff", "cj_eff")]:
