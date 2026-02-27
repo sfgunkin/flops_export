@@ -140,8 +140,8 @@ ALPHA = 0.50
 # Calibrated to ~10 million data center GPUs at ~70% utilization (~8,766 hrs/yr)
 Q_TOTAL = 60_000_000_000   # 60 billion GPU-hours
 
-# Grid capacity CSV unit correction (kWh→GWh used /1e9 instead of /1e6)
-K_BAR_SCALE = 1000
+# Grid capacity scaling: CSV assumes 10% of national grid → GPU-hours
+K_BAR_SCALE = 100
 
 # Developing countries (for sensitivity analysis dev-top-15 count and prose)
 DEVELOPING = {
@@ -183,8 +183,8 @@ SUBSIDY_ADJ = {
 # ═══════════════════════════════════════════════════════════════════════
 
 # Bilateral λ_{ij} coefficients: λ_{ij} = α₁·G_{ij} + α₂·(1-R_{ij}) + α₃·S_{ij}
-ALPHA_GEO = 0.08     # α₁: geopolitical distance weight
-ALPHA_REG = 0.04     # α₂: regulatory incompatibility weight
+ALPHA_GEO = 0.05     # α₁: geopolitical distance weight
+ALPHA_REG = 0.025    # α₂: regulatory incompatibility weight
 # α₃ = ∞ (sanctions → trade prohibited; handled by exclusion)
 
 # Uniform λ retained ONLY for robustness comparison (old specification)
