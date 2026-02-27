@@ -1,5 +1,5 @@
 """
-Produce flop_trade_model_v30_base.docx from v8.docx.
+Produce flop_trade_model_v30.docx from v8.docx.
 
 v30: Drop ξ efficiency index entirely — rely solely on bilateral λ_{ij}:
   - OMEGA_XI, xi dicts, xi_scenarios.xlsx loading removed
@@ -7214,7 +7214,7 @@ def main():
     # ═══════════════════════════════════════════════════════════════════════
     flush_footnotes()
     doc.core_properties.author = 'Michael Lokshin'
-    out = DOCS / "flop_trade_model_v30_base.docx"
+    out = DOCS / "flop_trade_model_v30.docx"
     for _attempt in range(30):
         try:
             doc.save(str(out))
