@@ -803,7 +803,7 @@ def _rPr_pt(pt_size):
 
 
 # ═══════════════════════════════════════════════════════════════════════
-# TABLE CELL HELPERS (shared across Table 3a, 3b, A2)
+# TABLE CELL HELPERS (shared across Table 3, A2)
 # ═══════════════════════════════════════════════════════════════════════
 
 def _tbl_border(tc, sides, sz='4', style='single'):
@@ -2772,7 +2772,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         '(Column\u2009(1) of '
     )
     p._element.append(make_bookmark(112, 'Table3txt'))
-    p._element.append(make_hyperlink('Table3', 'Table 3a'))
+    p._element.append(make_hyperlink('Table3', 'Table 3'))
     p._element.append(make_bookmark_end(112))
     p.add_run(
         '). But this ranking is misleading. '
@@ -2811,7 +2811,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'At hyperscale scale, such subsidies are fiscally unsustainable. '
         'The resulting cost-recovery ranking (column\u2009(2) of '
     )
-    p._element.append(make_hyperlink('Table3', 'Table 3a'))
+    p._element.append(make_hyperlink('Table3', 'Table 3'))
     p.add_run(
         ') shifts the top of the ranking toward hydropower-rich countries: '
         f'{adj_top5[0][1]}, '
@@ -2881,7 +2881,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'institutional and market-structure conditions discussed in Section 7.'
     )
 
-    # ── A4. Bilateral sovereignty — Table 3b col (4) ──
+    # ── A4. Bilateral sovereignty — Table 3 col (3) ──
     # Use table3 lam_k_star for inline values (consistency with table)
     _t3 = demand_data["table3"]
     _lks = {d["iso"]: d.get("lam_k_star", 0) for d in _t3}
@@ -2897,16 +2897,14 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'make such transactions illegal. '
         'Column\u2009(3) of '
     )
-    p._element.append(make_bookmark(115, 'Table3btxt'))
-    p._element.append(make_hyperlink('Table3b', 'Table 3b'))
-    p._element.append(make_bookmark_end(115))
+    p._element.append(make_hyperlink('Table3', 'Table 3'))
     p.add_run(
         ' reports the bilateral specification. '
-        'The last column reports the switching threshold '
+        'The switching threshold '
     )
     omath(p, [_msubsup('\u03BB', 'k', '*')])
     p.add_run(
-        ' from Proposition 3. The threshold is negative whenever a country\u2019s unit cost '
+        ' from Proposition 3 is negative whenever a country\u2019s unit cost '
         'lies below the equilibrium price, with the magnitude measuring the cost cushion '
         'available to absorb sovereignty frictions before the country loses export '
         'competitiveness. Canada\u2019s large negative value ('
@@ -3109,7 +3107,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     _n_total_fdi_exp = sum(1 for r in _fdi_regime.values()
                            if r in ("T+I exporter", "inference hub"))
     _dev_fdi_str = ', '.join(_dev_fdi_names[:-1]) + ', and ' + _dev_fdi_names[-1] if len(_dev_fdi_names) > 1 else (_dev_fdi_names[0] if _dev_fdi_names else '')
-    # Build note about FDI exporters outside the Table 3b top 25
+    # Build note about FDI exporters outside the Table 3 top 25
     _table3b_show = {d["iso"] for d in demand_data["table3"]}
     _t3_rank_cr = {d["iso"]: d["rank_cr"] for d in demand_data["table3"]}
     _dev_fdi_below25 = sorted(
@@ -3169,12 +3167,12 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     )
 
     p, cur = mkp(doc, body, cur)
-    p.add_run('Column\u2009(6) of ')
-    p._element.append(make_hyperlink('Table3b', 'Table 3b'))
+    p.add_run('Column\u2009(5) of ')
+    p._element.append(make_hyperlink('Table3', 'Table 3'))
     p.add_run(
         ' reports regime assignments under the FDI specification. '
         'Under bilateral sovereignty (column 3), only Canada exports; all other countries '
-        'either produce domestically or import. Under hyperscaler FDI (column 6), '
+        'either produce domestically or import. Under hyperscaler FDI (column 5), '
         f'{_n_total_fdi_exp} countries become exporters, '
         f'{n_dev_fdi} of them developing economies: '
         f'{_dev_fdi_str}. '
@@ -3182,7 +3180,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         '(column 2) is not eliminated by sovereignty \u2014 it is blocked by the absence of '
         'a trust intermediary and restored when one is present.'
     )
-    # Fix 4(B): note developing FDI exporters outside the top-25 shown in Table 3b
+    # Fix 4(B): note developing FDI exporters outside the top-25 shown in Table 3
     if _dev_fdi_below25:
         _below_parts = [f'{name} (rank {rank})' for _, name, rank in _dev_fdi_below25]
         if len(_below_parts) > 1:
@@ -3192,7 +3190,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         _vis_names = sorted(_iso_country.get(iso, iso) for iso in _dev_fdi_visible)
         _vis_str = ' and '.join(_vis_names) if len(_vis_names) == 2 else ', '.join(_vis_names)
         p.add_run(
-            f' Within the top 25 countries shown in Table 3b, '
+            f' Within the top 25 countries shown in Table 3, '
             f'{_vis_str} are the visible developing-country exporters; '
             f'the remaining developing-country exporters ({_below_str}) appear at lower '
             f'cost-recovery ranks where their FDI-intermediated costs fall below the '
@@ -3207,9 +3205,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'Johor), Kenya ($1 billion Microsoft/G42 geothermal campus), and Armenia '
         '($4 billion Firebird project), are developing economies that the bilateral '
         'specification assigns to DD or II but that the FDI specification identifies as '
-        'potential exporters. The gap between columns (3) and (6) in '
+        'potential exporters. The gap between columns (3) and (5) in '
     )
-    p._element.append(make_hyperlink('Table3b', 'Table 3b'))
+    p._element.append(make_hyperlink('Table3', 'Table 3'))
     p.add_run(' measures the value of hyperscaler intermediation as a trust mechanism.')
 
     p, cur = mkp(doc, body, cur)
@@ -3415,9 +3413,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Uniform sovereignty premium. ')
     p.add_run(
-        'Column (5) of '
+        'Column (4) of '
     )
-    p._element.append(make_hyperlink('Table3b', 'Table 3b'))
+    p._element.append(make_hyperlink('Table3', 'Table 3'))
     p.add_run(
         ' reports results under a uniform premium '
     )
@@ -3441,11 +3439,12 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'regulated workloads (20%, higher regulatory compatibility weight), '
         'and commercial workloads (70%, geopolitical alignment only). '
         'Under calibrated parameters, tiering leaves regime assignments unchanged '
-        'for all countries, hence columns (3) and (4) of '
+        'for all countries, so '
     )
-    p._element.append(make_hyperlink('Table3b', 'Table 3b'))
+    p._element.append(make_hyperlink('Table3', 'Table 3'))
     p.add_run(
-        ' are merged. The main impact is on inference sourcing: regulated workloads shift '
+        ' omits a separate tiered column. '
+        'The main impact of tiering is on inference sourcing: regulated workloads shift '
         'toward suppliers with strong data governance, favoring EU '
         'and APEC CBPR participants over closer but less regulated alternatives.'
     )
@@ -3533,7 +3532,7 @@ def write_conclusion(doc, body, hmap, demand_data):
         'These are achievable conditions. The countries currently attracting hyperscaler '
         'investment \u2014 India, Kenya, Malaysia, Indonesia \u2014 meet them. Those that do not, '
         'despite lower electricity costs, lack one or more of these prerequisites. '
-        'The gap between columns (3) and (6) of Table 3b measures what institutional reform '
+        'The gap between columns (3) and (5) of Table 3 measures what institutional reform '
         'is worth. '
         'FLOP exporting resembles aluminum smelting near cheap hydropower \u2014 imported '
         'capital equipment transforms local electricity into an exportable product with '
@@ -3564,10 +3563,10 @@ def write_conclusion(doc, body, hmap, demand_data):
         'Inference, by contrast, is latency-sensitive, giving domestic production a genuine '
         'quality-of-service advantage \u2014 though this rationale weakens for countries close '
         'to low-cost neighbors. '
-        'For developing countries, the four-column progression in Table 3b makes the policy '
+        'For developing countries, the progression across Table 3 makes the policy '
         'challenge concrete: cheap energy gets a country into the cost-feasible set (column 2), '
         'but bilateral trust eliminates the opportunity (column 3), and only hyperscaler '
-        'intermediation restores it (column 6). '
+        'intermediation restores it (column 5). '
         'The binding constraints are not technological but institutional: non-sanctioned '
         'status, credible power purchase agreements, network connectivity, and a regulatory '
         'environment stable enough to justify a 15-year capital commitment.'
@@ -3748,7 +3747,7 @@ def write_appendix(doc, body, last_ref_el, eca_cal, non_eca_cal, reg, demand_dat
 
 
 def write_table_a2(doc, body, after_el, demand_data):
-    """Table A2: Complete country rankings under alternative pricing assumptions (landscape)."""
+    """Table A2: Complete country rankings under alternative cost and sovereignty specifications (landscape, 13 cols)."""
     print("Inserting Table A2 (Complete country rankings, landscape)...")
 
     table3_data = demand_data["table3"]
@@ -3791,7 +3790,8 @@ def write_table_a2(doc, body, after_el, demand_data):
     hl_a2t.append(r_a2t)
     tp._element.append(hl_a2t)
     tp._element.append(make_bookmark_end(140))
-    run_t = tp.add_run('. Country rankings under alternative cost specifications (all countries)')
+    run_t = tp.add_run(
+        '. Country rankings under alternative cost and sovereignty specifications (all countries)')
     run_t.bold = True
     run_t.font.size = Pt(10)
     tp_el = tp._element
@@ -3802,7 +3802,7 @@ def write_table_a2(doc, body, after_el, demand_data):
     all_sorted = sorted(table3_data, key=lambda x: x["rank_cr"])
 
     n_rows = 2 + len(all_sorted)
-    n_cols = 11
+    n_cols = 13
     tbl = doc.add_table(rows=n_rows, cols=n_cols)
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     tbl.style = 'Table Grid'
@@ -3818,14 +3818,19 @@ def write_table_a2(doc, body, after_el, demand_data):
     _s(0, 4, '(2) Cost-Recovery', bold=True)
     _tbl_merge(tbl, 0, 7, 9)
     _s(0, 7, '(3) Bilateral \u03bb\u1d62\u2c7c', bold=True)
-    _s(0, 10, '')
+    _tbl_merge(tbl, 0, 10, 11)
+    _s(0, 10, '(4) Uniform (\u03bb=10%)', bold=True)
+    _s(0, 12, '(5) FDI', bold=True)
     for j in range(n_cols):
         _tbl_border(tbl.cell(0, j)._tc, ['top', 'bottom'])
 
     # Row 1: sub-headers
-    sub_h = ['Country', 'c\u2c7c', 'Rank', 'Type',
+    sub_h = ['Country',
              'c\u2c7c', 'Rank', 'Type',
-             'c\u2c7c', 'Rank', 'Type', '\u0394']
+             'c\u2c7c', 'Rank', 'Type',
+             'c\u2c7c', 'Rank', 'Type',
+             'Type', 'Rank',
+             'Type']
     for j, h in enumerate(sub_h):
         _s(1, j, h, bold=True, align='left' if j == 0 else 'center')
         _tbl_border(tbl.cell(1, j)._tc, ['top', 'bottom'])
@@ -3834,24 +3839,37 @@ def write_table_a2(doc, body, after_el, demand_data):
     for i, d in enumerate(all_sorted):
         ri = i + 2
         _s(ri, 0, _sn(d["country"]), align='left')
+        # (1) Raw
         _s(ri, 1, f'${d["cj_raw"]:.2f}')
         _s(ri, 2, str(d["rank_raw"]))
         _s(ri, 3, d["type_raw"])
+        # (2) Cost-Recovery
         _s(ri, 4, f'${d["cj_cr"]:.2f}')
         _s(ri, 5, str(d["rank_cr"]))
         _s(ri, 6, d["type_cr"])
+        # (3) Bilateral
         _s(ri, 7, f'${d["cj_cr"]:.2f}')
         _s(ri, 8, str(d["rank_cr"]))
         _s(ri, 9, d.get("type_bilat", d.get("type_sov", "II")))
-        dv = d["delta"]
-        _s(ri, 10, f'+{dv}' if dv > 0 else str(dv))
+        # (4) Uniform
+        _s(ri, 10, d.get("type_uniform", "II"))
+        _s(ri, 11, str(d.get("rank_sov", d["rank_cr"])))
+        # (5) FDI
+        _s(ri, 12, d.get("type_fdi", "II"))
 
     # Bottom border on last row
     for j in range(n_cols):
         _tbl_border(tbl.cell(n_rows - 1, j)._tc, ['bottom'], style='double')
 
-    # Column widths and spacing
-    _tbl_col_widths(tbl, [1800, 900, 540, 540, 900, 540, 540, 900, 540, 540, 540])
+    # Column widths (landscape)
+    _tbl_col_widths(tbl, [
+        1500,                # Country
+        700, 420, 420,       # (1) Raw
+        700, 420, 420,       # (2) Cost-Recovery
+        700, 420, 420,       # (3) Bilateral
+        420, 420,            # (4) Uniform
+        420,                 # (5) FDI
+    ])
     _tbl_cell_spacing(tbl, before='5', after='5')
 
     tbl_el = tbl._tbl
@@ -3869,11 +3887,10 @@ def write_table_a2(doc, body, after_el, demand_data):
     rn.font.size = Pt(10)
     rn = note.add_run('See ')
     rn.font.size = Pt(10)
-    note._element.append(make_hyperlink('Table3', 'Table 3a', rPr_orig=_rPr_pt(10)))
+    note._element.append(make_hyperlink('Table3', 'Table 3', rPr_orig=_rPr_pt(10)))
     rn = note.add_run(
         ' notes for column definitions. '
         'Countries sorted by specification (2) rank (ascending). '
-        'Column (3) uses bilateral sovereignty premium \u03bb\u1d62\u2c7c from equation (2).'
     )
     rn.font.size = Pt(10)
     note.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -5011,7 +5028,7 @@ def write_table1(doc, body, after_el):
         '(second letter), used in '
     )
     rn.font.size = Pt(10)
-    tn._element.append(make_hyperlink('Table3', 'Table 3a', rPr_orig=_rPr_pt(10)))
+    tn._element.append(make_hyperlink('Table3', 'Table 3', rPr_orig=_rPr_pt(10)))
     rn = tn.add_run('.')
     rn.font.size = Pt(10)
     tn_el = tn._element
@@ -5224,8 +5241,8 @@ def write_table2(doc, body, after_el, demand_data):
 
 
 def write_table3(doc, body, after_el, demand_data):
-    """Table 3a: Cost Specifications + Table 3b: Sovereignty Specifications (landscape)."""
-    print("Inserting Table 3a/3b (Country rankings, landscape)...")
+    """Table 3: Country rankings under alternative cost and sovereignty specifications (landscape, 13 cols)."""
+    print("Inserting Table 3 (Country rankings, landscape)...")
 
     table3_data = demand_data["table3"]
 
@@ -5272,12 +5289,13 @@ def write_table3(doc, body, after_el, demand_data):
     rPr_t3.append(uu_t3)
     r_t3.append(rPr_t3)
     t_t3 = OxmlElement('w:t')
-    t_t3.text = 'Table 3a'
+    t_t3.text = 'Table 3'
     r_t3.append(t_t3)
     hl_t3.append(r_t3)
     tp3._element.append(hl_t3)
     tp3._element.append(make_bookmark_end(111))
-    run_tt3 = tp3.add_run('. Country rankings under alternative cost specifications')
+    run_tt3 = tp3.add_run(
+        '. Country rankings under alternative cost and sovereignty specifications')
     run_tt3.bold = True
     run_tt3.font.size = Pt(10)
     tp3_el = tp3._element
@@ -5300,20 +5318,18 @@ def write_table3(doc, body, after_el, demand_data):
 
     # ─── Row selection: top 25 by cost-recovery rank (dynamic) ───
     top_cr_sorted = sorted(table3_data, key=lambda x: x["rank_cr"])
-    _show = [d["iso"] for d in top_cr_sorted[:25]]
-    _show_set = set(_show)
     top_rows = top_cr_sorted[:25]
 
-    # ─── Build table ───
+    # ─── Build table (13 columns) ───
     n_data = len(top_rows)
     n_rows = 2 + n_data  # 2 header rows + data
-    n_cols = 11  # (1) Raw + (2) CR + (3) Bilateral + Δ
+    n_cols = 13
     tbl = doc.add_table(rows=n_rows, cols=n_cols)
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     tbl.style = 'Table Grid'
     _tbl_clear_borders(tbl)
 
-    _s = partial(_tbl_set, tbl, font_size=8)  # default fs=8 for Table 3a
+    _s = partial(_tbl_set, tbl, font_size=8)
 
     # ─── Row 0: Group headers ───
     _s(0, 0, '')
@@ -5323,7 +5339,9 @@ def write_table3(doc, body, after_el, demand_data):
     _s(0, 4, '(2) Cost-Recovery', bold=True)
     _tbl_merge(tbl, 0, 7, 9)
     _s(0, 7, '(3) Bilateral \u03bb\u1d62\u2c7c', bold=True)
-    _s(0, 10, '')
+    _tbl_merge(tbl, 0, 10, 11)
+    _s(0, 10, '(4) Uniform (\u03bb=10%)', bold=True)
+    _s(0, 12, '(5) FDI', bold=True)
 
     # Top + bottom border on row 0
     for j in range(n_cols):
@@ -5334,7 +5352,8 @@ def write_table3(doc, body, after_el, demand_data):
                    'c\u2c7c', 'Rank', 'Type',
                    'c\u2c7c', 'Rank', 'Type',
                    'c\u2c7c', 'Rank', 'Type',
-                   '\u0394']
+                   'Type', 'Rank',
+                   'Type']
     for j, hdr in enumerate(sub_headers):
         _s(1, j, hdr, bold=True, align='left' if j == 0 else 'center')
         _tbl_border(tbl.cell(1, j)._tc, ['top', 'bottom'])
@@ -5345,18 +5364,23 @@ def write_table3(doc, body, after_el, demand_data):
 
     for d in all_data_rows:
         _s(row_idx, 0, _sname(d["country"]), align='left')
+        # (1) Raw
         _s(row_idx, 1, f'${d["cj_raw"]:.2f}')
         _s(row_idx, 2, str(d["rank_raw"]))
         _s(row_idx, 3, d["type_raw"])
+        # (2) Cost-Recovery
         _s(row_idx, 4, f'${d["cj_cr"]:.2f}')
         _s(row_idx, 5, str(d["rank_cr"]))
         _s(row_idx, 6, d["type_cr"])
+        # (3) Bilateral
         _s(row_idx, 7, f'${d["cj_cr"]:.2f}')
-        _s(row_idx, 8, str(d["rank_cr"]), bold=True)
+        _s(row_idx, 8, str(d["rank_cr"]))
         _s(row_idx, 9, d.get("type_bilat", d.get("type_sov", "II")))
-        delta_val = d["delta"]
-        delta_str = f'+{delta_val}' if delta_val > 0 else str(delta_val)
-        _s(row_idx, 10, delta_str)
+        # (4) Uniform
+        _s(row_idx, 10, d.get("type_uniform", "II"))
+        _s(row_idx, 11, str(d.get("rank_sov", d["rank_cr"])))
+        # (5) FDI
+        _s(row_idx, 12, d.get("type_fdi", "II"))
         row_idx += 1
 
     # Double bottom border on last data row
@@ -5364,13 +5388,14 @@ def write_table3(doc, body, after_el, demand_data):
     for j in range(n_cols):
         _tbl_border(tbl.cell(last_data_row, j)._tc, ['bottom'], style='double')
 
-    # Column widths and spacing
+    # Column widths (landscape, ~7380 twips)
     _tbl_col_widths(tbl, [
-        1800,                # Country
-        900, 540, 540,       # (1)
-        900, 540, 540,       # (2)
-        900, 540, 540,       # (3)
-        540,                 # Delta
+        1500,                # Country
+        700, 420, 420,       # (1) Raw
+        700, 420, 420,       # (2) Cost-Recovery
+        700, 420, 420,       # (3) Bilateral
+        420, 420,            # (4) Uniform
+        420,                 # (5) FDI
     ])
     _tbl_cell_spacing(tbl)
 
@@ -5385,9 +5410,7 @@ def write_table3(doc, body, after_el, demand_data):
     note.paragraph_format.space_after = Pt(6)
     note.paragraph_format.first_line_indent = Inches(0)
     note.paragraph_format.line_spacing = 1.0
-    rn3 = note.add_run(
-        'Notes: '
-    )
+    rn3 = note.add_run('Notes: ')
     rn3.bold = True
     rn3.font.size = Pt(10)
     rn3.font.name = 'Times New Roman'
@@ -5398,10 +5421,15 @@ def write_table3(doc, body, after_el, demand_data):
         '(1)\u2009Raw: observed electricity tariffs. '
         '(2)\u2009Cost-recovery: subsidized tariffs replaced with LRMC. '
         '(3)\u2009Bilateral: cost-recovery cost with bilateral sovereignty premium '
-        '\u03bb\u1d62\u2c7c from equation (2). '
-        'Ranks in columns (2) and (3) are the same, because the sovereignty premium '
-        'does not affect production costs or cost rankings; it reshapes regime assignments. '
-        '\u0394\u2009=\u2009rank change from (1) to (2); positive values indicate improvement. '
+        '\u03bb\u1d62\u2c7c from equation (2); ranks match column (2) because the premium '
+        'reshapes regime assignments without affecting production costs. '
+        'Under calibrated parameters, demand tiering (sovereign 10%, regulated 20%, '
+        'commercial 70%) leaves all regime assignments unchanged relative to column (3). '
+        '(4)\u2009Uniform: uniform \u03bb\u2009=\u200910% premium (robustness check). '
+        '(5)\u2009Hyperscaler FDI: bilateral premium replaced by \u03bb\u1da0\u1d48\u1d49 '
+        'from equation (2\u2032), where h is the hyperscaler\u2019s home country (assumed US); '
+        'trust premium reflects buyer\u2013operator relationship; sanctions on host still apply. '
+        '* = sanctioned/GPU-blocked. \u2020 = developing-country exporter. '
         '25 selected countries; see '
     )
     rn3.font.size = Pt(10)
@@ -5415,139 +5443,7 @@ def write_table3(doc, body, after_el, demand_data):
     body.remove(note_el)
     tbl_el.addnext(note_el)
 
-    # ═══════════════════════════════════════════════════════════════════════
-    # TABLE 3b: SOVEREIGNTY SPECIFICATIONS
-    # ═══════════════════════════════════════════════════════════════════════
-    print("  Inserting Table 3b (Sovereignty specifications)...")
-
-    # Table 3b title (new page)
-    tp3b = doc.add_paragraph()
-    tp3b.paragraph_format.page_break_before = True
-    tp3b.paragraph_format.space_before = Pt(12)
-    tp3b.paragraph_format.space_after = Pt(3)
-    tp3b.paragraph_format.first_line_indent = Inches(0)
-    tp3b._element.append(make_bookmark(114, 'Table3b'))
-    hl_t3b = OxmlElement('w:hyperlink')
-    hl_t3b.set(qn('w:anchor'), 'Table3btxt')
-    hl_t3b.set(qn('w:history'), '1')
-    r_t3b = OxmlElement('w:r')
-    rPr_t3b = OxmlElement('w:rPr')
-    b_t3b = OxmlElement('w:b')
-    rPr_t3b.append(b_t3b)
-    sz_t3b = OxmlElement('w:sz')
-    sz_t3b.set(qn('w:val'), '20')
-    rPr_t3b.append(sz_t3b)
-    clr_t3b = OxmlElement('w:color')
-    clr_t3b.set(qn('w:val'), LINK_COLOR)
-    uu_t3b = OxmlElement('w:u')
-    uu_t3b.set(qn('w:val'), 'single')
-    rPr_t3b.append(clr_t3b)
-    rPr_t3b.append(uu_t3b)
-    r_t3b.append(rPr_t3b)
-    t_t3b = OxmlElement('w:t')
-    t_t3b.text = 'Table 3b'
-    r_t3b.append(t_t3b)
-    hl_t3b.append(r_t3b)
-    tp3b._element.append(hl_t3b)
-    r_3b_sub = tp3b.add_run('. Country rankings under alternative sovereignty specifications')
-    r_3b_sub.bold = True
-    r_3b_sub.font.size = Pt(10)
-    tp3b._element.append(make_bookmark_end(114))
-    tp3b_el = tp3b._element
-    body.remove(tp3b_el)
-    note_el.addnext(tp3b_el)
-
-    # Table 3b: 7 columns — Country, c_cr, (3)/(4) Bilateral, (5) Uniform, Rank_5, (6) FDI, λ_k^*
-    n_rows_3b = 2 + n_data
-    n_cols_3b = 7
-    tbl3b = doc.add_table(rows=n_rows_3b, cols=n_cols_3b)
-    tbl3b.alignment = WD_TABLE_ALIGNMENT.CENTER
-    tbl3b.style = 'Table Grid'
-    _tbl_clear_borders(tbl3b)
-
-    _s3b = partial(_tbl_set, tbl3b, font_size=8)  # default fs=8 for Table 3b
-
-    # Row 0: Group headers (merged)
-    _s3b(0, 0, '')
-    _tbl_merge(tbl3b, 0, 1, 2)
-    _s3b(0, 1, '(3)/(4) Bilateral', bold=True)
-    _tbl_merge(tbl3b, 0, 3, 4)
-    _s3b(0, 3, '(5) Uniform (\u03bb = 10%)', bold=True)
-    _s3b(0, 5, '(6) FDI', bold=True)
-    _s3b(0, 6, '')
-    for j in range(n_cols_3b):
-        _tbl_border(tbl3b.cell(0, j)._tc, ['top', 'bottom'])
-
-    # Row 1: Sub-headers
-    sub_hdr_3b = ['Country', 'c\u2c7c',
-                  'Type', 'Type', 'Rank\u2085', 'Type', '\u03bb\u2096*']
-    for j, hdr in enumerate(sub_hdr_3b):
-        _s3b(1, j, hdr, bold=True, align='left' if j == 0 else 'center')
-        _tbl_border(tbl3b.cell(1, j)._tc, ['top', 'bottom'])
-
-    # Data rows
-    row_3b = 2
-    for d in all_data_rows:
-        _s3b(row_3b, 0, _sname(d["country"]), align='left')
-        _s3b(row_3b, 1, f'${d["cj_cr"]:.2f}')
-        _s3b(row_3b, 2, d.get("type_bilat", "II"))
-        _s3b(row_3b, 3, d.get("type_uniform", "II"))
-        _s3b(row_3b, 4, str(d.get("rank_sov", d["rank_cr"])))
-        _s3b(row_3b, 5, d.get("type_fdi", "II"))
-        lks = d.get("lam_k_star", 0)
-        lks_str = f'{lks * 100:.1f}%' if lks >= 0 else f'\u2212{abs(lks) * 100:.1f}%'
-        _s3b(row_3b, 6, lks_str)
-        row_3b += 1
-
-    # Bottom border
-    for j in range(n_cols_3b):
-        _tbl_border(tbl3b.cell(row_3b - 1, j)._tc, ['bottom'], style='double')
-
-    # Column widths and spacing
-    _tbl_col_widths(tbl3b, [2000, 1100, 900, 900, 800, 900, 1100])
-    _tbl_cell_spacing(tbl3b)
-
-    tbl3b_el = tbl3b._tbl
-    body.remove(tbl3b_el)
-    tp3b_el.addnext(tbl3b_el)
-
-    # Table 3b notes
-    note3b = doc.add_paragraph()
-    note3b.paragraph_format.space_before = Pt(2)
-    note3b.paragraph_format.space_after = Pt(6)
-    note3b.paragraph_format.first_line_indent = Inches(0)
-    note3b.paragraph_format.line_spacing = 1.0
-    rn3b = note3b.add_run('Notes: ')
-    rn3b.bold = True
-    rn3b.font.size = Pt(10)
-    rn3b.font.name = 'Times New Roman'
-    rn3b = note3b.add_run(
-        'Type codes: EE\u2009=\u2009training + inference exporter; '
-        'IE\u2009=\u2009inference exporter; DD\u2009=\u2009domestic producer; '
-        'II\u2009=\u2009full importer. '
-        '(3)/(4)\u2009Bilateral: bilateral sovereignty premium \u03bb\u1d62\u2c7c '
-        'from equation (2), with geopolitical, regulatory, and sanctions components. '
-        'Under the calibrated parameters, demand tiering (sovereign 10%, regulated 20%, '
-        'commercial 70%) leaves regime type assignments unchanged for all countries; '
-        'tiering affects within-country demand allocation across tiers but not the '
-        'equilibrium set of exporters. '
-        '(5)\u2009Uniform: uniform \u03bb\u2009=\u200910% premium (robustness check). '
-        '(6)\u2009Hyperscaler FDI: bilateral premium replaced by \u03bb\u1da0\u1d48\u1d49 '
-        'from equation (2\u2032), where h is the hyperscaler\u2019s home country (assumed US). '
-        'Trust premium reflects buyer\u2013operator relationship. Sanctions on host still apply. '
-        '* = sanctioned/GPU-blocked. \u2020 = developing-country exporter. '
-        '\u03bb\u2096*\u2009=\u2009c\u2096/p\u209c\u2009\u2212\u20091 is the minimum '
-        'bilateral sovereignty premium at which country k switches from importing to '
-        'domestic training production (Proposition 3); negative values indicate exporters.'
-    )
-    rn3b.font.size = Pt(10)
-    rn3b.font.name = 'Times New Roman'
-    note3b.alignment = WD_ALIGN_PARAGRAPH.LEFT
-    note3b_el = note3b._element
-    body.remove(note3b_el)
-    tbl3b_el.addnext(note3b_el)
-
-    # ─── Attach landscape sectPr to Table 3b notes paragraph ───
+    # ─── Attach landscape sectPr to notes paragraph ───
     sect_pr = OxmlElement('w:sectPr')
     pg_sz = OxmlElement('w:pgSz')
     pg_sz.set(qn('w:w'), '15840')
@@ -5562,12 +5458,12 @@ def write_table3(doc, body, after_el, demand_data):
     pg_mar.set(qn('w:header'), '720')
     pg_mar.set(qn('w:footer'), '720')
     sect_pr.append(pg_mar)
-    note3b_pPr = note3b_el.find(f'{{{W_NS}}}pPr')
-    if note3b_pPr is None:
-        note3b_pPr = etree.SubElement(note3b_el, f'{{{W_NS}}}pPr')
-    note3b_pPr.append(sect_pr)
+    note_pPr = note_el.find(f'{{{W_NS}}}pPr')
+    if note_pPr is None:
+        note_pPr = etree.SubElement(note_el, f'{{{W_NS}}}pPr')
+    note_pPr.append(sect_pr)
 
-    return note3b_el
+    return note_el
 
 
 def write_references(doc, body, refs):
@@ -6559,7 +6455,7 @@ def main():
     # ═══════════════════════════════════════════════════════════════════════
     # COST-RECOVERY EQUILIBRIUM (no efficiency adjustment)
     # ═══════════════════════════════════════════════════════════════════════
-    # Run a separate equilibrium on cost-recovery costs (for Table 3a spec (2))
+    # Run a separate equilibrium on cost-recovery costs (for Table 3 spec (2))
     costs_dict_cr = dict(adj_costs)  # save CR costs before efficiency adjustment
     cr_supply_stack = sorted(
         [(iso, adj_costs[iso], k_bar.get(iso, 1e12))
@@ -7073,7 +6969,7 @@ def main():
 
     # ═══════════════════════════════════════════════════════════════════════
     # TABLE 3 DATA: Country Rankings Under Alternative Pricing Assumptions
-    # v24: Table 3a (cost specs) + Table 3b (sovereignty specs)
+    # v30: merged Table 3 (cost + sovereignty specs, 13 columns)
     # ═══════════════════════════════════════════════════════════════════════
     print("\nComputing Table 3 data...")
     rho_hw = GPU_PRICE / (GPU_LIFE * H_YR * GPU_UTIL)
@@ -7100,7 +6996,7 @@ def main():
     # v29: Explicit networking cost (replaces residual back-calculation)
     rho_net = ETA
 
-    # ── Table 3a: Cost Specifications (1)-(2) ──
+    # ── Table 3: Cost Specifications (1)-(2) ──
     for d in table3_data:
         d["cj_raw"] = d["elec_raw"] + rho_hw + d["constr_cost"] + rho_net    # (1) Raw
         d["cj_cr"] = d["elec_cr"] + rho_hw + d["constr_cost"] + rho_net      # (2) Cost-recovery
@@ -7177,7 +7073,7 @@ def main():
         # Delta: rank improvement from raw to cost-recovery
         d["delta"] = d["rank_raw"] - d["rank_cr"]
 
-    # ── Table 3b: Sovereignty Specifications ──
+    # ── Table 3: Sovereignty Specifications (3)-(5) ──
     # Spec (4): Bilateral λ_{ij}, full demand (no tiering)
     for d in table3_data:
         iso = d["iso"]
