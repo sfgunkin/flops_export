@@ -3360,8 +3360,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         p._element.append(make_hyperlink('TableA3', 'Table A3'))
         p._element.append(make_bookmark_end(143))
         p.add_run(
-            ' reports results across five robustness specifications, varying the '
-            'governance weight, hardware cost share, and functional form.'
+            ' reports results across three robustness specifications, varying the '
+            'hardware cost share.'
         )
 
     # Comparative statics intuition (ChatGPT review)
