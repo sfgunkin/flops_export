@@ -2683,9 +2683,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         ' is constructed from geopolitical distance, regulatory compatibility, and sanctions '
         'exposure, (eq. (2)), with coefficient weights '
     )
-    omath(p, [_msub('\u03B1', '1'), _t(' = 0.08')])
+    omath(p, [_msub('\u03B1', '1'), _t(f' = {ALPHA_GEO}')])
     p.add_run(' (geopolitical distance), ')
-    omath(p, [_msub('\u03B1', '2'), _t(' = 0.04')])
+    omath(p, [_msub('\u03B1', '2'), _t(f' = {ALPHA_REG}')])
     p.add_run(' (regulatory incompatibility), and ')
     omath(p, [_msub('\u03B1', '3'), _t(' = 0.10')])
     p.add_run(' (sanctions). For sanctioned pairs, ')
@@ -2695,10 +2695,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_msub('\u03BB', 'ij'), _t(' \u2248 0')])
     p.add_run('. For non-adversarial pairs without regulatory agreements, ')
     omath(p, [_msub('\u03BB', 'ij')])
-    p.add_run(' falls in the range 0.05\u20130.10.')
-    make_footnote(p, 'The bilateral sovereignty coefficients are calibrated to match observed '
-                  'patterns of data localization policy. Survey evidence suggests enterprises pay '
-                  '15\u201330% more for guaranteed domestic data residency (UNCTAD 2025). '
+    p.add_run(' falls in the range 0.04\u20130.07.')
+    make_footnote(p, 'The bilateral sovereignty coefficients capture the geopolitical and '
+                  'data-governance components of services trade costs, which constitute a subset '
+                  'of the full regulatory barriers estimated at approximately 16% for communication '
+                  'services (Benz and Jaax 2020). '
                   'The uniform 10% premium serves as a robustness benchmark.', 15)
     p.add_run(' As a robustness check, we also report results under a uniform premium ')
     omath(p, [_v('\u03BB'), _t(f' = {LAMBDA:.0%}')])
@@ -5596,6 +5597,10 @@ def write_references(doc, body, refs):
         'Barroso, L., U. H\u00F6lzle, and P. Ranganathan. (2018). '
         'The Datacenter as a Computer: Designing Warehouse-Scale Machines, '
         '3rd ed. San Rafael, CA: Morgan & Claypool.',
+
+        'Benz, S. and A. Jaax. (2020). \u201CThe Costs of Regulatory Barriers to Trade '
+        'in Services: New Estimates of Ad Valorem Tariff Equivalents.\u201D '
+        'OECD Trade Policy Papers, No. 238. Paris: OECD Publishing.',
 
         'Brainard, S. (1997). \u201CAn Empirical Assessment of the Proximity-Concentration '
         'Trade-off.\u201D American Economic Review, 87(4): 520\u2013544.',
