@@ -3427,6 +3427,10 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
                   'AI workloads (Deloitte 2025). Results are robust to moderate variation in '
                   'these shares.', 17)
 
+    # Blank separators before conclusion
+    p, cur = mkp(doc, body, cur)
+    p, cur = mkp(doc, body, cur)
+    p, cur = mkp(doc, body, cur)
 
 
 def write_conclusion(doc, body, hmap, demand_data):
