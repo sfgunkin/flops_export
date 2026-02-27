@@ -2764,8 +2764,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     # ── A1. Raw tariff contrast — Table 3 col (1) ──
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Under observed electricity tariffs and without efficiency '
-        'adjustment, the cheapest producer in our sample of 85 countries is '
+        'Under observed electricity tariffs, the cheapest producer in our sample of 85 countries is '
         f'{cheapest["country"]}, '
         f'followed by {cal[1]["country"]} '
         f'and {cal[2]["country"]} '
@@ -3169,17 +3168,17 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     )
 
     p, cur = mkp(doc, body, cur)
-    p.add_run('Column\u2009(7) of ')
+    p.add_run('Column\u2009(6) of ')
     p._element.append(make_hyperlink('Table3b', 'Table 3b'))
     p.add_run(
         ' reports regime assignments under the FDI specification. '
-        'Under bilateral sovereignty (column 4), only Canada exports; all other countries '
-        'either produce domestically or import. Under hyperscaler FDI (column 7), '
+        'Under bilateral sovereignty (column 3), only Canada exports; all other countries '
+        'either produce domestically or import. Under hyperscaler FDI (column 6), '
         f'{_n_total_fdi_exp} countries become exporters, '
         f'{n_dev_fdi} of them developing economies: '
         f'{_dev_fdi_str}. '
         'The developing-country export opportunity identified in the cost rankings '
-        '(column 3) is not eliminated by sovereignty \u2014 it is blocked by the absence of '
+        '(column 2) is not eliminated by sovereignty \u2014 it is blocked by the absence of '
         'a trust intermediary and restored when one is present.'
     )
     # Fix 4(B): note developing FDI exporters outside the top-25 shown in Table 3b
@@ -3195,7 +3194,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
             f' Within the top 25 countries shown in Table 3b, '
             f'{_vis_str} are the visible developing-country exporters; '
             f'the remaining developing-country exporters ({_below_str}) appear at lower '
-            f'efficiency-adjusted ranks where their FDI-intermediated costs fall below the '
+            f'cost-recovery ranks where their FDI-intermediated costs fall below the '
             f'import threshold.'
         )
 
@@ -3207,7 +3206,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'Johor), Kenya ($1 billion Microsoft/G42 geothermal campus), and Armenia '
         '($4 billion Firebird project), are developing economies that the bilateral '
         'specification assigns to DD or II but that the FDI specification identifies as '
-        'potential exporters. The gap between columns (4) and (7) in '
+        'potential exporters. The gap between columns (3) and (6) in '
     )
     p._element.append(make_hyperlink('Table3b', 'Table 3b'))
     p.add_run(' measures the value of hyperscaler intermediation as a trust mechanism.')
@@ -3334,8 +3333,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'a $0.29 gap on hardware alone, roughly four times the electricity cost spread '
         'across the top 20 countries. '
         'If hyperscalers finance at their own WACC regardless of host country, '
-        'baseline rankings hold. If locally financed, the same institutional weaknesses '
-        'that lower \u03BE also raise the cost of capital.'
+        'baseline rankings hold. If locally financed, institutional weaknesses '
+        'raise the cost of capital.'
     )
 
     # ── B3b. GPU upgrades (v28: Task 27c compressed) ──
@@ -3381,25 +3380,16 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'electricity price extension above illustrates.'
     )
 
-    # ── B5b. Efficiency parameters (ω + ρ robustness) ──
+    # ── B5b. Hardware cost share robustness ──
     p, cur = mkp(doc, body, cur, space_before=6)
-    add_italic(p, 'Efficiency parameters. ')
-    p.add_run('The baseline assigns equal weight (')
-    omath(p, [_v('\u03C9'), _t(' = 0.50')])
-    p.add_run(') to governance and grid reliability. ')
+    add_italic(p, 'Hardware cost share. ')
     p._element.append(make_hyperlink('TableA3', 'Table A3'))
     p.add_run(
-        ' reports sensitivity along two dimensions. '
-        'First, varying '
-    )
-    omath(p, [_v('\u03C9')])
-    p.add_run(
-        ' from 0.50 to 0.85 leaves the top five exporters largely unchanged. '
-        'Second, the results are most sensitive to the hardware cost share '
+        ' reports sensitivity to the hardware cost share '
     )
     omath(p, [_v('\u03C1')])
     p.add_run(
-        ': varying '
+        '. Varying '
     )
     omath(p, [_v('\u03C1')])
     p.add_run(
@@ -3413,17 +3403,10 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     # v28: Task 28 — Comparative statics intuition paragraph
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'The comparative statics have clear economic intuition. Raising the governance '
-        'weight \u03C9 penalizes countries with weak rule of law, pushing Kyrgyzstan and '
-        'Ethiopia down the ranking while rewarding Scandinavian producers. Raising the '
-        'institutional floor '
-    )
-    omath(p, [_msub('\u03BE', 'floor')])
-    p.add_run(
-        ' compresses the governance penalty, allowing more developing countries into the '
-        'top fifteen. The hardware cost share \u03C1 is the most consequential parameter: '
+        'The comparative statics have clear economic intuition. '
+        'The hardware cost share \u03C1 is the most consequential parameter: '
         'when hardware\u2019s share rises, the (identical) hardware cost dominates the unit cost, '
-        'narrowing the cross-country spread and making governance differences less decisive '
+        'narrowing the cross-country spread and making electricity price differences less decisive '
         '\u2014 widening the door for developing-country entry.'
     )
 
@@ -3431,7 +3414,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Uniform sovereignty premium. ')
     p.add_run(
-        'Column (6) of '
+        'Column (5) of '
     )
     p._element.append(make_hyperlink('Table3b', 'Table 3b'))
     p.add_run(
@@ -3457,7 +3440,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'regulated workloads (20%, higher regulatory compatibility weight), '
         'and commercial workloads (70%, geopolitical alignment only). '
         'Under calibrated parameters, tiering leaves regime assignments unchanged '
-        'for all countries, hence columns (4) and (5) of '
+        'for all countries, hence columns (3) and (4) of '
     )
     p._element.append(make_hyperlink('Table3b', 'Table 3b'))
     p.add_run(
@@ -4480,8 +4463,8 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
         'Kyrgyzstan depends on the Toktogul reservoir for over 80% of electricity; '
         'seasonal drawdowns and drought years create acute power shortages. '
         'GPU procurement faces US export-control uncertainty. '
-        'The production-efficiency index assigns Kyrgyzstan a governance score of 0.50, '
-        'reflecting underdeveloped contract enforcement and regulatory frameworks. '
+        'Underdeveloped contract enforcement and regulatory frameworks raise the '
+        'bilateral sovereignty premium for potential importers. '
         'Despite these risks, the engineering economics are clear: '
         'electricity at $0.038/kWh and a PUE of 1.08 yield production costs well below '
         'the global median, and the positive NPV survives eight of ten '
@@ -5084,6 +5067,8 @@ def write_table2(doc, body, after_el, demand_data):
     param_rows = []
     with open(DATA / "model_parameters.csv", encoding="utf-8") as f:
         for row in csv.DictReader(f):
+            if row.get('symbol', '') == 'xi_j':
+                continue  # ξ removed in v30
             param_rows.append(row)
 
     _sym_map = {
@@ -5091,7 +5076,7 @@ def write_table2(doc, body, after_el, demand_data):
         'beta': '\u03B2', 'H': 'H', 'rho': '\u03C1', 'eta': '\u03B7',
         'phi': '\u03C6', 'delta': '\u03B4', 'theta_bar': '\u03B8\u0304',  # rendered via OMML in cell
         'D': 'D', 'tau': '\u03C4', 'lambda': '\u03BB', 'alpha': '\u03B1',
-        'Q': 'Q', 'xi_j': '\u03BE\u2C7C',
+        'Q': 'Q',
     }
     _source_to_bm = {
         'NVIDIA (2024)': 'NVIDIA2024',
@@ -5169,8 +5154,6 @@ def write_table2(doc, body, after_el, demand_data):
                 omath(p_c, [_mbar('\u03B8')])
             elif j == 1 and pr['symbol'] == 'lambda':
                 omath(p_c, [_msub('\u03BB', 'ij')])
-            elif j == 1 and pr['symbol'] == 'xi_j':
-                omath(p_c, [_msubsup('\u03BE', 'j', 'eff')])
             else:
                 rc = p_c.add_run(txt)
                 rc.font.size = Pt(10)
@@ -5227,10 +5210,6 @@ def write_table2(doc, body, after_el, demand_data):
         'PUE(\u03B8) = \u03C6 + \u03B4 \u00b7 max(0, \u03B8 \u2212 \u03B8\u0304). '
         'RTT = round-trip time, the network delay for a data packet to travel from '
         'client to server and back, measured in milliseconds. '
-        'The production-efficiency index \u03BE\u2C7C\u1d49\u1da0\u1da0 is a weighted geometric mean of '
-        'governance quality and grid reliability (\u03C9 = 0.50; equation 3). '
-        'The efficiency adjustment applies to non-hardware costs: '
-        'c_adj = \u03C1 + (c_cr \u2212 \u03C1) / \u03BE. '
         'Sanctions exposure is captured by the bilateral '
         'sovereignty premium \u03BB\u1d62\u2c7c (equation 2).'
     )
@@ -6937,7 +6916,7 @@ def main():
     # ═══════════════════════════════════════════════════════════════════════
     # v29: HYPERSCALER FDI REGIME CLASSIFICATION
     # λ^FDI replaces λ_{ij} — trust attaches to operator, not host country.
-    # FDI equilibrium uses the same ξ-adjusted supply stack as bilateral,
+    # FDI equilibrium uses the same CR supply stack as bilateral,
     # with per-buyer min λ^FDI from equation (2'). This ensures the FDI
     # specification expands trade opportunities (lower friction → more
     # importing → more exporters) rather than collapsing to one host.
