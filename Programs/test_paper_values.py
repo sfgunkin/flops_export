@@ -716,7 +716,7 @@ class TestCostFunction:
 
 
 # ================================================================
-# D. RAW COST RANKINGS (Table 3a, Column 1)
+# D. RAW COST RANKINGS (Table 3, Column 1)
 # ================================================================
 
 class TestRawRankings:
@@ -756,7 +756,7 @@ class TestRawRankings:
 
 
 # ================================================================
-# E. COST-RECOVERY ADJUSTMENT (Table 3a, Column 2)
+# E. COST-RECOVERY ADJUSTMENT (Table 3, Column 2)
 # ================================================================
 
 class TestCostRecovery:
@@ -2104,7 +2104,7 @@ def _fdi_would_import(adj, costs, dc_k):
 
 
 # ================================================================
-# U. REGIME COUNTS -- Section 6.2 Table 3b narrative
+# U. REGIME COUNTS -- Section 6.2 Table 3 narrative
 # ================================================================
 
 class TestRegimeCounts:
