@@ -1933,10 +1933,7 @@ def write_trade_costs(doc, body, hmap):
         'The efficiency adjustment applies only to the non-hardware cost component: '
         'since hardware is priced on global markets, governance penalties operate on '
         'local costs rather than on the full unit '
-        'cost. The baseline sets '
-    )
-    omath(p, [_msub('\u03BE', 'floor'), _t(' = 0.30')])
-    p.add_run('. '
+        'cost. '
         'The index approaches one for countries with strong institutions and '
         'reliable power, and falls below one for countries where institutional weakness '
         'or operational risk reduces effective delivery. '
