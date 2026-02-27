@@ -1,9 +1,11 @@
 """
-Comprehensive pytest test suite for the FLOPs Export Paper (v28).
+Comprehensive pytest test suite for the FLOPs Export Paper (v29).
 
 Verifies ALL numerical values, equation relationships, data integrity,
 and equilibrium properties claimed in the paper. Independent of
-add_calibration_v28.py -- recomputes everything from raw data.
+add_calibration_v29.py -- recomputes everything from raw data.
+
+v29 changes: no ξ floor, explicit η=$0.15 networking, 5 sensitivity scenarios.
 
 Usage:
     pytest test_paper_values.py -v
@@ -18,7 +20,7 @@ import pathlib
 import pytest
 
 # ================================================================
-# CONSTANTS (must match model_parameters.csv / add_calibration_v28)
+# CONSTANTS (must match model_parameters.csv / add_calibration_v29)
 # ================================================================
 GAMMA = 0.700              # kW, GPU thermal design power
 GPU_TDP_W = 700            # Watts
@@ -34,7 +36,6 @@ DC_LIFE = 15               # years
 TAU = 0.0008               # latency degradation per ms
 ALPHA = 0.50               # training share of demand
 OMEGA_XI = 0.50            # governance weight in xi
-XI_FLOOR = 0.30            # institutional floor
 Q_TOTAL = 60_000_000_000   # GPU-hr/yr
 K_BAR_SCALE = 1000
 ALPHA_GEO = 0.08           # alpha_1
@@ -165,8 +166,10 @@ def compute_pue(theta):
 
 
 def compute_xi_eff(gov, grid):
-    xi_raw = (gov ** OMEGA_XI) * (grid ** (1 - OMEGA_XI))
-    return XI_FLOOR + (1 - XI_FLOOR) * xi_raw
+    """v29: no floor — xi = gov^omega * grid^(1-omega)."""
+    if gov > 0 and grid > 0:
+        return (gov ** OMEGA_XI) * (grid ** (1 - OMEGA_XI))
+    return 0.01
 
 
 def _get_latency(lat_data, j, k):
@@ -453,20 +456,97 @@ def c2_rankings():
 
 
 @pytest.fixture(scope="session")
-def sensitivity_data():
-    """Load sensitivity summary from form_b_simulations.xlsx."""
-    import openpyxl
-    wb = openpyxl.load_workbook(
-        DATA / "form_b_simulations.xlsx", read_only=True,
-    )
-    ws = wb['Summary']
-    hdr = [c.value for c in next(ws.iter_rows(max_row=1))]
-    sim = {}
-    for row in ws.iter_rows(min_row=2, values_only=True):
-        d = dict(zip(hdr, row))
-        sim[d['Config']] = d
-    wb.close()
-    return sim
+def sensitivity_data(calibration_data, xi_components):
+    """v29: Compute 5 sensitivity scenarios inline (no xlsx).
+
+    Matches run_sensitivity() in add_calibration_v29.py.
+    """
+    scenario_defs = [
+        ('Baseline', 0.50, RHO, 'B'),
+        ('High governance', 0.85, RHO, 'B'),
+        ('Low hardware', 0.50, 1.30, 'B'),
+        ('High hardware', 0.50, 1.42, 'B'),
+        ('Form A', 0.85, RHO, 'A'),
+    ]
+    results = []
+    baseline_top5 = None
+    cr_ranks = {}
+
+    for label, omega_val, rho_val, form in scenario_defs:
+        ranked = []
+        for r in calibration_data:
+            iso = r["iso3"]
+            cr_pe = SUBSIDY_ADJ.get(iso, float(r["p_E_usd_kwh"]))
+            pue = float(r["pue"])
+            constr = float(r["p_L_usd_per_W"])
+            constr_cost = (constr * GAMMA * 1000) / (
+                DC_LIFE * H_YR * GPU_UTIL
+            )
+            c_cr = GAMMA * cr_pe * pue + rho_val + ETA + constr_cost
+
+            comp = xi_components.get(
+                iso, {"gov": 0.5, "grid": 0.5},
+            )
+            gov, grid = comp["gov"], comp["grid"]
+            xi_j = (
+                (gov ** omega_val) * (grid ** (1 - omega_val))
+                if gov > 0 and grid > 0 else 0.01
+            )
+
+            if form == 'B':
+                c_adj = (
+                    rho_val + (c_cr - rho_val) / xi_j
+                    if xi_j > 0 else 999
+                )
+            else:  # Form A
+                c_adj = c_cr / xi_j if xi_j > 0 else 999
+
+            ranked.append({
+                "iso": iso, "c_cr": c_cr,
+                "c_adj": c_adj, "xi": xi_j,
+            })
+
+        ranked.sort(key=lambda x: x["c_adj"])
+        for i, d in enumerate(ranked, 1):
+            d["rank_adj"] = i
+
+        cr_sorted = sorted(ranked, key=lambda x: x["c_cr"])
+        for i, d in enumerate(cr_sorted, 1):
+            d["rank_cr"] = i
+        if not cr_ranks:
+            cr_ranks = {d["iso"]: d["rank_cr"] for d in cr_sorted}
+
+        dev_top15 = sum(
+            1 for d in ranked[:15] if d["iso"] in DEVELOPING
+        )
+        max_markup = max(
+            (d["c_adj"] - d["c_cr"]) / d["c_cr"] * 100
+            for d in ranked if d["c_cr"] > 0
+        )
+        n = len(ranked)
+        d_sq = sum(
+            (d["rank_adj"] - cr_ranks.get(
+                d["iso"], d["rank_adj"]
+            )) ** 2
+            for d in ranked
+        )
+        spearman = (
+            1 - 6 * d_sq / (n * (n ** 2 - 1)) if n > 1 else 1.0
+        )
+        top5 = [d["iso"] for d in ranked[:5]]
+
+        if baseline_top5 is None:
+            baseline_top5 = list(top5)
+
+        results.append({
+            "label": label,
+            "dev_top15": dev_top15,
+            "max_markup": max_markup,
+            "rank_corr": spearman,
+            "top5": top5,
+            "top5_unchanged": (top5 == baseline_top5),
+        })
+    return results
 
 
 @pytest.fixture(scope="session")
@@ -514,7 +594,7 @@ def cost_recovery_costs(calibration_data, raw_costs):
 
 @pytest.fixture(scope="session")
 def xi_eff_map(calibration_data, xi_components):
-    """Compute xi_eff for all calibrated countries."""
+    """v29: Compute xi_eff for all calibrated countries (no floor)."""
     xi = {}
     for r in calibration_data:
         iso = r["iso3"]
@@ -522,10 +602,7 @@ def xi_eff_map(calibration_data, xi_components):
             iso, {"gov": 0.5, "grid": 0.5},
         )
         gov, grid = comp["gov"], comp["grid"]
-        if gov > 0 and grid > 0:
-            xi[iso] = compute_xi_eff(gov, grid)
-        else:
-            xi[iso] = XI_FLOOR + (1 - XI_FLOOR) * 0.01
+        xi[iso] = compute_xi_eff(gov, grid)
     return xi
 
 
@@ -926,11 +1003,11 @@ class TestCostRecovery:
 # ================================================================
 
 class TestEfficiencyIndex:
-    """Verify xi_eff = xi_floor + (1-xi_floor)*gov^w*grid^(1-w)."""
+    """v29: Verify xi_eff = gov^w * grid^(1-w) (no floor)."""
 
-    def test_xi_floor_lower_bound(self, xi_eff_map):
+    def test_xi_positive(self, xi_eff_map):
         for iso, xi in xi_eff_map.items():
-            assert xi >= XI_FLOOR - 1e-9, f"{iso}: {xi}"
+            assert xi > 0, f"{iso}: {xi}"
 
     def test_xi_upper_bound(self, xi_eff_map):
         for iso, xi in xi_eff_map.items():
@@ -943,50 +1020,55 @@ class TestEfficiencyIndex:
                 continue
             comp = xi_components[iso]
             gov, grid = comp["gov"], comp["grid"]
-            xi_raw = (gov ** OMEGA_XI) * (grid ** (1 - OMEGA_XI))
-            expected = XI_FLOOR + (1 - XI_FLOOR) * xi_raw
+            expected = (gov ** OMEGA_XI) * (grid ** (1 - OMEGA_XI))
             actual = compute_xi_eff(gov, grid)
             assert abs(actual - expected) < 1e-10, iso
 
     def test_xi_formula_vs_c2(
         self, xi_components, c2_rankings, calibration_data,
     ):
-        """Formula xi matches C2 scenario values from Excel."""
+        """Formula xi matches C2 scenario values from Excel.
+
+        NOTE: C2 uses floor=0.30 so we compare against the C2 formula
+        (floor + (1-floor)*raw) — this validates the Excel data, not v29.
+        """
         iso_country = {
             r["iso3"]: r["country"]
             for r in calibration_data
         }
         country_iso = {v: k for k, v in iso_country.items()}
+        XI_FLOOR_C2 = 0.30  # C2 scenario used floor
         for cname, vals in c2_rankings.items():
             iso = country_iso.get(cname)
             if iso is None or iso not in xi_components:
                 continue
             comp = xi_components[iso]
-            xi_formula = compute_xi_eff(
-                comp["gov"], comp["grid"],
-            )
+            gov, grid = comp["gov"], comp["grid"]
+            xi_raw = (gov ** OMEGA_XI) * (grid ** (1 - OMEGA_XI))
+            xi_c2_formula = XI_FLOOR_C2 + (1 - XI_FLOOR_C2) * xi_raw
             xi_c2 = vals["xi_eff"]
-            assert abs(xi_formula - xi_c2) < 0.015, (
+            assert abs(xi_c2_formula - xi_c2) < 0.015, (
                 f"{cname} ({iso}): "
-                f"formula={xi_formula:.4f}, C2={xi_c2:.4f}"
+                f"formula={xi_c2_formula:.4f}, C2={xi_c2:.4f}"
             )
 
     def test_oecd_average_xi_high(self, xi_eff_map):
-        """OECD countries have high average xi (>= 0.80)."""
+        """OECD countries have high average xi (>= 0.70)."""
         oecd_xi = [
             xi_eff_map[iso]
             for iso in BLOC_WESTERN if iso in xi_eff_map
         ]
         if oecd_xi:
             avg = sum(oecd_xi) / len(oecd_xi)
-            assert avg >= 0.80, f"OECD avg xi = {avg:.3f}"
+            assert avg >= 0.70, f"OECD avg xi = {avg:.3f}"
 
     def test_perfect_governance_gives_xi_one(self):
         assert abs(compute_xi_eff(1.0, 1.0) - 1.0) < 1e-10
 
-    def test_zero_governance_gives_floor(self):
+    def test_low_governance_gives_low_xi(self):
+        """v29: no floor, so low governance gives very low xi."""
         xi = compute_xi_eff(0.01, 0.5)
-        assert xi < XI_FLOOR + 0.10
+        assert xi < 0.15
 
 
 # ================================================================
@@ -994,60 +1076,74 @@ class TestEfficiencyIndex:
 # ================================================================
 
 class TestEfficiencyAdjustedRankings:
-    """Verify Form B cost rankings from C2 scenario."""
+    """v29: Verify Form B cost rankings (no floor, independent computation)."""
 
-    def test_c2_top5(self, c2_rankings, calibration_data):
-        """Eff-adj top 5: CAN, FIN, NOR, CHN, KGZ."""
-        by_iso = _c2_by_iso(c2_rankings, calibration_data)
+    def test_v29_top5(self, efficiency_adjusted_costs):
+        """Eff-adj top 5: CAN, NOR, FIN, SWE, ISL."""
         ranked = sorted(
-            by_iso.items(), key=lambda x: x[1]["c_adj"],
+            efficiency_adjusted_costs.items(),
+            key=lambda x: x[1],
         )
         top5 = [iso for iso, _ in ranked[:5]]
-        assert top5 == ["CAN", "FIN", "NOR", "CHN", "KGZ"]
+        assert top5 == ["CAN", "NOR", "FIN", "SWE", "ISL"]
 
-    def test_six_developing_in_top15(
-        self, c2_rankings, calibration_data,
+    def test_zero_developing_in_top15(
+        self, efficiency_adjusted_costs,
     ):
-        """Six or seven developing countries in top 15."""
-        by_iso = _c2_by_iso(c2_rankings, calibration_data)
+        """v29: zero developing countries in top 15."""
         ranked = sorted(
-            by_iso.items(), key=lambda x: x[1]["c_adj"],
+            efficiency_adjusted_costs.items(),
+            key=lambda x: x[1],
         )
         top15 = [iso for iso, _ in ranked[:15]]
         n_dev = sum(1 for iso in top15 if iso in DEVELOPING)
-        assert n_dev in (6, 7), f"developing in top 15: {n_dev}"
+        assert n_dev == 0, f"developing in top 15: {n_dev}"
 
-    def test_kyrgyzstan_5th(
-        self, c2_rankings, calibration_data,
-    ):
-        rank_map = _c2_rank_map(c2_rankings, calibration_data)
-        assert rank_map.get("KGZ") == 5
+    def test_china_rank_around_24(self, efficiency_adjusted_costs):
+        """v29: China ~ rank 24."""
+        ranked = sorted(
+            efficiency_adjusted_costs.items(),
+            key=lambda x: x[1],
+        )
+        rank_map = {iso: i for i, (iso, _) in enumerate(ranked, 1)}
+        assert abs(rank_map.get("CHN", 99) - 24) <= 2
 
-    def test_china_4th(self, c2_rankings, calibration_data):
-        rank_map = _c2_rank_map(c2_rankings, calibration_data)
-        assert rank_map.get("CHN") == 4
+    def test_iceland_rank_5(self, efficiency_adjusted_costs):
+        """v29: Iceland ~ rank 5."""
+        ranked = sorted(
+            efficiency_adjusted_costs.items(),
+            key=lambda x: x[1],
+        )
+        rank_map = {iso: i for i, (iso, _) in enumerate(ranked, 1)}
+        assert abs(rank_map.get("ISL", 99) - 5) <= 1
 
-    def test_specific_ranks(
-        self, c2_rankings, calibration_data,
-    ):
-        """XKX ~7th, MNE ~8th, ETH ~10th, VNM ~14th."""
-        rm = _c2_rank_map(c2_rankings, calibration_data)
-        assert abs(rm.get("XKX", 99) - 7) <= 1
-        assert abs(rm.get("MNE", 99) - 8) <= 1
-        assert abs(rm.get("ETH", 99) - 10) <= 1
-        assert abs(rm.get("VNM", 99) - 14) <= 1
+    def test_all_top15_oecd(self, efficiency_adjusted_costs):
+        """v29: all top 15 are OECD members."""
+        from test_paper_values import BLOC_WESTERN
+        oecd_like = BLOC_WESTERN  # Western bloc ≈ OECD for this check
+        ranked = sorted(
+            efficiency_adjusted_costs.items(),
+            key=lambda x: x[1],
+        )
+        top15 = [iso for iso, _ in ranked[:15]]
+        for iso in top15:
+            assert iso in oecd_like, f"{iso} not in Western/OECD"
 
     def test_turkmenistan_drops_rank(
-        self, c2_rankings, calibration_data,
+        self, efficiency_adjusted_costs, calibration_data,
     ):
-        """TKM drops ~74 places (raw rank 2 -> eff-adj ~76)."""
-        c2_rank = _c2_rank_map(c2_rankings, calibration_data)
+        """TKM drops significantly from raw to eff-adj."""
+        ranked = sorted(
+            efficiency_adjusted_costs.items(),
+            key=lambda x: x[1],
+        )
+        eff_rank = {iso: i for i, (iso, _) in enumerate(ranked, 1)}
         raw_rank = {
             r["iso3"]: int(r["rank"])
             for r in calibration_data
         }
-        delta = raw_rank.get("TKM", 99) - c2_rank.get("TKM", 99)
-        assert abs(delta - (-74)) <= 10
+        delta = raw_rank.get("TKM", 99) - eff_rank.get("TKM", 99)
+        assert delta < -50, f"TKM delta={delta}"
 
 
 # ================================================================
@@ -1432,34 +1528,43 @@ class TestPropositions:
 # ================================================================
 
 class TestSensitivity:
-    """Verify sensitivity analysis scenarios."""
+    """v29: Verify 5 sensitivity scenarios (no floor, η explicit)."""
 
-    def test_all_seven_scenarios(self, sensitivity_data):
-        expected = ['C2', 'REF_A', 'C1', 'C3', 'A2', 'H1', 'H4']
-        for key in expected:
-            assert key in sensitivity_data, f"Missing {key}"
+    def test_five_scenarios(self, sensitivity_data):
+        """Exactly 5 scenarios in v29."""
+        assert len(sensitivity_data) == 5
 
-    def test_omega_085_reduces_developing(
+    def test_baseline_zero_developing(self, sensitivity_data):
+        """v29 baseline: 0 developing in top 15 (η explicit, no floor)."""
+        assert sensitivity_data[0]["dev_top15"] == 0
+
+    def test_high_governance_zero_developing(
         self, sensitivity_data,
     ):
-        """omega=0.85 -> 5 developing in top 15."""
-        assert int(sensitivity_data['A2']['Dev top15']) == 5
+        """ω=0.85 penalises governance → 0 developing in top 15."""
+        assert sensitivity_data[1]["dev_top15"] == 0
 
-    def test_floor_zero_three_developing(
-        self, sensitivity_data,
-    ):
-        """floor=0.00 -> 3 developing in top 15."""
-        assert int(sensitivity_data['C1']['Dev top15']) == 3
+    def test_spearman_bounded(self, sensitivity_data):
+        """Rank correlation is a valid Spearman value in [-1, 1]."""
+        for s in sensitivity_data:
+            assert -1 <= s["rank_corr"] <= 1, (
+                f"{s['label']}: rho={s['rank_corr']:.2f}"
+            )
 
-    def test_floor_high_nine_developing(
-        self, sensitivity_data,
-    ):
-        """floor=0.50 -> 9 developing in top 15."""
-        assert int(sensitivity_data['C3']['Dev top15']) == 9
+    def test_form_a_more_negative_spearman(self, sensitivity_data):
+        """Form A (c_cr/xi) distorts ranks more than Form B (rho + ...)."""
+        baseline_rho = sensitivity_data[0]["rank_corr"]
+        form_a_rho = sensitivity_data[4]["rank_corr"]
+        assert form_a_rho < baseline_rho
 
-    def test_baseline_six_developing(self, sensitivity_data):
-        """Baseline (C2): 6 developing in top 15."""
-        assert int(sensitivity_data['C2']['Dev top15']) == 6
+    def test_hardware_share_top5_stable(self, sensitivity_data):
+        """Low/high ρ don't change top 5 vs baseline."""
+        assert sensitivity_data[2]["top5_unchanged"], (
+            f"Low ρ top5: {sensitivity_data[2]['top5']}"
+        )
+        assert sensitivity_data[3]["top5_unchanged"], (
+            f"High ρ top5: {sensitivity_data[3]['top5']}"
+        )
 
 
 # ================================================================
