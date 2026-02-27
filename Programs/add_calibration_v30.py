@@ -6363,20 +6363,20 @@ def main():
                     lam_fdi_k = _fdi_lambda_min.get(iso_k, float('inf'))
                     if lam_fdi_k < float('inf') and c_k > (1 + lam_fdi_k) * p_T:
                         Q_TX += ALPHA * w_k * Q_TOTAL
-                elif bilateral or tiered:
-                    # v24: tier-specific import decision
+                elif bilateral and not tiered:
+                    # Non-tiered bilateral: full λ_{ij} formula
+                    lam_k = lambda_min_bilateral.get(iso_k, float('inf'))
+                    if lam_k < float('inf') and c_k > (1 + lam_k) * p_T:
+                        Q_TX += ALPHA * w_k * Q_TOTAL
+                elif tiered:
+                    # Tiered bilateral: tier-specific weights and lambdas
                     for tier, w_t in [(1, W_TIER1), (2, W_TIER2), (3, W_TIER3)]:
-                        if not tiered:
-                            w_t = 1.0  # bilateral but no tiering
-                            tier = 3   # use tier-3 lambdas (geopolitical only)
                         if tier == 1:
                             pass  # Tier 1: all domestic, no exports
                         else:
                             lam_k = _tier_lambda(iso_k, tier)
                             if lam_k < float('inf') and c_k > (1 + lam_k) * p_T:
                                 Q_TX += w_t * ALPHA * w_k * Q_TOTAL
-                        if not tiered:
-                            break  # only one pass when not tiered
                 else:
                     # Old uniform specification
                     if c_k > (1 + lam) * p_T:
@@ -6673,6 +6673,31 @@ def main():
             tier_inf[tier] = {'source': best_src_t, 'cost': best_cost_t}
         adj_reg_bilat[iso_k] = tier_inf
 
+    # Non-tiered bilateral inference sourcing (full λ_{ij} formula)
+    adj_reg_bilat_full = {}
+    for iso_k in dc_k:
+        c_k = adj_costs.get(iso_k)
+        if c_k is None:
+            continue
+        l_kk = _get_latency(iso_k, iso_k)
+        P_I_dom = (1 + TAU * (l_kk or 0)) * c_k
+        best_cost = P_I_dom
+        best_src = iso_k
+        for iso_j, c_j in adj_costs.items():
+            if iso_j == iso_k:
+                continue
+            lam_kj = compute_bilateral_lambda(iso_k, iso_j)
+            if lam_kj >= float('inf'):
+                continue
+            l_jk = _get_latency(iso_j, iso_k)
+            if l_jk is None:
+                continue
+            cost_del = (1 + lam_kj) * (1 + TAU * l_jk) * c_j
+            if cost_del < best_cost:
+                best_cost = cost_del
+                best_src = iso_j
+        adj_reg_bilat_full[iso_k] = {'source': best_src, 'cost': best_cost}
+
     # Recompute inference revenue shares (export only — exclude self-sourcing)
     adj_inf_revenue = {}
     for iso in dc_k:
@@ -6821,17 +6846,16 @@ def main():
         if src != iso_k:
             inf_exporter_isos.add(src)
 
-    # v24: regime classification under bilateral λ (preferred specification)
+    # v30: regime classification under bilateral λ (full formula, non-tiered)
     _reg_5type = {"T+I exporter": 0, "inference hub": 0, "hybrid": 0,
                   "domestic": 0, "full importer": 0}
     regime_5 = {}  # iso → regime label
-    # Under bilateral: use tiered bilateral equilibrium
-    bilat_train_exporters = set(shares_tiered.keys())
+    # Under bilateral: use non-tiered bilateral equilibrium (full λ formula)
+    bilat_train_exporters = set(shares_bilat.keys())
     bilat_inf_exporters = set()
     for iso_k in dc_k:
-        if iso_k in adj_reg_bilat:
-            # Use tier 3 (majority of demand) for inference export determination
-            src = adj_reg_bilat[iso_k].get(3, {}).get('source', iso_k)
+        if iso_k in adj_reg_bilat_full:
+            src = adj_reg_bilat_full[iso_k]['source']
             if src != iso_k:
                 bilat_inf_exporters.add(src)
     for iso_k in dc_k:
@@ -6841,10 +6865,10 @@ def main():
         # Under bilateral: country k produces training domestically if
         # for all suppliers j, λ_{kj} >= λ_k^* = c_k/p_T - 1
         lam_k_min = lambda_min_bilateral.get(iso_k, float('inf'))
-        lam_star_k = c_k / p_T_tiered - 1 if p_T_tiered > 0 else 0
-        is_dom_train = (lam_k_min >= lam_star_k) or (c_k <= p_T_tiered)
-        # Inference: check tier 3 (dominant tier)
-        is_dom_inf = (adj_reg_bilat.get(iso_k, {}).get(3, {}).get('source', iso_k) == iso_k)
+        lam_star_k = c_k / p_T_bilat - 1 if p_T_bilat > 0 else 0
+        is_dom_train = (lam_k_min >= lam_star_k) or (c_k <= p_T_bilat)
+        # Inference: use full bilateral λ sourcing
+        is_dom_inf = (adj_reg_bilat_full.get(iso_k, {}).get('source', iso_k) == iso_k)
         r = classify_regime_5type(iso_k, bilat_train_exporters,
                                   bilat_inf_exporters, is_dom_train, is_dom_inf)
         regime_5[iso_k] = r
