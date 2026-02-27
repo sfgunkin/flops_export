@@ -1344,7 +1344,7 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
     r_abs_label.bold = True
     p.add_run(
         ': Energy-rich developing countries could convert cheap electricity into high-value '
-        'AI compute exports. This paper develops the trade model of compute services, '
+        'AI compute exports. This paper develops a trade model of compute services, '
         'distinguishing latency-insensitive training (offshored to lowest-cost producers) '
         'from latency-sensitive inference (favoring proximity to users) and incorporating '
         'a bilateral sovereignty premium. '
@@ -1358,7 +1358,7 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
         'Because hardware dominates unit cost, the cross-country cost spread is only '
         '12\u201320 percent, making compute both the easiest sector for developing countries '
         'to enter on cost grounds and the most vulnerable to small policy-induced frictions. '
-        'The binding constraint is not electricity cost but the institutional '
+        'The binding constraint for FLOP exporting is not electricity cost, but the institutional '
         'credibility needed to attract hyperscaler investment.'
     )
     el = p._element
@@ -1413,9 +1413,7 @@ def write_introduction(doc, body, hmap):
         'models has been doubling every six months since 2010 (Epoch AI 2024). '
         'Data centers accounted for approximately 1.5% of global electricity demand in '
         '2024, and that share is projected to more than double by 2030 '
-        '(IEA 2025), driven largely by AI-oriented facilities whose power densities '
-        'are 5\u201310 times those of conventional data centers '
-        ' (Turner Lee and West 2025).'
+        '(IEA 2025).'
     )
     # footnote 2 removed (unclear)
 
@@ -1463,20 +1461,14 @@ def write_introduction(doc, body, hmap):
         'Recent work examines compute governance and the geography of AI infrastructure '
         '(Sastry et al. 2024, Lehdonvirta et al. 2024, '
         'Pilz et al. 2025), but no formal trade model of compute exists. '
-        'We offer the first such model, treating FLOPs as commodities produced and exported '
-        'according to Ricardian comparative advantage. '
-        'The paper makes three contributions. First, it develops a capacity-constrained '
-        'Ricardian model in which countries produce and export compute services. '
-        'An iceberg trade cost captures latency degradation for inference, and a bilateral '
-        'sovereignty premium captures geopolitical and regulatory frictions. '
-        'Capacity ceilings generate scarcity rents and predictions about concentration '
-        'and trade patterns. '
-        'Second, the paper calibrates the model for 85 countries using data on electricity '
-        'prices, climate, data center construction costs, and inter-country network latency, '
-        'correcting for energy subsidies that distort headline cost rankings. '
-        'Third, it characterizes the resulting trade regimes\u2014which countries export, which '
-        'import, and which adopt hybrid strategies\u2014and quantify the welfare cost of '
-        'the sovereignty premium.'
+        'This paper offers the first such model, making three contributions. '
+        'First, it develops a capacity-constrained Ricardian model of compute trade '
+        'with an iceberg trade cost for latency degradation and a bilateral sovereignty '
+        'premium for geopolitical frictions. '
+        'Second, it calibrates the model across 85 countries, correcting for energy '
+        'subsidies that distort headline cost rankings. '
+        'Third, it characterizes the resulting trade regimes and quantifies the welfare '
+        'cost of sovereignty premia.'
     )
 
     # Para 11: Calibration findings preview
@@ -1502,25 +1494,22 @@ def write_literature(doc, body, hmap):
     print("Inserting Section 2: Related Literature...")
     cur = mkh(doc, body, hmap['1'].getprevious(), '2. Related Literature', level=1)
 
-    # Para 1: AI comparative advantage + value chain upgrading (merged)
+    # Para 1: AI comparative advantage + value chain upgrading (condensed)
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'Goldfarb and Trefler (2018) argue that AI shifts comparative advantage toward '
-        'countries with data, human capital, and institutional capacity. Our model shows '
-        'that comparative advantage in compute '
+        'data and human capital; our model shows that compute production depends instead '
+        'on electricity costs and climate, so resource-rich countries could export compute '
+        'without domestic AI industries. '
+        'Korinek and Stiglitz (2021) warn that developing countries may be left behind '
+        'in the AI revolution; FLOP exporting offers a route in. '
+        'The concept connects to Hausmann et al. (2007) on export composition and growth, '
+        'and to Lim\u00E3o and Venables (2001) on infrastructure as a trade cost '
+        'determinant \u2014 in our setting, network latency plays the analogous role.'
     )
-    add_italic(p, 'production')
-    p.add_run(
-        ' depends on electricity costs, climate, and institutional quality, so resource-rich countries could become '
-        'compute exporters without domestic AI research industries. Korinek and Stiglitz (2021) '
-        'suggest that developing countries could be left behind in the AI '
-        'revolution. FLOP exporting would allow energy-rich developing '
-        'countries to participate in that revolution. The concept of FLOP exporting as value chain upgrading '
-        'connects to Hausmann et al. (2007), who show that what a country exports '
-        'matters for growth. Lim\u00E3o and Venables (2001) demonstrate that infrastructure quality '
-        'determines trade costs. In our model, network infrastructure plays the analogous role '
-        'for digital trade.'
-    )
+
+    # Blank separator
+    p, cur = mkp(doc, body, cur)
 
     # IT-offshoring contrast (ChatGPT review)
     p, cur = mkp(doc, body, cur)
@@ -1544,31 +1533,27 @@ def write_literature(doc, body, hmap):
         'exporting and FDI.'
     )
 
-    # Para 3: Compute governance literature
+    # Para 3: Compute governance literature (condensed)
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'On the governance side, Sastry et al. (2024) '
-        'argue that compute is well-suited for regulation because governments can track '
-        'the number of chips in circulation, restrict who can buy them, and measure how much computation they '
-        'perform. Lehdonvirta et al. (2024) '
-        'map the global geography of cloud GPU infrastructure, distinguishing a '
-        '\u201CCompute North\u201D with training-capable hardware from a '
-        '\u201CCompute South\u201D limited to inference-grade chips. '
-        'Pilz et al. (2025) project that AI data center power demand '
-        'could reach 327 GW by 2030 and that domestic power shortages may push '
-        'compute infrastructure abroad. The World Bank (2025) documents the resulting '
-        'global compute divide: high-income countries hold 77% of colocation data center '
-        'capacity and account for 87% of cloud computing exports (Stojkoski et al. 2024), '
-        'but the report offers descriptive evidence without a formal framework linking '
-        'production costs to trade patterns. On the industrial organization side, '
-        'Biglaiser et al. (2024) survey the economics of cloud '
-        'markets, including switching costs, egress fees, and platform competition among '
-        'hyperscalers, but the supply-side question of where compute is produced and '
-        'whether developing countries can become competitive exporters has not been addressed. '
-        'Stojkoski et al. (2024) document the geography of cloud exports but treat cloud '
-        'services as homogeneous; the present model adds supply-side cost structure and a '
-        'training\u2013inference distinction that generates location-specific comparative advantage. '
+        'On governance, Sastry et al. (2024) argue that compute is well-suited for '
+        'regulation. Lehdonvirta et al. (2024) map a '
+        '\u201CCompute North\u201D with training-capable hardware versus a '
+        '\u201CCompute South\u201D limited to inference chips. '
+        'Pilz et al. (2025) project that data center power demand '
+        'could reach 327 GW by 2030. '
+        'The World Bank (2025) documents the resulting '
+        'divide \u2014 high-income countries hold 77% of colocation capacity \u2014 '
+        'but without a formal framework linking costs to trade patterns. '
+        'Biglaiser et al. (2024) survey cloud market IO, and '
+        'Stojkoski et al. (2024) estimate cloud export geography but treat services as '
+        'homogeneous. The present model adds supply-side cost structure and a '
+        'training\u2013inference distinction.'
     )
+
+    # Blank separators at end of lit review
+    p, cur = mkp(doc, body, cur)
+    p, cur = mkp(doc, body, cur)
 
 
 def write_production_technology(doc, body, hmap):
@@ -1612,7 +1597,7 @@ def write_production_technology(doc, body, hmap):
     # PUE inlined (no display equation) — merged with equation lead-in
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'A data center consumes electricity not only for its Graphic Processing Units (GPU) but also for '
+        'A data center consumes electricity for its Graphic Processing Units (GPU), '
         'cooling, power distribution, and lighting. '
         'This overhead is measured by the '
     )
@@ -2852,34 +2837,25 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     _cr_top20 = _t3_cr_sorted[:20]
     _small_cap = [(d["country"], d["rank_cr"], int(_dc_k.get(d["iso"], 5)))
                   for d in _cr_top20 if _dc_k.get(d["iso"], 5) < 100]
-    _small_cap_str = ', '.join(
-        f'{co} (rank\u2009{rk}, {cap}\u2009MW)' for co, rk, cap in _small_cap)
     # High-cost countries with large capacity
     _nld_rank = next(d["rank_cr"] for d in _t3_cr_sorted if d["iso"] == "NLD")
     _irl_rank = next(d["rank_cr"] for d in _t3_cr_sorted if d["iso"] == "IRL")
-    _sgp_rank = next(d["rank_cr"] for d in _t3_cr_sorted if d["iso"] == "SGP")
     _nld_cap = int(_dc_k.get("NLD", 0))
     _irl_cap = int(_dc_k.get("IRL", 0))
-    _sgp_cap = int(_dc_k.get("SGP", 0))
+    _kgz_rank = _t3_cr_sorted[0]["rank_cr"]
+    _kgz_cap = int(_dc_k.get("KGZ", 5))
     p.add_run(
-        'The gap between cost-based comparative advantage and actual investment is wide. '
-        f'Among the twenty cheapest producers under cost-recovery pricing, '
-        f'{_num_word(len(_small_cap))} have less '
-        f'than 100\u2009MW of installed data center capacity: {_small_cap_str}. '
-        f'Meanwhile, several countries outside the top twenty host large '
-        f'data center clusters: the Netherlands (rank\u2009{_nld_rank}, {_nld_cap:,}\u2009MW), '
-        f'Ireland (rank\u2009{_irl_rank}, {_irl_cap:,}\u2009MW), '
-        f'and Singapore (rank\u2009{_sgp_rank}, {_sgp_cap:,}\u2009MW). These patterns '
-        'reflect agglomeration economies, hyperscaler location strategies, and network '
-        'infrastructure that the cost-based ranking captures only through the capacity '
-        'ceiling '
+        f'The gap between cost advantage and actual investment is wide. '
+        f'{_num_word(len(_small_cap)).capitalize()} of the twenty cheapest producers have '
+        f'under 100\u2009MW of installed capacity '
+        f'(e.g., Kyrgyzstan: rank\u2009{_kgz_rank}, {_kgz_cap}\u2009MW), '
+        f'while countries outside the top twenty host large clusters '
+        f'(Netherlands: rank\u2009{_nld_rank}, {_nld_cap:,}\u2009MW; '
+        f'Ireland: rank\u2009{_irl_rank}, {_irl_cap:,}\u2009MW). '
+        'The cost ranking identifies the feasible set '
+        'of exporters, not a prediction of realized investment.'
     )
     omath(p, [_msub('K\u0304', 'j')])
-    p.add_run(
-        '. The cost ranking should therefore be read as identifying the feasible set '
-        'of exporters, not predicting which countries will attract investment absent the '
-        'institutional and market-structure conditions discussed in Section 7.'
-    )
 
     # ── A4. Bilateral sovereignty — Table 3 col (3) ──
     # Use table3 lam_k_star for inline values (consistency with table)
@@ -3212,16 +3188,14 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
 
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Two caveats apply. First, the FDI specification assumes the hyperscaler absorbs '
-        'all bilateral trust. In practice, data still physically resides in the host '
-        'country\u2019s jurisdiction, and some buyers, particularly governments and '
-        'regulated industries, may retain a residual sovereignty premium even when a '
-        'trusted operator is present. Second, whether a hyperscaler chooses to build in a '
-        'given country depends on agglomeration economies, network infrastructure, and '
-        'market size that the cost ranking does not capture. The FDI column identifies the '
-        'cost-feasible set of host countries; which ones actually attract investment is a '
-        'separate question.'
+        'One caveat: the FDI specification assumes the hyperscaler absorbs '
+        'all bilateral trust. In practice, governments and regulated industries may '
+        'retain a residual premium even with a trusted operator, since data physically '
+        'resides in the host jurisdiction.'
     )
+
+    # Blank separator
+    p, cur = mkp(doc, body, cur)
 
     # ── A4. Welfare cost of sovereignty (KEEP P81) ──
     p, cur = mkp(doc, body, cur)
@@ -3453,31 +3427,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
                   'AI workloads (Deloitte 2025). Results are robust to moderate variation in '
                   'these shares.', 17)
 
-    # ══════════════════════════════════════════════════════════════════════
-    # 7.2  Model Extensions  (trimmed per Phase C)
-    # ══════════════════════════════════════════════════════════════════════
-    cur = mkh(doc, body, cur, '7.2 Model extensions', level=2)
-
-    # v28: Task 29 — compressed extensions intro
-    p, cur = mkp(doc, body, cur)
-    p.add_run(
-        'The model can be extended to incorporate carbon pricing (\u201Cgreen premia\u201D), '
-        'demand segmentation by latency tolerance, and stochastic disruptions that create '
-        'incentives for supply diversification.'
-    )
-
-    # Agglomeration and market structure (KEEP P93)
-    p, cur = mkp(doc, body, cur, space_before=6)
-    add_italic(p, 'Agglomeration and market structure. ')
-    p.add_run(
-        'As noted in Section 3, the competitive framework abstracts from the industrial '
-        'organization of the cloud market. The concentration of data centers in locations '
-        'such as Northern Virginia \u2014 despite above-median electricity costs \u2014 reflects '
-        'centripetal forces that the cost-based ranking cannot capture. The cost-competitive '
-        'set identified in Section 6 should be interpreted as a necessary condition: a '
-        'country must be cheap enough to attract investment, but whether investment '
-        'materializes depends on agglomeration economies and network effects.'
-    )
 
 
 def write_conclusion(doc, body, hmap, demand_data):
