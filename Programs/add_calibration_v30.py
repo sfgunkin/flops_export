@@ -6754,6 +6754,9 @@ def main():
     n_dom_tiered = sum(1 for d in table3_data if d.get("type_tiered") == "DD")
     n_dom_uniform = sum(1 for d in table3_data if d.get("type_uniform") == "DD")
     print(f"  Domestic: bilateral={n_dom_bilat}, tiered={n_dom_tiered}, uniform={n_dom_uniform}")
+    # Type diagnostics: top 10 by CR rank
+    for d in sorted(table3_data, key=lambda x: x["rank_cr"])[:10]:
+        print(f"    {d['country']:<22} raw={d['type_raw']:<4} cr={d['type_cr']:<4} bilat={d.get('type_bilat','?'):<4}")
 
     # ═══════════════════════════════════════════════════════════════════════
     # LOAD v8 AND INDEX HEADINGS
