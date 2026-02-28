@@ -6688,8 +6688,10 @@ def main():
     for d in table3_data:
         iso = d["iso"]
         d["regime_bilat"] = regime_5.get(iso, "full importer")
-        # Use bilateral equilibrium regime assignment
-        if iso in shares_bilat:
+        # Sanctioned → always DD (cannot trade)
+        if iso in SANCTIONED:
+            d["type_bilat"] = "DD"
+        elif iso in shares_bilat:
             d["type_bilat"] = "EE"
         elif regime_5.get(iso) == "domestic":
             d["type_bilat"] = "DD"
