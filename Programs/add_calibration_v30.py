@@ -5155,7 +5155,7 @@ def write_table3(doc, body, after_el, demand_data):
         d_bi = top_bilat[i]
         _s(ri, 6, _sname(d_bi["country"]), align='left')
         _s(ri, 7, f'${d_bi["p_bilat_usa"]:.2f}')
-        _s(ri, 8, _flag(d_bi, "type_bilat"))
+        _s(ri, 8, _flag(d_bi, "type_bilat_usa"))
 
     # Double bottom border on last data row
     for j in range(n_cols):
@@ -6725,6 +6725,11 @@ def main():
             d["type_bilat"] = "IE"
         else:
             d["type_bilat"] = "II"
+        # US-buyer perspective type (for Table 3 bilateral column P(j,US))
+        if iso == "USA":
+            d["type_bilat_usa"] = "DD"  # domestic production, not trade
+        else:
+            d["type_bilat_usa"] = d["type_bilat"]
         # Switching threshold: λ_k^* = c_k / p_T^{bilat} - 1
         d["lam_k_star"] = d["cj_cr"] / p_T_bilat - 1 if p_T_bilat > 0 else 0
 
