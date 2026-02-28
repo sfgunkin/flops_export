@@ -307,32 +307,6 @@ GPU_EXPORT_CONTROLLED = {'CHN'}
 GPU_CONTROL_ALPHA3 = 0.10  # partial α₃ for GPU-controlled (not full sanction)
 
 
-def compute_fdi_lambda(host_j, buyer_k, hyperscaler_h='USA'):
-    """Compute FDI sovereignty premium λ_{jk}^FDI (equation 2').
-
-    When a hyperscaler headquartered in h operates a facility in host j,
-    the buyer k evaluates trust against the operator h, not the host j:
-      λ_{jk}^FDI = α₁·G(h,k) + α₂·(1 − R(h,k)) + α₃·S(j,k)
-
-    G and R terms use the hyperscaler's home country h (trust attaches to operator).
-    S term uses the host country j (GPUs can't ship to sanctioned hosts).
-
-    Returns float (premium) or float('inf') for sanctioned hosts.
-    """
-    if host_j == buyer_k:
-        return 0.0
-    # Sanctions on HOST: GPUs cannot ship to sanctioned countries regardless of operator
-    if host_j in SANCTIONED:
-        return float('inf')
-    # GPU export controls on host (China): partial restriction
-    s_jk = 0.0
-    if host_j in GPU_EXPORT_CONTROLLED:
-        s_jk = 0.5  # partial — training hardware restricted, inference less so
-    # G and R terms use hyperscaler home country h, not host j
-    G_hk = compute_geo_distance(hyperscaler_h, buyer_k)
-    R_hk = compute_reg_compat(hyperscaler_h, buyer_k)
-    return ALPHA_GEO * G_hk + ALPHA_REG * (1 - R_hk) + GPU_CONTROL_ALPHA3 * s_jk
-
 
 def recompute_costs(cal, gpu_price=None, gpu_util=None,
                     p_E_delta=0.0, pue_cap=None, subsidy_adj=None):
@@ -1345,21 +1319,16 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
     p.add_run(
         ': Energy-rich developing countries could convert cheap electricity into high-value '
         'AI compute exports. This paper develops a trade model of compute services, '
-        'distinguishing latency-insensitive training (offshored to lowest-cost producers) '
-        'from latency-sensitive inference (favoring proximity to users) and incorporating '
-        'a bilateral sovereignty premium. '
+        'distinguishing latency-insensitive training from latency-sensitive inference and '
+        'incorporating a bilateral sovereignty premium. '
         'Calibration across 85 countries shows that several developing countries rank among '
         'the cheapest producers under cost-recovery pricing, but bilateral trust deficits '
         'eliminate all developing-country exports. '
-        'When a hyperscaler intermediates the transaction, the buyer\u2019s trust attaches to '
-        'the operator rather than the host country: '
-        f'{_num_word(demand_data.get("n_dev_fdi_exporters", 7) if demand_data else 7)} '
-        'developing economies re-enter as potential exporters. '
         'Because hardware dominates unit cost, the cross-country cost spread is only '
         '12\u201320 percent, making compute both the easiest sector for developing countries '
         'to enter on cost grounds and the most vulnerable to small policy-induced frictions. '
         'The binding constraint for FLOP exporting is not electricity cost, but the institutional '
-        'credibility needed to attract hyperscaler investment.'
+        'credibility needed to overcome bilateral trust deficits.'
     )
     el = p._element
     body.remove(el)
@@ -1481,11 +1450,9 @@ def write_introduction(doc, body, hmap):
         '12\u201320 percent. '
         'Several developing countries rank among the cheapest producers under cost-recovery '
         'pricing, but under the bilateral sovereignty specification, trust deficits eliminate '
-        'all developing-country exports. When a hyperscaler operates the facility, '
-        'the buyer\u2019s trust attaches to the operator rather than the host country, '
-        'and several developing economies re-enter as potential exporters. '
+        'all developing-country exports. '
         'For energy-rich developing countries, the binding constraint is not electricity cost '
-        'but the institutional environment needed to attract FDI.'
+        'but the institutional credibility needed to overcome bilateral trust deficits.'
     )
 
 
@@ -2742,9 +2709,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_bookmark_end(150))
     p.add_run(
         ' summarizes the calibration strategy. '
-        'The analysis proceeds by adjusting production costs, '
-        'applying trade frictions, and introducing '
-        'hyperscaler FDI as a trust channel.'
+        'The analysis proceeds by adjusting production costs '
+        'and applying bilateral trade frictions.'
     )
 
     # ── A1. Raw tariff contrast — Table 3 col (1) ──
@@ -2817,8 +2783,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     _tjk_delta = next((d["delta"] for d in _t3 if d["iso"] == "TJK"), 0)
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'The \u0394 column shows the rank change from raw tariffs to cost-recovery '
-        'pricing (column\u20091 to column\u20092): '
+        'The cost-recovery adjustment reshapes the rankings: '
         f'Turkmenistan drops {abs(_tkm_delta)} places, '
         f'Tajikistan drops {abs(_tjk_delta)}. '
         'Countries whose low tariffs reflect subsidies rather than genuine resource '
@@ -3070,130 +3035,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
             'welfare costs documented below.'
         )
 
-    # ── v28: Hyperscaler FDI and the trust channel ──
-    n_dev_fdi = demand_data.get("n_dev_fdi_exporters", 7)
-    # Build dynamic list of developing-country FDI exporters
-    _fdi_regime = demand_data.get("regime_5_fdi", {})
-    _DEVELOPING = demand_data.get("DEVELOPING", set())
-    _iso_country = demand_data.get("iso_country", {})
-    _dev_fdi_names = sorted(
-        _iso_country.get(iso, iso)
-        for iso, r in _fdi_regime.items()
-        if iso in _DEVELOPING and r in ("T+I exporter", "inference hub"))
-    _n_total_fdi_exp = sum(1 for r in _fdi_regime.values()
-                           if r in ("T+I exporter", "inference hub"))
-    _dev_fdi_str = ', '.join(_dev_fdi_names[:-1]) + ', and ' + _dev_fdi_names[-1] if len(_dev_fdi_names) > 1 else (_dev_fdi_names[0] if _dev_fdi_names else '')
-    # Build note about FDI exporters outside the Table 3 top 25
-    _table3b_show = {d["iso"] for d in demand_data["table3"]}
-    _t3_rank_cr = {d["iso"]: d["rank_cr"] for d in demand_data["table3"]}
-    _dev_fdi_below25 = sorted(
-        [(iso, _iso_country.get(iso, iso), _t3_rank_cr.get(iso, 999))
-         for iso, r in _fdi_regime.items()
-         if iso in _DEVELOPING and r in ("T+I exporter", "inference hub")
-         and iso not in _table3b_show],
-        key=lambda x: x[2])
-    _dev_fdi_visible = [iso for iso in _DEVELOPING
-                        if iso in _table3b_show
-                        and _fdi_regime.get(iso) in ("T+I exporter", "inference hub")]
-    p, cur = mkp(doc, body, cur, space_before=6)
-    add_italic(p, 'Hyperscaler FDI and the trust channel. ')
-    p.add_run(
-        'The bilateral specification assumes that buyers evaluate the host country\u2019s '
-        'trustworthiness directly. In practice, the dominant delivery channel is hyperscaler '
-        'FDI: AWS, Azure, or Google Cloud builds and operates the facility, and the buyer\u2019s '
-        'contract is with the hyperscaler, not the host government. Under this arrangement, '
-        'the effective sovereignty premium reflects the buyer\u2013operator relationship rather '
-        'than the buyer\u2013host-country relationship. For a facility in host country '
-    )
-    omath(p, [_v('j')])
-    p.add_run(' operated by a hyperscaler headquartered in country ')
-    omath(p, [_v('h')])
-    p.add_run(', the effective premium becomes:')
-    p.paragraph_format.space_after = Pt(2)
-
-    # Display equation (2') — moved here from Section 3.2
-    _, cur = omath_display(doc, body, cur, [
-        _msubsup('\u03BB', 'jk', 'FDI'), _t(' = '),
-        _msub('\u03B1', '1'), _t(' \u00b7 '),
-        _v('G'), _t('('), _v('h'), _t(', '), _v('k'), _t(') + '),
-        _msub('\u03B1', '2'), _t(' \u00b7 (1 \u2212 '),
-        _v('R'), _t('('), _v('h'), _t(', '), _v('k'), _t(')) + '),
-        _msub('\u03B1', '3'), _t(' \u00b7 '),
-        _v('S'), _t('('), _v('j'), _t(', '), _v('k'), _t(').'),
-    ], eq_num='2\u2032')
-
-    p, cur = mkp(doc, body, cur)
-    p.add_run(
-        'Equation (2\u2032) nests equation (2): when '
-    )
-    omath(p, [_v('h'), _t(' = '), _v('j')])
-    p.add_run(
-        ' (domestically owned facility), the two coincide. '
-        'For the three US-headquartered hyperscalers that control roughly 65 percent of the '
-        'global cloud market, '
-    )
-    omath(p, [_v('G'), _t('('), _v('h'), _t(', '), _v('k'), _t(') \u2248 0')])
-    p.add_run(' and ')
-    omath(p, [_v('R'), _t('('), _v('h'), _t(', '), _v('k'), _t(') = 1')])
-    p.add_run(
-        ' for allied buyers, so the premium collapses to the sanctions indicator alone. '
-        'Sanctions still bind on the host country because GPUs cannot be shipped to Iran, Russia, '
-        'Belarus, or Turkmenistan regardless of who operates the facility. GPU export controls partially '
-        'restrict China\u2019s access to training-grade hardware.'
-    )
-
-    p, cur = mkp(doc, body, cur)
-    p.add_run('Column\u2009(5) of ')
-    p._element.append(make_hyperlink('Table3', 'Table 3'))
-    p.add_run(
-        ' reports regime assignments under the FDI specification. '
-        'Under bilateral sovereignty (column 3), only Canada exports; all other countries '
-        'either produce domestically or import. Under hyperscaler FDI (column 5), '
-        f'{_n_total_fdi_exp} countries become exporters, '
-        f'{n_dev_fdi} of them developing economies: '
-        f'{_dev_fdi_str}. '
-        'The developing-country export opportunity identified in the cost rankings '
-        '(column 2) is not eliminated by sovereignty \u2014 it is blocked by the absence of '
-        'a trust intermediary and restored when one is present.'
-    )
-    # Fix 4(B): note developing FDI exporters outside the top-25 shown in Table 3
-    if _dev_fdi_below25:
-        _below_parts = [f'{name} (rank {rank})' for _, name, rank in _dev_fdi_below25]
-        if len(_below_parts) > 1:
-            _below_str = ', '.join(_below_parts[:-1]) + ', and ' + _below_parts[-1]
-        else:
-            _below_str = _below_parts[0]
-        _vis_names = sorted(_iso_country.get(iso, iso) for iso in _dev_fdi_visible)
-        _vis_str = ' and '.join(_vis_names) if len(_vis_names) == 2 else ', '.join(_vis_names)
-        p.add_run(
-            f' Within the top 25 countries shown in Table 3, '
-            f'{_vis_str} are the visible developing-country exporters; '
-            f'the remaining developing-country exporters ({_below_str}) appear at lower '
-            f'cost-recovery ranks where their FDI-intermediated costs fall below the '
-            f'import threshold.'
-        )
-
-    p, cur = mkp(doc, body, cur)
-    p.add_run(
-        'This result aligns with observed investment patterns. Countries actively '
-        'attracting hyperscaler data center investment, such as India ($15 billion '
-        'AdaniConneX/Google campus), Indonesia (120\u2009MW Jakarta), Malaysia (300\u2009MW '
-        'Johor), Kenya ($1 billion Microsoft/G42 geothermal campus), and Armenia '
-        '($4 billion Firebird project), are developing economies that the bilateral '
-        'specification assigns to DD or II but that the FDI specification identifies as '
-        'potential exporters. The gap between columns (3) and (5) in '
-    )
-    p._element.append(make_hyperlink('Table3', 'Table 3'))
-    p.add_run(' measures the value of hyperscaler intermediation as a trust mechanism.')
-
-    p, cur = mkp(doc, body, cur)
-    p.add_run(
-        'One caveat: the FDI specification assumes the hyperscaler absorbs '
-        'all bilateral trust. In practice, governments and regulated industries may '
-        'retain a residual premium even with a trusted operator, since data physically '
-        'resides in the host jurisdiction.'
-    )
-
     # Blank separator
     p, cur = mkp(doc, body, cur)
 
@@ -3387,11 +3228,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Uniform sovereignty premium. ')
     p.add_run(
-        'Column (4) of '
-    )
-    p._element.append(make_hyperlink('Table3', 'Table 3'))
-    p.add_run(
-        ' reports results under a uniform premium '
+        'As a robustness check, we compute the equilibrium under a uniform premium '
     )
     omath(p, [_v('\u03BB'), _t(' = 0.10')])
     p.add_run(
@@ -3451,16 +3288,12 @@ def write_conclusion(doc, body, hmap, demand_data):
         'The calibration reveals a paradox: energy-rich developing countries hold a genuine '
         'cost advantage in compute production, but bilateral trust deficits eliminate that '
         'advantage for nearly all of them. '
-        'Under the standard bilateral specification, only Canada exports; sovereignty premia '
+        'Under the bilateral specification, only Canada exports; sovereignty premia '
         'shift every other country toward domestic production or importing, '
         f'at a demand-weighted welfare cost of {demand_data["welfare_pct"]:.1f}% of '
         'compute spending. '
-        'The resolution lies in the hyperscaler FDI channel: when a trusted cloud provider '
-        'operates the facility, the buyer\u2019s sovereignty concern attaches to the operator, '
-        'not the host country. Under this specification, '
-        f'{_num_word(demand_data.get("n_dev_fdi_exporters", 7))} developing countries re-enter '
-        'as exporters, and the model\u2019s predictions align with observed hyperscaler investment '
-        'in India, Kenya, Malaysia, and Southeast Asia. '
+        'This paradox is the core finding: the countries best positioned to export compute '
+        'on cost grounds are precisely those excluded by bilateral trust deficits. '
         'Because hardware accounts for roughly 90 percent of unit cost and is globally '
         'priced, the cross-country cost spread is only 12\u201320 percent \u2014 narrower than '
         'virtually any other tradable good. This makes compute both the easiest sector for '
@@ -3477,7 +3310,7 @@ def write_conclusion(doc, body, hmap, demand_data):
         'resource endowments (hydropower, natural gas, and solar irradiance) to turn '
         'cheap power into exportable compute without building a domestic AI research ecosystem. '
         'But the bilateral specification shows that this opportunity is blocked by trust '
-        'deficits \u2014 and restored only when a hyperscaler intermediates the transaction. '
+        'deficits. '
         'The binding constraint is therefore not electricity cost but institutional credibility: '
         'a country must be non-sanctioned, offer credible power purchase agreements, maintain '
         'adequate network connectivity, and present a regulatory environment stable enough for '
@@ -3485,8 +3318,9 @@ def write_conclusion(doc, body, hmap, demand_data):
         'These are achievable conditions. The countries currently attracting hyperscaler '
         'investment \u2014 India, Kenya, Malaysia, Indonesia \u2014 meet them. Those that do not, '
         'despite lower electricity costs, lack one or more of these prerequisites. '
-        'The gap between columns (3) and (5) of Table 3 measures what institutional reform '
-        'is worth. '
+        'The progression across Table 3 makes the stakes concrete: cheap energy gets a country '
+        'into the cost-feasible set (column 2), but bilateral trust eliminates the opportunity '
+        '(column 3). '
         'FLOP exporting resembles aluminum smelting near cheap hydropower \u2014 imported '
         'capital equipment transforms local electricity into an exportable product with '
         'minimal domestic labor \u2014 but electricity, unlike oil or minerals, is renewable '
@@ -3518,8 +3352,7 @@ def write_conclusion(doc, body, hmap, demand_data):
         'to low-cost neighbors. '
         'For developing countries, the progression across Table 3 makes the policy '
         'challenge concrete: cheap energy gets a country into the cost-feasible set (column 2), '
-        'but bilateral trust eliminates the opportunity (column 3), and only hyperscaler '
-        'intermediation restores it (column 5). '
+        'but bilateral trust eliminates the opportunity (column 3). '
         'The binding constraints are not technological but institutional: non-sanctioned '
         'status, credible power purchase agreements, network connectivity, and a regulatory '
         'environment stable enough to justify a 15-year capital commitment.'
@@ -3700,7 +3533,7 @@ def write_appendix(doc, body, last_ref_el, eca_cal, non_eca_cal, reg, demand_dat
 
 
 def write_table_a2(doc, body, after_el, demand_data):
-    """Table A2: Complete country rankings under alternative cost and sovereignty specifications (landscape, 13 cols)."""
+    """Table A2: Complete country rankings under alternative cost and sovereignty specifications (landscape, 10 cols)."""
     print("Inserting Table A2 (Complete country rankings, landscape)...")
 
     table3_data = demand_data["table3"]
@@ -3755,7 +3588,7 @@ def write_table_a2(doc, body, after_el, demand_data):
     all_sorted = sorted(table3_data, key=lambda x: x["rank_cr"])
 
     n_rows = 2 + len(all_sorted)
-    n_cols = 13
+    n_cols = 10
     tbl = doc.add_table(rows=n_rows, cols=n_cols)
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     tbl.style = 'Table Grid'
@@ -3771,9 +3604,6 @@ def write_table_a2(doc, body, after_el, demand_data):
     _s(0, 4, '(2) Cost-Recovery', bold=True)
     _tbl_merge(tbl, 0, 7, 9)
     _s(0, 7, '(3) Bilateral \u03bb\u1d62\u2c7c', bold=True)
-    _tbl_merge(tbl, 0, 10, 11)
-    _s(0, 10, '(4) Uniform (\u03bb=10%)', bold=True)
-    _s(0, 12, '(5) FDI', bold=True)
     for j in range(n_cols):
         _tbl_border(tbl.cell(0, j)._tc, ['top', 'bottom'])
 
@@ -3781,9 +3611,7 @@ def write_table_a2(doc, body, after_el, demand_data):
     sub_h = ['Country',
              'c\u2c7c', 'Rank', 'Type',
              'c\u2c7c', 'Rank', 'Type',
-             'c\u2c7c', 'Rank', 'Type',
-             'Type', 'Rank',
-             'Type']
+             'c\u2c7c', 'Rank', 'Type']
     for j, h in enumerate(sub_h):
         _s(1, j, h, bold=True, align='left' if j == 0 else 'center')
         _tbl_border(tbl.cell(1, j)._tc, ['top', 'bottom'])
@@ -3804,11 +3632,6 @@ def write_table_a2(doc, body, after_el, demand_data):
         _s(ri, 7, f'${d["cj_cr"]:.2f}')
         _s(ri, 8, str(d["rank_cr"]))
         _s(ri, 9, d.get("type_bilat", d.get("type_sov", "II")))
-        # (4) Uniform
-        _s(ri, 10, d.get("type_uniform", "II"))
-        _s(ri, 11, str(d.get("rank_sov", d["rank_cr"])))
-        # (5) FDI
-        _s(ri, 12, d.get("type_fdi", "II"))
 
     # Bottom border on last row
     for j in range(n_cols):
@@ -3816,12 +3639,10 @@ def write_table_a2(doc, body, after_el, demand_data):
 
     # Column widths (landscape)
     _tbl_col_widths(tbl, [
-        1500,                # Country
-        700, 420, 420,       # (1) Raw
-        700, 420, 420,       # (2) Cost-Recovery
-        700, 420, 420,       # (3) Bilateral
-        420, 420,            # (4) Uniform
-        420,                 # (5) FDI
+        1800,                # Country
+        750, 450, 450,       # (1) Raw
+        750, 450, 450,       # (2) Cost-Recovery
+        750, 450, 450,       # (3) Bilateral
     ])
     _tbl_cell_spacing(tbl, before='5', after='5')
 
@@ -4769,10 +4590,7 @@ def write_figure1_calibration(doc, body, last_ref):
     rn2 = note_p.add_run(
         'Step 1 adjusts production costs from observed tariffs to '
         'cost-recovery pricing. '
-        'Step 2 applies bilateral sovereignty premiums, with a uniform '
-        'premium (\u03bb = 0.10) as robustness check. '
-        'Step 3 replaces host-country trust with '
-        'hyperscaler-intermediated FDI.'
+        'Step 2 applies bilateral sovereignty premiums.'
     )
     rn2.font.size = Pt(10)
     note_p.paragraph_format.line_spacing = 1.0
@@ -5194,7 +5012,7 @@ def write_table2(doc, body, after_el, demand_data):
 
 
 def write_table3(doc, body, after_el, demand_data):
-    """Table 3: Country rankings under alternative cost and sovereignty specifications (landscape, 13 cols)."""
+    """Table 3: Country rankings under alternative cost and sovereignty specifications (landscape, 10 cols)."""
     print("Inserting Table 3 (Country rankings, landscape)...")
 
     table3_data = demand_data["table3"]
@@ -5273,10 +5091,10 @@ def write_table3(doc, body, after_el, demand_data):
     top_cr_sorted = sorted(table3_data, key=lambda x: x["rank_cr"])
     top_rows = top_cr_sorted[:25]
 
-    # ─── Build table (13 columns) ───
+    # ─── Build table (10 columns) ───
     n_data = len(top_rows)
     n_rows = 2 + n_data  # 2 header rows + data
-    n_cols = 13
+    n_cols = 10
     tbl = doc.add_table(rows=n_rows, cols=n_cols)
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     tbl.style = 'Table Grid'
@@ -5292,9 +5110,6 @@ def write_table3(doc, body, after_el, demand_data):
     _s(0, 4, '(2) Cost-Recovery', bold=True)
     _tbl_merge(tbl, 0, 7, 9)
     _s(0, 7, '(3) Bilateral \u03bb\u1d62\u2c7c', bold=True)
-    _tbl_merge(tbl, 0, 10, 11)
-    _s(0, 10, '(4) Uniform (\u03bb=10%)', bold=True)
-    _s(0, 12, '(5) FDI', bold=True)
 
     # Top + bottom border on row 0
     for j in range(n_cols):
@@ -5304,9 +5119,7 @@ def write_table3(doc, body, after_el, demand_data):
     sub_headers = ['Country',
                    'c\u2c7c', 'Rank', 'Type',
                    'c\u2c7c', 'Rank', 'Type',
-                   'c\u2c7c', 'Rank', 'Type',
-                   'Type', 'Rank',
-                   'Type']
+                   'c\u2c7c', 'Rank', 'Type']
     for j, hdr in enumerate(sub_headers):
         _s(1, j, hdr, bold=True, align='left' if j == 0 else 'center')
         _tbl_border(tbl.cell(1, j)._tc, ['top', 'bottom'])
@@ -5329,11 +5142,6 @@ def write_table3(doc, body, after_el, demand_data):
         _s(row_idx, 7, f'${d["cj_cr"]:.2f}')
         _s(row_idx, 8, str(d["rank_cr"]))
         _s(row_idx, 9, d.get("type_bilat", d.get("type_sov", "II")))
-        # (4) Uniform
-        _s(row_idx, 10, d.get("type_uniform", "II"))
-        _s(row_idx, 11, str(d.get("rank_sov", d["rank_cr"])))
-        # (5) FDI
-        _s(row_idx, 12, d.get("type_fdi", "II"))
         row_idx += 1
 
     # Double bottom border on last data row
@@ -5341,14 +5149,12 @@ def write_table3(doc, body, after_el, demand_data):
     for j in range(n_cols):
         _tbl_border(tbl.cell(last_data_row, j)._tc, ['bottom'], style='double')
 
-    # Column widths (landscape, ~7380 twips)
+    # Column widths (landscape)
     _tbl_col_widths(tbl, [
-        1500,                # Country
-        700, 420, 420,       # (1) Raw
-        700, 420, 420,       # (2) Cost-Recovery
-        700, 420, 420,       # (3) Bilateral
-        420, 420,            # (4) Uniform
-        420,                 # (5) FDI
+        1800,                # Country
+        750, 450, 450,       # (1) Raw
+        750, 450, 450,       # (2) Cost-Recovery
+        750, 450, 450,       # (3) Bilateral
     ])
     _tbl_cell_spacing(tbl)
 
@@ -5374,14 +5180,7 @@ def write_table3(doc, body, after_el, demand_data):
         '(1)\u2009Raw: observed electricity tariffs. '
         '(2)\u2009Cost-recovery: subsidized tariffs replaced with LRMC. '
         '(3)\u2009Bilateral: cost-recovery cost with bilateral sovereignty premium '
-        '\u03bb\u1d62\u2c7c from equation (2); ranks match column (2) because the premium '
-        'reshapes regime assignments without affecting production costs. '
-        'Under calibrated parameters, demand tiering (sovereign 10%, regulated 20%, '
-        'commercial 70%) leaves all regime assignments unchanged relative to column (3). '
-        '(4)\u2009Uniform: uniform \u03bb\u2009=\u200910% premium (robustness check). '
-        '(5)\u2009Hyperscaler FDI: bilateral premium replaced by \u03bb\u1da0\u1d48\u1d49 '
-        'from equation (2\u2032), where h is the hyperscaler\u2019s home country (assumed US); '
-        'trust premium reflects buyer\u2013operator relationship; sanctions on host still apply. '
+        '\u03bb\u1d62\u2c7c from equation (2). '
         '* = sanctioned/GPU-blocked. \u2020 = developing-country exporter. '
         '25 selected countries; see '
     )
@@ -6112,18 +5911,6 @@ def main():
                 min_lam = lam
         return min_lam
 
-    # v29: Pre-compute min FDI lambda per buyer for FDI equilibrium
-    _fdi_lambda_min = {}
-    for iso_k in dc_k:
-        lam_min = float('inf')
-        for iso_j in costs_dict:
-            if iso_j == iso_k or iso_j in SANCTIONED:
-                continue
-            lam = compute_fdi_lambda(iso_j, iso_k, hyperscaler_h='USA')
-            if lam < lam_min:
-                lam_min = lam
-        _fdi_lambda_min[iso_k] = lam_min
-
     # v24: Welfare computation deferred to after equilibrium (needs p_T)
     # (old uniform welfare moved to bilateral welfare below)
 
@@ -6189,14 +5976,12 @@ def main():
         key=lambda x: x[1]
     )
 
-    def solve_capacity_equilibrium(lam, label, bilateral=False, tiered=False,
-                                    fdi=False):
+    def solve_capacity_equilibrium(lam, label, bilateral=False, tiered=False):
         """Solve for capacity-constrained training equilibrium.
 
         If bilateral=True, uses bilateral λ_{ij} (buyers face pair-specific premia).
         If tiered=True, uses demand tiers (Tier 1 domestic, Tier 2/3 bilateral).
-        If fdi=True, uses min FDI λ^FDI per buyer (hyperscaler intermediation).
-        If bilateral=False and fdi=False, uses uniform scalar lam.
+        If bilateral=False, uses uniform scalar lam.
         """
         p_T = supply_stack[0][1]  # start with cheapest non-sanctioned
         for iso_j, c_j, k_j in supply_stack:
@@ -6212,12 +5997,7 @@ def main():
                     continue
                 c_k = costs_dict[iso_k]
                 w_k = omega.get(iso_k, 0)
-                if fdi:
-                    # v29: FDI specification — min λ^FDI per buyer
-                    lam_fdi_k = _fdi_lambda_min.get(iso_k, float('inf'))
-                    if lam_fdi_k < float('inf') and c_k > (1 + lam_fdi_k) * p_T:
-                        Q_TX += ALPHA * w_k * Q_TOTAL
-                elif bilateral and not tiered:
+                if bilateral and not tiered:
                     # Non-tiered bilateral: full λ_{ij} formula
                     lam_k = lambda_min_bilateral.get(iso_k, float('inf'))
                     if lam_k < float('inf') and c_k > (1 + lam_k) * p_T:
@@ -6437,10 +6217,6 @@ def main():
      ) = solve_capacity_equilibrium(0, "bilateral CR", bilateral=True)
     (p_T_tiered, _, shares_tiered, cap_hhi_tiered, _, ls_tiered, n_exp_tiered
      ) = solve_capacity_equilibrium(0, "bilateral tiered CR", bilateral=True, tiered=True)
-    # v30: Pass 5 — FDI equilibrium (CR supply stack, FDI lambdas)
-    (p_T_fdi, _, shares_fdi, cap_hhi_fdi, _, _, n_exp_fdi
-     ) = solve_capacity_equilibrium(0, "FDI (CR)", fdi=True)
-
     demand_data["p_T"] = p_T_0
     demand_data["p_T_sov"] = p_T_sov
     demand_data["p_T_bilat"] = p_T_bilat
@@ -6455,9 +6231,6 @@ def main():
     demand_data["n_train_exporters_tiered"] = n_exp_tiered
     demand_data["shares_bilat"] = shares_bilat
     demand_data["shares_tiered"] = shares_tiered
-    demand_data["p_T_fdi"] = p_T_fdi
-    demand_data["shares_fdi"] = shares_fdi
-    demand_data["n_train_exporters_fdi"] = n_exp_fdi
     demand_data["mu_j"] = mu_0
     demand_data["lambda_star"] = ls_0
 
@@ -6792,127 +6565,11 @@ def main():
         print(f"    {co}: {share * 100:.1f}%")
 
     # ═══════════════════════════════════════════════════════════════════════
-    # v29: HYPERSCALER FDI REGIME CLASSIFICATION
-    # λ^FDI replaces λ_{ij} — trust attaches to operator, not host country.
-    # FDI equilibrium uses the same CR supply stack as bilateral,
-    # with per-buyer min λ^FDI from equation (2'). This ensures the FDI
-    # specification expands trade opportunities (lower friction → more
-    # importing → more exporters) rather than collapsing to one host.
-    # ═══════════════════════════════════════════════════════════════════════
-    print("\nComputing hyperscaler FDI regime classification...")
-
-    # FDI training exporters from the capacity equilibrium (Pass 5 above)
-    fdi_can_export_train = set(shares_fdi.keys())
-
-    # Identify countries that would import training under FDI
-    # Compare delivered cost from j vs domestic cost
-    fdi_would_import_train = {}
-    for iso_k in dc_k:
-        c_k = costs_dict.get(iso_k)  # buyer's CR cost
-        if c_k is None:
-            continue
-        best_supplier = None
-        best_delivered = c_k
-        for iso_j in adj_costs:
-            if iso_j == iso_k or iso_j in SANCTIONED:
-                continue
-            lam_fdi = compute_fdi_lambda(iso_j, iso_k, hyperscaler_h='USA')
-            if lam_fdi >= float('inf'):
-                continue
-            delivered = (1 + lam_fdi) * adj_costs[iso_j]
-            if delivered < best_delivered:
-                best_delivered = delivered
-                best_supplier = iso_j
-        if best_supplier is not None:
-            fdi_would_import_train[iso_k] = best_supplier
-
-    # FDI inference sourcing: use FDI λ instead of bilateral λ
-    fdi_inf_src = {}
-    for iso_k in dc_k:
-        c_k_eff = costs_dict.get(iso_k)
-        if c_k_eff is None:
-            continue
-        l_kk = _get_latency(iso_k, iso_k)
-        P_I_dom = (1 + TAU * (l_kk or 0)) * c_k_eff
-        best_cost = P_I_dom
-        best_src = iso_k
-        for iso_j in adj_costs:
-            if iso_j == iso_k:
-                continue
-            if iso_j not in dc_k:
-                continue
-            lam_fdi = compute_fdi_lambda(iso_j, iso_k, hyperscaler_h='USA')
-            if lam_fdi >= float('inf'):
-                continue
-            l_jk = _get_latency(iso_j, iso_k)
-            if l_jk is None:
-                continue
-            cost_del = (1 + lam_fdi) * (1 + TAU * l_jk) * adj_costs[iso_j]
-            if cost_del < best_cost:
-                best_cost = cost_del
-                best_src = iso_j
-        fdi_inf_src[iso_k] = best_src
-    demand_data["fdi_inf_src"] = fdi_inf_src
-
-    # FDI regime classification (5-type) using pairwise trade patterns
-    # Include top-5 CR countries (same as col 5 EE) as FDI
-    # train exporters — monotonicity: FDI can't make competitive producers worse
-    _eff_top5 = set(sorted(costs_dict, key=lambda x: costs_dict[x])[:5])
-    fdi_train_exporters = fdi_can_export_train | _eff_top5
-    fdi_inf_exporters = set()
-    for iso_k, src in fdi_inf_src.items():
-        if src != iso_k:
-            fdi_inf_exporters.add(src)
-
-    regime_5_fdi = {}
-    _reg_5type_fdi = {"T+I exporter": 0, "inference hub": 0, "hybrid": 0,
-                      "domestic": 0, "full importer": 0}
-    for iso_k in dc_k:
-        c_k = costs_dict.get(iso_k)
-        if c_k is None:
-            continue
-        exports_train = iso_k in fdi_train_exporters
-        exports_inf = iso_k in fdi_inf_exporters
-        imports_train = iso_k in fdi_would_import_train
-        imports_inf = (fdi_inf_src.get(iso_k, iso_k) != iso_k)
-        # Classify:
-        if exports_train and (exports_inf or not imports_inf):
-            r = "T+I exporter"
-        elif exports_inf and imports_train:
-            r = "inference hub"
-        elif imports_train and not imports_inf:
-            r = "hybrid"
-        elif not imports_train and not imports_inf:
-            r = "domestic"
-        else:
-            r = "full importer"
-        regime_5_fdi[iso_k] = r
-        _reg_5type_fdi[r] += 1
-
-    demand_data["regime_5_fdi"] = regime_5_fdi
-    demand_data["reg_5type_counts_fdi"] = _reg_5type_fdi
-
-    # Count developing-country exporters under FDI (DEVELOPING is module-level)
-    n_dev_fdi_exporters = sum(
-        1 for iso, r in regime_5_fdi.items()
-        if iso in DEVELOPING and r in ("T+I exporter", "inference hub"))
-    demand_data["n_dev_fdi_exporters"] = n_dev_fdi_exporters
-    demand_data["DEVELOPING"] = DEVELOPING
-
-    print(f"  FDI p_T = ${p_T_fdi:.3f}/hr, {len(fdi_can_export_train)} training exporters")
-    print(f"  FDI 5-type regimes: {dict((k, v) for k, v in _reg_5type_fdi.items() if v)}")
-    print(f"  Developing-country FDI exporters: {n_dev_fdi_exporters}")
-    fdi_exp_names = []
-    for iso in sorted(fdi_train_exporters | fdi_inf_exporters):
-        co = next((r["country"] for r in cal if r["iso3"] == iso), iso)
-        dev_mark = "\u2020" if iso in DEVELOPING else ""
-        fdi_exp_names.append(f"{co}{dev_mark}")
-    print(f"  FDI exporters: {', '.join(fdi_exp_names)}")
-
-    # ═══════════════════════════════════════════════════════════════════════
     # SENSITIVITY ANALYSIS
     # ═══════════════════════════════════════════════════════════════════════
     print("\nRunning sensitivity analysis...")
+
+    demand_data["DEVELOPING"] = DEVELOPING
     sens_results = run_sensitivity(cal, omega, dc_k, k_bar, SANCTIONED)
     demand_data["sensitivity"] = sens_results
 
@@ -6922,7 +6579,7 @@ def main():
 
     # ═══════════════════════════════════════════════════════════════════════
     # TABLE 3 DATA: Country Rankings Under Alternative Pricing Assumptions
-    # v30: merged Table 3 (cost + sovereignty specs, 13 columns)
+    # v31: 3 specifications (raw, cost-recovery, bilateral), 10 columns
     # ═══════════════════════════════════════════════════════════════════════
     print("\nComputing Table 3 data...")
     rho_hw = GPU_PRICE / (GPU_LIFE * H_YR * GPU_UTIL)
@@ -7026,7 +6683,7 @@ def main():
         # Delta: rank improvement from raw to cost-recovery
         d["delta"] = d["rank_raw"] - d["rank_cr"]
 
-    # ── Table 3: Sovereignty Specifications (3)-(5) ──
+    # ── Table 3: Sovereignty Specification (3) + uniform robustness ──
     # Spec (4): Bilateral λ_{ij}, full demand (no tiering)
     for d in table3_data:
         iso = d["iso"]
@@ -7081,43 +6738,6 @@ def main():
     sorted_sov = sorted(table3_data, key=lambda x: (x["pj_sov"], x["cj_cr"]))
     for rank, d in enumerate(sorted_sov, 1):
         d["rank_sov"] = rank
-
-    # Spec (6): Hyperscaler FDI — λ^FDI from equation (2')
-    # Under FDI, the hyperscaler allocates training across the cheapest locations.
-    # FDI reduces friction (λ^FDI ≤ λ_{ij}), so the set of competitive exporters
-    # is at least as large as under spec (6). We take the union of:
-    #   (a) equilibrium FDI exporters (from capacity-constrained FDI equilibrium)
-    #   (b) spec (6) EE countries (FDI cannot make competitive producers worse off)
-    # This ensures monotonicity: lower friction → weakly more exporters.
-    shares_fdi = demand_data["shares_fdi"]
-    _col6_ee = {d["iso"] for d in table3_data if d["type_uniform"] == "EE"}
-    _fdi_ee = set(shares_fdi.keys()) | _col6_ee
-    for d in table3_data:
-        iso = d["iso"]
-        fdi_regime = regime_5_fdi.get(iso, "full importer")
-        if iso in _fdi_ee:
-            d["type_fdi"] = "EE"
-        elif fdi_regime == "domestic":
-            d["type_fdi"] = "DD"
-        elif fdi_regime == "inference hub":
-            d["type_fdi"] = "IE"
-        else:
-            d["type_fdi"] = "II"
-        # Mark sanctioned/GPU-blocked
-        if iso in SANCTIONED:
-            d["type_fdi"] += "*"
-        elif iso in GPU_EXPORT_CONTROLLED:
-            d["type_fdi"] += "*"
-        # Mark developing-country exporter
-        if iso in DEVELOPING and d["type_fdi"].rstrip("*") in ("EE", "IE"):
-            d["type_fdi"] += "\u2020"  # dagger
-
-    n_fdi_exporters = sum(1 for d in table3_data
-                          if d.get("type_fdi", "").rstrip("*\u2020") in ("EE", "IE"))
-    n_fdi_dev_exp = sum(1 for d in table3_data
-                        if d["iso"] in DEVELOPING
-                        and d.get("type_fdi", "").rstrip("*\u2020") in ("EE", "IE"))
-    print(f"  Spec (6) FDI: {n_fdi_exporters} exporters, {n_fdi_dev_exp} developing")
 
     demand_data["table3"] = table3_data
     demand_data["p_star"] = p_star
