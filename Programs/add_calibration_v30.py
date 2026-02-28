@@ -4570,7 +4570,7 @@ def write_figure1_calibration(doc, body, last_ref):
     pic_p.paragraph_format.space_before = Pt(4)
     pic_p.paragraph_format.space_after = Pt(4)
     run = pic_p.add_run()
-    run.add_picture(str(fig_path), width=Inches(5.5))
+    run.add_picture(str(fig_path), width=Inches(6.5))
     pic_el = pic_p._element
     body.remove(pic_el)
     title_el.addnext(pic_el)
