@@ -5099,7 +5099,10 @@ def write_table3(doc, body, after_el, demand_data):
 
     top_raw = sorted(table3_data, key=lambda x: x["cj_raw"])[:25]
     top_cr = sorted(table3_data, key=lambda x: x["cj_cr"])[:25]
-    top_bilat = sorted(table3_data, key=lambda x: x["cj_cr"])[:25]  # same cost ranking
+    # Bilateral: sort by delivered price P(j,USA), exclude inf (sanctioned)
+    finite_bilat = [d for d in table3_data if d["p_bilat_usa"] < float('inf')]
+    inf_bilat = [d for d in table3_data if d["p_bilat_usa"] == float('inf')]
+    top_bilat = sorted(finite_bilat, key=lambda x: x["p_bilat_usa"])[:25]
 
     # ─── Build table (9 columns): Country+P+Type per spec ───
     n_data = 25
@@ -5125,9 +5128,11 @@ def write_table3(doc, body, after_el, demand_data):
         _tbl_border(tbl.cell(0, j)._tc, ['top', 'bottom'])
 
     # ─── Row 1: Sub-headers ───
-    sub_headers = ['Country', 'P', 'Type',
-                   'Country', 'P', 'Type',
-                   'Country', 'P', 'Type']
+    # P consistent with equation (3): P_s(j,k) = (1+λ_jk)·(1+τ·l_jk)·c_j
+    # Specs (1)-(2): λ=0 → P = c_j; Spec (3): P(j,US) = c_j(1+λ_{j,US})
+    sub_headers = ['Country', 'P\u2c7c', 'Type',
+                   'Country', 'P\u2c7c', 'Type',
+                   'Country', 'P\u2c7c\u2096', 'Type']
     for j, hdr in enumerate(sub_headers):
         align = 'left' if j % 3 == 0 else 'center'
         _s(1, j, hdr, bold=True, align=align)
@@ -5136,20 +5141,20 @@ def write_table3(doc, body, after_el, demand_data):
     # ─── Data rows ───
     for i in range(n_data):
         ri = i + 2
-        # (1) Raw
+        # (1) Raw: P = c_j (no sovereignty)
         d_raw = top_raw[i]
         _s(ri, 0, _sname(d_raw["country"]), align='left')
         _s(ri, 1, f'${d_raw["cj_raw"]:.2f}')
         _s(ri, 2, _flag(d_raw, "type_raw"))
-        # (2) Cost-Recovery
+        # (2) Cost-Recovery: P = c_j (no sovereignty)
         d_cr = top_cr[i]
         _s(ri, 3, _sname(d_cr["country"]), align='left')
         _s(ri, 4, f'${d_cr["cj_cr"]:.2f}')
         _s(ri, 5, _flag(d_cr, "type_cr"))
-        # (3) Bilateral (same cost as CR)
+        # (3) Bilateral: P(j,US) = c_j(1 + λ_{j,US})
         d_bi = top_bilat[i]
         _s(ri, 6, _sname(d_bi["country"]), align='left')
-        _s(ri, 7, f'${d_bi["cj_cr"]:.2f}')
+        _s(ri, 7, f'${d_bi["p_bilat_usa"]:.2f}')
         _s(ri, 8, _flag(d_bi, "type_bilat"))
 
     # Double bottom border on last data row
@@ -5180,14 +5185,16 @@ def write_table3(doc, body, after_el, demand_data):
     rn3.font.size = Pt(10)
     rn3.font.name = 'Times New Roman'
     rn3 = note.add_run(
-        'Top 25 countries by price ranking under each specification. '
-        'P = delivered price of compute services ($/GPU-hr). '
+        'Top 25 countries by delivered price under each specification. '
+        'P\u2c7c = delivered price from seller j ($/GPU-hr) from equation (3). '
+        'Under specs (1)\u2013(2), \u03bb = 0, so P\u2c7c = c\u2c7c. '
+        'Under spec (3), P\u2c7c\u2096 = c\u2c7c(1 + \u03bb\u2c7c\u2096) where k = United States. '
         'EE\u2009=\u2009training + inference exporter; IE\u2009=\u2009inference exporter; '
         'DD\u2009=\u2009domestic producer; II\u2009=\u2009full importer. '
         '(1)\u2009Raw: observed electricity tariffs. '
         '(2)\u2009Cost-recovery: subsidized tariffs replaced with LRMC. '
         '(3)\u2009Bilateral: cost-recovery prices with bilateral sovereignty premium '
-        '\u03bb\u1d62\u2c7c from equation (2); price ranking unchanged, only regime assignments change. '
+        '\u03bb\u2c7c\u2096 from equation (2); countries ranked by delivered price to US buyer. '
         '* = sanctioned/GPU-blocked. \u2020 = developing-country exporter. '
         'See '
     )
@@ -6616,6 +6623,15 @@ def main():
     for d in table3_data:
         d["cj_raw"] = d["elec_raw"] + rho_hw + d["constr_cost"] + rho_net    # (1) Raw
         d["cj_cr"] = d["elec_cr"] + rho_hw + d["constr_cost"] + rho_net      # (2) Cost-recovery
+
+    # ── Bilateral delivered price P(j, USA) = c_j(1 + λ_{j,USA}) ──
+    for d in table3_data:
+        lam = compute_bilateral_lambda(d["iso"], "USA")
+        d["lambda_usa"] = lam
+        if lam == float('inf'):
+            d["p_bilat_usa"] = float('inf')
+        else:
+            d["p_bilat_usa"] = d["cj_cr"] * (1 + lam)
 
     # Rank under specs (1)-(2)
     for key, spec in [("rank_raw", "cj_raw"), ("rank_cr", "cj_cr")]:
