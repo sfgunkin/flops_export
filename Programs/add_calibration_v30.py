@@ -6755,10 +6755,6 @@ def main():
     n_dom_tiered = sum(1 for d in table3_data if d.get("type_tiered") == "DD")
     n_dom_uniform = sum(1 for d in table3_data if d.get("type_uniform") == "DD")
     print(f"  Domestic: bilateral={n_dom_bilat}, tiered={n_dom_tiered}, uniform={n_dom_uniform}")
-    # Type diagnostics: top 25 by CR rank
-    for d in sorted(table3_data, key=lambda x: x["rank_cr"])[:25]:
-        print(f"    {d['country']:<22} raw={d['type_raw']:<4} cr={d['type_cr']:<4} bilat={d.get('type_bilat','?'):<4}")
-    # Count type changes across specs
     n_raw_ee = sum(1 for d in table3_data if d["type_raw"] == "EE")
     n_cr_ee = sum(1 for d in table3_data if d["type_cr"] == "EE")
     n_bilat_ee = sum(1 for d in table3_data if d.get("type_bilat") == "EE")
