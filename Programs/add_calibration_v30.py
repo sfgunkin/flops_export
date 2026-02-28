@@ -693,7 +693,7 @@ def mkp(doc, body, cursor, space_before=None):
     p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
     p.paragraph_format.first_line_indent = Inches(0)
     p.paragraph_format.space_before = Pt(space_before if space_before is not None else 0)
-    p.paragraph_format.space_after = Pt(8)
+    p.paragraph_format.space_after = Pt(0)
     el = p._element
     body.remove(el)
     cursor.addnext(el)
@@ -1312,7 +1312,7 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
     p.paragraph_format.left_indent = Inches(0.5)
     p.paragraph_format.right_indent = Inches(0.5)
     p.paragraph_format.space_before = Pt(12)
-    p.paragraph_format.space_after = Pt(8)
+    p.paragraph_format.space_after = Pt(0)
     p.paragraph_format.line_spacing = 1.0
     r_abs_label = p.add_run('Abstract')
     r_abs_label.bold = True
@@ -4784,7 +4784,7 @@ def write_table1(doc, body, after_el):
     # Table notes
     tn = doc.add_paragraph()
     tn.paragraph_format.space_before = Pt(2)
-    tn.paragraph_format.space_after = Pt(8)
+    tn.paragraph_format.space_after = Pt(0)
     tn.paragraph_format.first_line_indent = Inches(0)
     tn.paragraph_format.line_spacing = 1.0
     tn.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -5085,15 +5085,26 @@ def write_table3(doc, body, after_el, demand_data):
     def _sname(full):
         return _short.get(full, full[:18] + '.' if len(full) > 19 else full)
 
-    # ─── Row selection: top 25 by cost-recovery rank (dynamic) ───
-    top_cr_sorted = sorted(table3_data, key=lambda x: x["rank_cr"])
-    top_rows = top_cr_sorted[:25]
+    # ─── Top 25 for each spec (independent rankings) ───
+    def _flag(d, typ_key):
+        """Append * (sanctioned) and/or † (developing exporter) flags."""
+        iso = d["iso"]
+        t = d.get(typ_key, "II")
+        flag = ""
+        if iso in SANCTIONED:
+            flag += "*"
+        if iso in DEVELOPING and t in ("EE", "IE"):
+            flag += "\u2020"
+        return t + flag
 
-    # ─── Build table (8 columns) ───
-    # Bilateral has same cost/rank as CR; only Type differs
-    n_data = len(top_rows)
+    top_raw = sorted(table3_data, key=lambda x: x["cj_raw"])[:25]
+    top_cr = sorted(table3_data, key=lambda x: x["cj_cr"])[:25]
+    top_bilat = sorted(table3_data, key=lambda x: x["cj_cr"])[:25]  # same cost ranking
+
+    # ─── Build table (6 columns): Country+Type per spec ───
+    n_data = 25
     n_rows = 2 + n_data  # 2 header rows + data
-    n_cols = 8
+    n_cols = 6
     tbl = doc.add_table(rows=n_rows, cols=n_cols)
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     tbl.style = 'Table Grid'
@@ -5102,55 +5113,48 @@ def write_table3(doc, body, after_el, demand_data):
     _s = partial(_tbl_set, tbl, font_size=8)
 
     # ─── Row 0: Group headers ───
-    _s(0, 0, '')
-    _tbl_merge(tbl, 0, 1, 3)
-    _s(0, 1, '(1) Raw Electricity', bold=True)
-    _tbl_merge(tbl, 0, 4, 6)
-    _s(0, 4, '(2) Cost-Recovery', bold=True)
-    _s(0, 7, '(3) Bilateral', bold=True)
+    _tbl_merge(tbl, 0, 0, 1)
+    _s(0, 0, '(1) Raw Electricity', bold=True)
+    _tbl_merge(tbl, 0, 2, 3)
+    _s(0, 2, '(2) Cost-Recovery', bold=True)
+    _tbl_merge(tbl, 0, 4, 5)
+    _s(0, 4, '(3) Bilateral', bold=True)
 
     # Top + bottom border on row 0
     for j in range(n_cols):
         _tbl_border(tbl.cell(0, j)._tc, ['top', 'bottom'])
 
     # ─── Row 1: Sub-headers ───
-    sub_headers = ['Country',
-                   'c\u2c7c', 'Rank', 'Type',
-                   'c\u2c7c', 'Rank', 'Type',
-                   'Type']
+    sub_headers = ['Country', 'Type', 'Country', 'Type', 'Country', 'Type']
     for j, hdr in enumerate(sub_headers):
-        _s(1, j, hdr, bold=True, align='left' if j == 0 else 'center')
+        _s(1, j, hdr, bold=True, align='left' if j % 2 == 0 else 'center')
         _tbl_border(tbl.cell(1, j)._tc, ['top', 'bottom'])
 
     # ─── Data rows ───
-    row_idx = 2
-    all_data_rows = list(top_rows)
-
-    for d in all_data_rows:
-        _s(row_idx, 0, _sname(d["country"]), align='left')
+    for i in range(n_data):
+        ri = i + 2
         # (1) Raw
-        _s(row_idx, 1, f'${d["cj_raw"]:.2f}')
-        _s(row_idx, 2, str(d["rank_raw"]))
-        _s(row_idx, 3, d["type_raw"])
+        d_raw = top_raw[i]
+        _s(ri, 0, _sname(d_raw["country"]), align='left')
+        _s(ri, 1, _flag(d_raw, "type_raw"))
         # (2) Cost-Recovery
-        _s(row_idx, 4, f'${d["cj_cr"]:.2f}')
-        _s(row_idx, 5, str(d["rank_cr"]))
-        _s(row_idx, 6, d["type_cr"])
-        # (3) Bilateral (type only — cost and rank same as CR)
-        _s(row_idx, 7, d.get("type_bilat", d.get("type_sov", "II")))
-        row_idx += 1
+        d_cr = top_cr[i]
+        _s(ri, 2, _sname(d_cr["country"]), align='left')
+        _s(ri, 3, _flag(d_cr, "type_cr"))
+        # (3) Bilateral
+        d_bi = top_bilat[i]
+        _s(ri, 4, _sname(d_bi["country"]), align='left')
+        _s(ri, 5, _flag(d_bi, "type_bilat"))
 
     # Double bottom border on last data row
-    last_data_row = row_idx - 1
     for j in range(n_cols):
-        _tbl_border(tbl.cell(last_data_row, j)._tc, ['bottom'], style='double')
+        _tbl_border(tbl.cell(n_data + 1, j)._tc, ['bottom'], style='double')
 
     # Column widths (landscape)
     _tbl_col_widths(tbl, [
-        1800,                # Country
-        750, 450, 450,       # (1) Raw
-        750, 450, 450,       # (2) Cost-Recovery
-        500,                 # (3) Bilateral Type
+        1600, 500,       # (1) Raw
+        1600, 500,       # (2) Cost-Recovery
+        1600, 500,       # (3) Bilateral
     ])
     _tbl_cell_spacing(tbl)
 
@@ -5170,16 +5174,15 @@ def write_table3(doc, body, after_el, demand_data):
     rn3.font.size = Pt(10)
     rn3.font.name = 'Times New Roman'
     rn3 = note.add_run(
-        'Specifications (1) and (2) show unit cost ($/GPU-hr), rank among 85 countries, '
-        'and regime type. (3) shows regime type only (cost and rank unchanged from (2)). '
+        'Top 25 countries by cost ranking under each specification. '
         'EE\u2009=\u2009training + inference exporter; IE\u2009=\u2009inference exporter; '
         'DD\u2009=\u2009domestic producer; II\u2009=\u2009full importer. '
         '(1)\u2009Raw: observed electricity tariffs. '
         '(2)\u2009Cost-recovery: subsidized tariffs replaced with LRMC. '
-        '(3)\u2009Bilateral: bilateral sovereignty premium '
-        '\u03bb\u1d62\u2c7c from equation (2); only regime assignments change. '
+        '(3)\u2009Bilateral: cost-recovery cost with bilateral sovereignty premium '
+        '\u03bb\u1d62\u2c7c from equation (2); cost ranking unchanged, only regime assignments change. '
         '* = sanctioned/GPU-blocked. \u2020 = developing-country exporter. '
-        '25 selected countries; see '
+        'See '
     )
     rn3.font.size = Pt(10)
     rn3.font.name = 'Times New Roman'
@@ -5626,7 +5629,7 @@ def apply_formatting(doc, body, refs, title_el, author_el, ver_el, abs_text_el):
             p.paragraph_format.space_before = Pt(0)
             # Preserve Pt(2) spacing on paragraphs immediately before equations
             if p.paragraph_format.space_after is None or p.paragraph_format.space_after >= Pt(8):
-                p.paragraph_format.space_after = Pt(8)
+                p.paragraph_format.space_after = Pt(0)
 
 
 def add_page_numbers_and_break(doc, body, kw_el):
