@@ -1323,7 +1323,8 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
         'incorporating a bilateral sovereignty premium. '
         'Calibration across 85 countries shows that several developing countries rank among '
         'the cheapest producers under cost-recovery pricing, but bilateral trust deficits '
-        'eliminate all developing-country exports. '
+        'sharply curtail developing-country exports: most lose exporter status, and only '
+        'Kyrgyzstan retains training-export viability among developing nations. '
         'Because hardware dominates unit cost, the cross-country cost spread is only '
         '12\u201320 percent, making compute both the easiest sector for developing countries '
         'to enter on cost grounds and the most vulnerable to small policy-induced frictions. '
@@ -3533,7 +3534,7 @@ def write_appendix(doc, body, last_ref_el, eca_cal, non_eca_cal, reg, demand_dat
 
 
 def write_table_a2(doc, body, after_el, demand_data):
-    """Table A2: Complete country rankings under alternative cost and sovereignty specifications (landscape, 10 cols)."""
+    """Table A2: Complete country rankings under alternative cost and sovereignty specifications (landscape, 8 cols)."""
     print("Inserting Table A2 (Complete country rankings, landscape)...")
 
     table3_data = demand_data["table3"]
@@ -3588,7 +3589,7 @@ def write_table_a2(doc, body, after_el, demand_data):
     all_sorted = sorted(table3_data, key=lambda x: x["rank_cr"])
 
     n_rows = 2 + len(all_sorted)
-    n_cols = 10
+    n_cols = 8
     tbl = doc.add_table(rows=n_rows, cols=n_cols)
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     tbl.style = 'Table Grid'
@@ -3602,8 +3603,7 @@ def write_table_a2(doc, body, after_el, demand_data):
     _s(0, 1, '(1) Raw Electricity', bold=True)
     _tbl_merge(tbl, 0, 4, 6)
     _s(0, 4, '(2) Cost-Recovery', bold=True)
-    _tbl_merge(tbl, 0, 7, 9)
-    _s(0, 7, '(3) Bilateral \u03bb\u1d62\u2c7c', bold=True)
+    _s(0, 7, '(3) Bilateral', bold=True)
     for j in range(n_cols):
         _tbl_border(tbl.cell(0, j)._tc, ['top', 'bottom'])
 
@@ -3611,7 +3611,7 @@ def write_table_a2(doc, body, after_el, demand_data):
     sub_h = ['Country',
              'c\u2c7c', 'Rank', 'Type',
              'c\u2c7c', 'Rank', 'Type',
-             'c\u2c7c', 'Rank', 'Type']
+             'Type']
     for j, h in enumerate(sub_h):
         _s(1, j, h, bold=True, align='left' if j == 0 else 'center')
         _tbl_border(tbl.cell(1, j)._tc, ['top', 'bottom'])
@@ -3628,10 +3628,8 @@ def write_table_a2(doc, body, after_el, demand_data):
         _s(ri, 4, f'${d["cj_cr"]:.2f}')
         _s(ri, 5, str(d["rank_cr"]))
         _s(ri, 6, d["type_cr"])
-        # (3) Bilateral
-        _s(ri, 7, f'${d["cj_cr"]:.2f}')
-        _s(ri, 8, str(d["rank_cr"]))
-        _s(ri, 9, d.get("type_bilat", d.get("type_sov", "II")))
+        # (3) Bilateral (type only — cost and rank same as CR)
+        _s(ri, 7, d.get("type_bilat", d.get("type_sov", "II")))
 
     # Bottom border on last row
     for j in range(n_cols):
@@ -3642,7 +3640,7 @@ def write_table_a2(doc, body, after_el, demand_data):
         1800,                # Country
         750, 450, 450,       # (1) Raw
         750, 450, 450,       # (2) Cost-Recovery
-        750, 450, 450,       # (3) Bilateral
+        500,                 # (3) Bilateral Type
     ])
     _tbl_cell_spacing(tbl, before='5', after='5')
 
@@ -5012,7 +5010,7 @@ def write_table2(doc, body, after_el, demand_data):
 
 
 def write_table3(doc, body, after_el, demand_data):
-    """Table 3: Country rankings under alternative cost and sovereignty specifications (landscape, 10 cols)."""
+    """Table 3: Country rankings under alternative cost and sovereignty specifications (landscape, 8 cols)."""
     print("Inserting Table 3 (Country rankings, landscape)...")
 
     table3_data = demand_data["table3"]
@@ -5091,10 +5089,11 @@ def write_table3(doc, body, after_el, demand_data):
     top_cr_sorted = sorted(table3_data, key=lambda x: x["rank_cr"])
     top_rows = top_cr_sorted[:25]
 
-    # ─── Build table (10 columns) ───
+    # ─── Build table (8 columns) ───
+    # Bilateral has same cost/rank as CR; only Type differs
     n_data = len(top_rows)
     n_rows = 2 + n_data  # 2 header rows + data
-    n_cols = 10
+    n_cols = 8
     tbl = doc.add_table(rows=n_rows, cols=n_cols)
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     tbl.style = 'Table Grid'
@@ -5108,8 +5107,7 @@ def write_table3(doc, body, after_el, demand_data):
     _s(0, 1, '(1) Raw Electricity', bold=True)
     _tbl_merge(tbl, 0, 4, 6)
     _s(0, 4, '(2) Cost-Recovery', bold=True)
-    _tbl_merge(tbl, 0, 7, 9)
-    _s(0, 7, '(3) Bilateral \u03bb\u1d62\u2c7c', bold=True)
+    _s(0, 7, '(3) Bilateral', bold=True)
 
     # Top + bottom border on row 0
     for j in range(n_cols):
@@ -5119,7 +5117,7 @@ def write_table3(doc, body, after_el, demand_data):
     sub_headers = ['Country',
                    'c\u2c7c', 'Rank', 'Type',
                    'c\u2c7c', 'Rank', 'Type',
-                   'c\u2c7c', 'Rank', 'Type']
+                   'Type']
     for j, hdr in enumerate(sub_headers):
         _s(1, j, hdr, bold=True, align='left' if j == 0 else 'center')
         _tbl_border(tbl.cell(1, j)._tc, ['top', 'bottom'])
@@ -5138,10 +5136,8 @@ def write_table3(doc, body, after_el, demand_data):
         _s(row_idx, 4, f'${d["cj_cr"]:.2f}')
         _s(row_idx, 5, str(d["rank_cr"]))
         _s(row_idx, 6, d["type_cr"])
-        # (3) Bilateral
-        _s(row_idx, 7, f'${d["cj_cr"]:.2f}')
-        _s(row_idx, 8, str(d["rank_cr"]))
-        _s(row_idx, 9, d.get("type_bilat", d.get("type_sov", "II")))
+        # (3) Bilateral (type only — cost and rank same as CR)
+        _s(row_idx, 7, d.get("type_bilat", d.get("type_sov", "II")))
         row_idx += 1
 
     # Double bottom border on last data row
@@ -5154,7 +5150,7 @@ def write_table3(doc, body, after_el, demand_data):
         1800,                # Country
         750, 450, 450,       # (1) Raw
         750, 450, 450,       # (2) Cost-Recovery
-        750, 450, 450,       # (3) Bilateral
+        500,                 # (3) Bilateral Type
     ])
     _tbl_cell_spacing(tbl)
 
@@ -5174,13 +5170,14 @@ def write_table3(doc, body, after_el, demand_data):
     rn3.font.size = Pt(10)
     rn3.font.name = 'Times New Roman'
     rn3 = note.add_run(
-        'Columns show unit cost ($/GPU-hr), rank among 85 countries, and regime type '
-        '(EE\u2009=\u2009training + inference exporter; IE\u2009=\u2009inference exporter; '
-        'DD\u2009=\u2009domestic producer; II\u2009=\u2009full importer). '
+        'Specifications (1) and (2) show unit cost ($/GPU-hr), rank among 85 countries, '
+        'and regime type. (3) shows regime type only (cost and rank unchanged from (2)). '
+        'EE\u2009=\u2009training + inference exporter; IE\u2009=\u2009inference exporter; '
+        'DD\u2009=\u2009domestic producer; II\u2009=\u2009full importer. '
         '(1)\u2009Raw: observed electricity tariffs. '
         '(2)\u2009Cost-recovery: subsidized tariffs replaced with LRMC. '
-        '(3)\u2009Bilateral: cost-recovery cost with bilateral sovereignty premium '
-        '\u03bb\u1d62\u2c7c from equation (2). '
+        '(3)\u2009Bilateral: bilateral sovereignty premium '
+        '\u03bb\u1d62\u2c7c from equation (2); only regime assignments change. '
         '* = sanctioned/GPU-blocked. \u2020 = developing-country exporter. '
         '25 selected countries; see '
     )
@@ -6647,7 +6644,7 @@ def main():
 
     # Helper: classify regimes given training shares, inference, costs, p_T
     def _classify_types(shares_t, inf_src, cost_d, p_T, lam_val=0.0):
-        """Classify into EE/IE/DD/II."""
+        """Classify into EE/IE/DD/II.  Sanctioned → always DD."""
         train_exp = set(shares_t.keys())
         inf_exp = set()
         for iso_k, src in inf_src.items():
@@ -6655,6 +6652,9 @@ def main():
                 inf_exp.add(src)
         types = {}
         for iso in cost_d:
+            if iso in SANCTIONED:
+                types[iso] = "DD"
+                continue
             c_k = cost_d[iso]
             is_dom_train = (c_k <= (1 + lam_val) * p_T)
             is_dom_inf = (inf_src.get(iso, iso) == iso)
@@ -6672,9 +6672,10 @@ def main():
     inf_raw = _simple_inference(costs_dict_raw)
     types_raw = _classify_types(shares_0_orig, inf_raw, costs_dict_raw, p_T_0_orig)
 
-    # Spec (2) CR: use shares_cr / p_T_cr from CR equilibrium
+    # Spec (2) CR: use shares_0 / p_T_0 from CR equilibrium (line ~6211)
+    # (shares_cr / p_T_cr are stale — computed before supply_stack was updated to CR)
     inf_cr = _simple_inference(costs_dict_cr)
-    types_cr = _classify_types(shares_cr, inf_cr, costs_dict_cr, p_T_cr)
+    types_cr = _classify_types(shares_0, inf_cr, costs_dict_cr, p_T_0)
 
     for d in table3_data:
         iso = d["iso"]
