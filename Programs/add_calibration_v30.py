@@ -1337,20 +1337,8 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
     ver_el.addnext(el)
     abs_text_el = el
 
-    # Two blank lines after abstract (explicit empty paragraphs)
-    p_blank1, blank1_el = mkp(doc, body, abs_text_el)
-    p_blank1.paragraph_format.space_before = Pt(0)
-    p_blank1.paragraph_format.space_after = Pt(0)
-    p_blank1.paragraph_format.line_spacing = 1.0
-    p_blank1.add_run(' ')
-    p_blank2, blank2_el = mkp(doc, body, blank1_el)
-    p_blank2.paragraph_format.space_before = Pt(0)
-    p_blank2.paragraph_format.space_after = Pt(0)
-    p_blank2.paragraph_format.line_spacing = 1.0
-    p_blank2.add_run(' ')
-
     # JEL classification and keywords after abstract
-    p_jel, jel_el = mkp(doc, body, blank2_el, space_before=0)
+    p_jel, jel_el = mkp(doc, body, abs_text_el, space_before=12)
     p_jel.paragraph_format.left_indent = Inches(0.5)
     p_jel.paragraph_format.right_indent = Inches(0.5)
     p_jel.paragraph_format.line_spacing = 1.0
@@ -5603,6 +5591,30 @@ def apply_formatting(doc, body, refs, title_el, author_el, ver_el, abs_text_el):
 
     # Paragraphs to protect from global formatting (centered title page elements)
     _protected = {title_el, author_el, ver_el, abs_text_el}
+
+    # Remove empty paragraphs (blank lines) from body
+    W_NS_URI = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'
+    M_NS_URI = 'http://schemas.openxmlformats.org/officeDocument/2006/math'
+    WP_NS_URI = 'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing'
+    removed = 0
+    for p in list(doc.paragraphs):
+        if p.text.strip():
+            continue
+        el = p._element
+        if el in _protected or el in ref_elements:
+            continue
+        # Keep if it has images, math, bookmarks, or sectPr
+        has_drawing = bool(el.findall(f'.//{{{WP_NS_URI}}}docPr'))
+        has_math = bool(el.findall(f'.//{{{M_NS_URI}}}oMath'))
+        has_sectpr = bool(el.findall(f'.//{{{W_NS_URI}}}sectPr'))
+        has_bookmark = bool(el.findall(f'.//{{{W_NS_URI}}}bookmarkStart'))
+        has_hyperlink = bool(el.findall(f'.//{{{W_NS_URI}}}hyperlink'))
+        if has_drawing or has_math or has_sectpr or has_bookmark or has_hyperlink:
+            continue
+        body.remove(el)
+        removed += 1
+    if removed:
+        print(f"  Removed {removed} empty paragraph(s)")
 
     for p in doc.paragraphs:
         style = p.style.name if p.style else ''
