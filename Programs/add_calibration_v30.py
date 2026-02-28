@@ -5101,10 +5101,10 @@ def write_table3(doc, body, after_el, demand_data):
     top_cr = sorted(table3_data, key=lambda x: x["cj_cr"])[:25]
     top_bilat = sorted(table3_data, key=lambda x: x["cj_cr"])[:25]  # same cost ranking
 
-    # ─── Build table (6 columns): Country+Type per spec ───
+    # ─── Build table (9 columns): Country+P+Type per spec ───
     n_data = 25
     n_rows = 2 + n_data  # 2 header rows + data
-    n_cols = 6
+    n_cols = 9
     tbl = doc.add_table(rows=n_rows, cols=n_cols)
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     tbl.style = 'Table Grid'
@@ -5113,21 +5113,24 @@ def write_table3(doc, body, after_el, demand_data):
     _s = partial(_tbl_set, tbl, font_size=8)
 
     # ─── Row 0: Group headers ───
-    _tbl_merge(tbl, 0, 0, 1)
+    _tbl_merge(tbl, 0, 0, 2)
     _s(0, 0, '(1) Raw Electricity', bold=True)
-    _tbl_merge(tbl, 0, 2, 3)
-    _s(0, 2, '(2) Cost-Recovery', bold=True)
-    _tbl_merge(tbl, 0, 4, 5)
-    _s(0, 4, '(3) Bilateral', bold=True)
+    _tbl_merge(tbl, 0, 3, 5)
+    _s(0, 3, '(2) Cost-Recovery', bold=True)
+    _tbl_merge(tbl, 0, 6, 8)
+    _s(0, 6, '(3) Bilateral', bold=True)
 
     # Top + bottom border on row 0
     for j in range(n_cols):
         _tbl_border(tbl.cell(0, j)._tc, ['top', 'bottom'])
 
     # ─── Row 1: Sub-headers ───
-    sub_headers = ['Country', 'Type', 'Country', 'Type', 'Country', 'Type']
+    sub_headers = ['Country', 'P', 'Type',
+                   'Country', 'P', 'Type',
+                   'Country', 'P', 'Type']
     for j, hdr in enumerate(sub_headers):
-        _s(1, j, hdr, bold=True, align='left' if j % 2 == 0 else 'center')
+        align = 'left' if j % 3 == 0 else 'center'
+        _s(1, j, hdr, bold=True, align=align)
         _tbl_border(tbl.cell(1, j)._tc, ['top', 'bottom'])
 
     # ─── Data rows ───
@@ -5136,15 +5139,18 @@ def write_table3(doc, body, after_el, demand_data):
         # (1) Raw
         d_raw = top_raw[i]
         _s(ri, 0, _sname(d_raw["country"]), align='left')
-        _s(ri, 1, _flag(d_raw, "type_raw"))
+        _s(ri, 1, f'${d_raw["cj_raw"]:.2f}')
+        _s(ri, 2, _flag(d_raw, "type_raw"))
         # (2) Cost-Recovery
         d_cr = top_cr[i]
-        _s(ri, 2, _sname(d_cr["country"]), align='left')
-        _s(ri, 3, _flag(d_cr, "type_cr"))
-        # (3) Bilateral
+        _s(ri, 3, _sname(d_cr["country"]), align='left')
+        _s(ri, 4, f'${d_cr["cj_cr"]:.2f}')
+        _s(ri, 5, _flag(d_cr, "type_cr"))
+        # (3) Bilateral (same cost as CR)
         d_bi = top_bilat[i]
-        _s(ri, 4, _sname(d_bi["country"]), align='left')
-        _s(ri, 5, _flag(d_bi, "type_bilat"))
+        _s(ri, 6, _sname(d_bi["country"]), align='left')
+        _s(ri, 7, f'${d_bi["cj_cr"]:.2f}')
+        _s(ri, 8, _flag(d_bi, "type_bilat"))
 
     # Double bottom border on last data row
     for j in range(n_cols):
@@ -5152,9 +5158,9 @@ def write_table3(doc, body, after_el, demand_data):
 
     # Column widths (landscape)
     _tbl_col_widths(tbl, [
-        1600, 500,       # (1) Raw
-        1600, 500,       # (2) Cost-Recovery
-        1600, 500,       # (3) Bilateral
+        1400, 550, 450,       # (1) Raw
+        1400, 550, 450,       # (2) Cost-Recovery
+        1400, 550, 450,       # (3) Bilateral
     ])
     _tbl_cell_spacing(tbl)
 
@@ -5174,13 +5180,14 @@ def write_table3(doc, body, after_el, demand_data):
     rn3.font.size = Pt(10)
     rn3.font.name = 'Times New Roman'
     rn3 = note.add_run(
-        'Top 25 countries by cost ranking under each specification. '
+        'Top 25 countries by price ranking under each specification. '
+        'P = delivered price of compute services ($/GPU-hr). '
         'EE\u2009=\u2009training + inference exporter; IE\u2009=\u2009inference exporter; '
         'DD\u2009=\u2009domestic producer; II\u2009=\u2009full importer. '
         '(1)\u2009Raw: observed electricity tariffs. '
         '(2)\u2009Cost-recovery: subsidized tariffs replaced with LRMC. '
-        '(3)\u2009Bilateral: cost-recovery cost with bilateral sovereignty premium '
-        '\u03bb\u1d62\u2c7c from equation (2); cost ranking unchanged, only regime assignments change. '
+        '(3)\u2009Bilateral: cost-recovery prices with bilateral sovereignty premium '
+        '\u03bb\u1d62\u2c7c from equation (2); price ranking unchanged, only regime assignments change. '
         '* = sanctioned/GPU-blocked. \u2020 = developing-country exporter. '
         'See '
     )
