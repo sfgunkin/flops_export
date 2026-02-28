@@ -1324,8 +1324,7 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
         'incorporating a bilateral sovereignty premium. '
         'Calibration across 85 countries shows that several developing countries rank among '
         'the cheapest producers under cost-recovery pricing, but bilateral trust deficits '
-        'sharply curtail developing-country exports: most lose exporter status, and only '
-        'Kyrgyzstan retains training-export viability among developing nations. '
+        'sharply curtail developing-country exports. '
         'Because hardware dominates unit cost, the cross-country cost spread is only '
         '12\u201320 percent, making compute both the easiest sector for developing countries '
         'to enter on cost grounds and the most vulnerable to small policy-induced frictions. '
@@ -1337,8 +1336,12 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
     ver_el.addnext(el)
     abs_text_el = el
 
+    # Blank line after abstract
+    p_blank, blank_el = mkp(doc, body, abs_text_el)
+    p_blank.add_run(' ')
+
     # JEL classification and keywords after abstract
-    p_jel, jel_el = mkp(doc, body, abs_text_el, space_before=12)
+    p_jel, jel_el = mkp(doc, body, blank_el)
     p_jel.paragraph_format.left_indent = Inches(0.5)
     p_jel.paragraph_format.right_indent = Inches(0.5)
     p_jel.paragraph_format.line_spacing = 1.0
@@ -1379,7 +1382,7 @@ def write_introduction(doc, body, hmap):
     # Para 3: FLOP exporting (v28: Task 5 AI language fixes)
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'This surge in demand creates an export opportunity. '
+        'This surge in demand for compute creates an export opportunity. '
         'We refer to the production of compute services in one country '
         'for consumption in another as '
     )
@@ -1402,7 +1405,7 @@ def write_introduction(doc, body, hmap):
         'investment (Firebird 2026), Kenya, Saudi Arabia, and Malaysia have each attracted '
         'billion-dollar data center commitments, and cloud computing exports already exceed '
         '$9 billion annually (World Bank 2025). '
-        'A 40 MW data center in Kyrgyzstan could '
+        'If Kyrgyzstan builds a 40 MW AI data center, it could '
         'generate annual revenue of $630\u2013950 million at wholesale contract rates, '
         'equivalent to over 15% of Kyrgyzstan\u2019s $3.8 billion in goods exports (World Bank 2024).'
     )
@@ -1462,24 +1465,22 @@ def write_literature(doc, body, hmap):
         'in the AI revolution; FLOP exporting offers a route in. '
         'The concept connects to Hausmann et al. (2007) on export composition and growth, '
         'and to Lim\u00E3o and Venables (2001) on infrastructure as a trade cost '
-        'determinant \u2014 in our setting, network latency plays the analogous role.'
+        'determinant. In our setting, network latency plays analogous role.'
     )
 
     # Blank separator
     p, cur = mkp(doc, body, cur)
 
-    # IT-offshoring contrast (ChatGPT review)
+    # IT-offshoring contrast + data center location literature
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'The closest precedent to our model is IT services offshoring, which is labor-intensive and skill-biased '
-        '(Blinder 2006), FLOP exporting is capital- and energy-intensive: the binding input '
-        'is cheap electricity, not cheap labor, so the set of potential exporters is '
-        'fundamentally different.'
-    )
-
-    # Para 2: Data center location literature
-    p, cur = mkp(doc, body, cur)
-    p.add_run(
+        '(Blinder 2006),  FLOP exporting is capital- and energy-intensive, so the set of potential exporters is '
+        'fundamentally different \u2014 energy-rich countries rather than labor-abundant ones. '
+        'A deeper difference is structural: because the key traded input (GPUs) is globally priced, '
+        'cross-country cost variation comes entirely from energy and facilities, which together account '
+        'for a small share of unit cost. Comparative advantage in compute is therefore narrower and more '
+        'fragile than in services offshoring, where factor-price gaps are large.'
         'Several studies examine where firms should build data centers. '
         'Flucker et al. (2013) show that climate affects data center '
         'cooling costs. '
@@ -1500,7 +1501,7 @@ def write_literature(doc, body, hmap):
         'Pilz et al. (2025) project that data center power demand '
         'could reach 327 GW by 2030. '
         'The World Bank (2025) documents the resulting '
-        'divide \u2014 high-income countries hold 77% of colocation capacity \u2014 '
+        'divide,  high-income countries hold 77% of colocation capacity,  '
         'but without a formal framework linking costs to trade patterns. '
         'Biglaiser et al. (2024) survey cloud market IO, and '
         'Stojkoski et al. (2024) estimate cloud export geography but treat services as '
@@ -1673,7 +1674,7 @@ def write_trade_costs(doc, body, hmap):
     )
     add_italic(p, 'Training services')
     p.add_run(
-        ' (denoted T) encompass batch workloads such as model training, fine-tuning, '
+        ' (denoted T) includes batch workloads such as model training, fine-tuning, '
         'and large-scale data '
         'processing. Training a state-of-the-art AI model can take weeks to months across '
         'thousands of GPUs. The client ships its data to a data center, the computation '
@@ -1712,10 +1713,10 @@ def write_trade_costs(doc, body, hmap):
     p.add_run(' ')
     omath(p, [_msub('\u03BB', 'ij'), _t(' \u2265 0')])
     p.add_run(
-        ', which acts as a markup on the cost of compute sourced from seller '
+        ', which acts as a markup on the cost of compute sourced from seller country '
     )
     omath(p, [_v('i')])
-    p.add_run(' by buyer ')
+    p.add_run(' by buyer country ')
     omath(p, [_v('j')])
     p.add_run(
         '. When buyer '
@@ -1787,7 +1788,7 @@ def write_trade_costs(doc, body, hmap):
     )
     omath(p, [_v('j')])
     p.add_run(
-        ' from equation (1). Governance quality, grid reliability, and other '
+        '  (equation (1)). Governance quality, grid reliability, and other '
         'institutional factors that affect the willingness of buyers to source compute '
         'from a particular country are captured by the bilateral sovereignty premium '
     )
@@ -1914,7 +1915,11 @@ def write_demand(doc, body, hmap, demand_data):
     omath(p, [_v('k')])
     p.add_run(
         '\u2019s share of global demand, measured by its share of installed data center '
-        'capacity (MW).'
+        'capacity '
+    )
+    omath(p, [_msub('M', 'k')])
+    p.add_run(
+        ' in MW.'
     )
     make_footnote(p,
                   'Installed capacity is preferable to GDP as a demand proxy because '
@@ -2017,7 +2022,7 @@ def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
     )
     omath(p, [_msub('m', 'T')])
     p.add_run(
-        ' is the producer whose entry just satisfies total export demand. '
+        ' is the index of the producer whose entry just satisfies total export demand. '
         'The equilibrium training price equals the marginal exporter\u2019s cost: '
     )
     # p_T = c_{(m_T)} — inline (was display Eq 5)
@@ -2062,13 +2067,18 @@ def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
               _t(' \u2212 '), _msub('c', 'j'), _t(') \u00b7 '),
               _msub('K', 'Tj')])
     p.add_run(
-        '. For a capacity-constrained exporter, the shadow value '
+        '. When a country allocates capacity across multiple uses, the shadow value '
     )
     omath(p, [_msub('\u03BC', 'j')])
     p.add_run(
-        ' of the capacity constraint measures how much one additional GPU-hour would be worth. '
-        'It equals the difference between the market price and country\u2019s production price.'
+        ' of the capacity constraint equals the margin on the marginal activity '
+        '\u2014 the least profitable use that still receives capacity. '
+        'In the training-only case, '
     )
+    omath(p, [_msub('\u03BC', 'j'), _t('='), _msub('\u03C0', 'j')])
+    p.add_run('; in the multi-market case, ')
+    omath(p, [_msub('\u03BC', 'j'), _t('\u2264'), _msub('\u03C0', 'j')])
+    p.add_run(' because training, as the higher-margin activity, is served first.')
 
     # Inference: Equation (6)  [was display Eq 7, renumbered after inlining p_T]
     p, cur = mkp(doc, body, cur, space_before=6)
@@ -2146,7 +2156,7 @@ def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'The cost-based equilibrium identifies the set of countries that could profitably '
-        'produce and export compute. Which countries from this set actually attract '
+        'produce and export compute. Which countries from this set attract '
         'investment depends additionally on agglomeration economies, hyperscaler market '
         'structure, and network connectivity (Krugman 1991). The cloud compute market is '
         'dominated by three firms (AWS, Azure, Google Cloud) whose location decisions '
@@ -2201,7 +2211,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     p.add_run(', and inference with ')
     omath(p, [_msub('\u03C4', 'I'), _t(' > 0')])
     p.add_run(
-        ') and three possible statuses (export, domestic production, import), '
+        ') and three possible statuses (export, domestic production, and import), '
         'there are nine potential regime combinations. '
         'In equilibrium, only five are realized. '
         'Each regime is coded by two letters: the first for training status, '
@@ -2831,33 +2841,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_hyperlink('Table3', 'Table 3'))
     p.add_run(
         ' reports the bilateral specification. '
-        'The switching threshold '
-    )
-    omath(p, [_msubsup('\u03BB', 'k', '*')])
-    p.add_run(
-        ' from Proposition 3 is negative whenever a country\u2019s unit cost '
-        'lies below the equilibrium price, with the magnitude measuring the cost cushion '
-        'available to absorb sovereignty frictions before the country loses export '
-        'competitiveness. Canada\u2019s large negative value ('
-    )
-    omath(p, [_msubsup('\u03BB', 'k', '*'),
-              _t(f' = \u2212{abs(_lks["CAN"]) * 100:.1f}%')])
-    p.add_run(
-        ') means buyers could impose a substantial sovereignty premium and still find '
-        'Canadian compute cheaper than the marginal supplier; values closer to zero flag '
-        'thinner cost advantages more easily erased by sovereignty frictions '
-        '(Japan '
-    )
-    omath(p, [_msubsup('\u03BB', 'k', '*'),
-              _t(f' = \u2212{abs(_lks["JPN"]) * 100:.1f}%')])
-    p.add_run(', China ')
-    omath(p, [_msubsup('\u03BB', 'k', '*'),
-              _t(f' = \u2212{abs(_lks["CHN"]) * 100:.1f}%')])
-    p.add_run(', Switzerland ')
-    omath(p, [_msubsup('\u03BB', 'k', '*'),
-              _t(f' = \u2212{abs(_lks["CHE"]) * 100:.1f}%')])
-    p.add_run(
-        '). '
         'The bilateral sovereignty premium is particularly powerful for inference, '
         'since the latency markup within Europe is moderate (10\u201340\u2009ms, '
         'adding 1\u20133%), and even a small domestic preference can tip the decision '
