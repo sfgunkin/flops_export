@@ -632,8 +632,8 @@ def omath_display(doc, body, cursor, parts, eq_num=None):
     if old_w is not None:
         tblPr.remove(old_w)
     tblPr.append(tblW)
-    # Column widths: equation 85%, number 15%
-    for j, w in enumerate([8100, 1400]):
+    # Column widths: equation fills remaining, number 0.5" (720 dxa)
+    for j, w in enumerate([8640, 720]):
         tc = tbl.cell(0, j)._tc
         tcPr = tc.get_or_add_tcPr()
         tcW = OxmlElement('w:tcW')
