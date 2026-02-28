@@ -1,0 +1,169 @@
+ranking_protocol_v31.py — Diagnostics
+Generated: 2026-02-28 17:59:32
+
+============================================================
+PARAMETERS
+============================================================
+  PHI           = 1.08
+  DELTA_PUE     = 0.015
+  THETA_REF     = 15.0
+  GAMMA         = 0.7 kW/GPU
+  GPU_PRICE     = $25,000
+  GPU_LIFE      = 3 yr
+  GPU_UTIL      = 0.7
+  H_YR          = 8766.0
+  RHO           = $1.3581/hr
+  DC_LIFE       = 15 yr
+  ETA           = $0.15/hr
+  ALPHA         = 0.5
+  Q_TOTAL       = 6.00e+10 GPU-hrs
+  TAU           = 0.0008
+  L_BAR         = 200.0 ms
+  ALPHA_GEO     = 0.05
+  ALPHA_REG     = 0.025
+  GPU_CONTROL   = {'CHN'}, penalty=0.1
+
+============================================================
+COST BREAKDOWNS (5 reference countries)
+============================================================
+  Canada (CAN):
+    PUE            = 1.0800
+    Energy (raw)   = $0.0340/hr
+    Energy (CR)    = $0.0340/hr
+    Hardware (RHO) = $1.3581/hr
+    Network (ETA)  = $0.1500/hr
+    Construction   = $0.0500/hr
+    c_raw          = $1.5921/hr
+    c_cr           = $1.5921/hr
+    Rank (raw)     = 7
+    Rank (CR)      = 2
+
+  Finland (FIN):
+    PUE            = 1.1010
+    Energy (raw)   = $0.0440/hr
+    Energy (CR)    = $0.0440/hr
+    Hardware (RHO) = $1.3581/hr
+    Network (ETA)  = $0.1500/hr
+    Construction   = $0.0654/hr
+    c_raw          = $1.6175/hr
+    c_cr           = $1.6175/hr
+    Rank (raw)     = 23
+    Rank (CR)      = 15
+
+  Iran (IRN):
+    PUE            = 1.3230
+    Energy (raw)   = $0.0046/hr
+    Energy (CR)    = $0.0787/hr
+    Hardware (RHO) = $1.3581/hr
+    Network (ETA)  = $0.1500/hr
+    Construction   = $0.0453/hr
+    c_raw          = $1.5579/hr
+    c_cr           = $1.6320/hr
+    Rank (raw)     = 1
+    Rank (CR)      = 24
+
+  Kyrgyzstan (KGZ):
+    PUE            = 1.0800
+    Energy (raw)   = $0.0287/hr
+    Energy (CR)    = $0.0287/hr
+    Hardware (RHO) = $1.3581/hr
+    Network (ETA)  = $0.1500/hr
+    Construction   = $0.0417/hr
+    c_raw          = $1.5785/hr
+    c_cr           = $1.5785/hr
+    Rank (raw)     = 4
+    Rank (CR)      = 1
+
+  United States (USA):
+    PUE            = 1.1985
+    Energy (raw)   = $0.0682/hr
+    Energy (CR)    = $0.0682/hr
+    Hardware (RHO) = $1.3581/hr
+    Network (ETA)  = $0.1500/hr
+    Construction   = $0.0574/hr
+    c_raw          = $1.6337/hr
+    c_cr           = $1.6337/hr
+    Rank (raw)     = 32
+    Rank (CR)      = 26
+
+============================================================
+SUBSIDY ADJUSTMENTS
+============================================================
+  ARE (United Arab Emirates): p_E 0.065 -> 0.095 (cost 1.6215 -> 1.6511)
+  DZA (Algeria): p_E 0.033 -> 0.065 (cost 1.5854 -> 1.6165)
+  EGY (Egypt): p_E 0.038 -> 0.080 (cost 1.5841 -> 1.6232)
+  ETH (Ethiopia): p_E 0.030 -> 0.050 (cost 1.5774 -> 1.5949)
+  IRN (Iran): p_E 0.005 -> 0.085 (cost 1.5579 -> 1.6320)
+  KAZ (Kazakhstan): p_E 0.066 -> 0.085 (cost 1.6156 -> 1.6319)
+  NGA (Nigeria): p_E 0.042 -> 0.080 (cost 1.6029 -> 1.6382)
+  QAT (Qatar): p_E 0.036 -> 0.100 (cost 1.6064 -> 1.6690)
+  RUS (Russia): p_E 0.040 -> 0.065 (cost 1.5943 -> 1.6137)
+  SAU (Saudi Arabia): p_E 0.053 -> 0.100 (cost 1.6202 -> 1.6661)
+  TKM (Turkmenistan): p_E 0.010 -> 0.070 (cost 1.5666 -> 1.6228)
+  UZB (Uzbekistan): p_E 0.071 -> 0.090 (cost 1.6174 -> 1.6347)
+  ZAF (South Africa): p_E 0.040 -> 0.095 (cost 1.5962 -> 1.6427)
+
+============================================================
+EXPORTER COUNTS
+============================================================
+  Raw: EE=7, IE=46, DD=21, II=11
+  Cost-Recovery: EE=2, IE=47, DD=23, II=13
+  Bilateral: EE=3, IE=28, DD=45, II=9
+
+============================================================
+REGIME CHANGES: Raw -> CR -> Bilateral
+============================================================
+  ALB (Albania): II -> II -> DD
+  ARM (Armenia): II -> II -> DD
+  AZE (Azerbaijan): IE -> IE -> DD
+  BIH (Bosnia and Herzegovina): IE -> IE -> DD
+  BLR (Belarus): IE -> IE -> DD
+  DZA (Algeria): EE -> IE -> DD
+  EGY (Egypt): EE -> IE -> DD
+  ETH (Ethiopia): EE -> DD -> DD
+  FIN (Finland): IE -> IE -> EE
+  GEO (Georgia): IE -> IE -> DD
+  GRC (Greece): II -> II -> DD
+  IND (India): IE -> IE -> DD
+  IRN (Iran): EE -> DD -> DD
+  KAZ (Kazakhstan): IE -> II -> DD
+  MDA (Moldova): IE -> IE -> DD
+  MKD (North Macedonia): IE -> IE -> DD
+  MYS (Malaysia): IE -> IE -> DD
+  RUS (Russia): IE -> IE -> DD
+  SRB (Serbia): IE -> IE -> DD
+  THA (Thailand): IE -> IE -> DD
+  TJK (Tajikistan): IE -> IE -> DD
+  TKM (Turkmenistan): EE -> II -> DD
+  TUR (Turkey): IE -> IE -> DD
+  USA (United States): IE -> IE -> II
+  UZB (Uzbekistan): IE -> IE -> DD
+  VNM (Vietnam): IE -> IE -> DD
+
+============================================================
+SANCTIONS CHECK (bilateral spec)
+============================================================
+  BLR: DD [OK]
+  IRN: DD [OK]
+  RUS: DD [OK]
+  TKM: DD [OK]
+
+============================================================
+CAPACITY UTILIZATION
+============================================================
+  Raw: 7 exporters, 3,405 MW / 123,748 MW total (2.8%)
+  Cost-Recovery: 2 exporters, 3,205 MW / 123,748 MW total (2.6%)
+  Bilateral: 3 exporters, 3,555 MW / 123,748 MW total (2.9%)
+
+============================================================
+CLEARING PRICES
+============================================================
+  Raw:           $1.5921/hr
+  Cost-Recovery: $1.5921/hr
+  Bilateral:     (bilateral model, no single clearing price)
+
+============================================================
+LATENCY DATA
+============================================================
+  Pairs loaded: 7749
+  Pairs in panel: 5086
