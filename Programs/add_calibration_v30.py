@@ -5960,15 +5960,15 @@ def main():
     # ═══════════════════════════════════════════════════════════════════════
     print("Computing capacity-constrained equilibrium...")
 
-    # Load grid capacity data (apply scale correction)
+    # Capacity from DC estimates (MW → GPU-hours/yr), consistent with omega
     k_bar = {}
-    with open(DATA / "grid_capacity_estimates.csv", encoding="utf-8") as f:
-        for row in csv.DictReader(f):
-            k_bar[row["iso3"]] = float(row["K_bar_gpu_hours"]) * K_BAR_SCALE
+    for iso in dc_k:
+        cap_mw = dc_k[iso]  # from dc_capacity_estimates.csv (loaded earlier)
+        k_bar[iso] = cap_mw * (1000 / GAMMA) * H_YR * GPU_UTIL
 
     # Training supply stack: rank countries by c_j, compute cumulative capacity
     supply_stack = sorted(
-        [(iso, costs_dict[iso], k_bar.get(iso, 1e12))
+        [(iso, costs_dict[iso], k_bar.get(iso, 0))
          for iso in costs_dict if iso in k_bar],
         key=lambda x: x[1]
     )
