@@ -358,7 +358,7 @@ def run_sensitivity(cal, omega, dc_k, k_bar, sanctioned):
             cr_pe = SUBSIDY_ADJ.get(iso, float(r_row["p_E_usd_kwh"]))
             pue = float(r_row["pue"])
             constr = float(r_row["p_L_usd_per_W"])
-            constr_cost = (constr * GAMMA * 1000) / (DC_LIFE * H_YR * GPU_UTIL)
+            constr_cost = (constr * GAMMA * 1000) / (DC_LIFE * H_YR)
             c_cr = GAMMA * cr_pe * pue + rho_val + ETA + constr_cost
 
             ranked.append({"iso": iso, "country": r_row["country"],
@@ -6590,7 +6590,7 @@ def main():
         elec_raw = GAMMA * p_E_raw * pue
         cr_price = SUBSIDY_ADJ.get(iso, p_E_raw)
         elec_cr = GAMMA * cr_price * pue
-        constr_cost = (constr * GAMMA * 1000) / (DC_LIFE * H_YR * GPU_UTIL)
+        constr_cost = (constr * GAMMA * 1000) / (DC_LIFE * H_YR)
 
         table3_data.append({
             "iso": iso, "country": r_row["country"],
