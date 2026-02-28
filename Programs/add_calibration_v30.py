@@ -6018,8 +6018,7 @@ def main():
             for idx, (iso_j, c_j, k_j) in enumerate(supply_stack):
                 if iso_j in sanctioned:
                     continue
-                cap_available = k_j * ALPHA
-                cum_cap += cap_available
+                cum_cap += k_j
                 if cum_cap >= Q_TX and Q_TX > 0:
                     p_T_new = c_j
                     m_T = idx
@@ -6039,7 +6038,7 @@ def main():
                 continue
             if c_j > p_T:
                 break
-            ca = min(k_j * ALPHA, remaining)
+            ca = min(k_j, remaining)
             if ca > 0:
                 shares[iso_j] = ca
                 remaining -= ca
@@ -6054,7 +6053,7 @@ def main():
                 continue
             if c_j < p_T:
                 allocated = shares.get(iso_j, 0)
-                if allocated >= k_j * ALPHA * 0.99:
+                if allocated >= k_j * 0.99:
                     mu[iso_j] = p_T - c_j
         # Lambda_star under capacity constraints
         ls_cap = {iso: c_k / p_T - 1 for iso, c_k in costs_dict.items()}
