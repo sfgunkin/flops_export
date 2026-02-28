@@ -693,7 +693,8 @@ def mkp(doc, body, cursor, space_before=None):
     p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
     p.paragraph_format.first_line_indent = Inches(0)
     p.paragraph_format.space_before = Pt(space_before if space_before is not None else 0)
-    p.paragraph_format.space_after = Pt(0)
+    p.paragraph_format.space_after = Pt(8)
+    p.paragraph_format.line_spacing = 1.5
     el = p._element
     body.remove(el)
     cursor.addnext(el)
@@ -1582,7 +1583,7 @@ def write_production_technology(doc, body, hmap):
                   'the results are insensitive to this specification. '
                   'Google (2024) reports a fleet-wide trailing '
                   'twelve-month PUE of 1.10.', 7)
-    p.paragraph_format.space_after = Pt(2)
+    p.paragraph_format.space_after = Pt(4)
 
     # Equation (2): cost function (with networking η)
     _, cur = omath_display(doc, body, cur, [
@@ -1758,7 +1759,7 @@ def write_trade_costs(doc, body, hmap):
     p.add_run(
         ' equal to 1 if either country maintains comprehensive trade sanctions against the other:'
     )
-    p.paragraph_format.space_after = Pt(2)
+    p.paragraph_format.space_after = Pt(4)
 
     # v24: NEW Equation (2) — bilateral λ_{ij}
     _, cur = omath_display(doc, body, cur, [
@@ -1780,7 +1781,7 @@ def write_trade_costs(doc, body, hmap):
     p.add_run(' to buyer ')
     omath(p, [_v('k')])
     p.add_run(' is:')
-    p.paragraph_format.space_after = Pt(2)
+    p.paragraph_format.space_after = Pt(4)
 
     _, cur = omath_display(doc, body, cur, [
         _msub('P', 's'), _t('('), _v('j'), _t(', '), _v('k'),
@@ -1899,7 +1900,7 @@ def write_demand(doc, body, hmap, demand_data):
         '. We measure compute demand '
         'using installed data center capacity in megawatts (MW):'
     )
-    p.paragraph_format.space_after = Pt(2)
+    p.paragraph_format.space_after = Pt(4)
 
     # Equation (4): q_k = ω_k · Q
     _, cur = omath_display(doc, body, cur, [
@@ -1980,7 +1981,7 @@ def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
     p.add_run(', each buyer ')
     omath(p, [_v('k')])
     p.add_run(' chooses the source that minimizes the delivered cost:')
-    p.paragraph_format.space_after = Pt(2)
+    p.paragraph_format.space_after = Pt(4)
 
     _, cur = omath_display(doc, body, cur, [
         _msubsup('j', 's', '*'), _t('('), _v('k'),
@@ -2101,7 +2102,7 @@ def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
     )
     omath(p, [_v('k')])
     p.add_run(' is:')
-    p.paragraph_format.space_after = Pt(2)
+    p.paragraph_format.space_after = Pt(4)
 
     # Build l_{m_I(k), k} and c_{m_I(k)} with (k) INSIDE the subscript
     # l subscripted with "m_I(k), k"
@@ -3763,7 +3764,7 @@ def write_model_appendix(doc, body, last_note):
     )
     omath(p, [_msub('m', 'T')])
     p.add_run(' is defined by:')
-    p.paragraph_format.space_after = Pt(2)
+    p.paragraph_format.space_after = Pt(4)
 
     _, cur = omath_display(doc, body, cur, [
         _msub('m', 'T'), _t(' = min { '), _v('m'),
@@ -3800,7 +3801,7 @@ def write_model_appendix(doc, body, last_note):
     p.add_run(' to ')
     omath(p, [_v('k')])
     p.add_run(' is:')
-    p.paragraph_format.space_after = Pt(2)
+    p.paragraph_format.space_after = Pt(4)
 
     _, cur = omath_display(doc, body, cur, [
         _msub('MC', 'I'), _t('('), _v('j'), _t(', '), _v('k'),
@@ -3839,7 +3840,7 @@ def write_model_appendix(doc, body, last_note):
     )
     omath(p, [_msub('K', 'j')])
     p.add_run(' GPU-hours is:')
-    p.paragraph_format.space_after = Pt(2)
+    p.paragraph_format.space_after = Pt(4)
 
     _, cur = omath_display(doc, body, cur, [
         _msub('\u03A0', 'j'), _t('('), _msub('K', 'j'),
@@ -3894,7 +3895,7 @@ def write_model_appendix(doc, body, last_note):
     omath(p, [_v('i'), _t(' = '), _msubsup('j', 'k', '*')])
     p.add_run(' denote its equilibrium supplier (the seller minimizing delivered cost). '
               'Import markup:')
-    p.paragraph_format.space_after = Pt(2)
+    p.paragraph_format.space_after = Pt(4)
 
     _, cur = omath_display(doc, body, cur, [
         _msub('DWL', 'import'), _t(' = '),
@@ -3906,7 +3907,7 @@ def write_model_appendix(doc, body, last_note):
 
     p, cur = mkp(doc, body, cur)
     p.add_run('Allocative inefficiency:')
-    p.paragraph_format.space_after = Pt(2)
+    p.paragraph_format.space_after = Pt(4)
 
     _, cur = omath_display(doc, body, cur, [
         _msub('DWL', 'alloc'), _t(' = '),
@@ -5640,10 +5641,24 @@ def apply_formatting(doc, body, refs, title_el, author_el, ver_el, abs_text_el):
             # Preserve title page spacing
             if p._element in _protected:
                 continue
-            p.paragraph_format.space_before = Pt(0)
-            # Preserve Pt(2) spacing on paragraphs immediately before equations
-            if p.paragraph_format.space_after is None or p.paragraph_format.space_after >= Pt(8):
-                p.paragraph_format.space_after = Pt(0)
+            # Preserve table note / table cell formatting (line_spacing set explicitly)
+            if p.paragraph_format.line_spacing is not None and p.paragraph_format.line_spacing != 1.5:
+                if p.paragraph_format.line_spacing <= 1.0:
+                    continue
+            # 1.5 line spacing for body paragraphs
+            p.paragraph_format.line_spacing = 1.5
+            # Post-equation paragraph: previous sibling is a w:tbl (display equation)
+            prev_sib = p._element.getprevious()
+            is_post_eq = (prev_sib is not None and prev_sib.tag == qn('w:tbl'))
+            if is_post_eq:
+                p.paragraph_format.space_before = Pt(4)
+            else:
+                p.paragraph_format.space_before = Pt(0)
+            # Preserve Pt(4) spacing on paragraphs immediately before equations
+            if p.paragraph_format.space_after is not None and p.paragraph_format.space_after <= Pt(4):
+                pass  # keep pre-equation Pt(4)
+            else:
+                p.paragraph_format.space_after = Pt(8)
 
 
 def add_page_numbers_and_break(doc, body, kw_el):
