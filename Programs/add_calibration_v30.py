@@ -4524,7 +4524,7 @@ def write_figure1_calibration(doc, body, last_ref):
     """Insert Figure 1 (calibration strategy flowchart) after references."""
     print("Inserting Figure 1 (Calibration Strategy)...")
 
-    fig_path = DOCS / "calibration_strategy_v28_slide2.png"
+    fig_path = DOCS / "calibration_strategy_v31.png"
 
     # Page break before figure
     pb_el = add_page_break(doc, body, last_ref)
