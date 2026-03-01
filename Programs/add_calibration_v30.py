@@ -932,6 +932,7 @@ def make_footnote(p, fn_text, fn_id):
     fn_ref_el.set(qn('w:id'), str(fn_id))
     fn_ref_r.append(fn_ref_el)
     p._element.append(fn_ref_r)
+    return fn_p  # allow caller to append hyperlinks / extra runs
 
 
 def flush_footnotes():
@@ -970,7 +971,6 @@ CITATIONS = [
     ('Liu et al.', '2023', 'Liu2023', 'Liu, Z.'),
     ('Goldfarb and Trefler', '2018', 'Goldfarb2018', 'Goldfarb, A.'),
     ('Korinek and Stiglitz', '2021', 'Korinek2021', 'Korinek, A.'),
-    ('UNCTAD', '2025', 'UNCTAD2025', 'UNCTAD. (2025)'),
     ('Google', '2024', 'Google2024', 'Google. (2024)'),
 
     ('Brainard', '1997', 'Brainard1997', 'Brainard, S.'),
@@ -992,7 +992,6 @@ CITATIONS = [
     ('Lehdonvirta et al.', '2024', 'Lehdonvirta2024',
      'Lehdonvirta, V.'),
     ('Pilz et al.', '2025', 'Pilz2025', 'Pilz, K.'),
-    ('Turner Lee and West', '2025', 'TurnerLee2025', 'Turner Lee, N.'),
     ('IMF', '2025', 'IMF2025', 'IMF. (2025)'),
     ('Lazard', '2025', 'Lazard2025', 'Lazard. (2025)'),
     ('Arkolakis et al.', '2012', 'ACR2012',
@@ -1003,13 +1002,7 @@ CITATIONS = [
     ('Calcaterra et al.', '2024', 'Calcaterra2024', 'Calcaterra, M.'),
     # v24: Bailey et al. for UN General Assembly ideal-point data
     ('Bailey, Strezhnev, and Voeten', '2017', 'BaileyEtAl2017', 'Bailey, M.'),
-    # v26: SEZ/institutional floor references
-    ('Farole', '2011', 'Farole2011', 'Farole, T.'),
-    ('Frick, Rodr\u00EDguez-Pose, and Wong', '2019', 'Frick2019', 'Frick, S.'),
-    ('World Bank', '2017', 'WorldBank2017', 'World Bank. (2017)'),
-    # v27: Enterprise Surveys reference for grid reliability data
-    ('World Bank Enterprise Surveys', '2025', 'WBES2025',
-     'World Bank. (2025). Enterprise'),
+    ('Benz and Jaax', '2020', 'BenzJaax2020', 'Benz, S.'),
 ]
 
 # Auto-generate CITE_MAP: both "Author (Year)" and "Author Year" forms
@@ -1122,10 +1115,7 @@ ITALIC_IN_REFS = {
     'Blinder': 'Foreign Affairs',
     'Stojkoski': 'Nature Communications',
     'World Bank. (2025). Digital': 'Digital Progress and Trends Report 2025',
-    'World Bank. (2025). Enterprise': 'Enterprise Surveys',
-    'World Bank. (2017)': 'Special Economic Zones: An Operational Review of Their Impacts',
-    'Farole': 'Special Economic Zones in Africa: Comparing Performance and Learning from Global Experiences',
-    'Frick': 'Economic Geography',
+    'Benz': 'OECD Trade Policy Papers',
 }
 
 
@@ -1296,7 +1286,7 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
     ver_p, ver_el = mkp(doc, body, author_el, space_before=2)
     ver_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     ver_p.paragraph_format.space_after = Pt(12)
-    r_ver = ver_p.add_run(f'v28  \u2014  {datetime.now().strftime("%B %d, %Y  %H:%M")}')
+    r_ver = ver_p.add_run(f'v30  \u2014  {datetime.now().strftime("%B %d, %Y  %H:%M")}')
     r_ver.font.size = Pt(9)
     r_ver.font.color.rgb = RGBColor(128, 128, 128)
     r_ver.font.name = TIMES_NEW_ROMAN
@@ -1336,12 +1326,8 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
     ver_el.addnext(el)
     abs_text_el = el
 
-    # Blank line after abstract
-    p_blank, blank_el = mkp(doc, body, abs_text_el)
-    p_blank.add_run(' ')
-
     # JEL classification and keywords after abstract
-    p_jel, jel_el = mkp(doc, body, blank_el)
+    p_jel, jel_el = mkp(doc, body, abs_text_el)
     p_jel.paragraph_format.left_indent = Inches(0.5)
     p_jel.paragraph_format.right_indent = Inches(0.5)
     p_jel.paragraph_format.line_spacing = 1.0
@@ -1468,10 +1454,7 @@ def write_literature(doc, body, hmap):
         'determinant. In our setting, network latency plays analogous role.'
     )
 
-    # Blank separator
-    p, cur = mkp(doc, body, cur)
-
-    # IT-offshoring contrast + data center location literature
+    # IT-offshoring contrast
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'The closest precedent to our model is IT services offshoring, which is labor-intensive and skill-biased '
@@ -1479,8 +1462,13 @@ def write_literature(doc, body, hmap):
         'fundamentally different \u2014 energy-rich countries rather than labor-abundant ones. '
         'A deeper difference is structural: because the key traded input (GPUs) is globally priced, '
         'cross-country cost variation comes entirely from energy and facilities, which together account '
-        'for a small share of unit cost. Comparative advantage in compute is therefore narrower and more '
+        'for a small share of unit cost. Comparative advantages in compute is therefore narrower and more '
         'fragile than in services offshoring, where factor-price gaps are large.'
+    )
+
+    # Data center location literature
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
         'Several studies examine where firms should build data centers. '
         'Flucker et al. (2013) show that climate affects data center '
         'cooling costs. '
@@ -1509,9 +1497,6 @@ def write_literature(doc, body, hmap):
         'training\u2013inference distinction.'
     )
 
-    # Blank separators at end of lit review
-    p, cur = mkp(doc, body, cur)
-    p, cur = mkp(doc, body, cur)
 
 
 def write_production_technology(doc, body, hmap):
@@ -2131,7 +2116,7 @@ def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
     c_sub2.append(c_s2)
 
     _, cur = omath_display(doc, body, cur, [
-        _msubsup('p', 'I', 'f'), _t('('), _v('k'), _t(') = (1 + '),
+        _msub('p', 'I'), _t('('), _v('k'), _t(') = (1 + '),
         _v('\u03C4'), _t(' \u00b7 '), l_sub,
         _t(') \u00b7 '), c_sub2, _t(','),
     ], eq_num='6')
@@ -2568,7 +2553,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_v('\u03C6'), _t(' = 1.08')])
     p.add_run(
         ' matches Google\u2019s reported PUE for facilities with free-air cooling '
-        'in cold climates (Uptime Institute 2024). The sensitivity coefficient '
+        'in cold climates (Google 2024). The sensitivity coefficient '
     )
     omath(p, [_v('\u03B4'), _t(' = 0.015')])
     p.add_run(
@@ -2648,11 +2633,16 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run('. For non-adversarial pairs without regulatory agreements, ')
     omath(p, [_msub('\u03BB', 'ij')])
     p.add_run(' falls in the range 0.04\u20130.07.')
-    make_footnote(p, 'The bilateral sovereignty coefficients capture the geopolitical and '
-                  'data-governance components of services trade costs, which constitute a subset '
-                  'of the full regulatory barriers estimated at approximately 16% for communication '
-                  'services (Benz and Jaax 2020). '
-                  'The uniform 10% premium serves as a robustness benchmark.', 15)
+    fn15_p = make_footnote(
+        p, 'The bilateral sovereignty coefficients capture the geopolitical and '
+        'data-governance components of services trade costs, which constitute a subset '
+        'of the full regulatory barriers estimated at approximately 16% for communication '
+        'services (', 15)
+    fn15_p.append(make_hyperlink('BenzJaax2020', 'Benz and Jaax 2020'))
+    fn15_r = etree.SubElement(fn15_p, f'{{{W_NS}}}r')
+    fn15_t = etree.SubElement(fn15_r, f'{{{W_NS}}}t')
+    fn15_t.set(XML_SPACE, SPACE_PRESERVE)
+    fn15_t.text = '). The uniform 10% premium serves as a robustness benchmark.'
     p.add_run(' As a robustness check, we also report results under a uniform premium ')
     omath(p, [_v('\u03BB'), _t(f' = {LAMBDA:.0%}')])
     p.add_run('. The training share of compute demand is ')
@@ -2867,7 +2857,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         '/hr, set by the marginal exporter\u2019s cost. '
         f'Training demand is served by {n_exp} exporter{"s" if n_exp > 1 else ""} '
-        f'(HHI = {cap_hhi:.2f}), confirming Proposition 2. '
+        f'(HHI = {cap_hhi:.4f}), confirming Proposition 2. '
     )
     if mu_vals:
         top_mu = sorted(mu_vals.items(), key=lambda x: -x[1])[:3]
@@ -2908,7 +2898,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'Inference exports are more dispersed, with the top five exporters being '
         f'{inf_list}, collectively accounting for '
         f'{sum(round(s * 100) for _, s in top5_inf):.0f}% of cross-border inference demand '
-        f'(HHI = {demand_data["hhi_i"]:.2f}). '
+        f'(HHI = {demand_data["hhi_i"]:.4f}). '
     )
 
     # ── A4. Developing countries (KEEP P79) ── (only create paragraph if content)
@@ -3007,9 +2997,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
             'The ease with which modest premia eliminate trade explains the '
             'welfare costs documented below.'
         )
-
-    # Blank separator
-    p, cur = mkp(doc, body, cur)
 
     # ── A4. Welfare cost of sovereignty (KEEP P81) ──
     p, cur = mkp(doc, body, cur)
@@ -3237,10 +3224,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
                   'AI workloads (Deloitte 2025). Results are robust to moderate variation in '
                   'these shares.', 17)
 
-    # Blank separators before conclusion
-    p, cur = mkp(doc, body, cur)
-    p, cur = mkp(doc, body, cur)
-    p, cur = mkp(doc, body, cur)
 
 
 def write_conclusion(doc, body, hmap, demand_data):
@@ -3255,50 +3238,49 @@ def write_conclusion(doc, body, hmap, demand_data):
 
     p, cur_concl = mkp(doc, body, sec8)
     p.add_run(
-        'This paper develops a capacity-constrained Ricardian model of compute trade, '
+        'In this paper, we develop a capacity-constrained Ricardian model of compute trade, '
         'distinguishing latency-insensitive training from latency-sensitive inference and '
         'incorporating bilateral sovereignty premia. '
-        'The calibration reveals a paradox: energy-rich developing countries hold a genuine '
+        'The calibration reveals that energy-rich developing countries hold a genuine '
         'cost advantage in compute production, but bilateral trust deficits eliminate that '
         'advantage for nearly all of them. '
         'Under the bilateral specification, only Canada exports; sovereignty premia '
         'shift every other country toward domestic production or importing, '
         f'at a demand-weighted welfare cost of {demand_data["welfare_pct"]:.1f}% of '
         'compute spending. '
-        'This paradox is the core finding: the countries best positioned to export compute '
+        'Thus, countries best positioned to export compute '
         'on cost grounds are precisely those excluded by bilateral trust deficits. '
         'Because hardware accounts for roughly 90 percent of unit cost and is globally '
-        'priced, the cross-country cost spread is only 12\u201320 percent \u2014 narrower than '
+        'priced, the cross-country cost spread is only 12\u201320 percent, narrower than '
         'virtually any other tradable good. This makes compute both the easiest sector for '
         'developing countries to enter on cost grounds and the one most vulnerable to small '
-        'frictions: a modest sovereignty premium, a slight governance penalty, or a higher '
-        'cost of capital is sufficient to shift a country from exporter to importer. '
+        'frictions. Even a modest sovereignty premium, a slight governance penalty, or a higher '
+        'cost of capital is sufficient to alter a country\u2019s trade regime. '
     )
 
     p, cur_concl = mkp(doc, body, cur_concl)
     p.add_run(
         'For developing countries, the results identify both the opportunity and the barrier. '
-        'Countries like Kyrgyzstan, Kosovo, Ethiopia, and Vietnam rank among the cheapest '
-        'FLOP producers under cost-recovery pricing, and could use their energy '
-        'resource endowments (hydropower, natural gas, and solar irradiance) to turn '
-        'cheap power into exportable compute without building a domestic AI research ecosystem. '
+        'Countries that ranked among the cheapest '
+        'FLOP producers under cost-recovery pricing could use their energy '
+        'resource endowments to turn '
+        'cheap power into exportable compute. '
         'But the bilateral specification shows that this opportunity is blocked by trust '
         'deficits. '
         'The binding constraint is therefore not electricity cost but institutional credibility: '
         'a country must be non-sanctioned, offer credible power purchase agreements, maintain '
         'adequate network connectivity, and present a regulatory environment stable enough for '
         'a hyperscaler to commit capital over a 15-year horizon. '
-        'These are achievable conditions. The countries currently attracting hyperscaler '
-        'investment \u2014 India, Kenya, Malaysia, Indonesia \u2014 meet them. Those that do not, '
-        'despite lower electricity costs, lack one or more of these prerequisites. '
-        'The progression across Table 3 makes the stakes concrete: cheap energy gets a country '
-        'into the cost-feasible set (column 2), but bilateral trust eliminates the opportunity '
-        '(column 3). '
-        'FLOP exporting resembles aluminum smelting near cheap hydropower \u2014 imported '
+        'These are achievable conditions. '
+        'FLOP exporting resembles aluminum smelting near cheap hydropower. Imported '
         'capital equipment transforms local electricity into an exportable product with '
-        'minimal domestic labor \u2014 but electricity, unlike oil or minerals, is renewable '
+        'minimal domestic labor,  but electricity, unlike oil or minerals, is renewable '
         'where generated from hydro, solar, or geothermal sources, and compute demand is '
         'growing faster than demand for any physical commodity. '
+    )
+
+    p, cur_concl = mkp(doc, body, cur_concl)
+    p.add_run(
         'The resource curse literature (van der Ploeg 2011) warns, however, that '
         'concentrated export revenues can lead to Dutch disease, institutional degradation, '
         'and exposure to demand cycles. '
@@ -3309,10 +3291,6 @@ def write_conclusion(doc, body, hmap, demand_data):
         'Whether FLOP exporting countries share these risks depends on the revenue-sharing '
         'model they adopt: a sovereign wealth fund approach (Norway) versus elite capture '
         '(Dutch disease). '
-        'The share of surplus retained in the host country depends on ownership and fiscal '
-        'structure: if the facility is foreign-owned, most operating surplus is repatriated, '
-        'and the host retains only the electricity payment unless the government captures rent '
-        'through taxation, equity participation, or resource royalties.'
     )
 
     p, _ = mkp(doc, body, cur_concl)
@@ -3785,7 +3763,7 @@ def write_model_appendix(doc, body, last_note):
     omath(p, [_v('k')])
     p.add_run(' is ')
     omath(p, [_msub('r', 'I'), _t('('), _v('j'), _t(', '), _v('k'),
-              _t(') = '), _msubsup('p', 'I', 'f'), _t('('), _v('k'),
+              _t(') = '), _msub('p', 'I'), _t('('), _v('k'),
               _t(') / (1 + '), _v('\u03C4'), _t(' \u00b7 '),
               _msub('l', 'jk'), _t(') \u2212 '), _msub('c', 'j')])
     p.add_run('.')
@@ -3803,7 +3781,7 @@ def write_model_appendix(doc, body, last_note):
     omath(p, [_v('k')])
     p.add_run(': ')
     omath(p, [_msub('r', 'I'), _t('('), _v('j'), _t(', '), _v('k'),
-              _t(') = '), _msubsup('p', 'I', 'f'), _t('('), _v('k'),
+              _t(') = '), _msub('p', 'I'), _t('('), _v('k'),
               _t(') / (1 + '), _v('\u03C4'), _t(' \u00b7 '),
               _msub('l', 'jk'), _t(') \u2212 '), _msub('c', 'j')])
     p.add_run(
@@ -3833,7 +3811,7 @@ def write_model_appendix(doc, body, last_note):
     )
     omath(p, [_msub('p', 'T')])
     p.add_run(', inference prices ')
-    omath(p, [_t('{'), _msubsup('p', 'I', 'f'), _t('('), _v('k'), _t(')}')])
+    omath(p, [_t('{'), _msub('p', 'I'), _t('('), _v('k'), _t(')}')])
     p.add_run(', and capacity allocations ')
     omath(p, [_t('{'), _msub('K', 'j'), _t('}')])
     p.add_run(
@@ -4097,9 +4075,14 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
     p.add_run(
         'This appendix presents a 15-year discounted cash flow (DCF) analysis for a '
         'hypothetical 40\u2009MW data center in Kyrgyzstan, the lowest-cost seller in the '
-        'cost-recovery-adjusted calibration. All parameters are drawn from the calibration '
-        'or from industry benchmarks.'
+        'cost-recovery-adjusted calibration. '
     )
+    p._element.append(make_hyperlink('TableA4', 'Table\u2009A4'))
+    p.add_run(' summarizes facility parameters, ')
+    p._element.append(make_hyperlink('TableA5', 'Table\u2009A5'))
+    p.add_run(' presents the year-by-year cash flow, and ')
+    p._element.append(make_hyperlink('TableA6', 'Table\u2009A6'))
+    p.add_run(' reports sensitivity to parameter variation.')
 
     # ── Table A4: Facility specification ──────────────────────────────────
     specs_rows = [
@@ -4222,7 +4205,7 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
     r = p.add_run('Risks. ')
     r.bold = True
     p.add_run(
-        'Kyrgyzstan depends on the Toktogul reservoir for over 80% of electricity; '
+        'Kyrgyzstan depends on the Toktogul reservoir for over 80\u2009percent of electricity (ABD 2020); '
         'seasonal drawdowns and drought years create acute power shortages. '
         'GPU procurement faces US export-control uncertainty. '
         'Underdeveloped contract enforcement and regulatory frameworks raise the '
@@ -4230,7 +4213,11 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
         'Despite these risks, the engineering economics are clear: '
         'electricity at $0.038/kWh and a PUE of 1.08 yield production costs well below '
         'the global median, and the positive NPV survives eight of ten '
-        'perturbations in Table\u2009A6.'
+        'perturbations in '
+    )
+    p._element.append(make_hyperlink('TableA6', 'Table\u2009A6'))
+    p.add_run(
+        '.'
         ' The share of this surplus retained in Kyrgyzstan depends on the ownership and '
         'fiscal structure: if the facility is owned by a foreign hyperscaler, most operating '
         'surplus flows abroad as repatriated profits, and the host country retains only the '
@@ -4843,7 +4830,6 @@ def write_table2(doc, body, after_el, demand_data):
         'Liu et al. (2023)': 'Liu2023',
         'Flucker et al. (2013)': 'Flucker2013',
         'Turner and Townsend (2025)': 'TurnerTownsend2025',
-        'UNCTAD (2025)': 'UNCTAD2025',
         'Deloitte (2025)': 'Deloitte2025',
         'Bailey et al. (2017)': 'Bailey2017',
         'Epoch AI (2024)': 'EpochAI2024',
@@ -5162,6 +5148,7 @@ def write_table3(doc, body, after_el, demand_data):
         'Under specs (1)\u2013(2), \u03bb = 0, so P\u2c7c = c\u2c7c. '
         'Under spec (3), P\u2c7c\u2096 = c\u2c7c(1 + \u03bb\u2c7c\u2096) where k = United States. '
         'EE\u2009=\u2009training + inference exporter; IE\u2009=\u2009inference exporter; '
+        'ID\u2009=\u2009hybrid (imports training, domestic inference); '
         'DD\u2009=\u2009domestic producer; II\u2009=\u2009full importer. '
         '(1)\u2009Raw: observed electricity tariffs. '
         '(2)\u2009Cost-recovery: subsidized tariffs replaced with LRMC. '
@@ -5209,6 +5196,16 @@ def write_references(doc, body, refs):
 
     # Page break before References heading
     add_page_break(doc, body, refs.getprevious())
+    # Also set page_break_before on the heading itself as a belt-and-suspenders fix
+    from docx.oxml.ns import qn as _qn
+    pPr = refs.find(_qn('w:pPr'))
+    if pPr is None:
+        pPr = OxmlElement('w:pPr')
+        refs.insert(0, pPr)
+    pb = pPr.find(_qn('w:pageBreakBefore'))
+    if pb is None:
+        pb = OxmlElement('w:pageBreakBefore')
+        pPr.append(pb)
 
     all_now = list(body)
     ri = all_now.index(refs)
@@ -5316,12 +5313,6 @@ def write_references(doc, body, refs):
         'Turner & Townsend. (2025). Data Centre Construction Cost Index 2025. '
         'turnerandtownsend.com.',
 
-        'Turner Lee, N., and D. West. (2025). \u201CThe Future of Data Centers.\u201D '
-        'Brookings Institution, November 2025.',
-
-        'UNCTAD. (2025). Technology and Innovation Report 2025. Geneva: United Nations.',
-
-
         'Uptime Institute. (2024). Global Data Center Survey Results 2024. uptimeinstitute.com.',
 
         'WonderNetwork. (2024). Global Ping Statistics. wondernetwork.com.',
@@ -5365,19 +5356,6 @@ def write_references(doc, body, refs):
         'World Bank. (2025). Digital Progress and Trends Report 2025: '
         'Strengthening AI Foundations. Washington, DC: World Bank.',
 
-        'World Bank. (2025). Enterprise Surveys. '
-        'Washington, DC: World Bank. enterprisesurveys.org.',
-
-        'Farole, T. (2011). Special Economic Zones in Africa: '
-        'Comparing Performance and Learning from Global Experiences. '
-        'Washington, DC: World Bank.',
-
-        'Frick, S., A. Rodr\u00EDguez-Pose, and M. Wong. (2019). \u201CToward Economically '
-        'Dynamic Special Economic Zones in Emerging Countries.\u201D '
-        'Economic Geography, 95(1): 30\u201364.',
-
-        'World Bank. (2017). Special Economic Zones: An Operational Review '
-        'of Their Impacts. Washington, DC: World Bank.',
     ]
 
     ref_txts = sorted(new_refs, key=lambda x: x.lower())
