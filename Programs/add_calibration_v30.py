@@ -2417,8 +2417,39 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     r.italic = True
     p.add_run(
         'If a country is cheap enough to export training (which can be done from anywhere), '
-        'it is also cheap enough to export inference to nearby demand centers. '
-        'The set of training exporters is therefore a subset of the inference exporters for demand centers '
+        'it is also cheap enough to export inference to nearby demand centers.'
+    )
+    # Footnote 9: nesting result assumes non-empty latency cone
+    fn9_p = make_footnote(p,
+        'The nesting result assumes that the training exporter\u2019s '
+        'latency cone is non-empty, i.e., there exists at least one country '
+        'j with positive compute demand such that ', 23)
+    fn9_om = OxmlElement('m:oMath')
+    fn9_om.append(_msub('d', 'ij'))
+    fn9_om.append(_t(' < '))
+    fn9_om.append(_msub('\u03C4', 'max'))
+    fn9_p.append(fn9_om)
+    fn9_r = etree.SubElement(fn9_p, f'{{{W_NS}}}r')
+    fn9_t = etree.SubElement(fn9_r, f'{{{W_NS}}}t')
+    fn9_t.set(XML_SPACE, SPACE_PRESERVE)
+    fn9_t.text = ('. A hypothetical country with the globally lowest production cost '
+                  'but round-trip latency exceeding ')
+    fn9_om2 = OxmlElement('m:oMath')
+    fn9_om2.append(_msub('\u03C4', 'max'))
+    fn9_p.append(fn9_om2)
+    fn9_r2 = etree.SubElement(fn9_p, f'{{{W_NS}}}r')
+    fn9_t2 = etree.SubElement(fn9_r2, f'{{{W_NS}}}t')
+    fn9_t2.set(XML_SPACE, SPACE_PRESERVE)
+    fn9_t2.text = (' to every country with positive compute demand would export '
+                   'training (which is latency-insensitive) yet be unable to serve any '
+                   'inference market, a \u201cpure training exporter\u201d regime not '
+                   'listed in Table 1. This case is empirically negligible in the '
+                   'calibration: any country remote enough to have an empty latency '
+                   'cone (e.g., a mid-Pacific island) typically also faces prohibitive '
+                   'governance and construction cost penalties that exclude it from '
+                   'the training market.')
+    p.add_run(
+        ' The set of training exporters is therefore a subset of the inference exporters for demand centers '
         'within the latency threshold '
     )
     omath(p, [_mbar('l')])
@@ -3118,24 +3149,19 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         p._element.append(make_bookmark_end(143))
         p.add_run(
             ' reports results across three robustness specifications, varying the '
-            'hardware cost share.'
+            'hardware cost share. '
+            'The sensitivity results can be read as comparative statics. A rise in global '
+            'hardware costs increases the globally-priced cost share, compressing the '
+            'locally-penalized component and muting governance penalties for '
+            'developing-country exporters. On the other hand, improved cooling '
+            'technology that flattens the PUE\u2013temperature curve narrows the advantage of '
+            'cold-climate countries but leaves energy-price differences intact. A reduction in '
+            'sovereignty frictions shifts countries from domestic production to importing, '
+            'expanding trade volumes, but reducing rents for exporters. An increase in local '
+            'energy prices '
+            'erodes the cost advantage that defines FLOP-exporting potential, as the endogenous '
+            'electricity price extension above illustrates.'
         )
-
-    # Comparative statics intuition (ChatGPT review)
-    p, cur = mkp(doc, body, cur)
-    p.add_run(
-        'The sensitivity results can be read as comparative statics. A rise in global '
-        'hardware costs increases the globally-priced cost share, compressing the '
-        'locally-penalized component and muting governance penalties for '
-        'developing-country exporters. On the other hand, improved cooling '
-        'technology that flattens the PUE\u2013temperature curve narrows the advantage of '
-        'cold-climate countries but leaves energy-price differences intact. A reduction in '
-        'sovereignty frictions shifts countries from domestic production to importing, '
-        'expanding trade volumes, but reducing rents for exporters. An increase in local '
-        'energy prices '
-        'erodes the cost advantage that defines FLOP-exporting potential, as the endogenous '
-        'electricity price extension above illustrates.'
-    )
 
     # ── B5b. Hardware cost share robustness ──
     p, cur = mkp(doc, body, cur, space_before=6)
