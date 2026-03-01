@@ -100,17 +100,13 @@ from datetime import datetime
 from decimal import Decimal, ROUND_HALF_UP
 from functools import partial
 
-import matplotlib
-
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt  # noqa: E402
-from docx import Document  # noqa: E402
-from docx.enum.table import WD_TABLE_ALIGNMENT  # noqa: E402
-from docx.enum.text import WD_ALIGN_PARAGRAPH  # noqa: E402
-from docx.oxml import OxmlElement  # noqa: E402
-from docx.oxml.ns import qn  # noqa: E402
-from docx.shared import Inches, Pt, RGBColor  # noqa: E402
-from lxml import etree  # noqa: E402
+from docx import Document
+from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
+from docx.shared import Inches, Pt, RGBColor
+from lxml import etree
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
@@ -307,7 +303,6 @@ GPU_EXPORT_CONTROLLED = {'CHN'}
 GPU_CONTROL_ALPHA3 = 0.10  # partial α₃ for GPU-controlled (not full sanction)
 
 
-
 def recompute_costs(cal, gpu_price=None, gpu_util=None,
                     p_E_delta=0.0, pue_cap=None, subsidy_adj=None):
     """Re-derive c_j from CSV primitives with parameter overrides."""
@@ -380,7 +375,7 @@ def run_sensitivity(cal, omega, dc_k, k_bar, sanctioned):
         # Spearman rank correlation vs baseline
         n = len(ranked)
         d_sq = sum((d["rank_cr"] - baseline_ranks.get(d["iso"], d["rank_cr"])) ** 2
-                    for d in ranked)
+                   for d in ranked)
         spearman = 1 - 6 * d_sq / (n * (n ** 2 - 1)) if n > 1 else 1.0
         # Top 5
         top5_names = [d["country"] for d in ranked[:5]]
@@ -666,7 +661,8 @@ def omath_display(doc, body, cursor, parts, eq_num=None):
     if eq_num:
         # Add bookmark target so in-text "equation (N)" mentions can link here
         bm_name = f'Eq{eq_num}'
-        _eq_clean = eq_num.replace('.', '').replace('B', '90').replace('a', '01').replace('b', '02').replace('\u2032', '9')
+        _eq_clean = (eq_num.replace('.', '').replace('B', '90')
+                     .replace('a', '01').replace('b', '02').replace('\u2032', '9'))
         bm_id_val = 800 + int(_eq_clean)
         p1._element.append(make_bookmark(bm_id_val, bm_name))
         p1.add_run(f'({eq_num})')
@@ -1435,7 +1431,6 @@ def write_introduction(doc, body, hmap):
     )
 
 
-
 def write_literature(doc, body, hmap):
     print("Inserting Section 2: Related Literature...")
     cur = mkh(doc, body, hmap['1'].getprevious(), '2. Related Literature', level=1)
@@ -1496,7 +1491,6 @@ def write_literature(doc, body, hmap):
         'homogeneous. The present model adds supply-side cost structure and a '
         'training\u2013inference distinction.'
     )
-
 
 
 def write_production_technology(doc, body, hmap):
@@ -2395,12 +2389,12 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         'because higher world prices make imports more expensive.'
     )
     make_footnote(p,
-        'For large-demand countries (e.g., the United States with 43% of global compute '
-        'demand), the observed domestic production may partly reflect scale economies '
-        'rather than sovereignty preferences. The switching threshold \u03bb\u2096* conflates '
-        'the home market effect with the sovereignty premium; disentangling the two would '
-        'require a model with increasing returns, which lies outside the present framework.',
-        22)
+                  'For large-demand countries (e.g., the United States with 43% of global compute '
+                  'demand), the observed domestic production may partly reflect scale economies '
+                  'rather than sovereignty preferences. The switching threshold \u03bb\u2096* conflates '
+                  'the home market effect with the sovereignty premium; disentangling the two would '
+                  'require a model with increasing returns, which lies outside the present framework.',
+                  22)
 
     # Corollary
     p, cur = mkp(doc, body, cur, space_before=6)
@@ -2421,9 +2415,9 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     )
     # Footnote 9: nesting result assumes non-empty latency cone
     fn9_p = make_footnote(p,
-        'The nesting result assumes that the training exporter\u2019s '
-        'latency cone is non-empty, i.e., there exists at least one country '
-        'j with positive compute demand such that ', 23)
+                          'The nesting result assumes that the training exporter\u2019s '
+                          'latency cone is non-empty, i.e., there exists at least one country '
+                          'j with positive compute demand such that ', 23)
     fn9_om = OxmlElement('m:oMath')
     fn9_om.append(_msub('d', 'ij'))
     fn9_om.append(_t(' < '))
@@ -2491,7 +2485,8 @@ def write_data_section(doc, body, hmap, demand_data):
         '(EIA 2025) for the United States, KEPCO for South Korea,'
     )
     make_footnote(p,
-        'Korea Electric Power Corporation (KEPCO), Electricity Rate Table, accessed January 2025.', 24)
+                  'Korea Electric Power Corporation (KEPCO), Electricity Rate Table, '
+                  'accessed January 2025.', 24)
     p.add_run(
         ' national utility tariffs for '
         'Central Asian countries, and '
@@ -2537,10 +2532,10 @@ def write_data_section(doc, body, hmap, demand_data):
         '(Synergy Research, Cushman & Wakefield, CBRE, Mordor Intelligence).'
     )
     make_footnote(p,
-        'Synergy Research Group, Global Data Center Market Share (Q4 2024); '
-        'Cushman & Wakefield, Global Data Center Market Comparison (2024); '
-        'CBRE, Global Data Center Trends (2025); '
-        'Mordor Intelligence, Data Center Market Forecast (2025).', 25)
+                  'Synergy Research Group, Global Data Center Market Share (Q4 2024); '
+                  'Cushman & Wakefield, Global Data Center Market Comparison (2024); '
+                  'CBRE, Global Data Center Trends (2025); '
+                  'Mordor Intelligence, Data Center Market Forecast (2025).', 25)
     p.add_run(
         ' '
         'For smaller markets, capacity is estimated from facility counts (Cloudscene 2025) and regional averages. '
@@ -2830,7 +2825,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     # ── A4. Bilateral sovereignty — Table 3 col (3) ──
     # Use table3 lam_k_star for inline values (consistency with table)
     _t3 = demand_data["table3"]
-    _lks = {d["iso"]: d.get("lam_k_star", 0) for d in _t3}
     p, cur = mkp(doc, body, cur)
     p.add_run('The bilateral sovereignty premium ')
     omath(p, [_msub('\u03BB', 'ij')])
@@ -2857,8 +2851,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     cap_hhi = demand_data.get("cap_hhi_t", 1.0)
     p_T_val = demand_data.get("p_T", 1.10)
     mu_vals = demand_data.get("mu_j", {})
-    n_exp_sov = demand_data.get("n_train_exporters_sov", 1)
-    cap_hhi_sov = demand_data.get("cap_hhi_t_sov", 1.0)
     p_T_sov = demand_data.get("p_T_sov", p_T_val)
     ir = demand_data["inf_revenue"]
 
@@ -2962,7 +2954,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     usa_inf = ar.get('USA', {}).get('best_inf_source', 'CAN')
     deu_inf = ar.get('DEU', {}).get('best_inf_source', 'KOS')
     gbr_inf = ar.get('GBR', {}).get('best_inf_source', 'GBR')
-    fra_inf = ar.get('FRA', {}).get('best_inf_source', 'FRA')
     # For China: use cheapest *foreign* inference source (exclude self-sourcing)
     chn_inf = ar.get('CHN', {}).get('best_foreign_inf') or 'KGZ'
     p.add_run(
@@ -2973,7 +2964,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'{_iso_name.get(usa_inf, usa_inf)}. '
         'For Germany and France, inference is sourced from '
         f'{_iso_name.get(deu_inf, deu_inf)}, '
-        f'and for the United Kingdom, {"domestically" if gbr_inf == "GBR" else "from " + _iso_name.get(gbr_inf, gbr_inf)}. '
+        f'and for the United Kingdom, '
+        f'{"domestically" if gbr_inf == "GBR" else "from " + _iso_name.get(gbr_inf, gbr_inf)}. '
         f'For China, the cheapest foreign source of inference is {_iso_name.get(chn_inf, chn_inf)}. '
         'Inference supply thus concentrates around latency-bounded regional hubs, '
         'each major market sourcing from a distinct nearby producer.'
@@ -3221,7 +3213,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
                   'approximate composition of government, regulated-industry, and commercial '
                   'AI workloads (Deloitte 2025). Results are robust to moderate variation in '
                   'these shares.', 17)
-
 
 
 def write_conclusion(doc, body, hmap, demand_data):
@@ -5046,7 +5037,6 @@ def write_table3(doc, body, after_el, demand_data):
     top_cr = sorted(table3_data, key=lambda x: x["cj_cr"])[:25]
     # Bilateral: sort by delivered price P(j,USA), exclude inf (sanctioned)
     finite_bilat = [d for d in table3_data if d["p_bilat_usa"] < float('inf')]
-    inf_bilat = [d for d in table3_data if d["p_bilat_usa"] == float('inf')]
     top_bilat = sorted(finite_bilat, key=lambda x: x["p_bilat_usa"])[:25]
 
     # ─── Build table (9 columns): Country+P+Type per spec ───
@@ -5665,11 +5655,8 @@ def _add_word_comments(docx_path, comments):
     is anchored to the first paragraph containing that substring.
     """
     import zipfile
-    from io import BytesIO
-
     W = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'
     R_NS = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
-    CT_NS = 'http://schemas.openxmlformats.org/package/2006/content-types'
     COMMENT_REL = ('http://schemas.openxmlformats.org/officeDocument/2006/'
                    'relationships/comments')
     NSMAP = {'w': W, 'r': R_NS}
