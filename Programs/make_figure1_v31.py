@@ -103,7 +103,7 @@ ax.text(0.6, 5.2, 'Step 2: Trade friction adjustments',
 
 # Vertical arrow from Cost-recovery box down to Bilateral box
 v_top = y2 - 0.9      # below the Spec (2) labels
-v_bot = 3.5 + BH + 0.1
+v_bot = 3.6 + BH + 0.1   # just above the bilateral box top
 ax.annotate('', xy=(cx2, v_bot), xytext=(cx2, v_top),
             arrowprops=dict(arrowstyle='->', color=ARR_CLR, lw=2))
 ax.text(cx2 + 1.0, (v_top + v_bot) / 2 + 0.15, 'Apply bilateral',
@@ -113,7 +113,7 @@ ax.text(cx2 + 1.0, (v_top + v_bot) / 2 - 0.2, r'sovereignty $\lambda_{ij}$',
 
 # Box 3: Bilateral sovereignty
 x3 = cx2 - BW / 2
-y3 = 2.0
+y3 = 3.6
 cx3, cy3 = rbox(x3, y3, BW, BH,
                 'Bilateral sovereignty',
                 'Geopolitical + regulatory\n+ sanctions',
@@ -127,7 +127,7 @@ ax.text(cx3, y3 - 0.90, r'$P_{jk} = c_j \,(1 + \lambda_{ij})$',
 
 # ── Robustness: Uniform sovereignty (dashed box, to the left) ───────
 UW, UH = 3.0, 1.25
-ux = x3 - UW - 1.5
+ux = x3 - UW - 1.6
 uy = y3 + (BH - UH) / 2
 uni = FancyBboxPatch((ux, uy), UW, UH, boxstyle="round,pad=0.15",
                       facecolor='white', edgecolor='#aaaaaa',

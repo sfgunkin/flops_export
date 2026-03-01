@@ -996,7 +996,7 @@ CITATIONS = [
     ('Lazard', '2025', 'Lazard2025', 'Lazard. (2025)'),
     ('Arkolakis et al.', '2012', 'ACR2012',
      'Arkolakis, C.'),
-    ('van der Ploeg', '2011', 'vanderPloeg2011', 'van der Ploeg, F.'),
+
     ('Barroso et al.', '2018', 'Barroso2018', 'Barroso, L.'),
     ('ABD', '2020', 'ABD2020', 'Asian Development Bank. (2020)'),
     ('Calcaterra et al.', '2024', 'Calcaterra2024', 'Calcaterra, M.'),
@@ -1108,7 +1108,7 @@ ITALIC_IN_REFS = {
     'U.S. Department': 'Horizontal Merger Guidelines',
     'Arkolakis': 'American Economic Review',
     'Bailey': 'Journal of Conflict Resolution',
-    'van der Ploeg': 'Journal of Economic Literature',
+
     'Barroso': 'The Datacenter as a Computer',
     'Ohlin': 'Interregional and International Trade',
     'Biglaiser': 'Toulouse School of Economics Working Paper',
@@ -1674,7 +1674,7 @@ def write_trade_costs(doc, body, hmap):
         'service quality degrades as delivery delays (latency) increase. '
     )
     add_italic(p, 'Latency')
-    p.add_run(', denoted ')
+    add_italic(p, ', denoted ')
     omath(p, [_msub('l', 'jk')])
     p.add_run(
         ', is the round-trip time for a data packet to travel from seller '
@@ -3238,75 +3238,64 @@ def write_conclusion(doc, body, hmap, demand_data):
 
     p, cur_concl = mkp(doc, body, sec8)
     p.add_run(
-        'In this paper, we develop a capacity-constrained Ricardian model of compute trade, '
-        'distinguishing latency-insensitive training from latency-sensitive inference and '
-        'incorporating bilateral sovereignty premia. '
-        'The calibration reveals that energy-rich developing countries hold a genuine '
-        'cost advantage in compute production, but bilateral trust deficits eliminate that '
-        'advantage for nearly all of them. '
-        'Under the bilateral specification, only Canada exports; sovereignty premia '
-        'shift every other country toward domestic production or importing, '
-        f'at a demand-weighted welfare cost of {demand_data["welfare_pct"]:.1f}% of '
-        'compute spending. '
-        'Thus, countries best positioned to export compute '
-        'on cost grounds are precisely those excluded by bilateral trust deficits. '
-        'Because hardware accounts for roughly 90 percent of unit cost and is globally '
-        'priced, the cross-country cost spread is only 12\u201320 percent, narrower than '
-        'virtually any other tradable good. This makes compute both the easiest sector for '
-        'developing countries to enter on cost grounds and the one most vulnerable to small '
-        'frictions. Even a modest sovereignty premium, a slight governance penalty, or a higher '
-        'cost of capital is sufficient to alter a country\u2019s trade regime. '
+        'In this paper we develop a capacity-constrained Ricardian model of compute '
+        'trade that distinguishes latency-insensitive training from latency-sensitive '
+        'inference and incorporates bilateral sovereignty premia. The model identifies '
+        'the conditions under which energy-rich countries can convert cheap electricity '
+        'into exportable AI compute services, and the conditions under which geopolitical '
+        'frictions prevent them from doing so.'
     )
 
     p, cur_concl = mkp(doc, body, cur_concl)
     p.add_run(
-        'For developing countries, the results identify both the opportunity and the barrier. '
-        'Countries that ranked among the cheapest '
-        'FLOP producers under cost-recovery pricing could use their energy '
-        'resource endowments to turn '
-        'cheap power into exportable compute. '
-        'But the bilateral specification shows that this opportunity is blocked by trust '
-        'deficits. '
-        'The binding constraint is therefore not electricity cost but institutional credibility: '
-        'a country must be non-sanctioned, offer credible power purchase agreements, maintain '
-        'adequate network connectivity, and present a regulatory environment stable enough for '
-        'a hyperscaler to commit capital over a 15-year horizon. '
-        'These are achievable conditions. '
-        'FLOP exporting resembles aluminum smelting near cheap hydropower. Imported '
-        'capital equipment transforms local electricity into an exportable product with '
-        'minimal domestic labor,  but electricity, unlike oil or minerals, is renewable '
-        'where generated from hydro, solar, or geothermal sources, and compute demand is '
-        'growing faster than demand for any physical commodity. '
+        'The calibration on a sample of 85 countries demonstrates that because hardware '
+        'is globally priced and dominates unit cost, the cross-country cost spread in '
+        'compute production is far narrower than in virtually any other tradable sector. '
+        'As a result, countries with cheap electricity and favorable cooling conditions '
+        'face a low absolute barrier to cost-competitiveness. At the same time, the same '
+        'narrowness means that even modest frictions, such as a sovereignty premium, a '
+        'governance penalty, or a higher cost of capital are sufficient to alter a '
+        'country\u2019s trade regime. Compute is therefore simultaneously the easiest sector '
+        'for developing countries to enter on cost grounds and the most vulnerable to '
+        'small policy-induced distortions.'
     )
 
     p, cur_concl = mkp(doc, body, cur_concl)
     p.add_run(
-        'The resource curse literature (van der Ploeg 2011) warns, however, that '
-        'concentrated export revenues can lead to Dutch disease, institutional degradation, '
-        'and exposure to demand cycles. '
-        'Large-scale compute export revenues could also appreciate the real exchange rate, '
-        'crowding out other tradable sectors, a channel particularly relevant for small, '
-        'open economies where data center electricity consumption rivals existing industrial '
-        'load. '
-        'Whether FLOP exporting countries share these risks depends on the revenue-sharing '
-        'model they adopt: a sovereign wealth fund approach (Norway) versus elite capture '
-        '(Dutch disease). '
+        'Under the bilateral sovereignty specification, trust deficits eliminate the cost '
+        'advantage that developing countries hold under pure cost-recovery pricing. The '
+        'binding constraint for compute exporting is not the price of electricity but '
+        'institutional credibility, such as non-sanctioned status, credible long-term '
+        'power contracts, stable network connectivity, and a regulatory environment '
+        'conducive for capital-intensive investment over a multi-decade horizon. These '
+        'conditions are achievable but demanding, and their absence shifts most countries '
+        'toward domestic production at a nontrivial welfare cost. The welfare loss is '
+        'small enough, however, that governments with legitimate data-sovereignty '
+        'objectives may rationally prefer domestic supply. '
+    )
+
+    p, cur_concl = mkp(doc, body, cur_concl)
+    p.add_run(
+        'The policy implications differ by workload type. Restricting training imports '
+        'raises costs without offsetting proximity gains, while domestic inference '
+        'production can be justified by the genuine quality-of-service advantage that '
+        'low latency confers, though this rationale weakens for countries located near '
+        'low-cost neighbors.'
     )
 
     p, _ = mkp(doc, body, cur_concl)
     p.add_run(
-        'The policy implications are asymmetric across training and inference. '
-        'Training workloads tolerate high latency, so restricting training imports '
-        'raises costs without offsetting proximity gains. '
-        'Inference, by contrast, is latency-sensitive, giving domestic production a genuine '
-        'quality-of-service advantage \u2014 though this rationale weakens for countries close '
-        'to low-cost neighbors. '
-        'For developing countries, the progression across Table 3 makes the policy '
-        'challenge concrete: cheap energy gets a country into the cost-feasible set (column 2), '
-        'but bilateral trust eliminates the opportunity (column 3). '
-        'The binding constraints are not technological but institutional: non-sanctioned '
-        'status, credible power purchase agreements, network connectivity, and a regulatory '
-        'environment stable enough to justify a 15-year capital commitment.'
+        'FLOP exporting resembles capital-intensive resource processing when imported '
+        'equipment transforms local energy into an exportable product with minimal '
+        'domestic labor. But unlike extractive commodities, the underlying energy can be '
+        'renewable, and compute demand is growing faster than demand for any physical '
+        'commodity. The resource-curse literature warns that concentrated export revenues '
+        'can lead to exchange-rate appreciation, institutional degradation, and exposure '
+        'to demand cycles; whether compute-exporting countries face these risks depends '
+        'on the ownership and fiscal structures they adopt. As bilateral trade-flow data '
+        'emerge, the framework we developed here can be extended to gravity-style '
+        'estimation, enabling sharper tests of the model\u2019s predictions and more precise '
+        'quantification of the welfare costs of sovereignty.'
     )
 
 
@@ -5337,8 +5326,6 @@ def write_references(doc, body, refs):
         'State Preferences from United Nations Voting Data.\u201D '
         'Journal of Conflict Resolution, 61(2): 430\u2013456.',
 
-        'van der Ploeg, F. (2011). \u201CNatural Resources: Curse or Blessing?\u201D '
-        'Journal of Economic Literature, 49(2): 366\u2013420.',
 
         'Ohlin, B. (1933). Interregional and International Trade. '
         'Cambridge, MA: Harvard University Press.',
