@@ -1010,6 +1010,7 @@ CITATIONS = [
     ('Bailey, Strezhnev, and Voeten', '2017', 'BaileyEtAl2017', 'Bailey, M.'),
     ('Benz and Jaax', '2020', 'BenzJaax2020', 'Benz, S.'),
     # v31: new references
+    ('Caoui and Steck', '2025', 'CaouiSteck2025', 'Caoui, E.'),
     ('Aykut et al.', '2026', 'AykutEtAl2026', 'Aykut, D.'),
     ('Chandramowli et al.', '2024', 'Chandramowli2024', 'Chandramowli, S.'),
     ('Katz et al.', '2025', 'KatzEtAl2025', 'Katz, R.'),
@@ -1128,6 +1129,7 @@ ITALIC_IN_REFS = {
     'World Bank. (2025). Digital': 'Digital Progress and Trends Report 2025',
     'Benz': 'OECD Trade Policy Papers',
     # v31
+    'Caoui': 'Information Economics and Policy',
     'Aykut': 'Watch This Space',
     'Chandramowli': 'Rhodium Group Analysis',
     'Straub': 'Infrastructure Foundations: From Current Assets to Future Growth',
@@ -2858,7 +2860,10 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'Tajikistan, Ethiopia) have received virtually no data-center FDI '
         '(Aykut et al. 2026). Moreover, most announced investment flows between '
         'geopolitical allies, consistent with the bilateral sovereignty premium rather '
-        'than cost alone determining where capacity is built (Straub et al. 2026).'
+        'than cost alone determining where capacity is built (Straub et al. 2026). '
+        'Econometric evidence confirms that electricity costs are not a robust predictor '
+        'of data center location once market size and regulatory environment are '
+        'controlled for (Caoui and Steck 2025).'
     )
 
     # ── A4. Bilateral sovereignty — Table 3 col (3) ──
@@ -3099,6 +3104,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'governance: where enforceable data-protection agreements exist (as within the EU), '
         'the premium falls; where they do not, even commercially motivated buyers face rational '
         'reasons to prefer domestic processing. '
+        'Sovereignty preferences are not limited to developing countries: France\u2019s SecNumCloud '
+        'certification mandates EU-only data hosting and staffing, effectively excluding U.S. '
+        'hyperscalers from sovereign workloads. '
         'Developing countries '
         'that adopt broad data localization requirements risk foreclosing both import savings and '
         'regional export opportunities, the specialization gains that the model predicts. '
@@ -5326,6 +5334,10 @@ def write_references(doc, body, refs):
         'A. Serebriakova, and B. Steffen. (2024). \u201CReducing the Cost of Capital '
         'to Finance the Energy Transition in Developing Countries.\u201D '
         'Nature Energy, 9(10): 1241\u20131251.',
+
+        'Caoui, E. H., and A. Steck. (2025). \u201CContent Providers and the Deployment '
+        'of Internet Infrastructure.\u201D '
+        'Information Economics and Policy. doi:10.1016/j.infoecopol.2025.101134.',
 
         'Chandramowli, S., et al. (2024). \u201CImpact of Emerging Technologies on '
         'Electricity Demand and Prices.\u201D Rhodium Group Analysis.',
