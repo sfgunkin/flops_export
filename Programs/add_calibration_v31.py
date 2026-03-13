@@ -1520,22 +1520,6 @@ def write_literature(doc, body, hmap):
         'training\u2013inference distinction.'
     )
 
-    # v31: New paragraph — concurrent FDI evidence corroborating model
-    p, cur = mkp(doc, body, cur)
-    p.add_run(
-        'Concurrent evidence on the geography of data-center investment corroborates '
-        'several predictions of the model developed below. Announced data-center FDI '
-        'reached over $310 billion globally in 2025, but the distribution across EMDEs '
-        'is highly uneven: Malaysia, India, and Brazil dominate, while Europe and Central '
-        'Asia, Sub-Saharan Africa, and the cheapest-energy producers in our calibration '
-        'attract negligible investment (Aykut et al. 2026). The source\u2013destination '
-        'matrix is dominated by North American hyperscalers, consistent with the role of '
-        'geopolitical alignment and institutional trust in shaping bilateral trade flows. '
-        'Most data-center FDI announcements flow between geopolitical allies, confirming '
-        'that the sovereignty premium is not merely a theoretical construct but a '
-        'first-order determinant of revealed investment patterns (Straub et al. 2026). '
-        'The present model formalizes this mechanism.'
-    )
 
 
 def write_production_technology(doc, body, hmap):
@@ -2867,19 +2851,17 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     )
     omath(p, [_msub('K\u0304', 'j')])
 
-    # v31: New paragraph — FDI data confirming cost-vs-investment mismatch
+    # v31: FDI data confirming cost-vs-investment mismatch + bilateral channel
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'Recent FDI data confirm this pattern. Among EMDEs, the largest recipients of '
         'data-center investment are Malaysia, India, and Brazil\u2014countries with moderate '
-        'electricity costs but strong regulatory frameworks, streamlined permitting, and '
-        'credible grid infrastructure (Aykut et al. 2026). By contrast, the cheapest '
-        'producers in our calibration (Kyrgyzstan, Tajikistan, Ethiopia) have received '
-        'virtually no data-center FDI. The mismatch between cost rankings and revealed '
-        'investment patterns provides out-of-sample validation that the institutional '
-        'quality parameter and the bilateral sovereignty premium capture constraints '
-        'that dominate pure cost advantage in determining where compute capacity is '
-        'actually built.'
+        'electricity costs but strong regulatory frameworks and credible grid '
+        'infrastructure\u2014while the cheapest producers in our calibration (Kyrgyzstan, '
+        'Tajikistan, Ethiopia) have received virtually no data-center FDI '
+        '(Aykut et al. 2026). Moreover, most announced investment flows between '
+        'geopolitical allies, consistent with the bilateral sovereignty premium rather '
+        'than cost alone determining where capacity is built (Straub et al. 2026).'
     )
 
     # ── A4. Bilateral sovereignty — Table 3 col (3) ──
