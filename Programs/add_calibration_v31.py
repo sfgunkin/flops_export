@@ -9,7 +9,7 @@ v31: Integrate user edits — new FDI evidence paragraphs, new references:
   - ¶89: Water scarcity extended with liquid cooling + Aykut citation
   - ¶90: Endogenous electricity prices extended with Chandramowli/IMF estimates
   - New ¶105-106: Policy readiness + edge computing paragraphs in conclusion
-  - 5 new references: Acemoglu, Aykut et al., Chandramowli et al., Katz et al., Straub et al.
+  - 4 new references: Aykut et al., Chandramowli et al., Katz et al., Straub et al.
 
 v30: Drop ξ efficiency index entirely — rely solely on bilateral λ_{ij}:
   - OMEGA_XI, xi dicts, xi_scenarios.xlsx loading removed
@@ -1010,7 +1010,6 @@ CITATIONS = [
     ('Bailey, Strezhnev, and Voeten', '2017', 'BaileyEtAl2017', 'Bailey, M.'),
     ('Benz and Jaax', '2020', 'BenzJaax2020', 'Benz, S.'),
     # v31: new references
-    ('Acemoglu', '2024', 'Acemoglu2024', 'Acemoglu, D.'),
     ('Aykut et al.', '2026', 'AykutEtAl2026', 'Aykut, D.'),
     ('Chandramowli et al.', '2024', 'Chandramowli2024', 'Chandramowli, S.'),
     ('Katz et al.', '2025', 'KatzEtAl2025', 'Katz, R.'),
@@ -1129,7 +1128,6 @@ ITALIC_IN_REFS = {
     'World Bank. (2025). Digital': 'Digital Progress and Trends Report 2025',
     'Benz': 'OECD Trade Policy Papers',
     # v31
-    'Acemoglu': 'NBER Working Paper',
     'Aykut': 'Watch This Space',
     'Chandramowli': 'Rhodium Group Analysis',
     'Straub': 'Infrastructure Foundations: From Current Assets to Future Growth',
@@ -5302,9 +5300,6 @@ def write_references(doc, body, refs):
             break
 
     new_refs = [
-        'Acemoglu, D. (2024). \u201CThe Simple Macroeconomics of AI.\u201D '
-        'NBER Working Paper No. 32487.',
-
         'Asian Development Bank. (2020). \u201CToktogul Rehabilitation Project Phase 3: '
         'Sector Assessment.\u201D Asian Development Bank. Report No. 49013-002.',
 
