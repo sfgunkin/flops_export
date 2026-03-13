@@ -1405,8 +1405,7 @@ def write_introduction(doc, body, hmap):
         'feasible. Armenia is deploying 50,000 GPUs in a $4 billion '
         'investment (Firebird 2026), Kenya, Saudi Arabia, and Malaysia have each attracted '
         'billion-dollar data center commitments, '
-        'Google has committed $15 billion to India, Microsoft $17.5 billion, '
-        'CloudHQ is building a $4.8 billion campus in Mexico, and OpenAI has proposed '
+        'Google has committed $15 billion to India, and OpenAI has proposed '
         'a $25 billion \u201CStargate Argentina\u201D complex (Straub et al. 2026). '
         'Announced global data-center FDI reached over $310 billion in 2025, '
         'with EMDEs accounting for roughly 40 percent of projects '
@@ -3014,7 +3013,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     # v31: New paragraph — China DD regime illustration
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'China illustrates the DD regime. Despite hosting one of the world\u2019s largest '
+        'Among these demand centers, China illustrates the DD regime. Despite hosting one of the world\u2019s largest '
         'data-center markets, virtually all capacity is built and financed by domestic '
         'technology firms and state-owned operators such as Alibaba Cloud, Tencent, '
         'Baidu, and China Telecom, with negligible foreign FDI (Aykut et al. 2026). '
@@ -3124,8 +3123,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'acquiring current-generation hardware. Water scarcity constrains cooling in the Middle '
         'East and North Africa; hyperscale data centers can consume billions of liters of '
         'water annually, and next-generation high-density GPU clusters increasingly rely on '
-        'liquid-cooling technologies that intensify this pressure in water-stressed economies '
-        '(Aykut et al. 2026). Fiscal sustainability is a concern: regulated tariffs in many '
+        'liquid-cooling technologies that intensify this pressure in water-stressed economies. '
+        'Fiscal sustainability is a concern: regulated tariffs in many '
         'developing countries cover operating expenses but not full capital cost, so exporting '
         'compute at scale while the domestic energy sector cannot maintain its capital stock may '
         'prove politically unsustainable. Finally, export controls, logistics costs, and local '
@@ -3279,6 +3278,46 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
                   'AI workloads (Deloitte 2025). Results are robust to moderate variation in '
                   'these shares.', 17)
 
+    # ── 7.2 Model Extensions ──
+    cur = mkh(doc, body, cur, '7.2 Model Extensions', level=2)
+
+    # v31: Policy readiness evidence (moved from conclusion)
+    p, cur = mkp(doc, body, cur, space_before=6)
+    p.add_run(
+        'Cross-country evidence on policy readiness reinforces this conclusion. '
+        'Economies with advanced AI and cloud strategies\u2014such as Singapore, Australia, '
+        'Japan, and South Korea\u2014record estimated economic impacts from AI and cloud '
+        'investment of 3\u20134 percent of GDP, compared with less than 1 percent in '
+        'countries such as Indonesia and Viet Nam (Katz et al. 2025). The model\u2019s '
+        'institutional quality parameter captures, in reduced form, the complementary '
+        'investments in digital skills, regulatory predictability, and grid modernization '
+        'that separate these two groups. Countries that align digital ambitions with '
+        'energy-sector planning\u2014Malaysia through its National Energy Transition Roadmap, '
+        'Brazil with an electricity mix over 80 percent renewable, the UAE with nuclear- '
+        'and solar-powered AI hubs\u2014are emerging as preferred destinations for '
+        'hyperscalers, exactly as the model predicts for countries combining moderate '
+        'costs with high institutional quality (Aykut et al. 2026).'
+    )
+
+    # v31: Edge computing extension (moved from conclusion)
+    p, cur = mkp(doc, body, cur, space_before=6)
+    p.add_run(
+        'A further extension concerns the emerging shift from centralized inference to '
+        'edge computing. As AI moves from heavy training workloads toward real-time '
+        'inference on lightweight models deployed on local devices, the effective '
+        'capacity ceiling for inference relaxes: inference need not be concentrated in '
+        'large data centers but can be distributed across many small nodes connected '
+        'via existing mobile networks. If this trend accelerates, the inference '
+        'market\u2019s HHI could fall further, and the set of countries capable of serving '
+        'inference demand would expand. For EMDEs with weak grid infrastructure but '
+        'adequate mobile connectivity, edge computing may offer a leapfrogging path '
+        'that bypasses the grid bottlenecks central to the present model '
+        '(Aykut et al. 2026). '
+        'Incorporating heterogeneous compute '
+        'architectures\u2014centralized GPU clusters for training, distributed edge nodes '
+        'for inference\u2014into the trade framework is a natural direction for future work.'
+    )
+
 
 def write_conclusion(doc, body, hmap, demand_data):
     print("Rewriting Section 8 (Conclusion)...")
@@ -3335,42 +3374,6 @@ def write_conclusion(doc, body, hmap, demand_data):
         'production can be justified by the genuine quality-of-service advantage that '
         'low latency confers, though this rationale weakens for countries located near '
         'low-cost neighbors.'
-    )
-
-    # v31: New paragraph — cross-country policy readiness evidence
-    p, cur_concl = mkp(doc, body, cur_concl)
-    p.add_run(
-        'Cross-country evidence on policy readiness reinforces this conclusion. '
-        'Economies with advanced AI and cloud strategies\u2014such as Singapore, Australia, '
-        'Japan, and South Korea\u2014record estimated economic impacts from AI and cloud '
-        'investment of 3\u20134 percent of GDP, compared with less than 1 percent in '
-        'countries such as Indonesia and Viet Nam (Katz et al. 2025). The model\u2019s '
-        'institutional quality parameter captures, in reduced form, the complementary '
-        'investments in digital skills, regulatory predictability, and grid modernization '
-        'that separate these two groups. Countries that align digital ambitions with '
-        'energy-sector planning\u2014Malaysia through its National Energy Transition Roadmap, '
-        'Brazil with an electricity mix over 80 percent renewable, the UAE with nuclear- '
-        'and solar-powered AI hubs\u2014are emerging as preferred destinations for '
-        'hyperscalers, exactly as the model predicts for countries combining moderate '
-        'costs with high institutional quality (Aykut et al. 2026).'
-    )
-
-    # v31: New paragraph — edge computing extension
-    p, cur_concl = mkp(doc, body, cur_concl)
-    p.add_run(
-        'A further extension concerns the emerging shift from centralized inference to '
-        'edge computing. As AI moves from heavy training workloads toward real-time '
-        'inference on lightweight models deployed on local devices, the effective '
-        'capacity ceiling for inference relaxes: inference need not be concentrated in '
-        'large data centers but can be distributed across many small nodes connected '
-        'via existing mobile networks. If this trend accelerates, the inference '
-        'market\u2019s HHI could fall further, and the set of countries capable of serving '
-        'inference demand would expand. For EMDEs with weak grid infrastructure but '
-        'adequate mobile connectivity, edge computing may offer a leapfrogging path '
-        'that bypasses the grid bottlenecks central to the present model '
-        '(Aykut et al. 2026). Incorporating heterogeneous compute '
-        'architectures\u2014centralized GPU clusters for training, distributed edge nodes '
-        'for inference\u2014into the trade framework is a natural direction for future work.'
     )
 
     p, _ = mkp(doc, body, cur_concl)
