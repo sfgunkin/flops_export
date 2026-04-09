@@ -2527,8 +2527,23 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     # Footnote 9: nesting result assumes non-empty latency cone
     fn9_p = make_footnote(p,
                           'The nesting result assumes that the training exporter\u2019s '
-                          'latency cone is non-empty, i.e., there exists at least one country '
-                          'k with positive compute demand such that ', 23)
+                          'latency cone is non-empty. Formally, country j has a non-empty '
+                          'latency cone if ', 23)
+    fn9_om = OxmlElement('m:oMath')
+    fn9_om.append(_t('\u2203k'))
+    fn9_p.append(fn9_om)
+    fn9_r_a = etree.SubElement(fn9_p, f'{{{W_NS}}}r')
+    fn9_t_a = etree.SubElement(fn9_r_a, f'{{{W_NS}}}t')
+    fn9_t_a.set(XML_SPACE, SPACE_PRESERVE)
+    fn9_t_a.text = ' such that '
+    fn9_om_a = OxmlElement('m:oMath')
+    fn9_om_a.append(_msub('q', 'k'))
+    fn9_om_a.append(_t(' > 0'))
+    fn9_p.append(fn9_om_a)
+    fn9_r_b = etree.SubElement(fn9_p, f'{{{W_NS}}}r')
+    fn9_t_b = etree.SubElement(fn9_r_b, f'{{{W_NS}}}t')
+    fn9_t_b.set(XML_SPACE, SPACE_PRESERVE)
+    fn9_t_b.text = ' and '
     fn9_om = OxmlElement('m:oMath')
     fn9_om.append(_msub('l', 'jk'))
     fn9_om.append(_t(' \u2264 '))
