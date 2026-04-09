@@ -2346,11 +2346,35 @@ class TestDocumentContent:
             "4. Equilibrium Properties",
             "5. Data",
             "6. Calibration and Results",
-            "7. Robustness and Extensions",
+            "7. Robustness, Caveats, and Extensions",
             "8. Conclusion",
         )
         for h in headings:
             assert h in docx_text, f"Missing heading: {h}"
+
+    def test_section_7_subsections(self, docx_text):
+        """§7 is split into three subsections: parameter robustness,
+        caveats/omitted frictions, and extensions."""
+        for h in (
+            "7.1 Robustness to parameter variation",
+            "7.2 Caveats and omitted frictions",
+            "7.3 Extensions",
+        ):
+            assert h in docx_text, f"Missing §7 subsection: {h}"
+
+    def test_katz_moved_to_section_6(self, docx_text):
+        """The Katz et al. (2025) policy-readiness paragraph should now
+        sit in §6.2, introduced by 'Cross-country evidence on policy
+        readiness corroborates this pattern' (not 'reinforces this
+        conclusion'), and it should NOT appear under §7.2 or §7.3."""
+        assert "Cross-country evidence on policy readiness corroborates" in (
+            docx_text
+        )
+        # The old §7.2 framing should be gone
+        assert (
+            "Cross-country evidence on policy readiness reinforces"
+            not in docx_text
+        )
 
     def test_appendices_present(self, docx_text):
         for h in ("Appendix B", "Appendix C", "Appendix D", "Appendix E"):

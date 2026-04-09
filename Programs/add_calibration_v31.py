@@ -3008,17 +3008,42 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     # v31: FDI data confirming cost-vs-investment mismatch + bilateral channel
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Recent FDI data confirm this pattern. Among EMDEs, the largest recipients of '
-        'data-center investment are Malaysia, India, and Brazil\u2014countries with moderate '
-        'electricity costs but strong regulatory frameworks and credible grid '
-        'infrastructure\u2014while the cheapest producers in our calibration (Kyrgyzstan, '
-        'Tajikistan, Ethiopia) have received virtually no data-center FDI '
-        '(Aykut et al. 2026). Moreover, most announced investment flows between '
-        'geopolitical allies, consistent with the bilateral sovereignty premium rather '
-        'than cost alone determining where capacity is built (Straub et al. 2026). '
-        'Econometric evidence confirms that electricity costs are not a robust predictor '
-        'of data center location once market size and regulatory environment are '
-        'controlled for (Caoui and Steck 2025).'
+        'Recent FDI data confirm this pattern. Among EMDEs, the largest '
+        'recipients of data-center investment are Malaysia, India, and '
+        'Brazil\u2014countries with moderate electricity costs but strong '
+        'regulatory frameworks and credible grid infrastructure\u2014while '
+        'the cheapest producers in our calibration (Kyrgyzstan, Tajikistan, '
+        'Ethiopia) have received virtually no data-center FDI (Aykut et al. '
+        '2026). Moreover, most announced investment flows between '
+        'geopolitical allies, consistent with the bilateral sovereignty '
+        'premium rather than cost alone determining where capacity is built '
+        '(Straub et al. 2026). Econometric evidence confirms that electricity '
+        'costs are not a robust predictor of data center location once market '
+        'size and regulatory environment are controlled for (Caoui and Steck '
+        '2025).'
+    )
+
+    # v31: Cross-country policy-readiness evidence (moved from §7.2 Extensions).
+    # Corroborating evidence that institutional quality, not cost, drives
+    # realised investment, so it belongs with the FDI paragraph in §6.2.
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'Cross-country evidence on policy readiness corroborates this '
+        'pattern. Economies with advanced AI and cloud strategies\u2014such '
+        'as Singapore, Australia, Japan, and South Korea\u2014record '
+        'estimated economic impacts from AI and cloud investment of '
+        '3\u20134 percent of GDP, compared with less than 1 percent in '
+        'countries such as Indonesia and Viet Nam (Katz et al. 2025). The '
+        'model\u2019s institutional quality parameter captures, in reduced '
+        'form, the complementary investments in digital skills, regulatory '
+        'predictability, and grid modernization that separate these two '
+        'groups. Countries that align digital ambitions with energy-sector '
+        'planning\u2014Malaysia through its National Energy Transition '
+        'Roadmap, Brazil with an electricity mix over 80 percent renewable, '
+        'the UAE with nuclear- and solar-powered AI hubs\u2014are emerging '
+        'as preferred destinations for hyperscalers, exactly as the model '
+        'predicts for countries combining moderate costs with high '
+        'institutional quality (Aykut et al. 2026).'
     )
 
     # ── A4. Bilateral sovereignty — Table 3 col (3) ──
@@ -3309,95 +3334,18 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     )
 
     # ══════════════════════════════════════════════════════════════════════
-    # 7.  Robustness and Extensions
+    # 7.  Robustness, Caveats, and Extensions
     # ══════════════════════════════════════════════════════════════════════
-    cur = mkh(doc, body, cur, '7. Robustness and Extensions', level=1)
+    cur = mkh(doc, body, cur, '7. Robustness, Caveats, and Extensions', level=1)
 
-    # 7.1 Robustness and Caveats
-    cur = mkh(doc, body, cur, '7.1 Robustness and Caveats', level=2)
+    # ────────────────────────────────────────────────────────────────────
+    # 7.1 Robustness to parameter variation
+    # Parameter-level sensitivity checks: do rankings move when hardware
+    # cost, sovereignty specification, or tier weights change?
+    # ────────────────────────────────────────────────────────────────────
+    cur = mkh(doc, body, cur, '7.1 Robustness to parameter variation', level=2)
 
-    # ── B0. Caveats (consolidated: GPU controls, water, fiscal, hardware) ──
-    p, cur = mkp(doc, body, cur, space_before=6)
-    p.add_run(
-        'The calibration adjusts for energy subsidies and institutional '
-        'quality, but several constraints remain outside the model and would further narrow '
-        'the set of viable exporters. GPU export controls bar Iran, Russia, '
-        'and Belarus from acquiring current-generation hardware. Water '
-        'scarcity constrains cooling in the Middle East and North Africa; '
-        'hyperscale data centers can consume billions of liters of water '
-        'annually, and next-generation high-density GPU clusters increasingly '
-        'rely on liquid-cooling technologies that intensify this pressure in '
-        'water-stressed economies. Fiscal sustainability is a concern: '
-        'regulated tariffs in many developing countries cover operating '
-        'expenses but not full capital cost, so exporting compute at scale '
-        'while the domestic energy sector cannot maintain its capital stock '
-        'may prove politically unsustainable. Finally, export controls, '
-        'logistics costs, and local distribution markups can raise effective '
-        'GPU prices by 5\u201315% in developing countries, substantially '
-        'eroding the thin cost advantages documented in '
-    )
-    p._element.append(make_hyperlink('TableA1', 'Table A1'))
-    p.add_run(
-        '. These omitted constraints all work against developing-country competitiveness; '
-        'the calibration results should therefore be read as upper bounds.'
-    )
-
-    # ── B2. Endogenous electricity prices (v28: Task 27a compressed) ──
-    p, cur = mkp(doc, body, cur, space_before=6)
-    add_italic(p, 'Endogenous electricity prices. ')
-    p.add_run(
-        'The model treats electricity prices as exogenous. '
-        'For small, cheap-energy countries, a hyperscale facility can be large relative to '
-        'the host grid \u2014 a 100\u2009MW data center would consume roughly 3% of '
-        'Kyrgyzstan\u2019s 3,800\u2009MW national output. '
-        'At the multi-facility scale, data centers would compete with residential heating, '
-        'likely triggering regulatory intervention. The capacity ceiling '
-    )
-    omath(p, [_mbar_sub('K', 'j')])
-    p.add_run(
-        ' partially addresses this, '
-        'but the fixed-price assumption implies that the cost advantages in '
-    )
-    p._element.append(make_hyperlink('TableA1', 'Table A1'))
-    p.add_run(
-        ' are upper bounds. An extension '
-        'with upward-sloping supply curves would compress these advantages. '
-        'Recent estimates suggest that AI workloads, combined with broader '
-        'electrification, could raise U.S. wholesale electricity prices by roughly '
-        '19 percent between 2025 and 2028 (Chandramowli et al. 2024), and AI '
-        'data-center expansion alone could increase retail prices by 8\u20139 percent '
-        'by 2030 (IMF 2025). For small grids such as Kyrgyzstan\u2019s, the proportional '
-        'impact would be substantially larger, further eroding the cost advantages '
-        'documented above.'
-    )
-
-    # ── B3. Cost of capital (v28: Task 27b compressed) ──
-    p, cur = mkp(doc, body, cur, space_before=6)
-    add_italic(p, 'Cost of capital. ')
-    p.add_run(
-        'The calibration assumes uniform financing via straight-line depreciation. '
-        'In practice, the financing gap is large (Calcaterra et al. 2024). '
-        'An OECD hyperscaler at 8% WACC faces hardware costs of $1.58/hr; '
-        'a developing-country operator at 18% pays $1.87 \u2014 '
-        'a $0.29 gap on hardware alone, roughly four times the electricity cost spread '
-        'across the top 20 countries. '
-        'If hyperscalers finance at their own WACC regardless of host country, '
-        'baseline rankings hold. If locally financed, institutional weaknesses '
-        'raise the cost of capital.'
-    )
-
-    # ── B3b. GPU upgrades (v28: Task 27c compressed) ──
-    p, cur = mkp(doc, body, cur, space_before=6)
-    add_italic(p, 'GPU upgrades. ')
-    p.add_run(
-        'Successor GPUs (B200, shipping 2025) deliver roughly four times the training '
-        'throughput at about 1\u2009kW. Higher power draw widens the absolute electricity cost '
-        'gap across countries, modestly strengthening developing-country comparative advantage. '
-        'Countries operating older hardware must discount to compete, eroding '
-        'their cost advantage. Qualitative findings are robust to GPU generation choices.'
-    )
-
-    # ── B5. Sensitivity analysis (v27: references Table A3 with 7 scenarios) ──
+    # Sensitivity analysis (v27: references Table A3)
     sens = demand_data.get("sensitivity", [])
     if sens:
         p, cur = mkp(doc, body, cur, space_before=6)
@@ -3409,118 +3357,207 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         p._element.append(make_hyperlink('TableA3', 'Table A3'))
         p._element.append(make_bookmark_end(143))
         p.add_run(
-            ' reports results across three robustness specifications, varying the '
-            'hardware cost share. '
-            'The sensitivity results can be read as comparative statics. A rise in global '
-            'hardware costs increases the globally-priced cost share, compressing the '
-            'locally-penalized component and muting governance penalties for '
-            'developing-country exporters. On the other hand, improved cooling '
-            'technology that flattens the PUE\u2013temperature curve narrows the advantage of '
-            'cold-climate countries but leaves energy-price differences intact. A reduction in '
-            'sovereignty frictions shifts countries from domestic production to importing, '
-            'expanding trade volumes, but reducing rents for exporters. An increase in local '
-            'energy prices '
-            'erodes the cost advantage that defines FLOP-exporting potential, as the endogenous '
-            'electricity price extension above illustrates.'
+            ' reports results across three robustness specifications, varying '
+            'the hardware cost share. The sensitivity results can be read as '
+            'comparative statics. A rise in global hardware costs increases '
+            'the globally-priced cost share, compressing the locally-penalized '
+            'component and muting governance penalties for developing-country '
+            'exporters. On the other hand, improved cooling technology that '
+            'flattens the PUE\u2013temperature curve narrows the advantage of '
+            'cold-climate countries but leaves energy-price differences '
+            'intact. A reduction in sovereignty frictions shifts countries '
+            'from domestic production to importing, expanding trade volumes '
+            'but reducing rents for exporters.'
         )
 
-    # ── B5b. Hardware cost share robustness ──
+    # Hardware cost share robustness
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Hardware cost share. ')
     p.add_run('Varying ')
     omath(p, [_v('\u03C1')])
     p.add_run(
-        ' by \u00b14 percent shifts the composition of the top fifteen countries, '
-        'but the qualitative result is robust across all specifications. '
-        'The economic intuition is straightforward: because hardware is globally priced '
-        'and dominates unit cost, a higher '
+        ' by \u00b14 percent shifts the composition of the top fifteen '
+        'countries, but the qualitative result is robust across all '
+        'specifications. The economic intuition is straightforward: because '
+        'hardware is globally priced and dominates unit cost, a higher '
     )
     omath(p, [_v('\u03C1')])
     p.add_run(
-        ' compresses the cross-country cost spread, making electricity price differences '
-        'less decisive and making developing-country entry easier. '
-        'Countries combining cheap energy with adequate governance retain their cost advantage '
-        'regardless of the particular parameter choice.'
+        ' compresses the cross-country cost spread, making electricity price '
+        'differences less decisive and making developing-country entry '
+        'easier. Countries combining cheap energy with adequate governance '
+        'retain their cost advantage regardless of the particular parameter '
+        'choice.'
     )
 
-    # ── B6. Uniform λ robustness check (reworded) ──
+    # Uniform λ robustness check
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Uniform sovereignty premium. ')
     p.add_run(
-        'As a robustness check, we compute the equilibrium under a uniform premium '
+        'As a robustness check, we compute the equilibrium under a uniform '
+        'premium '
     )
     omath(p, [_v('\u03BB'), _t(' = 0.10')])
     p.add_run(
-        '. '
-        'The uniform premium produces similar regime assignments: '
-        'most countries produce domestically under either specification. '
-        'The main difference is that the bilateral premium excludes sanctioned countries '
-        'from serving any demand center, while the uniform premium treats all pairs '
-        'identically. The bilateral specification is preferred because it captures '
-        'observed heterogeneity in sovereignty preferences.'
+        '. The uniform premium produces similar regime assignments: most '
+        'countries produce domestically under either specification. The main '
+        'difference is that the bilateral premium excludes sanctioned '
+        'countries from serving any demand center, while the uniform premium '
+        'treats all pairs identically. The bilateral specification is '
+        'preferred because it captures observed heterogeneity in sovereignty '
+        'preferences.'
     )
 
-    # ── B7. Sovereignty tiers (reworded) ──
+    # Sovereignty tiers
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Sovereignty tiers. ')
     p.add_run(
         'The model segments each country\u2019s demand into three tiers: '
-        'sovereign workloads (10%, domestic only), '
-        'regulated workloads (20%, higher regulatory compatibility weight), '
-        'and commercial workloads (70%, geopolitical alignment only). '
-        'Under calibrated parameters, tiering leaves regime assignments unchanged '
-        'for all countries, so '
+        'sovereign workloads (10%, domestic only), regulated workloads '
+        '(20%, higher regulatory compatibility weight), and commercial '
+        'workloads (70%, geopolitical alignment only). Under calibrated '
+        'parameters, tiering leaves regime assignments unchanged for all '
+        'countries, so '
     )
     p._element.append(make_hyperlink('Table3', 'Table 3'))
     p.add_run(
-        ' omits a separate tiered column. '
-        'The main impact of tiering is on inference sourcing: regulated workloads shift '
-        'toward suppliers with strong data governance, favoring EU '
-        'and APEC CBPR participants over closer but less regulated alternatives.'
+        ' omits a separate tiered column. The main impact of tiering is on '
+        'inference sourcing: regulated workloads shift toward suppliers with '
+        'strong data governance, favoring EU and APEC CBPR participants over '
+        'closer but less regulated alternatives.'
     )
-    make_footnote(p, 'The tier shares (10/20/70) are assumptions calibrated to match the '
-                  'approximate composition of government, regulated-industry, and commercial '
-                  'AI workloads (Deloitte 2025). Results are robust to moderate variation in '
-                  'these shares.', 17)
-
-    # ── 7.2 Model Extensions ──
-    cur = mkh(doc, body, cur, '7.2 Model Extensions', level=2)
-
-    # v31: Policy readiness evidence (moved from conclusion)
-    p, cur = mkp(doc, body, cur, space_before=6)
-    p.add_run(
-        'Cross-country evidence on policy readiness reinforces this conclusion. '
-        'Economies with advanced AI and cloud strategies\u2014such as Singapore, Australia, '
-        'Japan, and South Korea\u2014record estimated economic impacts from AI and cloud '
-        'investment of 3\u20134 percent of GDP, compared with less than 1 percent in '
-        'countries such as Indonesia and Viet Nam (Katz et al. 2025). The model\u2019s '
-        'institutional quality parameter captures, in reduced form, the complementary '
-        'investments in digital skills, regulatory predictability, and grid modernization '
-        'that separate these two groups. Countries that align digital ambitions with '
-        'energy-sector planning\u2014Malaysia through its National Energy Transition Roadmap, '
-        'Brazil with an electricity mix over 80 percent renewable, the UAE with nuclear- '
-        'and solar-powered AI hubs\u2014are emerging as preferred destinations for '
-        'hyperscalers, exactly as the model predicts for countries combining moderate '
-        'costs with high institutional quality (Aykut et al. 2026).'
+    make_footnote(
+        p,
+        'The tier shares (10/20/70) are assumptions calibrated to match the '
+        'approximate composition of government, regulated-industry, and '
+        'commercial AI workloads (Deloitte 2025). Results are robust to '
+        'moderate variation in these shares.', 17,
     )
 
-    # v31: Edge computing extension (moved from conclusion)
+    # ────────────────────────────────────────────────────────────────────
+    # 7.2 Caveats and omitted frictions
+    # Factors outside the model that work against developing-country
+    # competitiveness: GPU controls, water, fiscal, endogenous power,
+    # hardware generation, and cost of capital.
+    # ────────────────────────────────────────────────────────────────────
+    cur = mkh(doc, body, cur, '7.2 Caveats and omitted frictions', level=2)
+
+    # Opening caveats (GPU controls, water, fiscal, logistics)
     p, cur = mkp(doc, body, cur, space_before=6)
     p.add_run(
-        'A further extension concerns the emerging shift from centralized inference to '
-        'edge computing. As AI moves from heavy training workloads toward real-time '
-        'inference on lightweight models deployed on local devices, the effective '
-        'capacity ceiling for inference relaxes: inference need not be concentrated in '
-        'large data centers but can be distributed across many small nodes connected '
-        'via existing mobile networks. If this trend accelerates, the inference '
-        'market\u2019s HHI could fall further, and the set of countries capable of serving '
-        'inference demand would expand. For EMDEs with weak grid infrastructure but '
-        'adequate mobile connectivity, edge computing may offer a leapfrogging path '
-        'that bypasses the grid bottlenecks central to the present model '
-        '(Aykut et al. 2026). '
-        'Incorporating heterogeneous compute '
-        'architectures\u2014centralized GPU clusters for training, distributed edge nodes '
-        'for inference\u2014into the trade framework is a natural direction for future work.'
+        'The calibration adjusts for energy subsidies and institutional '
+        'quality, but several constraints remain outside the model and would '
+        'further narrow the set of viable exporters. GPU export controls bar '
+        'Iran, Russia, and Belarus from acquiring current-generation '
+        'hardware. Water scarcity constrains cooling in the Middle East and '
+        'North Africa; hyperscale data centers can consume billions of '
+        'liters of water annually, and next-generation high-density GPU '
+        'clusters increasingly rely on liquid-cooling technologies that '
+        'intensify this pressure in water-stressed economies. Fiscal '
+        'sustainability is a concern: regulated tariffs in many developing '
+        'countries cover operating expenses but not full capital cost, so '
+        'exporting compute at scale while the domestic energy sector cannot '
+        'maintain its capital stock may prove politically unsustainable. '
+        'Finally, export controls, logistics costs, and local distribution '
+        'markups can raise effective GPU prices by 5\u201315% in developing '
+        'countries, substantially eroding the thin cost advantages '
+        'documented in '
+    )
+    p._element.append(make_hyperlink('TableA1', 'Table A1'))
+    p.add_run(
+        '. These omitted constraints all work against developing-country '
+        'competitiveness; the calibration results should therefore be read '
+        'as upper bounds.'
+    )
+
+    # Endogenous electricity prices
+    p, cur = mkp(doc, body, cur, space_before=6)
+    add_italic(p, 'Endogenous electricity prices. ')
+    p.add_run(
+        'The model treats electricity prices as exogenous. For small, '
+        'cheap-energy countries, a hyperscale facility can be large relative '
+        'to the host grid \u2014 a 100\u2009MW data center would consume '
+        'roughly 3% of Kyrgyzstan\u2019s 3,800\u2009MW national output. At '
+        'the multi-facility scale, data centers would compete with '
+        'residential heating, likely triggering regulatory intervention. '
+        'The capacity ceiling '
+    )
+    omath(p, [_mbar_sub('K', 'j')])
+    p.add_run(
+        ' partially addresses this, but the fixed-price assumption implies '
+        'that the cost advantages in '
+    )
+    p._element.append(make_hyperlink('TableA1', 'Table A1'))
+    p.add_run(
+        ' are upper bounds. An extension with upward-sloping supply curves '
+        'would compress these advantages. Recent estimates suggest that AI '
+        'workloads, combined with broader electrification, could raise U.S. '
+        'wholesale electricity prices by roughly 19 percent between 2025 '
+        'and 2028 (Chandramowli et al. 2024), and AI data-center expansion '
+        'alone could increase retail prices by 8\u20139 percent by 2030 '
+        '(IMF 2025). For small grids such as Kyrgyzstan\u2019s, the '
+        'proportional impact would be substantially larger, further eroding '
+        'the cost advantages documented above.'
+    )
+
+    # GPU upgrades
+    p, cur = mkp(doc, body, cur, space_before=6)
+    add_italic(p, 'GPU upgrades. ')
+    p.add_run(
+        'Successor GPUs (B200, shipping 2025) deliver roughly four times '
+        'the training throughput at about 1\u2009kW. Higher power draw '
+        'widens the absolute electricity cost gap across countries, '
+        'modestly strengthening developing-country comparative advantage. '
+        'Countries operating older hardware must discount to compete, '
+        'eroding their cost advantage. Qualitative findings are robust to '
+        'GPU generation choices.'
+    )
+
+    # Cost of capital
+    p, cur = mkp(doc, body, cur, space_before=6)
+    add_italic(p, 'Cost of capital. ')
+    p.add_run(
+        'The calibration assumes uniform financing via straight-line '
+        'depreciation. In practice, the financing gap is large '
+        '(Calcaterra et al. 2024). An OECD hyperscaler at 8% WACC faces '
+        'hardware costs of $1.58/hr; a developing-country operator at 18% '
+        'pays $1.87 \u2014 a $0.29 gap on hardware alone, roughly four '
+        'times the electricity cost spread across the top 20 countries. '
+        'If hyperscalers finance at their own WACC regardless of host '
+        'country, baseline rankings hold. If locally financed, '
+        'institutional weaknesses raise the cost of capital, and the '
+        'ranking of cheap-energy developing countries compresses sharply. '
+        'Since most data-center FDI in practice is financed at the '
+        'hyperscaler\u2019s home WACC, this channel sets an upper bound on '
+        'the developing-country discount but does not eliminate it.'
+    )
+
+    # ────────────────────────────────────────────────────────────────────
+    # 7.3 Extensions
+    # Genuine directions for future model development.
+    # ────────────────────────────────────────────────────────────────────
+    cur = mkh(doc, body, cur, '7.3 Extensions', level=2)
+
+    # Edge computing
+    p, cur = mkp(doc, body, cur, space_before=6)
+    add_italic(p, 'Edge computing. ')
+    p.add_run(
+        'A further extension concerns the emerging shift from centralized '
+        'inference to edge computing. As AI moves from heavy training '
+        'workloads toward real-time inference on lightweight models '
+        'deployed on local devices, the effective capacity ceiling for '
+        'inference relaxes: inference need not be concentrated in large '
+        'data centers but can be distributed across many small nodes '
+        'connected via existing mobile networks. If this trend accelerates, '
+        'the inference market\u2019s HHI could fall further, and the set of '
+        'countries capable of serving inference demand would expand. For '
+        'EMDEs with weak grid infrastructure but adequate mobile '
+        'connectivity, edge computing may offer a leapfrogging path that '
+        'bypasses the grid bottlenecks central to the present model '
+        '(Aykut et al. 2026). Incorporating heterogeneous compute '
+        'architectures\u2014centralized GPU clusters for training, '
+        'distributed edge nodes for inference\u2014into the trade framework '
+        'is a natural direction for future work.'
     )
 
 
