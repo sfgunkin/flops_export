@@ -6195,11 +6195,12 @@ def main():
     # Countries that shift into domestic production when uniform premium
     # rises from 10% to 20%
     extra_dom_names = sorted(
-        (next((r["country"] for r in cal if r["iso3"] == iso), iso)
-         for iso in dc_k
-         if iso in costs_dict
-         and 1.10 * min_cost < costs_dict[iso] <= 1.20 * min_cost),
+        next((r["country"] for r in cal if r["iso3"] == iso), iso)
+        for iso in dc_k
+        if iso in costs_dict
+        and 1.10 * min_cost < costs_dict[iso] <= 1.20 * min_cost
     )
+    print(f"  Uniform λ=20% vs 10%: {extra_dom} extra countries, names={extra_dom_names}")
     export_share_10 = sum(
         omega[iso] for iso in dc_k
         if iso in costs_dict and costs_dict[iso] > 1.10 * min_cost)
