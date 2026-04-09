@@ -1685,8 +1685,29 @@ def write_production_technology(doc, body, hmap):
     omath(p, [_msub('c', 'j')])
     p.add_run(
         ' is therefore driven by electricity prices, climate, '
-        'and construction costs.'
+        'and construction costs. The PUE function captures '
+        'temperature-dependent cooling overhead:'
     )
+    p.paragraph_format.space_after = Pt(2)
+
+    # PUE functional form (unnumbered display equation)
+    p, cur = mkp(doc, body, cur)
+    omath_para(p, [
+        _t('PUE('), _msub('\u03B8', 'j'), _t(') = '),
+        _v('\u03C6'), _t(' + '), _v('\u03B4'), _t(' \u00b7 max(0, '),
+        _msub('\u03B8', 'j'), _t(' \u2212 '), _mbar('\u03B8'), _t('),'),
+    ])
+    p.add_run('where ')
+    omath(p, [_v('\u03C6')])
+    p.add_run(' is the base PUE at or below the free-cooling threshold ')
+    omath(p, [_mbar('\u03B8')])
+    p.add_run(', ')
+    omath(p, [_v('\u03B4')])
+    p.add_run(' is the marginal PUE penalty per °C above ')
+    omath(p, [_mbar('\u03B8')])
+    p.add_run(', and ')
+    omath(p, [_msub('\u03B8', 'j')])
+    p.add_run(' is country j\u2019s peak summer temperature.')
 
     # Endowment paragraph
     p, cur = mkp(doc, body, cur)
@@ -1831,11 +1852,26 @@ def write_trade_costs(doc, body, hmap):
     )
     omath(p, [_v('j')])
     p.add_run(
-        '  (equation (1)). Governance quality, grid reliability, and other '
-        'institutional factors that affect the willingness of buyers to source compute '
-        'from a particular country are captured by the bilateral sovereignty premium '
+        '  (equation (1)). The bilateral premium ')
+    omath(p, [_msub('\u03BB', 'jk')])
+    p.add_run(
+        ' is the same object as '
     )
     omath(p, [_msub('\u03BB', 'ij')])
+    p.add_run(
+        ' in equation (2); we relabel the subscripts as '
+    )
+    omath(p, [_v('(j, k)')])
+    p.add_run(
+        ' whenever the premium is paired with a specific seller\u2019s production cost '
+    )
+    omath(p, [_msub('c', 'j')])
+    p.add_run(
+        '. Governance quality, grid reliability, and other '
+        'institutional factors that affect the willingness of buyers to source compute '
+        'from a particular country are captured by '
+    )
+    omath(p, [_msub('\u03BB', 'jk')])
     p.add_run(' rather than by a production cost adjustment.')
 
     # New paragraph: τ latency degradation
@@ -2272,7 +2308,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         'The cheapest producers, with '
     )
     omath(p, [_msub('c', 'j'), _t(' < '),
-              _msubsup('p', 'T', '*')])
+              _msub('p', 'T')])
     p.add_run(
         ', supply training globally and inference to nearby demand centers.'
     )
@@ -2287,15 +2323,15 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         'Countries with '
     )
     omath(p, [_msub('c', 'j'), _t(' > '),
-              _msubsup('p', 'T', '*')])
+              _msub('p', 'T')])
     p.add_run(
         ' that are not cheap enough to compete in the global training market '
         'but serve as regional inference hubs due to low costs and proximity '
         'to demand centers ('
     )
-    omath(p, [_msub('d', 'ij')])
+    omath(p, [_msub('l', 'jk')])
     p.add_run(' below the latency threshold ')
-    omath(p, [_mbar('d')])
+    omath(p, [_mbar('l')])
     p.add_run(').')
 
     # (iii)
@@ -2324,7 +2360,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     )
     omath(p, [_msub('c', 'k'), _t(' \u2264 (1 + '),
               _msub('\u03BB', 'jk'), _t(') \u00b7 '),
-              _msubsup('p', 'T', '*')])
+              _msub('p', 'T')])
     p.add_run(
         ', so the bilateral sovereignty premium is large enough to justify '
         'domestic production of both training and inference.'
@@ -2339,7 +2375,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     )
     omath(p, [_msub('c', 'k'), _t(' > (1 + '),
               _msub('\u03BB', 'jk'), _t(') \u00b7 '),
-              _msubsup('p', 'T', '*')])
+              _msub('p', 'T')])
     p.add_run(
         ' that import both training and inference from cheaper or closer suppliers.'
     )
@@ -2352,7 +2388,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         'or import it: a country cheap enough to win a global training competition ('
     )
     omath(p, [_msub('c', 'j'), _t(' < '),
-              _msubsup('p', 'T', '*')])
+              _msub('p', 'T')])
     p.add_run(
         ') is necessarily cheap enough to export inference to nearby buyers '
         '(Proposition 4). A country that produces training domestically cannot '
@@ -2396,9 +2432,10 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         'across all importing countries, and '
     )
     omath(p, [_msub('K', 'T,j')])
+    p.add_run(' is country j\u2019s training export allocation (GPU-hours), bounded by the capacity ceiling ')
+    omath(p, [_msub('K', 'T,j'), _t(' \u2264 '), _mbar_sub('K', 'j')])
     p.add_run(
-        ' is country j\u2019s training export allocation (GPU-hours). '
-        'Without capacity constraints, the cheapest producer captures all training demand '
+        '. Without capacity constraints, the cheapest producer captures all training demand '
         'and '
     )
     omath(p, [_msub('HHI', 'T'), _t(' = 1')])
@@ -2491,11 +2528,11 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     fn9_p = make_footnote(p,
                           'The nesting result assumes that the training exporter\u2019s '
                           'latency cone is non-empty, i.e., there exists at least one country '
-                          'j with positive compute demand such that ', 23)
+                          'k with positive compute demand such that ', 23)
     fn9_om = OxmlElement('m:oMath')
-    fn9_om.append(_msub('d', 'ij'))
-    fn9_om.append(_t(' < '))
-    fn9_om.append(_msub('\u03C4', 'max'))
+    fn9_om.append(_msub('l', 'jk'))
+    fn9_om.append(_t(' \u2264 '))
+    fn9_om.append(_mbar('l'))
     fn9_p.append(fn9_om)
     fn9_r = etree.SubElement(fn9_p, f'{{{W_NS}}}r')
     fn9_t = etree.SubElement(fn9_r, f'{{{W_NS}}}t')
@@ -2503,7 +2540,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     fn9_t.text = ('. A hypothetical country with the globally lowest production cost '
                   'but round-trip latency exceeding ')
     fn9_om2 = OxmlElement('m:oMath')
-    fn9_om2.append(_msub('\u03C4', 'max'))
+    fn9_om2.append(_mbar('l'))
     fn9_p.append(fn9_om2)
     fn9_r2 = etree.SubElement(fn9_p, f'{{{W_NS}}}r')
     fn9_t2 = etree.SubElement(fn9_r2, f'{{{W_NS}}}t')
@@ -2894,7 +2931,6 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'The cost ranking identifies the feasible set '
         'of exporters, not a prediction of realized investment.'
     )
-    omath(p, [_msub('K\u0304', 'j')])
 
     # v31: FDI data confirming cost-vs-investment mismatch + bilateral channel
     p, cur = mkp(doc, body, cur)
@@ -3907,8 +3943,26 @@ def write_model_appendix(doc, body, last_note):
     # B.4 Capacity Allocation
     cur = mkh(doc, body, cur, 'B.4 Capacity Allocation', level=2)
     p, cur = mkp(doc, body, cur)
+    p.add_run('Let ')
+    omath(p, [_msub('K', 'T,j')])
+    p.add_run(' denote the GPU-hours country ')
+    omath(p, [_v('j')])
+    p.add_run(' allocates to training exports and ')
+    omath(p, [_msub('K', 'I,j\u2192k')])
     p.add_run(
-        'Each GPU-hour is allocated to its highest-margin use. The margins per GPU-hour are: '
+        ' the GPU-hours it allocates to inference exports to buyer '
+    )
+    omath(p, [_v('k')])
+    p.add_run(
+        ', so that total capacity used by country '
+    )
+    omath(p, [_v('j')])
+    p.add_run(' is ')
+    omath(p, [_msub('K', 'j'), _t(' = '),
+              _msub('K', 'T,j'), _t(' + '),
+              _nary('\u2211', [_v('k')], [], [_msub('K', 'I,j\u2192k')])])
+    p.add_run(
+        '. Each GPU-hour is allocated to its highest-margin use. The margins per GPU-hour are: '
         'training exports '
     )
     omath(p, [_msub('r', 'T'), _t('('), _v('j'), _t(') = '),
@@ -3977,16 +4031,20 @@ def write_model_appendix(doc, body, last_note):
     p.add_run('The welfare cost has two components. For each importing country ')
     omath(p, [_v('k')])
     p.add_run(', let ')
-    omath(p, [_v('i'), _t(' = '), _msubsup('j', 'k', '*')])
-    p.add_run(' denote its equilibrium supplier (the seller minimizing delivered cost). '
-              'Import markup:')
+    omath(p, [_msubsup('j', 'k', '*')])
+    p.add_run(' denote its equilibrium supplier (the seller minimizing delivered cost), '
+              'and write ')
+    omath(p, [_msub('\u03BB', 'jk')])
+    p.add_run(' evaluated at ')
+    omath(p, [_v('j'), _t(' = '), _msubsup('j', 'k', '*')])
+    p.add_run('. Import markup:')
     p.paragraph_format.space_after = Pt(4)
 
     _, cur = omath_display(doc, body, cur, [
         _msub('DWL', 'import'), _t(' = '),
         _nary('\u2211', [_v('k'), _t(' \u2208 '), _msub('M', 'T')], [],
               [_msub('q', 'Tk'), _t(' \u00b7 '),
-               _msub('\u03BB', 'ik'),
+               _msub('\u03BB', 'jk'),
                _t(' \u00b7 '), _msub('p', 'T')]), _t('.'),
     ], eq_num='B.4')
 
@@ -4007,7 +4065,7 @@ def write_model_appendix(doc, body, last_note):
 
     p, cur = mkp(doc, body, cur)
     p.add_run('Total: ')
-    omath(p, [_t('DWL('), _msub('\u03BB', 'ij'), _t(') = '),
+    omath(p, [_t('DWL = '),
               _msub('DWL', 'import'), _t(' + '),
               _msub('DWL', 'alloc')])
     p.add_run(
