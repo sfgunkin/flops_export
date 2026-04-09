@@ -6714,9 +6714,6 @@ def main():
     demand_data["export_share_20"] = sum(
         omega.get(iso, 0) for iso in dc_k
         if iso in adj_costs and adj_costs[iso] > 1.20 * adj_min_cost)
-    print(f"  [cost-recovery] λ=20% vs 10%: "
-          f"{demand_data['extra_dom']} extra countries, "
-          f"names={demand_data['extra_dom_names']}")
 
     # Recompute KGZ inference clients
     adj_kgz_clients = []
