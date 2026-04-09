@@ -505,6 +505,53 @@ def demand_weights(calibration_data, dc_capacity_data):
     return omega, dc_k
 
 
+@pytest.fixture(scope="session")
+def docx_body_xml():
+    """Raw word/document.xml from the current v31.docx.
+
+    Used for structural checks (e.g., OMML equation presence, paragraph
+    ordering). Requires that add_calibration_v31.py has been run at least
+    once in the current session.
+    """
+    import zipfile
+    docx_path = (
+        DATA.parent / "Documents" / "flop_trade_model_v31.docx"
+    )
+    with zipfile.ZipFile(docx_path) as z:
+        with z.open("word/document.xml") as f:
+            return f.read().decode("utf-8")
+
+
+@pytest.fixture(scope="session")
+def docx_footnotes_xml():
+    """Raw word/footnotes.xml from the current v31.docx."""
+    import zipfile
+    docx_path = (
+        DATA.parent / "Documents" / "flop_trade_model_v31.docx"
+    )
+    with zipfile.ZipFile(docx_path) as z:
+        try:
+            with z.open("word/footnotes.xml") as f:
+                return f.read().decode("utf-8")
+        except KeyError:
+            return ""
+
+
+@pytest.fixture(scope="session")
+def docx_text(docx_body_xml, docx_footnotes_xml):
+    """Flat text extraction from body + footnotes of v31.docx.
+
+    Joins all w:t and m:t text runs (preserving adjacency, not OMML
+    structure). Use this for prose and citation substring checks; use
+    docx_body_xml directly when structural XML patterns matter.
+    """
+    import re
+    pat = re.compile(r"<(?:w:t|m:t)[^>]*>([^<]*)</(?:w:t|m:t)>")
+    body_text = "".join(pat.findall(docx_body_xml))
+    fn_text = "".join(pat.findall(docx_footnotes_xml or ""))
+    return body_text + "\n" + fn_text
+
+
 # ================================================================
 # A. STRUCTURAL PARAMETERS (Section 6.1, Table 2)
 # ================================================================
@@ -650,7 +697,6 @@ class TestDataIntegrity:
             lat_countries.add(d)
         covered = cal_isos & lat_countries
         assert len(covered) >= 75
-
 
 
 # ================================================================
@@ -2255,3 +2301,449 @@ class TestRegimeCounts:
                 assert regime[iso] != "T+I exporter", (
                     f"Sanctioned {iso} = T+I exporter"
                 )
+
+
+# ================================================================
+# V. DOCUMENT CONTENT -- verify generated v31.docx contents
+# ================================================================
+
+class TestDocumentContent:
+    """Verify key text, equations, and fixes in the generated v31.docx.
+
+    These tests read the latest ``flop_trade_model_v31.docx`` and check
+    that paper content is present and that known reviewer fixes from
+    sessions 1-3 have not regressed.
+    """
+
+    # ---------- Structure ----------
+
+    def test_title_present(self, docx_text):
+        assert "Cheap Energy Might Not Be Enough" in docx_text
+        assert "A Trade Model of AI Compute Services" in docx_text
+
+    def test_author_lokshin(self, docx_text):
+        assert "Michael Lokshin" in docx_text
+
+    def test_version_stamp_v31(self, docx_text):
+        assert "v31" in docx_text
+
+    def test_abstract_present(self, docx_text):
+        assert "Abstract" in docx_text
+
+    def test_jel_codes(self, docx_text):
+        for code in ("F14", "F18", "L86", "O14", "O33", "Q40"):
+            assert code in docx_text, f"Missing JEL code: {code}"
+
+    def test_keywords_present(self, docx_text):
+        assert "Keywords" in docx_text
+        assert "compute trade" in docx_text
+
+    def test_section_headings(self, docx_text):
+        headings = (
+            "1. Introduction",
+            "2. Related Literature",
+            "3. Model of Compute Production and Trade",
+            "4. Equilibrium Properties",
+            "5. Data",
+            "6. Calibration and Results",
+            "7. Robustness and Extensions",
+            "8. Conclusion",
+        )
+        for h in headings:
+            assert h in docx_text, f"Missing heading: {h}"
+
+    def test_appendices_present(self, docx_text):
+        for h in ("Appendix B", "Appendix C", "Appendix D", "Appendix E"):
+            assert h in docx_text, f"Missing: {h}"
+
+    # ---------- Equation numbering ----------
+
+    def test_main_equations_1_to_6(self, docx_text):
+        for n in ("(1)", "(2)", "(3)", "(4)", "(5)", "(6)"):
+            assert n in docx_text, f"Missing equation number {n}"
+
+    def test_appendix_b_equations(self, docx_text):
+        for n in ("(B.1)", "(B.2)", "(B.3)", "(B.4)", "(B.5)"):
+            assert n in docx_text, f"Missing {n}"
+
+    # ---------- Fix 1a: HHI display equation ----------
+
+    def test_hhi_display_equation_present(self, docx_body_xml):
+        """Prop 2 HHI formula is a display equation with proper
+        ``K_{T,j}/Q_{T,X}`` squared-ratio structure inside a Σ."""
+        import re
+        paras = re.findall(
+            r"<m:oMathPara[^>]*>.*?</m:oMathPara>",
+            docx_body_xml, re.DOTALL,
+        )
+        hhi_paras = []
+        for p in paras:
+            t = "".join(re.findall(r"<m:t[^>]*>([^<]*)</m:t>", p))
+            if "HHI" in t and "T,j" in t and "T,X" in t:
+                hhi_paras.append(p)
+        assert hhi_paras, (
+            "No HHI display equation with K_{T,j} and Q_{T,X} "
+            "found in oMathPara elements"
+        )
+        # Verify Σ character present inside the n-ary operator
+        for p in hhi_paras:
+            assert 'chr m:val="\u2211"' in p, (
+                "HHI display equation is missing Σ (\u2211) character"
+            )
+
+    def test_hhi_no_stray_2(self, docx_body_xml):
+        """Regression: the old broken HHI had a stray (² inside the Σ
+        operand. After the fix, the operand must be a properly nested
+        sSup with a delimited fraction (no standalone ``(`` before K)."""
+        import re
+        idx = docx_body_xml.find("Proposition 2")
+        next_heading = docx_body_xml.find("Proposition 3")
+        if idx < 0 or next_heading <= idx:
+            return
+        chunk = docx_body_xml[idx:next_heading]
+        naries = re.findall(r"<m:nary>.*?</m:nary>", chunk, re.DOTALL)
+        # At least one nary should exist (the Σ_j in HHI)
+        assert naries, "No n-ary operator in Prop 2 area"
+        # None of them should contain an sSup whose base is just "("
+        for nary in naries:
+            e_match = re.search(
+                r"<m:e>(.*?)</m:e>", nary, re.DOTALL,
+            )
+            if not e_match:
+                continue
+            e_content = e_match.group(1)
+            # A properly built squared ratio uses m:d (delimiter) to
+            # provide the parentheses, not a literal "(" run.
+            stray_parens = re.findall(
+                r"<m:t[^>]*>\s*\(\s*</m:t>", e_content,
+            )
+            assert not stray_parens, (
+                "Prop 2 n-ary operand contains a stray literal '('"
+            )
+
+    # ---------- Fix 1d: PUE display equation ----------
+
+    def test_pue_functional_form_display(self, docx_body_xml):
+        """The PUE functional form should appear as an oMathPara in
+        Section 3.1 immediately after equation (1)."""
+        import re
+        paras = re.findall(
+            r"<m:oMathPara[^>]*>.*?</m:oMathPara>",
+            docx_body_xml, re.DOTALL,
+        )
+        for p in paras:
+            t = "".join(re.findall(r"<m:t[^>]*>([^<]*)</m:t>", p))
+            # Looking for PUE(θ_j) = φ + δ · max(0, θ_j − θ̄)
+            if (
+                "PUE" in t
+                and "\u03C6" in t      # φ
+                and "\u03B4" in t      # δ
+                and "max" in t
+            ):
+                return
+        assert False, (
+            "No PUE(θ) = φ + δ · max(0, θ − θ̄) display equation found"
+        )
+
+    # ---------- Fix 1f: latency notation unified (no d_{ij}) ----------
+
+    def test_no_d_ij_in_prop1(self, docx_body_xml):
+        """Prop 1 regime (ii) used to say ``d_{ij} below threshold d``;
+        after unification it should use ``l_{jk}`` and ``l̄``."""
+        import re
+        p1 = docx_body_xml.find("Proposition 1")
+        p2 = docx_body_xml.find("Proposition 2")
+        if p1 < 0 or p2 <= p1:
+            return
+        p1_chunk = docx_body_xml[p1:p2]
+        sSubs = re.findall(
+            r"<m:sSub>.*?</m:sSub>", p1_chunk, re.DOTALL,
+        )
+        for s in sSubs:
+            e_match = re.search(r"<m:e>(.*?)</m:e>", s, re.DOTALL)
+            sub_match = re.search(
+                r"<m:sub>(.*?)</m:sub>", s, re.DOTALL,
+            )
+            if not (e_match and sub_match):
+                continue
+            base = "".join(re.findall(
+                r"<m:t[^>]*>([^<]*)</m:t>", e_match.group(1)))
+            sub = "".join(re.findall(
+                r"<m:t[^>]*>([^<]*)</m:t>", sub_match.group(1)))
+            assert not (base == "d" and sub in ("ij", "jk")), (
+                f"Prop 1 still has d subscript: base={base!r}, sub={sub!r}"
+            )
+
+    # ---------- Fix 1g: no stray K̄j after "realized investment" ----------
+
+    def test_no_stray_kbar_j(self, docx_body_xml):
+        """The earlier draft had a dangling ``K̄_j`` OMML element
+        appended after ``...realized investment.`` in Section 6.2."""
+        import re
+        for m in re.finditer(r"realized investment", docx_body_xml):
+            pos = m.start()
+            chunk = docx_body_xml[pos:pos + 600]
+            text = "".join(re.findall(
+                r"<(?:w:t|m:t)[^>]*>([^<]*)</(?:w:t|m:t)>", chunk))
+            head = text[:80]  # first 80 chars after "realized investment"
+            assert (
+                "K\u0304j" not in head
+                and "K\u0304" + "j" not in head
+            ), (
+                f"Stray K̄j found after 'realized investment': {head!r}"
+            )
+
+    def test_capacity_bound_in_prop2(self, docx_text):
+        """Prop 2 should explicitly state K_{T,j} ≤ K̄_j."""
+        assert "bounded by the capacity ceiling" in docx_text
+
+    # ---------- Fix 1h: λ seller/buyer clarification ----------
+
+    def test_lambda_subscript_clarification(self, docx_text):
+        """Body should explain that λ_{jk} ≡ λ_{ij} from eq (2)."""
+        assert "we relabel the subscripts" in docx_text
+
+    # ---------- Fix 1i: no p_T* in Prop 1 ----------
+
+    def test_no_p_T_star_in_prop1(self, docx_body_xml):
+        """Prop 1 should use p_T, not p_T^*."""
+        import re
+        p1 = docx_body_xml.find("Proposition 1")
+        p2 = docx_body_xml.find("Proposition 2")
+        if p1 < 0 or p2 <= p1:
+            return
+        p1_chunk = docx_body_xml[p1:p2]
+        sSubSups = re.findall(
+            r"<m:sSubSup>.*?</m:sSubSup>", p1_chunk, re.DOTALL,
+        )
+        for s in sSubSups:
+            ts = "".join(re.findall(r"<m:t[^>]*>([^<]*)</m:t>", s))
+            assert not (
+                "p" in ts and "T" in ts and "*" in ts
+            ), f"Prop 1 still has p_T*: {ts!r}"
+
+    # ---------- Fix 1j: K_{I,j→k} notation ----------
+
+    def test_inference_allocation_notation_defined(self, docx_text):
+        """Appendix B.4 should define K_{I, j→k}."""
+        assert "I,j\u2192k" in docx_text, (
+            "Missing K_{I, j→k} notation in Appendix B.4"
+        )
+        assert "inference exports to buyer" in docx_text
+
+    # ---------- Formal latency cone footnote (later fix) ----------
+
+    def test_latency_cone_formal_statement(self, docx_text):
+        """Footnote 9 should include the formal non-empty latency cone
+        condition (∃k with q_k > 0 and l_{jk} ≤ l̄)."""
+        assert "Formally, country j has a non-empty latency cone" in (
+            docx_text
+        )
+        assert "\u2203k" in docx_text  # ∃k
+
+    # ---------- Fix 2a: Graphics (not Graphic) ----------
+
+    def test_graphics_processing_units(self, docx_text):
+        assert "Graphics Processing Units" in docx_text
+        assert "Graphic Processing Units" not in docx_text
+
+    # ---------- Fix 2b: Heckscher-Ohlin attribution ----------
+
+    def test_heckscher_cited_in_text(self, docx_text):
+        assert "Heckscher 1919" in docx_text
+
+    def test_ohlin_still_cited(self, docx_text):
+        assert "Ohlin 1933" in docx_text
+
+    def test_heckscher_ohlin_hyphenated(self, docx_text):
+        assert "Heckscher\u2013Ohlin" in docx_text
+
+    def test_ricardian_vs_ho_hybrid_acknowledged(self, docx_text):
+        assert "the cost structure above is Ricardian" in docx_text
+
+    # ---------- Fix 2c: World Bank sentence rephrased ----------
+
+    def test_world_bank_divide_parenthesized(self, docx_text):
+        # No em-dash per paper style; parenthetical aside
+        assert (
+            "divide (high-income countries hold 77% of colocation capacity)"
+            in docx_text
+        )
+
+    def test_world_bank_not_old_comma_form(self, docx_text):
+        assert "divide,  high-income" not in docx_text
+
+    # ---------- Fix 2d: Deloitte and Google (2020) ----------
+
+    def test_deloitte_and_google_cited_in_text(self, docx_text):
+        assert "Deloitte and Google (2020)" in docx_text
+
+    def test_deloitte_and_google_in_references(self, docx_text):
+        assert "Milliseconds Make Millions" in docx_text
+
+    # ---------- Fix 2e: ADB (not ABD) ----------
+
+    def test_adb_not_abd_in_text(self, docx_text):
+        assert "ADB 2020" in docx_text
+        assert "ABD 2020" not in docx_text
+
+    def test_asian_development_bank_in_references(self, docx_text):
+        assert "Asian Development Bank" in docx_text
+
+    # ---------- Fix 2f: G_{ij} normalization ----------
+
+    def test_g_normalization_statement(self, docx_text):
+        assert "normalized so that" in docx_text
+
+    # ---------- Fix 2g: HHI dominant-exporter phrasing ----------
+
+    def test_hhi_dominant_exporter_phrasing(self, docx_text):
+        assert "dominant exporter" in docx_text
+
+    def test_hhi_unconstrained_benchmark_mention(self, docx_text):
+        assert "close to the unconstrained benchmark" in docx_text
+
+    # ---------- Fix 2h: uniform 20% premium + country name ----------
+
+    def test_uniform_premium_specified(self, docx_text):
+        assert "uniform" in docx_text and "premium to 20%" in docx_text
+
+    def test_20pct_country_named(
+        self, docx_text, cost_recovery_costs, demand_weights,
+    ):
+        """The §6.2 counterfactual must name at least one specific
+        country that shifts into domestic production when the uniform
+        premium rises from 10% to 20%. The test independently recomputes
+        the expected set from cost-recovery costs and asserts that at
+        least one of those country names appears in the uniform-premium
+        counterfactual sentence."""
+        _, dc_k = demand_weights
+        min_cost = min(cost_recovery_costs.values())
+        # ISOs in the bracket (1.10 m, 1.20 m]
+        shifted_isos = [
+            iso for iso in dc_k
+            if iso in cost_recovery_costs
+            and 1.10 * min_cost
+            < cost_recovery_costs[iso]
+            <= 1.20 * min_cost
+        ]
+        # Expected country names from CSV
+        # (re-load to keep test self-contained)
+        path = DATA / "calibration_results_v3.csv"
+        with open(path, encoding="utf-8") as f:
+            iso_to_name = {
+                r["iso3"]: r["country"] for r in csv.DictReader(f)
+            }
+        expected_names = {
+            iso_to_name.get(iso, iso) for iso in shifted_isos
+        }
+        # At least one expected name must appear in the 20% sentence
+        import re
+        m = re.search(
+            r"Raising the uniform premium to 20%[^.]{0,400}",
+            docx_text,
+        )
+        assert m, "Could not locate uniform-20% sentence"
+        sentence = m.group()
+        found = [n for n in expected_names if n and n in sentence]
+        assert found, (
+            f"20% sentence names no expected country; "
+            f"expected one of {sorted(expected_names)}"
+        )
+
+    # ---------- Fix 2i: welfare gains (not losses) phrasing ----------
+
+    def test_welfare_gains_phrasing(self, docx_text):
+        assert "welfare gains from trade" in docx_text
+
+    def test_no_welfare_losses_misphrase(self, docx_text):
+        assert "welfare losses from trade barriers" not in docx_text
+
+
+# ================================================================
+# W. CITATION INTEGRITY -- reference list completeness
+# ================================================================
+
+class TestCitationIntegrity:
+    """Verify that key citations used in the body also appear in the
+    reference list and are internally consistent."""
+
+    def test_heckscher_in_references(self, docx_text):
+        assert "Heckscher, E." in docx_text
+
+    def test_ohlin_in_references(self, docx_text):
+        assert "Ohlin, B." in docx_text
+
+    def test_eaton_kortum_in_references(self, docx_text):
+        assert "Eaton" in docx_text and "Kortum" in docx_text
+
+    def test_arkolakis_in_references(self, docx_text):
+        assert "Arkolakis" in docx_text
+
+    def test_bailey_strezhnev_voeten_in_references(self, docx_text):
+        assert (
+            "Bailey, M." in docx_text or "Bailey" in docx_text
+        )
+        assert "Strezhnev" in docx_text
+
+    def test_imf_in_references(self, docx_text):
+        assert "IMF" in docx_text
+
+    def test_world_bank_in_references(self, docx_text):
+        assert "World Bank" in docx_text
+
+    def test_goldfarb_trefler_in_references(self, docx_text):
+        assert "Goldfarb" in docx_text and "Trefler" in docx_text
+
+
+# ================================================================
+# X. EQUATION STRUCTURE -- OMML invariants across all display equations
+# ================================================================
+
+class TestEquationStructure:
+    """Spot-check that all n-ary operators in the document render
+    with proper Σ character and structured sub/sup/operand children."""
+
+    def test_all_naries_have_sigma(self, docx_body_xml):
+        """Every n-ary operator we emit should be a summation Σ."""
+        import re
+        naries = re.findall(
+            r"<m:nary>.*?</m:nary>", docx_body_xml, re.DOTALL,
+        )
+        assert len(naries) >= 6, (
+            f"Expected at least 6 n-ary operators, found {len(naries)}"
+        )
+        for nary in naries:
+            m = re.search(r'<m:chr m:val="([^"]+)"', nary)
+            assert m is not None, "n-ary without m:chr attribute"
+            assert m.group(1) == "\u2211", (
+                f"n-ary with non-Σ char: {m.group(1)!r}"
+            )
+
+    def test_all_naries_have_operand(self, docx_body_xml):
+        """Every n-ary must have a non-empty m:e (operand) — otherwise
+        the summed expression would be missing."""
+        import re
+        naries = re.findall(
+            r"<m:nary>.*?</m:nary>", docx_body_xml, re.DOTALL,
+        )
+        for nary in naries:
+            e_match = re.search(
+                r"<m:e>(.*?)</m:e>", nary, re.DOTALL,
+            )
+            assert e_match is not None, "n-ary missing m:e"
+            # The operand should contain at least one run or structure
+            body = e_match.group(1).strip()
+            assert body, "n-ary has empty operand"
+
+    def test_omath_para_count_minimum(self, docx_body_xml):
+        """The paper should have at least two oMathPara blocks: the PUE
+        functional form (Section 3.1) and the HHI display (Section 4)."""
+        import re
+        paras = re.findall(
+            r"<m:oMathPara[^>]*>.*?</m:oMathPara>",
+            docx_body_xml, re.DOTALL,
+        )
+        assert len(paras) >= 2, (
+            f"Expected >=2 oMathPara blocks, found {len(paras)}"
+        )
