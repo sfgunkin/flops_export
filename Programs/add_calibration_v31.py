@@ -2219,7 +2219,7 @@ def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
     p.add_run('where ')
     omath(p, [_msub('m', 'I'), _t('('), _v('k'), _t(')')])
     p.add_run(
-        ' is the marginal inference supplier to '
+        'is the marginal inference supplier to '
     )
     omath(p, [_v('k')])
     p.add_run(
