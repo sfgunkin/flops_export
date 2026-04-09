@@ -6200,7 +6200,6 @@ def main():
         if iso in costs_dict
         and 1.10 * min_cost < costs_dict[iso] <= 1.20 * min_cost
     )
-    print(f"  Uniform λ=20% vs 10%: {extra_dom} extra countries, names={extra_dom_names}")
     export_share_10 = sum(
         omega[iso] for iso in dc_k
         if iso in costs_dict and costs_dict[iso] > 1.10 * min_cost)
@@ -6703,12 +6702,21 @@ def main():
         1 for iso in dc_k
         if iso in adj_costs and adj_costs[iso] <= 1.20 * adj_min_cost)
     demand_data["extra_dom"] = adj_count_dom_20 - adj_count_dom_10
+    demand_data["extra_dom_names"] = sorted(
+        next((r["country"] for r in cal if r["iso3"] == iso), iso)
+        for iso in dc_k
+        if iso in adj_costs
+        and 1.10 * adj_min_cost < adj_costs[iso] <= 1.20 * adj_min_cost
+    )
     demand_data["export_share_10"] = sum(
         omega.get(iso, 0) for iso in dc_k
         if iso in adj_costs and adj_costs[iso] > 1.10 * adj_min_cost)
     demand_data["export_share_20"] = sum(
         omega.get(iso, 0) for iso in dc_k
         if iso in adj_costs and adj_costs[iso] > 1.20 * adj_min_cost)
+    print(f"  [cost-recovery] λ=20% vs 10%: "
+          f"{demand_data['extra_dom']} extra countries, "
+          f"names={demand_data['extra_dom_names']}")
 
     # Recompute KGZ inference clients
     adj_kgz_clients = []
