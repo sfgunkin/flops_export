@@ -2377,7 +2377,6 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         'a standard measure of market concentration that is equal to the sum of squared market shares'
         ', for training market concentration as:'
     )
-    p.paragraph_format.space_after = Pt(2)
 
     # Display equation + inline continuation (single paragraph starting with
     # centered display math via oMathPara, then prose with inline definitions).
@@ -2389,8 +2388,8 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         _t(', '),
     ])
     p.add_run('where ')
-    omath(p, [_msub('Q', 'T,X'), _t(' = '),
-              _nary('\u2211', [_v('k'), _t(' \u2208 '), _msub('M', 'T')], [],
+    omath(p, [_msub('Q', 'T,X'), _t('='),
+              _nary('\u2211', [_v('k'), _t('\u2208'), _msub('M', 'T')], [],
                     [_msub('q', 'T,k')])])
     p.add_run(
         ' denote total training export demand, the sum of training demand '
