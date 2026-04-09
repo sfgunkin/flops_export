@@ -992,8 +992,9 @@ def flush_footnotes():
 CITATIONS = [
     ('Epoch AI', '2024', 'EpochAI2024', 'Epoch AI. (2024)'),
     ('Deloitte', '2025', 'Deloitte2025', 'Deloitte. (2025)'),
-    ('Deloitte', '2020', 'Deloitte2020', 'Deloitte and Google. (2020)'),
+    ('Deloitte and Google', '2020', 'Deloitte2020', 'Deloitte and Google. (2020)'),
     ('IEA', '2025', 'IEA2025', 'IEA. (2025)'),
+    ('Heckscher', '1919', 'Heckscher1919', 'Heckscher, E.'),
     ('Ohlin', '1933', 'Ohlin1933', 'Ohlin, B.'),
     ('Biglaiser et al.', '2024', 'Biglaiser2024', 'Biglaiser, G.'),
     ('Blinder', '2006', 'Blinder2006', 'Blinder, A.'),
@@ -1035,7 +1036,7 @@ CITATIONS = [
      'Arkolakis, C.'),
 
     ('Barroso et al.', '2018', 'Barroso2018', 'Barroso, L.'),
-    ('ABD', '2020', 'ABD2020', 'Asian Development Bank. (2020)'),
+    ('ADB', '2020', 'ADB2020', 'Asian Development Bank. (2020)'),
     ('Calcaterra et al.', '2024', 'Calcaterra2024', 'Calcaterra, M.'),
     # v24: Bailey et al. for UN General Assembly ideal-point data
     ('Bailey, Strezhnev, and Voeten', '2017', 'BaileyEtAl2017', 'Bailey, M.'),
@@ -1153,6 +1154,7 @@ ITALIC_IN_REFS = {
     'Bailey': 'Journal of Conflict Resolution',
 
     'Barroso': 'The Datacenter as a Computer',
+    'Heckscher': 'Ekonomisk Tidskrift',
     'Ohlin': 'Interregional and International Trade',
     'Biglaiser': 'Toulouse School of Economics Working Paper',
     'Blinder': 'Foreign Affairs',
@@ -1546,9 +1548,9 @@ def write_literature(doc, body, hmap):
         '\u201CCompute South\u201D limited to inference chips. '
         'Pilz et al. (2025) project that data center power demand '
         'could reach 327 GW by 2030. '
-        'The World Bank (2025) documents the resulting '
-        'divide,  high-income countries hold 77% of colocation capacity,  '
-        'but without a formal framework linking costs to trade patterns. '
+        'The World Bank (2025) documents the resulting divide '
+        '(high-income countries hold 77% of colocation capacity), '
+        'but does not offer a formal framework linking costs to trade patterns. '
         'Biglaiser et al. (2024) survey cloud market IO, and '
         'Stojkoski et al. (2024) estimate cloud export geography but treat services as '
         'homogeneous. The present model adds supply-side cost structure and a '
@@ -1598,7 +1600,7 @@ def write_production_technology(doc, body, hmap):
     # PUE inlined (no display equation) — merged with equation lead-in
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'A data center consumes electricity for its Graphic Processing Units (GPU), '
+        'A data center consumes electricity for its Graphics Processing Units (GPUs), '
         'cooling, power distribution, and lighting. '
         'This overhead is measured by the '
     )
@@ -1712,8 +1714,12 @@ def write_production_technology(doc, body, hmap):
     # Endowment paragraph
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Countries export goods intensive in their '
-        'abundant factors (Ohlin 1933). For compute production, the relevant endowment is not electricity, '
+        'Although the cost structure above is Ricardian '
+        '(country-specific production costs driven by technology and input prices), '
+        'the justification for resource-rich comparative advantage is closer to '
+        'Heckscher\u2013Ohlin: countries export goods intensive in their '
+        'abundant factors (Heckscher 1919, Ohlin 1933). '
+        'For compute production, the relevant endowment is not electricity, '
         'but the natural resources that generate it, such as hydropower '
         '(Kyrgyzstan, Ethiopia, Georgia), oil and gas (Iran, Turkmenistan, Qatar), solar '
         'irradiance (North Africa, the Gulf), and geothermal energy (Kenya, Iceland).'
@@ -1800,8 +1806,12 @@ def write_trade_costs(doc, body, hmap):
     )
     omath(p, [_msub('G', 'ij')])
     p.add_run(
-        ', measured by UN General Assembly ideal-point distance '
-        '(Bailey, Strezhnev, and Voeten 2017); regulatory compatibility '
+        ', measured from UN General Assembly ideal-point distance '
+        '(Bailey, Strezhnev, and Voeten 2017) and normalized so that '
+    )
+    omath(p, [_msub('G', 'ij'), _t(' \u2208 [0, 1]')])
+    p.add_run(
+        ', with 0 denoting perfect alignment; regulatory compatibility '
     )
     omath(p, [_msub('R', 'ij')])
     p.add_run(
@@ -2758,7 +2768,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         ', implying that 100 ms of round-trip latency '
         '(roughly the intercontinental round-trip between '
         'Europe and East Asia) inflates inference cost by 8%, '
-        'consistent with the finding in Deloitte (2020) for e-commerce. '
+        'consistent with the finding in Deloitte and Google (2020) for e-commerce. '
     )
 
     # Sovereignty premium (split from old "Other parameters")
@@ -3002,10 +3012,27 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'capacity constraints, the equilibrium training price is '
     )
     omath(p, [_msub('p', 'T'), _t(f' = ${p_T_val:.2f}')])
+    if cap_hhi >= 0.99:
+        _hhi_phrase = (
+            f'Training demand is served by a dominant exporter '
+            f'(HHI = {cap_hhi:.3f}, with {n_exp - 1} other producer'
+            f'{"s" if n_exp - 1 != 1 else ""} at the margin), '
+            f'leaving the training market close to the unconstrained '
+            f'benchmark of Proposition 2. '
+        ) if n_exp > 1 else (
+            f'Training demand is served by a single dominant exporter '
+            f'(HHI = {cap_hhi:.3f}), '
+            f'leaving the training market close to the unconstrained '
+            f'benchmark of Proposition 2. '
+        )
+    else:
+        _hhi_phrase = (
+            f'Training demand is served by {n_exp} exporter'
+            f'{"s" if n_exp > 1 else ""} '
+            f'(HHI = {cap_hhi:.4f}), confirming Proposition 2. '
+        )
     p.add_run(
-        '/hr, set by the marginal exporter\u2019s cost. '
-        f'Training demand is served by {n_exp} exporter{"s" if n_exp > 1 else ""} '
-        f'(HHI = {cap_hhi:.4f}), confirming Proposition 2. '
+        '/hr, set by the marginal exporter\u2019s cost. ' + _hhi_phrase
     )
     if mu_vals:
         top_mu = sorted(mu_vals.items(), key=lambda x: -x[1])[:3]
@@ -3132,14 +3159,26 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     es10 = demand_data["export_share_10"]
     es20 = demand_data["export_share_20"]
     extra = demand_data["extra_dom"]
+    extra_names = demand_data.get("extra_dom_names", [])
+    # Build a name fragment like "(Tajikistan)" or "(Tajikistan and Kosovo)"
+    if extra_names and extra == len(extra_names):
+        if len(extra_names) == 1:
+            _name_frag = f' ({extra_names[0]})'
+        elif len(extra_names) == 2:
+            _name_frag = f' ({extra_names[0]} and {extra_names[1]})'
+        else:
+            _name_frag = f' ({", ".join(extra_names[:-1])}, and {extra_names[-1]})'
+    else:
+        _name_frag = ''
     if es10 < 0.005:
         p.add_run(
             'Under cost-recovery pricing, the narrow cost spread means that '
-            'even a 10% sovereignty premium is sufficient to make domestic '
+            'even a 10% uniform sovereignty premium is sufficient to make domestic '
             'training viable for nearly all countries, leaving the share of '
             'global training demand available to foreign exporters negligible. '
-            f'Raising the premium to 20% shifts {extra} additional '
-            f'{"country" if extra == 1 else "countries"} to domestic '
+            f'Raising the uniform premium to 20% shifts {extra} additional '
+            f'{"country" if extra == 1 else "countries"}'
+            f'{_name_frag} to domestic '
             'production, but the marginal effect is small. '
             'Inference exports are more resilient to sovereignty premia because '
             'the latency advantage of proximity partially insulates regional hubs. '
@@ -3148,8 +3187,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         )
     else:
         p.add_run(
-            f'Doubling the sovereignty premium to 20% shifts {extra} '
-            f'additional {"country" if extra == 1 else "countries"} '
+            f'Doubling the uniform sovereignty premium to 20% shifts {extra} '
+            f'additional {"country" if extra == 1 else "countries"}'
+            f'{_name_frag} '
             'to domestic training production, reducing '
             'the share of global training demand available to foreign producers '
             f'from {es10 * 100:.0f}% to '
@@ -3179,8 +3219,10 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'Under capacity constraints, both components are smaller than in the unconstrained '
         'model because the higher world price narrows the gap between domestic and import costs. '
         f'The demand-weighted welfare cost is {demand_data["welfare_pct"]:.1f}% of '
-        'average compute spending, comparable to the 0.2\u201310% welfare losses from trade barriers '
-        'estimated for goods trade (Eaton and Kortum 2002, Arkolakis et al. 2012).'
+        'average compute spending, in the range of the welfare gains from trade '
+        'in goods estimated in the quantitative trade literature, which fall between '
+        'roughly 0.2% and 10% depending on country size and specification '
+        '(Eaton and Kortum 2002, Arkolakis et al. 2012).'
         ' At current demand levels (approximately 6\u2009\u00d7\u200910\u00b9\u2070 GPU-hours at '
         '$1.50/hr), this amounts to roughly $1.3\u2009billion per year. This cost is small '
         'enough that governments with legitimate data-sovereignty objectives, such as military '
@@ -4414,7 +4456,7 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
     r = p.add_run('Risks. ')
     r.bold = True
     p.add_run(
-        'Kyrgyzstan depends on the Toktogul reservoir for over 80\u2009percent of electricity (ABD 2020); '
+        'Kyrgyzstan depends on the Toktogul reservoir for over 80\u2009percent of electricity (ADB 2020); '
         'seasonal drawdowns and drought years create acute power shortages. '
         'GPU procurement faces US export-control uncertainty. '
         'Underdeveloped contract enforcement and regulatory frameworks raise the '
@@ -5557,6 +5599,9 @@ def write_references(doc, body, refs):
         'Journal of Conflict Resolution, 61(2): 430\u2013456.',
 
 
+        'Heckscher, E. (1919). \u201CThe Effect of Foreign Trade on the Distribution '
+        'of Income.\u201D Ekonomisk Tidskrift, 21: 497\u2013512.',
+
         'Ohlin, B. (1933). Interregional and International Trade. '
         'Cambridge, MA: Harvard University Press.',
 
@@ -6147,6 +6192,14 @@ def main():
         1 for iso in dc_k
         if iso in costs_dict and costs_dict[iso] <= 1.20 * min_cost)
     extra_dom = count_dom_20 - count_dom_10
+    # Countries that shift into domestic production when uniform premium
+    # rises from 10% to 20%
+    extra_dom_names = sorted(
+        (next((r["country"] for r in cal if r["iso3"] == iso), iso)
+         for iso in dc_k
+         if iso in costs_dict
+         and 1.10 * min_cost < costs_dict[iso] <= 1.20 * min_cost),
+    )
     export_share_10 = sum(
         omega[iso] for iso in dc_k
         if iso in costs_dict and costs_dict[iso] > 1.10 * min_cost)
@@ -6175,7 +6228,7 @@ def main():
         "welfare_train": 0, "welfare_inf": 0,
         "weighted_avg_cost": 0,  # computed after equilibrium
         "count_dom_10": count_dom_10, "count_dom_20": count_dom_20,
-        "extra_dom": extra_dom,
+        "extra_dom": extra_dom, "extra_dom_names": extra_dom_names,
         "export_share_10": export_share_10, "export_share_20": export_share_20,
         "kgz_inf_clients": kgz_inf_clients,
         "dc_k": dc_k, "dc_counts": dc_counts, "dc_sources": dc_sources,
