@@ -611,6 +611,37 @@ def omath(p, parts):
     p._element.append(om)
 
 
+def omath_para(p, parts):
+    """Display math wrapped in m:oMathPara (centered block within a paragraph,
+    without the 2-column table layout used by omath_display). For equations that
+    should render as display math but do not need an equation number."""
+    opara = OxmlElement('m:oMathPara')
+    om = OxmlElement('m:oMath')
+    for part in parts:
+        om.append(part)
+    opara.append(om)
+    p._element.append(opara)
+
+
+def _sq_frac(num, sub_num, den, sub_den):
+    """Build (num_{sub_num} / den_{sub_den})^2 as OMML. Used for HHI-style
+    squared market shares inside a summation."""
+    ss = OxmlElement('m:sSup')
+    ss.append(OxmlElement('m:sSupPr'))
+    base = OxmlElement('m:e')
+    d = OxmlElement('m:d')
+    d.append(OxmlElement('m:dPr'))
+    de = OxmlElement('m:e')
+    de.append(_mfrac([_msub(num, sub_num)], [_msub(den, sub_den)]))
+    d.append(de)
+    base.append(d)
+    ss.append(base)
+    sup = OxmlElement('m:sup')
+    sup.append(_mr('2', False))
+    ss.append(sup)
+    return ss
+
+
 def omath_display(doc, body, cursor, parts, eq_num=None):
     """Display equation in a borderless 2-column table: centered equation + right-aligned number."""
     tbl = doc.add_table(rows=1, cols=2)
@@ -1282,10 +1313,15 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
     title_p.paragraph_format.first_line_indent = Inches(0)
     title_p.paragraph_format.space_before = Pt(0)
     title_p.paragraph_format.space_after = Pt(0)
-    r_title = title_p.add_run('Cheap Energy Might Not Be Enough:\nA Trade Model of AI Compute Services')
+    r_title = title_p.add_run('Cheap Energy Might Not Be Enough:')
     r_title.bold = False
     r_title.font.size = Pt(16)
     r_title.font.name = TIMES_NEW_ROMAN
+    r_title.add_break()
+    r_subtitle = title_p.add_run('A Trade Model of AI Compute Services')
+    r_subtitle.bold = False
+    r_subtitle.font.size = Pt(16)
+    r_subtitle.font.name = TIMES_NEW_ROMAN
 
     # Add author name
     author_p, author_el = mkp(doc, body, title_el, space_before=12)
@@ -2339,19 +2375,30 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     p.add_run(
         'Define the Herfindahl\u2013Hirschman Index (HHI), '
         'a standard measure of market concentration that is equal to the sum of squared market shares'
-        ', for training market concentration as '
+        ', for training market concentration as:'
     )
-    omath(p, [_msub('HHI', 'T'), _t(' = '),
-              _nary('\u2211', [_v('j')], [],
-                    [_msup('(', '2', False, False)]),
-              _msub('K', 'Tj'), _t('/'),
-              _msubsup('Q', 'T', 'X'),
-              _msup(')', '2', False, False)])
-    p.add_run(', where ')
-    omath(p, [_msubsup('Q', 'T', 'X')])
+    p.paragraph_format.space_after = Pt(2)
+
+    # Display equation + inline continuation (single paragraph starting with
+    # centered display math via oMathPara, then prose with inline definitions).
+    p, cur = mkp(doc, body, cur)
+    omath_para(p, [
+        _msub('HHI', 'T'), _t(' = '),
+        _nary('\u2211', [_v('j')], [],
+              [_sq_frac('K', 'T,j', 'Q', 'T,X')]),
+        _t(', '),
+    ])
+    p.add_run('where ')
+    omath(p, [_msub('Q', 'T,X'), _t(' = '),
+              _nary('\u2211', [_v('k'), _t(' \u2208 '), _msub('M', 'T')], [],
+                    [_msub('q', 'T,k')])])
     p.add_run(
         ' denote total training export demand, the sum of training demand '
-        'across all importing countries. '
+        'across all importing countries, and '
+    )
+    omath(p, [_msub('K', 'T,j')])
+    p.add_run(
+        ' is country j\u2019s training export allocation (GPU-hours). '
         'Without capacity constraints, the cheapest producer captures all training demand '
         'and '
     )
