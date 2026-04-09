@@ -1065,7 +1065,7 @@ REF_KEY_MAP = {_key: _anchor for _, _, _key, _anchor in CITATIONS}
 
 
 def link_citations_pass(body, cite_map, bm_id):
-    """Single pass: find citation text in runs and replace with bookmark+hyperlink. Returns count."""
+    """Single pass: replace citation text with bookmark+hyperlink; returns count."""
     count = 0
     # Sort by length descending so longer citations match first
     sorted_cites = sorted(cite_map.items(), key=lambda x: -len(x[0]))
@@ -1331,11 +1331,13 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
     author_p.paragraph_format.space_after = Pt(12)
     r_author = author_p.add_run('Michael Lokshin')
     r_author.italic = True
-    make_footnote(author_p,
-                  'This paper\u2019s findings, interpretations, and conclusions are entirely those of the '
-                  'author and do not necessarily represent the views of the author\u2019s employer, the '
-                  'World Bank, its Executive Directors, or the countries they represent. '
-                  'Michael Lokshin: mlokshin@worldbank.org', 1)
+    make_footnote(
+        author_p,
+        'This paper\u2019s findings, interpretations, and conclusions are entirely '
+        'those of the author and do not necessarily represent the views of the '
+        'author\u2019s employer, the World Bank, its Executive Directors, or the '
+        'countries they represent. Michael Lokshin: mlokshin@worldbank.org', 1,
+    )
 
     # Version stamp
     ver_p, ver_el = mkp(doc, body, author_el, space_before=2)
@@ -1452,17 +1454,23 @@ def write_introduction(doc, body, hmap):
         '(Aykut et al. 2026). '
         'Cloud computing exports already exceed '
         '$9 billion annually (World Bank 2025). '
-        'If Kyrgyzstan builds a 40 MW AI data center, it could '
-        'generate annual revenue of $630\u2013950 million at wholesale contract rates, '
-        'equivalent to over 15% of Kyrgyzstan\u2019s $3.8 billion in goods exports (World Bank 2024).'
+        'If Kyrgyzstan builds a 40 MW AI data center, it could generate annual '
+        'revenue of $630\u2013950 million at wholesale contract rates, equivalent '
+        'to over 15% of Kyrgyzstan\u2019s $3.8 billion in goods exports '
+        '(World Bank 2024).'
     )
-    make_footnote(p, 'At $0.038/kWh electricity, a 40 MW facility houses approximately '
-                  '53,000 GPUs with production costs of $453 million per year. A Kyrgyz operator '
-                  'would most likely sell at wholesale or long-term contract rates of roughly '
-                  '$0.80\u20131.20/GPU-hour, yielding gross revenue of $630\u2013950 million. '
-                  'Hyperscaler retail rates ($2.00\u20132.50/GPU-hour) represent an upper bound that '
-                  'is unlikely for a new market entrant. Even at the wholesale lower bound, '
-                  'this exceeds 15% of Kyrgyzstan\u2019s $3.8 billion in goods exports (2024).', 5)
+    make_footnote(
+        p,
+        'At $0.038/kWh electricity, a 40 MW facility houses approximately '
+        '53,000 GPUs with production costs of $453 million per year. A Kyrgyz '
+        'operator would most likely sell at wholesale or long-term contract '
+        'rates of roughly $0.80\u20131.20/GPU-hour, yielding gross revenue of '
+        '$630\u2013950 million. Hyperscaler retail rates '
+        '($2.00\u20132.50/GPU-hour) represent an upper bound that is unlikely '
+        'for a new market entrant. Even at the wholesale lower bound, this '
+        'exceeds 15% of Kyrgyzstan\u2019s $3.8 billion in goods exports '
+        '(2024).', 5,
+    )
 
     # Para 9: First paper + contributions
     p, cur = mkp(doc, body, cur)
@@ -1517,13 +1525,16 @@ def write_literature(doc, body, hmap):
     # IT-offshoring contrast
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'The closest precedent to our model is IT services offshoring, which is labor-intensive and skill-biased '
-        '(Blinder 2006), while FLOP exporting is capital- and energy-intensive, so the set of potential exporters is '
-        'fundamentally different \u2014 energy-rich countries rather than labor-abundant ones. '
-        'A bigger difference is structural: because the key traded input (GPUs) is globally priced, '
-        'cross-country cost variation comes entirely from energy and facilities, which together account '
-        'for a small share of unit cost. Comparative advantage in compute is therefore narrower and more '
-        'fragile than in services offshoring, where factor-price gaps are large.'
+        'The closest precedent to our model is IT services offshoring, which is '
+        'labor-intensive and skill-biased (Blinder 2006), while FLOP exporting is '
+        'capital- and energy-intensive, so the set of potential exporters is '
+        'fundamentally different \u2014 energy-rich countries rather than '
+        'labor-abundant ones. A bigger difference is structural: because the key '
+        'traded input (GPUs) is globally priced, cross-country cost variation '
+        'comes entirely from energy and facilities, which together account for a '
+        'small share of unit cost. Comparative advantage in compute is therefore '
+        'narrower and more fragile than in services offshoring, where '
+        'factor-price gaps are large.'
     )
 
     # Data center location literature
@@ -1556,7 +1567,6 @@ def write_literature(doc, body, hmap):
         'homogeneous. The present model adds supply-side cost structure and a '
         'training\u2013inference distinction.'
     )
-
 
 
 def write_production_technology(doc, body, hmap):
@@ -1606,17 +1616,20 @@ def write_production_technology(doc, body, hmap):
     )
     add_italic(p, 'power usage effectiveness')
     p.add_run(
-        ' (PUE), the ratio of total facility energy consumption to IT equipment energy consumption. '
-        'The cost per GPU-hour in country '
+        ' (PUE), the ratio of total facility energy consumption to IT equipment '
+        'energy consumption. The cost per GPU-hour in country '
     )
     omath(p, [_v('j')])
     p.add_run(' is:')
-    make_footnote(p, 'The linear PUE model is a simplification. Modern liquid and immersion '
-                  'cooling technologies can achieve PUE \u2248 1.2 even in hot climates, flattening the '
-                  'temperature\u2013PUE relationship. The robustness check in Section 6 confirms that '
-                  'the results are insensitive to this specification. '
-                  'Google (2024) reports a fleet-wide trailing '
-                  'twelve-month PUE of 1.10.', 7)
+    make_footnote(
+        p,
+        'The linear PUE model is a simplification. Modern liquid and immersion '
+        'cooling technologies can achieve PUE \u2248 1.2 even in hot climates, '
+        'flattening the temperature\u2013PUE relationship. The robustness check '
+        'in Section 6 confirms that the results are insensitive to this '
+        'specification. Google (2024) reports a fleet-wide trailing twelve-month '
+        'PUE of 1.10.', 7,
+    )
     p.paragraph_format.space_after = Pt(4)
 
     # Equation (2): cost function (with networking η)
@@ -1676,11 +1689,15 @@ def write_production_technology(doc, body, hmap):
     p.add_run(
         ' are determined in global hardware markets and are common across countries.'
     )
-    make_footnote(p, 'China is developing an alternative domestic chip stack based on '
-                  'Huawei\u2019s Ascend series (910B/910C) and other domestic accelerators. If these '
-                  'achieve comparable FLOPs per watt at lower prices, China\u2019s effective \u03C1 could '
-                  'diverge from the NVIDIA-based benchmark used here, potentially improving its '
-                  'cost position despite export controls.', 10)
+    make_footnote(
+        p,
+        'China is developing an alternative domestic chip stack based on '
+        'Huawei\u2019s Ascend series (910B/910C) and other domestic accelerators. '
+        'If these achieve comparable FLOPs per watt at lower prices, China\u2019s '
+        'effective \u03C1 could diverge from the NVIDIA-based benchmark used '
+        'here, potentially improving its cost position despite export controls.',
+        10,
+    )
     p.add_run(
         ' Cross-country variation in '
     )
@@ -1919,9 +1936,11 @@ def write_trade_costs(doc, body, hmap):
 
 def renumber_sections(hmap):
     print("Renumbering sections...")
-    # v20 structure: 1=Intro, 2=Lit, 3=Model(3.1,3.2), 4=Equil Props, 5=Data, 6=Calib, 7=Robustness, 8=Concl
-    # v8 headings: 1→3 (Model), 1.1→3.1, 1.2→3.2, 2→4 (Equil Props), 4→6 (Calib), 5→8 (Concl)
-    # Section 3 (Make-or-Buy) content will be absorbed; heading removed by write functions
+    # v20 structure: 1=Intro, 2=Lit, 3=Model(3.1,3.2), 4=Equil Props,
+    # 5=Data, 6=Calib, 7=Robustness, 8=Concl
+    # v8 headings: 1→3 (Model), 1.1→3.1, 1.2→3.2, 2→4 (Equil Props),
+    # 4→6 (Calib), 5→8 (Concl)
+    # Section 3 (Make-or-Buy) content is absorbed; heading removed by write fns
     renumber = [
         ('1.2', '1.2', '3.2'), ('1.1', '1.1', '3.1'), ('1', '1.', '3.'),
         ('2', '2.', '4.'),
@@ -2035,16 +2054,20 @@ def write_demand(doc, body, hmap, demand_data):
     omath(p, [_v('\u03B1')])
     p.add_run(
         ' should be interpreted as the share of compute that is fully '
-        'latency-insensitive and freely offshorable; the effective offshorable share may '
-        'be smaller as intermediate workloads (agentic inference, fine-tuning) grow.'
+        'latency-insensitive and freely offshorable; the effective offshorable '
+        'share may be smaller as intermediate workloads (agentic inference, '
+        'fine-tuning) grow.'
     )
-    make_footnote(p,
-                  'Emerging workload categories, notably agentic inference (long-running, multi-step '
-                  'reasoning tasks) and fine-tuning (rapid iterative retraining on proprietary data), '
-                  'occupy a middle ground, tolerating moderate latency but requiring sustained GPU '
-                  'allocation and proximity to data. Using installed capacity to proxy demand is a '
-                  'static assumption; endogenizing demand, for instance, proportional to GDP or digital '
-                  'adoption, is a natural extension.', 21)
+    make_footnote(
+        p,
+        'Emerging workload categories, notably agentic inference (long-running, '
+        'multi-step reasoning tasks) and fine-tuning (rapid iterative retraining '
+        'on proprietary data), occupy a middle ground, tolerating moderate '
+        'latency but requiring sustained GPU allocation and proximity to data. '
+        'Using installed capacity to proxy demand is a static assumption; '
+        'endogenizing demand, for instance, proportional to GDP or digital '
+        'adoption, is a natural extension.', 21,
+    )
 
 
 def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
@@ -2095,8 +2118,10 @@ def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
         'Country '
     )
     omath(p, [_v('k')])
-    p.add_run(' imports training whenever the world price, after adding the bilateral sovereignty '
-              'premium, is lower than the price of producing domestically: ')
+    p.add_run(
+        ' imports training whenever the world price, after adding the bilateral '
+        'sovereignty premium, is lower than the price of producing domestically: '
+    )
     omath(p, [_t('(1 + '), _msub('\u03BB', 'jk'), _t(') \u00b7 '),
               _msub('p', 'T'), _t(' < '), _msub('c', 'k')])
     p.add_run(
@@ -2104,10 +2129,10 @@ def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
     )
     omath(p, [_msub('p', 'T')])
     p.add_run(
-        ' is the competitive world training price. '
-        'In the capacity-constrained equilibrium, the cheapest producer supplies up to its capacity, '
-        'then the next cheapest enters, and so on until demand is met. '
-        'The marginal training exporter '
+        ' is the competitive world training price. In the capacity-constrained '
+        'equilibrium, the cheapest producer supplies up to its capacity, then '
+        'the next cheapest enters, and so on until demand is met. The marginal '
+        'training exporter '
     )
     omath(p, [_msub('m', 'T')])
     p.add_run(
@@ -2269,16 +2294,20 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     s4_old_next = hmap['4']  # v8 heading "4", becomes Section 6
     s4i = all_now.index(s4)
     s4_next_i = all_now.index(s4_old_next)
-    # Remove everything from after Section 4 heading to before old Calibration heading
-    # This removes both old Section 4 content AND old Section 5 (Make-or-Buy) heading+content
+    # Remove everything from after Section 4 heading to before old Calibration
+    # heading; drops old Section 4 content and old Section 5 (Make-or-Buy).
     for el in all_now[s4i + 1:s4_next_i]:
         body.remove(el)
     cur = s4
 
-    # Also rename the heading text from "Comparative Advantage" to "Equilibrium Properties"
+    # Also rename heading from "Comparative Advantage" to "Equilibrium Properties"
     for t in s4.findall(f'.//{qn("w:t")}'):
         if t.text and 'Comp' in t.text:
-            t.text = t.text.replace('Comparative Advantage', 'Equilibrium Properties').replace(' Results', '')
+            t.text = (
+                t.text
+                .replace('Comparative Advantage', 'Equilibrium Properties')
+                .replace(' Results', '')
+            )
             break
 
     # Introduction
@@ -2420,8 +2449,8 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     r.italic = True
     p.add_run(
         'Define the Herfindahl\u2013Hirschman Index (HHI), '
-        'a standard measure of market concentration that is equal to the sum of squared market shares'
-        ', for training market concentration as:'
+        'a standard measure of market concentration that is equal to the sum of '
+        'squared market shares, for training market concentration as:'
     )
 
     # Display equation + inline continuation (single paragraph starting with
@@ -2442,11 +2471,14 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         'across all importing countries, and '
     )
     omath(p, [_msub('K', 'T,j')])
-    p.add_run(' is country j\u2019s training export allocation (GPU-hours), bounded by the capacity ceiling ')
+    p.add_run(
+        ' is country j\u2019s training export allocation (GPU-hours), '
+        'bounded by the capacity ceiling '
+    )
     omath(p, [_msub('K', 'T,j'), _t(' \u2264 '), _mbar_sub('K', 'j')])
     p.add_run(
-        '. Without capacity constraints, the cheapest producer captures all training demand '
-        'and '
+        '. Without capacity constraints, the cheapest producer captures all '
+        'training demand and '
     )
     omath(p, [_msub('HHI', 'T'), _t(' = 1')])
     p.add_run(
@@ -2505,17 +2537,20 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     )
     omath(p, [_msub('p', 'T'), _t(' > '), _msub('c', '(1)')])
     p.add_run(
-        ', so the threshold is lower than in the unconstrained model. '
-        'Capacity constraints reduce the sovereignty premium required for domestic production '
-        'because higher world prices make imports more expensive.'
+        ', so the threshold is lower than in the unconstrained model. Capacity '
+        'constraints reduce the sovereignty premium required for domestic '
+        'production because higher world prices make imports more expensive.'
     )
-    make_footnote(p,
-                  'For large-demand countries (e.g., the United States with 43% of global compute '
-                  'demand), the observed domestic production may partly reflect scale economies '
-                  'rather than sovereignty preferences. The switching threshold \u03bb\u2096* conflates '
-                  'the home market effect with the sovereignty premium; disentangling the two would '
-                  'require a model with increasing returns, which lies outside the present framework.',
-                  22)
+    make_footnote(
+        p,
+        'For large-demand countries (e.g., the United States with 43% of global '
+        'compute demand), the observed domestic production may partly reflect '
+        'scale economies rather than sovereignty preferences. The switching '
+        'threshold \u03bb\u2096* conflates the home market effect with the '
+        'sovereignty premium; disentangling the two would require a model with '
+        'increasing returns, which lies outside the present framework.',
+        22,
+    )
 
     # Corollary
     p, cur = mkp(doc, body, cur, space_before=6)
@@ -2570,17 +2605,18 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     fn9_r2 = etree.SubElement(fn9_p, f'{{{W_NS}}}r')
     fn9_t2 = etree.SubElement(fn9_r2, f'{{{W_NS}}}t')
     fn9_t2.set(XML_SPACE, SPACE_PRESERVE)
-    fn9_t2.text = (' to every country with positive compute demand would export '
-                   'training (which is latency-insensitive) yet be unable to serve any '
-                   'inference market, a \u201cpure training exporter\u201d regime not '
-                   'listed in Table 1. This case is empirically negligible in the '
-                   'calibration: any country remote enough to have an empty latency '
-                   'cone (e.g., a mid-Pacific island) typically also faces prohibitive '
-                   'governance and construction cost penalties that exclude it from '
-                   'the training market.')
+    fn9_t2.text = (
+        ' to every country with positive compute demand would export training '
+        '(which is latency-insensitive) yet be unable to serve any inference '
+        'market, a \u201cpure training exporter\u201d regime not listed in '
+        'Table 1. This case is empirically negligible in the calibration: any '
+        'country remote enough to have an empty latency cone (e.g., a '
+        'mid-Pacific island) typically also faces prohibitive governance and '
+        'construction cost penalties that exclude it from the training market.'
+    )
     p.add_run(
-        ' The set of training exporters is therefore a subset of the inference exporters for demand centers '
-        'within the latency threshold '
+        ' The set of training exporters is therefore a subset of the inference '
+        'exporters for demand centers within the latency threshold '
     )
     omath(p, [_mbar('l')])
     p.add_run(
@@ -2605,10 +2641,12 @@ def write_data_section(doc, body, hmap, demand_data):
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'The propositions above generate testable predictions that depend on '
-        'country-specific costs and bilateral frictions. '
-        'Calibrating the production-cost and trade-cost parameters in equations (1)\u2013(4) requires data on '
-        'electricity prices, temperatures, construction costs, bilateral latencies, and bilateral '
-        'sovereignty frictions (geopolitical alignment, regulatory compatibility, and sanctions). '
+        'country-specific costs and bilateral frictions. Calibrating the '
+        'production-cost and trade-cost parameters in equations '
+        '(1)\u2013(4) requires data on electricity prices, temperatures, '
+        'construction costs, bilateral latencies, and bilateral sovereignty '
+        'frictions (geopolitical alignment, regulatory compatibility, and '
+        'sanctions). '
     )
 
     p, cur = mkp(doc, body, cur)
@@ -2617,25 +2655,27 @@ def write_data_section(doc, body, hmap, demand_data):
         'For European countries, we use prices from Eurostat '
         '(industrial band, 20,000\u201369,999) (Eurostat 2025). '
         'For non-European countries, the prices are obtained from national '
-        'regulator tariff sheets and secondary sources, including the U.S. Energy Information Administration '
-        '(EIA 2025) for the United States, KEPCO for South Korea,'
+        'regulator tariff sheets and secondary sources, including the U.S. '
+        'Energy Information Administration (EIA 2025) for the United States, '
+        'KEPCO for South Korea,'
     )
-    make_footnote(p,
-                  'Korea Electric Power Corporation (KEPCO), Electricity Rate Table, '
-                  'accessed January 2025.', 24)
+    make_footnote(
+        p,
+        'Korea Electric Power Corporation (KEPCO), Electricity Rate Table, '
+        'accessed January 2025.', 24,
+    )
     p.add_run(
-        ' national utility tariffs for '
-        'Central Asian countries, and '
-        'GlobalPetrolPrices (2025) for the remaining countries. All prices are converted to $/kWh '
-        'at 2024 exchange rates.'
+        ' national utility tariffs for Central Asian countries, and '
+        'GlobalPetrolPrices (2025) for the remaining countries. All prices are '
+        'converted to $/kWh at 2024 exchange rates.'
     )
 
     p, cur = mkp(doc, body, cur)
     add_italic(p, 'Temperature and construction. ')
     p.add_run(
         'Peak summer temperature is derived from ERA5 data '
-        '(Hersbach et al. 2020) as the average monthly maximum in the three warmest months, '
-        'aggregated across populated grid cells. '
+        '(Hersbach et al. 2020) as the average monthly maximum in the three '
+        'warmest months, aggregated across populated grid cells. '
     )
     p.add_run(
         'Construction costs per watt of IT capacity are from the Turner & Townsend '
@@ -2648,10 +2688,10 @@ def write_data_section(doc, body, hmap, demand_data):
     p, cur = mkp(doc, body, cur)
     add_italic(p, 'Latency. ')
     p.add_run(
-        'Inter-country round-trip latency is measured using WonderNetwork\u2019s global ping dataset '
-        '(WonderNetwork 2024). For each country pair, the median round-trip time (RTT) '
-        'in milliseconds is used. '
-        'Domestic latency defaults to 5 ms where no intra-country measurement is available.'
+        'Inter-country round-trip latency is measured using WonderNetwork\u2019s '
+        'global ping dataset (WonderNetwork 2024). For each country pair, the '
+        'median round-trip time (RTT) in milliseconds is used. Domestic latency '
+        'defaults to 5 ms where no intra-country measurement is available.'
     )
 
     # Demand data paragraph
@@ -2673,9 +2713,9 @@ def write_data_section(doc, body, hmap, demand_data):
                   'CBRE, Global Data Center Trends (2025); '
                   'Mordor Intelligence, Data Center Market Forecast (2025).', 25)
     p.add_run(
-        ' '
-        'For smaller markets, capacity is estimated from facility counts (Cloudscene 2025) and regional averages. '
-        'Since the results below depend only on demand shares, not on the absolute level '
+        ' For smaller markets, capacity is estimated from facility counts '
+        '(Cloudscene 2025) and regional averages. Since the results below '
+        'depend only on demand shares, not on the absolute level '
     )
     omath(p, [_v('Q')])
     p.add_run(
@@ -2719,32 +2759,36 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     )
     omath(p, [_v('\u03B4'), _t(' = 0.015')])
     p.add_run(
-        ' per \u00b0C is estimated from cross-sectional variation in PUE across data center '
-        'locations with different cooling loads (Liu et al. 2023). The threshold '
+        ' per \u00b0C is estimated from cross-sectional variation in PUE '
+        'across data center locations with different cooling loads '
+        '(Liu et al. 2023). The threshold '
     )
     omath(p, [_mbar('\u03B8'), _t(' = 15\u00b0C')])
     p.add_run(
-        ' is the approximate outdoor temperature above which mechanical cooling is needed, '
-        'below which free-air cooling suffices. '
-        'Together, these yield PUE values from 1.08 (Iceland, Scandinavia) to 1.41 (UAE), '
+        ' is the approximate outdoor temperature above which mechanical cooling '
+        'is needed, below which free-air cooling suffices. Together, these '
+        'yield PUE values from 1.08 (Iceland, Scandinavia) to 1.41 (UAE), '
         'consistent with the industry average of 1.56 (Uptime Institute 2024).'
     )
-    make_footnote(p,
-                  'Capping PUE at 1.20 (simulating universal liquid cooling) '
-                  'yields a Kendall rank correlation of 0.96 with the baseline rankings. The top five '
-                  'countries are unchanged, and the maximum rank shift is six positions. Gulf states and '
-                  'North Africa gain the most (UAE moves from 26th to 20th, Qatar from 15th to 11th), '
-                  'but the effect is small because electricity prices, not cooling, dominate '
-                  'cross-country cost variation.', 13)
+    make_footnote(
+        p,
+        'Capping PUE at 1.20 (simulating universal liquid cooling) yields a '
+        'Kendall rank correlation of 0.96 with the baseline rankings. The top '
+        'five countries are unchanged, and the maximum rank shift is six '
+        'positions. Gulf states and North Africa gain the most (UAE moves from '
+        '26th to 20th, Qatar from 15th to 11th), but the effect is small '
+        'because electricity prices, not cooling, dominate cross-country cost '
+        'variation.', 13,
+    )
 
     # Hardware parameters
     p, cur = mkp(doc, body, cur)
     add_italic(p, 'Hardware. ')
     p.add_run(
-        'The calibration uses the NVIDIA H100 SXM GPU as the reference hardware platform, with a list price '
-        'of $25,000, a power of 700W, an economic lifetime of 3 years, and a utilization rate '
-        '70% (Barroso et al. 2018). '
-        'This yields an amortized hardware cost '
+        'The calibration uses the NVIDIA H100 SXM GPU as the reference '
+        'hardware platform, with a list price of $25,000, a power of 700W, an '
+        'economic lifetime of 3 years, and a utilization rate 70% '
+        '(Barroso et al. 2018). This yields an amortized hardware cost '
     )
     omath(p, [_v('\u03C1'), _t(f' = ${RHO:.3f}')])
     p.add_run(
@@ -2852,8 +2896,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     # ── A1. Raw tariff contrast — Table 3 col (1) ──
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Under observed electricity tariffs, the cheapest producer in our sample of 85 countries is '
-        f'{cheapest["country"]}, '
+        'Under observed electricity tariffs, the cheapest producer in our '
+        f'sample of 85 countries is {cheapest["country"]}, '
         f'followed by {cal[1]["country"]} '
         f'and {cal[2]["country"]} '
         '(Column\u2009(1) of '
@@ -2878,17 +2922,21 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'We apply this adjustment to {demand_data["n_adjusted"]} countries '
         'whose retail electricity prices fall below the estimated LRMC.'
     )
-    make_footnote(p,
-                  'For gas exporters (Iran, Turkmenistan, Algeria, Qatar), the calibration uses '
-                  'combined-cycle gas generation at export-parity fuel prices '
-                  '($0.065\u2013$0.100/kWh). For the Gulf states, it uses the opportunity cost '
-                  'of domestic gas combustion relative to LNG exports. For coal-dependent producers '
-                  '(Kazakhstan, South Africa), the calibration uses the Eskom-style cost-recovery '
-                  'tariff. For Ethiopia, it uses the IMF\u2019s hydro cost-recovery target ($0.050/kWh). '
-                  'The IMF estimates global fossil fuel subsidies at $6.7 trillion in 2024. '
-                  'Explicit subsidies (below-cost pricing) account for 8%; the remainder reflects '
-                  'unpriced environmental costs. The calibration uses only the explicit component.',
-                  16)
+    make_footnote(
+        p,
+        'For gas exporters (Iran, Turkmenistan, Algeria, Qatar), the '
+        'calibration uses combined-cycle gas generation at export-parity fuel '
+        'prices ($0.065\u2013$0.100/kWh). For the Gulf states, it uses the '
+        'opportunity cost of domestic gas combustion relative to LNG exports. '
+        'For coal-dependent producers (Kazakhstan, South Africa), the '
+        'calibration uses the Eskom-style cost-recovery tariff. For Ethiopia, '
+        'it uses the IMF\u2019s hydro cost-recovery target ($0.050/kWh). The '
+        'IMF estimates global fossil fuel subsidies at $6.7 trillion in 2024. '
+        'Explicit subsidies (below-cost pricing) account for 8%; the remainder '
+        'reflects unpriced environmental costs. The calibration uses only the '
+        'explicit component.',
+        16,
+    )
     p.add_run(
         ' The subsidy gap ranges from '
         f'${demand_data["min_gap_mwh"] / 1000:.3f} to '
@@ -3088,7 +3136,10 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
             co for _, co, _ in sorted(kgz_clients, key=lambda x: -x[2])
             if co != "Kyrgyzstan"]
         names = kgz_client_names[:3]
-        kgz_list = " and ".join(names) if len(names) <= 2 else f'{", ".join(names[:-1])}, and {names[-1]}'
+        if len(names) <= 2:
+            kgz_list = " and ".join(names)
+        else:
+            kgz_list = f'{", ".join(names[:-1])}, and {names[-1]}'
         p.add_run(
             f'Among developing countries, Kyrgyzstan captures {kgz_total:.0f}% of global '
             f'inference demand by serving {kgz_list}, a large share '
@@ -3134,16 +3185,18 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'{_iso_name.get(deu_inf, deu_inf)}, '
         f'and for the United Kingdom, '
         f'{"domestically" if gbr_inf == "GBR" else "from " + _iso_name.get(gbr_inf, gbr_inf)}. '
-        f'For China, the cheapest foreign source of inference is {_iso_name.get(chn_inf, chn_inf)}. '
-        'Inference supply thus concentrates around latency-bounded regional hubs, '
-        'each major market sourcing from a distinct nearby producer.'
+        f'For China, the cheapest foreign source of inference is '
+        f'{_iso_name.get(chn_inf, chn_inf)}. '
+        'Inference supply thus concentrates around latency-bounded regional '
+        'hubs, each major market sourcing from a distinct nearby producer.'
     )
 
     # v31: New paragraph — China DD regime illustration
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Among these demand centers, China illustrates the DD regime. Despite hosting one of the world\u2019s largest '
-        'data-center markets, virtually all capacity is built and financed by domestic '
+        'Among these demand centers, China illustrates the DD regime. Despite '
+        'hosting one of the world\u2019s largest data-center markets, '
+        'virtually all capacity is built and financed by domestic '
         'technology firms and state-owned operators such as Alibaba Cloud, Tencent, '
         'Baidu, and China Telecom, with negligible foreign FDI (Aykut et al. 2026). '
         'The model predicts exactly this outcome: China\u2019s sovereignty premium is '
@@ -3233,24 +3286,26 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     # ── A5. Sovereignty policy discussion (v28: Task 26 compressed) ──
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'The welfare implications of the sovereignty premium depend on whether it reflects '
-        'genuine security externalities or regulatory overreach. Some domestic processing '
-        'preference is justified for confidential data, but much of the current '
-        'policy push extends the sovereignty logic to routine commercial computation. '
-        'The welfare cost is significant. The bilateral premium shifts most countries toward '
+        'The welfare implications of the sovereignty premium depend on whether '
+        'it reflects genuine security externalities or regulatory overreach. '
+        'Some domestic processing preference is justified for confidential '
+        'data, but much of the current policy push extends the sovereignty '
+        'logic to routine commercial computation. The welfare cost is '
+        'significant. The bilateral premium shifts most countries toward '
         'domestic production, forgoing the cost savings from specialization. '
-        'The premium is also partly endogenous to the absence of credible international data '
-        'governance: where enforceable data-protection agreements exist (as within the EU), '
-        'the premium falls; where they do not, even commercially motivated buyers face rational '
-        'reasons to prefer domestic processing. '
-        'Sovereignty preferences are not limited to developing countries: France\u2019s SecNumCloud '
-        'certification mandates EU-only data hosting and staffing, effectively excluding U.S. '
-        'hyperscalers from sovereign workloads. '
-        'Developing countries '
-        'that adopt broad data localization requirements risk foreclosing both import savings and '
-        'regional export opportunities, the specialization gains that the model predicts. '
-        'The World Bank (2025) frames this as a core policy trade-off: building domestic '
-        'capacity versus securing affordable access to international cloud services.'
+        'The premium is also partly endogenous to the absence of credible '
+        'international data governance: where enforceable data-protection '
+        'agreements exist (as within the EU), the premium falls; where they '
+        'do not, even commercially motivated buyers face rational reasons to '
+        'prefer domestic processing. Sovereignty preferences are not limited '
+        'to developing countries: France\u2019s SecNumCloud certification '
+        'mandates EU-only data hosting and staffing, effectively excluding '
+        'U.S. hyperscalers from sovereign workloads. Developing countries '
+        'that adopt broad data localization requirements risk foreclosing '
+        'both import savings and regional export opportunities, the '
+        'specialization gains that the model predicts. The World Bank (2025) '
+        'frames this as a core policy trade-off: building domestic capacity '
+        'versus securing affordable access to international cloud services.'
     )
 
     # ══════════════════════════════════════════════════════════════════════
@@ -3266,17 +3321,20 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         'The calibration adjusts for energy subsidies and institutional '
         'quality, but several constraints remain outside the model and would further narrow '
-        'the set of viable exporters. GPU export controls bar Iran, Russia, and Belarus from '
-        'acquiring current-generation hardware. Water scarcity constrains cooling in the Middle '
-        'East and North Africa; hyperscale data centers can consume billions of liters of '
-        'water annually, and next-generation high-density GPU clusters increasingly rely on '
-        'liquid-cooling technologies that intensify this pressure in water-stressed economies. '
-        'Fiscal sustainability is a concern: regulated tariffs in many '
-        'developing countries cover operating expenses but not full capital cost, so exporting '
-        'compute at scale while the domestic energy sector cannot maintain its capital stock may '
-        'prove politically unsustainable. Finally, export controls, logistics costs, and local '
-        'distribution markups can raise effective GPU prices by 5\u201315% in developing countries, '
-        'substantially eroding the thin cost advantages documented in '
+        'the set of viable exporters. GPU export controls bar Iran, Russia, '
+        'and Belarus from acquiring current-generation hardware. Water '
+        'scarcity constrains cooling in the Middle East and North Africa; '
+        'hyperscale data centers can consume billions of liters of water '
+        'annually, and next-generation high-density GPU clusters increasingly '
+        'rely on liquid-cooling technologies that intensify this pressure in '
+        'water-stressed economies. Fiscal sustainability is a concern: '
+        'regulated tariffs in many developing countries cover operating '
+        'expenses but not full capital cost, so exporting compute at scale '
+        'while the domestic energy sector cannot maintain its capital stock '
+        'may prove politically unsustainable. Finally, export controls, '
+        'logistics costs, and local distribution markups can raise effective '
+        'GPU prices by 5\u201315% in developing countries, substantially '
+        'eroding the thin cost advantages documented in '
     )
     p._element.append(make_hyperlink('TableA1', 'Table A1'))
     p.add_run(
@@ -3713,7 +3771,8 @@ def write_appendix(doc, body, last_ref_el, eca_cal, non_eca_cal, reg, demand_dat
 
 
 def write_table_a2(doc, body, after_el, demand_data):
-    """Table A2: Complete country rankings under alternative cost and sovereignty specifications (landscape, 8 cols)."""
+    """Table A2: Complete country rankings under alternative cost and
+    sovereignty specifications (landscape, 8 cols)."""
     print("Inserting Table A2 (Complete country rankings, landscape)...")
 
     table3_data = demand_data["table3"]
@@ -3908,7 +3967,8 @@ def write_model_appendix(doc, body, last_note):
     p.add_run(' from equation (4). Training demand is ')
     omath(p, [_msub('q', 'Tk'), _t(' = '), _v('\u03B1'), _t(' \u00b7 '), _msub('q', 'k')])
     p.add_run(' and inference demand is ')
-    omath(p, [_msub('q', 'Ik'), _t(' = (1 \u2212 '), _v('\u03B1'), _t(') \u00b7 '), _msub('q', 'k')])
+    omath(p, [_msub('q', 'Ik'), _t(' = (1 \u2212 '), _v('\u03B1'),
+              _t(') \u00b7 '), _msub('q', 'k')])
     p.add_run('. Countries are ordered by cost: ')
     omath(p, [_msub('c', '(1)'), _t(' \u2264 '), _msub('c', '(2)'),
               _t(' \u2264 \u2026 \u2264 '), _msub('c', '(N)')])
@@ -4456,8 +4516,9 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
     r = p.add_run('Risks. ')
     r.bold = True
     p.add_run(
-        'Kyrgyzstan depends on the Toktogul reservoir for over 80\u2009percent of electricity (ADB 2020); '
-        'seasonal drawdowns and drought years create acute power shortages. '
+        'Kyrgyzstan depends on the Toktogul reservoir for over 80\u2009percent '
+        'of electricity (ADB 2020); seasonal drawdowns and drought years create '
+        'acute power shortages. '
         'GPU procurement faces US export-control uncertainty. '
         'Underdeveloped contract enforcement and regulatory frameworks raise the '
         'bilateral sovereignty premium for potential importers. '
@@ -5001,10 +5062,9 @@ def write_table1(doc, body, after_el):
     rn = tn.add_run(
         'Notes: \u2713 = feasible in equilibrium. \u2717 = ruled out. '
         'Grey cells cannot arise. Roman numerals correspond to regime labels '
-        'in Proposition 1. '
-        'Letter codes (EE, IE, ID, DD, II) denote training status '
-        '(first letter: E\u2009=\u2009export, I\u2009=\u2009import, D\u2009=\u2009domestic) and inference status '
-        '(second letter), used in '
+        'in Proposition 1. Letter codes (EE, IE, ID, DD, II) denote training '
+        'status (first letter: E\u2009=\u2009export, I\u2009=\u2009import, '
+        'D\u2009=\u2009domestic) and inference status (second letter), used in '
     )
     rn.font.size = Pt(10)
     tn._element.append(make_hyperlink('Table3', 'Table 3', rPr_orig=_rPr_pt(10)))
@@ -5071,7 +5131,8 @@ def write_table2(doc, body, after_el, demand_data):
     _sym_map = {
         'gamma': '\u03B3', 'P_GPU': 'P_GPU', 'L': 'L',
         'beta': '\u03B2', 'H': 'H', 'rho': '\u03C1', 'eta': '\u03B7',
-        'phi': '\u03C6', 'delta': '\u03B4', 'theta_bar': '\u03B8\u0304',  # rendered via OMML in cell
+        'phi': '\u03C6', 'delta': '\u03B4',
+        'theta_bar': '\u03B8\u0304',  # rendered via OMML in cell
         'D': 'D', 'tau': '\u03C4', 'lambda': '\u03BB', 'alpha': '\u03B1',
         'Q': 'Q',
     }
@@ -5219,7 +5280,8 @@ def write_table2(doc, body, after_el, demand_data):
 
 
 def write_table3(doc, body, after_el, demand_data):
-    """Table 3: Country rankings under alternative cost and sovereignty specifications (landscape, 8 cols)."""
+    """Table 3: Country rankings under alternative cost and sovereignty
+    specifications (landscape, 8 cols)."""
     print("Inserting Table 3 (Country rankings, landscape)...")
 
     table3_data = demand_data["table3"]
@@ -5605,7 +5667,8 @@ def write_references(doc, body, refs):
         'Ohlin, B. (1933). Interregional and International Trade. '
         'Cambridge, MA: Harvard University Press.',
 
-        'Biglaiser, G., J. Cr\u00E9mer, and A. Mantovani. (2024). \u201CThe Economics of the Cloud.\u201D '
+        'Biglaiser, G., J. Cr\u00E9mer, and A. Mantovani. (2024). '
+        '\u201CThe Economics of the Cloud.\u201D '
         'Toulouse School of Economics Working Paper No. 24-1520.',
 
         'Blinder, A. (2006). \u201COffshoring: The Next Industrial Revolution?\u201D '
@@ -5868,13 +5931,22 @@ def apply_formatting(doc, body, refs, title_el, author_el, ver_el, abs_text_el):
             continue
         if 'Heading' not in style and p.text.strip():
             # Skip title page elements (centered)
-            if p._element not in _protected and p.alignment != WD_ALIGN_PARAGRAPH.LEFT:
+            if (
+                p._element not in _protected
+                and p.alignment != WD_ALIGN_PARAGRAPH.LEFT
+            ):
                 p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-                if p.paragraph_format.first_line_indent is None or p.paragraph_format.first_line_indent > 0:
+                fli = p.paragraph_format.first_line_indent
+                if fli is None or fli > 0:
                     p.paragraph_format.first_line_indent = Inches(0)
-            # Subtitle runs: italic (non-bold) first run ending with "." → font 12, TNR, not bold
+            # Subtitle runs: italic first run ending with "." → 12 pt, TNR
             runs = [r for r in p.runs if r.text.strip()]
-            if runs and runs[0].italic and not runs[0].bold and runs[0].text.rstrip().endswith('.'):
+            if (
+                runs
+                and runs[0].italic
+                and not runs[0].bold
+                and runs[0].text.rstrip().endswith('.')
+            ):
                 runs[0].font.size = Pt(12)
                 runs[0].font.name = TIMES_NEW_ROMAN
                 runs[0].bold = False
@@ -5884,21 +5956,24 @@ def apply_formatting(doc, body, refs, title_el, author_el, ver_el, abs_text_el):
             # Preserve title page spacing
             if p._element in _protected:
                 continue
-            # Preserve table note / table cell formatting (line_spacing set explicitly)
-            if p.paragraph_format.line_spacing is not None and p.paragraph_format.line_spacing != 1.5:
-                if p.paragraph_format.line_spacing <= 1.0:
-                    continue
+            # Preserve table note / cell formatting (explicit line_spacing)
+            ls = p.paragraph_format.line_spacing
+            if ls is not None and ls != 1.5 and ls <= 1.0:
+                continue
             # 1.5 line spacing for body paragraphs
             p.paragraph_format.line_spacing = 1.5
-            # Post-equation paragraph: previous sibling is a w:tbl (display equation)
+            # Post-equation paragraph: previous sibling is a w:tbl
             prev_sib = p._element.getprevious()
-            is_post_eq = (prev_sib is not None and prev_sib.tag == qn('w:tbl'))
+            is_post_eq = (
+                prev_sib is not None and prev_sib.tag == qn('w:tbl')
+            )
             if is_post_eq:
                 p.paragraph_format.space_before = Pt(4)
             else:
                 p.paragraph_format.space_before = Pt(0)
             # Preserve Pt(4) spacing on paragraphs immediately before equations
-            if p.paragraph_format.space_after is not None and p.paragraph_format.space_after <= Pt(4):
+            sa = p.paragraph_format.space_after
+            if sa is not None and sa <= Pt(4):
                 pass  # keep pre-equation Pt(4)
             else:
                 p.paragraph_format.space_after = Pt(8)
@@ -7049,12 +7124,25 @@ def main():
     demand_data["cr_top5"] = [(d["country"], d["cj_cr"]) for d in t3_sorted_cr]
 
     print(f"  Table 3: {len(table3_data)} countries, p* = ${p_star:.4f}/hr")
-    print(f"  Spec (1) top 5: {[d['country'] for d in sorted(table3_data, key=lambda x: x['cj_raw'])[:5]]}")
-    print(f"  Spec (2) top 5: {[d['country'] for d in sorted(table3_data, key=lambda x: x['cj_cr'])[:5]]}")
+    _raw_top5 = [
+        d['country']
+        for d in sorted(table3_data, key=lambda x: x['cj_raw'])[:5]
+    ]
+    _cr_top5 = [
+        d['country']
+        for d in sorted(table3_data, key=lambda x: x['cj_cr'])[:5]
+    ]
+    print(f"  Spec (1) top 5: {_raw_top5}")
+    print(f"  Spec (2) top 5: {_cr_top5}")
     n_dom_bilat = sum(1 for d in table3_data if d.get("type_bilat") == "DD")
     n_dom_tiered = sum(1 for d in table3_data if d.get("type_tiered") == "DD")
-    n_dom_uniform = sum(1 for d in table3_data if d.get("type_uniform") == "DD")
-    print(f"  Domestic: bilateral={n_dom_bilat}, tiered={n_dom_tiered}, uniform={n_dom_uniform}")
+    n_dom_uniform = sum(
+        1 for d in table3_data if d.get("type_uniform") == "DD"
+    )
+    print(
+        f"  Domestic: bilateral={n_dom_bilat}, tiered={n_dom_tiered}, "
+        f"uniform={n_dom_uniform}"
+    )
     n_raw_ee = sum(1 for d in table3_data if d["type_raw"] == "EE")
     n_cr_ee = sum(1 for d in table3_data if d["type_cr"] == "EE")
     n_bilat_ee = sum(1 for d in table3_data if d.get("type_bilat") == "EE")
@@ -7101,7 +7189,9 @@ def main():
     # STEPS
     # ═══════════════════════════════════════════════════════════════════════
 
-    title_el, author_el, ver_el, abs_text_el, kw_el = write_title_and_abstract(doc, body, all_el, hmap, demand_data)
+    title_el, author_el, ver_el, abs_text_el, kw_el = (
+        write_title_and_abstract(doc, body, all_el, hmap, demand_data)
+    )
     write_introduction(doc, body, hmap)
     write_literature(doc, body, hmap)
     write_production_technology(doc, body, hmap)
