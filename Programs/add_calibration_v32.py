@@ -1414,7 +1414,7 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
         'comparative advantage, electricity costs, developing countries'
     )
 
-    return title_el, author_el, ver_el, abs_text_el, kw_el
+    return title_el, author_el, ver_el, abs_text_el, kw_el, blank_el
 
 
 def write_introduction(doc, body, hmap):
@@ -5896,7 +5896,8 @@ def fix_orphan_backlinks(body, refs):
         print(f"  Fixed {fixed} orphan back-link(s) in references")
 
 
-def apply_formatting(doc, body, refs, title_el, author_el, ver_el, abs_text_el):
+def apply_formatting(doc, body, refs, title_el, author_el, ver_el,
+                     abs_text_el, blank_el=None):
     print("Applying formatting...")
     # Set Normal style defaults
     normal = doc.styles['Normal']
@@ -5936,6 +5937,8 @@ def apply_formatting(doc, body, refs, title_el, author_el, ver_el, abs_text_el):
 
     # Paragraphs to protect from global formatting (centered title page elements)
     _protected = {title_el, author_el, ver_el, abs_text_el}
+    if blank_el is not None:
+        _protected.add(blank_el)
 
     # Remove empty paragraphs (blank lines) from body
     W_NS_URI = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'
@@ -7240,7 +7243,7 @@ def main():
     # STEPS
     # ═══════════════════════════════════════════════════════════════════════
 
-    title_el, author_el, ver_el, abs_text_el, kw_el = (
+    title_el, author_el, ver_el, abs_text_el, kw_el, blank_el = (
         write_title_and_abstract(doc, body, all_el, hmap, demand_data)
     )
     write_introduction(doc, body, hmap)
@@ -7273,7 +7276,8 @@ def main():
     link_citations(body)
     link_equations(body)
     fix_orphan_backlinks(body, refs)
-    apply_formatting(doc, body, refs, title_el, author_el, ver_el, abs_text_el)
+    apply_formatting(doc, body, refs, title_el, author_el, ver_el,
+                     abs_text_el, blank_el)
     add_page_numbers_and_break(doc, body, kw_el)
 
     # ═══════════════════════════════════════════════════════════════════════
