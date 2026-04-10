@@ -1642,7 +1642,7 @@ def write_production_technology(doc, body, hmap):
         'The linear PUE model is a simplification. Modern liquid and immersion '
         'cooling technologies can achieve PUE \u2248 1.2 even in hot climates, '
         'flattening the temperature\u2013PUE relationship. The robustness check '
-        'in Section 6 confirms that the results are insensitive to this '
+        'in Section 7 confirms that the results are insensitive to this '
         'specification. Google (2024) reports a fleet-wide trailing twelve-month '
         'PUE of 1.10.', 7,
     )
@@ -1690,12 +1690,13 @@ def write_production_technology(doc, body, hmap):
     p.add_run(' ')
     omath(p, [_v('\u03B7')])
     p.add_run(
-        ' is amortized networking cost, '
-        'and the last term amortizes construction costs '
+        ' is amortized networking cost, and the last term amortizes '
+        'per-GPU construction costs '
     )
     omath(p, [_msub('p', 'L,j')])
     p.add_run(
-        ' ($/W of IT capacity) over the facility\u2019s lifetime '
+        ' (= per-watt cost \u00d7 700\u2009W) over the facility\u2019s '
+        'lifetime '
     )
     omath(p, [_v('D')])
     p.add_run('. Both ')
@@ -4048,9 +4049,9 @@ def write_model_appendix(doc, body, last_note):
               _msub('c', 'k'), _t(' > (1 + '), _msub('\u03BB', 'jk'), _t(') \u00b7 '),
               _msub('p', 'T'), _t(' }')])
     p.add_run(' and total training export demand is ')
-    omath(p, [_msubsup('Q', 'T', 'X'), _t(' = '),
+    omath(p, [_msub('Q', 'T,X'), _t(' = '),
               _nary('\u2211', [_v('k'), _t(' \u2208 '), _msub('M', 'T')], [],
-                    [_msub('q', 'Tk')])])
+                    [_msub('q', 'T,k')])])
     p.add_run(
         '. The marginal training exporter '
     )
@@ -4063,7 +4064,7 @@ def write_model_appendix(doc, body, last_note):
         _t(' : '),
         _nary('\u2211', [_v('i'), _t(' = 1')], [_v('m')],
               [_msub('K', 'T,(i)')]),
-        _t(' \u2265 '), _msubsup('Q', 'T', 'X'), _t(' }.'),
+        _t(' \u2265 '), _msub('Q', 'T,X'), _t(' }.'),
     ], eq_num='B.1')
 
     p, cur = mkp(doc, body, cur)
