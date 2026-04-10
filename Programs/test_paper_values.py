@@ -515,7 +515,7 @@ def docx_body_xml():
     """
     import zipfile
     docx_path = (
-        DATA.parent / "Documents" / "flop_trade_model_v31.docx"
+        DATA.parent / "Documents" / "flop_trade_model_v32.docx"
     )
     with zipfile.ZipFile(docx_path) as z:
         with z.open("word/document.xml") as f:
@@ -527,7 +527,7 @@ def docx_footnotes_xml():
     """Raw word/footnotes.xml from the current v31.docx."""
     import zipfile
     docx_path = (
-        DATA.parent / "Documents" / "flop_trade_model_v31.docx"
+        DATA.parent / "Documents" / "flop_trade_model_v32.docx"
     )
     with zipfile.ZipFile(docx_path) as z:
         try:
@@ -2310,7 +2310,7 @@ class TestRegimeCounts:
 class TestDocumentContent:
     """Verify key text, equations, and fixes in the generated v31.docx.
 
-    These tests read the latest ``flop_trade_model_v31.docx`` and check
+    These tests read the latest ``flop_trade_model_v32.docx`` and check
     that paper content is present and that known reviewer fixes from
     sessions 1-3 have not regressed.
     """
@@ -2324,8 +2324,8 @@ class TestDocumentContent:
     def test_author_lokshin(self, docx_text):
         assert "Michael Lokshin" in docx_text
 
-    def test_version_stamp_v31(self, docx_text):
-        assert "v31" in docx_text
+    def test_version_stamp_v32(self, docx_text):
+        assert "v32" in docx_text
 
     def test_abstract_present(self, docx_text):
         assert "Abstract" in docx_text
@@ -2379,6 +2379,16 @@ class TestDocumentContent:
     def test_appendices_present(self, docx_text):
         for h in ("Appendix B", "Appendix C", "Appendix D", "Appendix E"):
             assert h in docx_text, f"Missing: {h}"
+
+    # ---------- Figures ----------
+
+    def test_figure1_model_structure(self, docx_text):
+        assert "Figure 1" in docx_text
+        assert "Model structure" in docx_text
+
+    def test_figure1_inline_reference(self, docx_text):
+        """§6.2 should reference Figure 1 as model structure."""
+        assert "summarizes the model structure" in docx_text
 
     # ---------- Equation numbering ----------
 

@@ -1,0 +1,83 @@
+<svg width="680" height="500" viewBox="0 0 680 500"
+     xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+<defs>
+<style>
+.head-fill     { fill:#F1EFE8; stroke:#5F5E5A; }
+.head-text     { fill:#2C2C2A; font-weight:500; font-size:14px; }
+.feasible-fill { fill:#FAECE7; stroke:#993C1D; }
+.feasible-code { fill:#4A1B0C; font-weight:500; font-size:18px; }
+.feasible-sub  { fill:#993C1D; font-size:12px; }
+.ruled-fill    { fill:#F1EFE8; stroke:#888780; stroke-dasharray:4 3; }
+.ruled-code    { fill:#888780; font-weight:500; font-size:18px; }
+.ruled-sub     { fill:#888780; font-size:12px; }
+.caption       { fill:#2C2C2A; font-size:12px; }
+</style>
+</defs>
+
+<text class="caption" x="380" y="35" text-anchor="middle">Rows: training — Columns: inference</text>
+
+<rect class="head-fill" x="180" y="60" width="140" height="40" rx="6" stroke-width="0.5"/>
+<text class="head-text" x="250" y="85" text-anchor="middle">Export</text>
+<rect class="head-fill" x="320" y="60" width="140" height="40" rx="6" stroke-width="0.5"/>
+<text class="head-text" x="390" y="85" text-anchor="middle">Domestic</text>
+<rect class="head-fill" x="460" y="60" width="140" height="40" rx="6" stroke-width="0.5"/>
+<text class="head-text" x="530" y="85" text-anchor="middle">Import</text>
+
+<rect class="head-fill" x="60" y="100" width="120" height="120" rx="6" stroke-width="0.5"/>
+<text class="head-text" x="120" y="165" text-anchor="middle">Export</text>
+<rect class="head-fill" x="60" y="220" width="120" height="120" rx="6" stroke-width="0.5"/>
+<text class="head-text" x="120" y="285" text-anchor="middle">Domestic</text>
+<rect class="head-fill" x="60" y="340" width="120" height="120" rx="6" stroke-width="0.5"/>
+<text class="head-text" x="120" y="405" text-anchor="middle">Import</text>
+
+<rect class="feasible-fill" x="180" y="100" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="feasible-code" x="250" y="138" text-anchor="middle">EE  ✓</text>
+<text class="feasible-sub"  x="250" y="166" text-anchor="middle">Training + inference</text>
+<text class="feasible-sub"  x="250" y="184" text-anchor="middle">exporter</text>
+<text class="feasible-sub"  x="250" y="202" text-anchor="middle">Cheapest producers</text>
+
+<rect class="ruled-fill" x="320" y="100" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="ruled-code" x="390" y="148" text-anchor="middle">ED  ✗</text>
+<text class="ruled-sub"  x="390" y="175" text-anchor="middle">Ruled out</text>
+<text class="ruled-sub"  x="390" y="193" text-anchor="middle">Proposition 4</text>
+
+<rect class="ruled-fill" x="460" y="100" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="ruled-code" x="530" y="148" text-anchor="middle">EI  ✗</text>
+<text class="ruled-sub"  x="530" y="175" text-anchor="middle">Ruled out</text>
+<text class="ruled-sub"  x="530" y="193" text-anchor="middle">Proposition 4</text>
+
+<rect class="ruled-fill" x="180" y="220" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="ruled-code" x="250" y="268" text-anchor="middle">DE  ✗</text>
+<text class="ruled-sub"  x="250" y="295" text-anchor="middle">Ruled out</text>
+<text class="ruled-sub"  x="250" y="313" text-anchor="middle">Cost ordering</text>
+
+<rect class="feasible-fill" x="320" y="220" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="feasible-code" x="390" y="258" text-anchor="middle">DD  ✓</text>
+<text class="feasible-sub"  x="390" y="286" text-anchor="middle">Both domestic</text>
+<text class="feasible-sub"  x="390" y="304" text-anchor="middle">Sovereignty premium</text>
+<text class="feasible-sub"  x="390" y="322" text-anchor="middle">justifies both</text>
+
+<rect class="ruled-fill" x="460" y="220" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="ruled-code" x="530" y="262" text-anchor="middle">DI  ✗</text>
+<text class="ruled-sub"  x="530" y="288" text-anchor="middle">Ruled out</text>
+<text class="ruled-sub"  x="530" y="306" text-anchor="middle">Sovereignty</text>
+<text class="ruled-sub"  x="530" y="322" text-anchor="middle">+ latency</text>
+
+<rect class="feasible-fill" x="180" y="340" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="feasible-code" x="250" y="378" text-anchor="middle">IE  ✓</text>
+<text class="feasible-sub"  x="250" y="406" text-anchor="middle">Inference hub</text>
+<text class="feasible-sub"  x="250" y="424" text-anchor="middle">Regional low-cost</text>
+<text class="feasible-sub"  x="250" y="442" text-anchor="middle">cⱼ above pₜ*</text>
+
+<rect class="feasible-fill" x="320" y="340" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="feasible-code" x="390" y="378" text-anchor="middle">ID  ✓</text>
+<text class="feasible-sub"  x="390" y="406" text-anchor="middle">Hybrid</text>
+<text class="feasible-sub"  x="390" y="424" text-anchor="middle">Isolated or</text>
+<text class="feasible-sub"  x="390" y="442" text-anchor="middle">sovereign inference</text>
+
+<rect class="feasible-fill" x="460" y="340" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="feasible-code" x="530" y="378" text-anchor="middle">II  ✓</text>
+<text class="feasible-sub"  x="530" y="406" text-anchor="middle">Full importer</text>
+<text class="feasible-sub"  x="530" y="424" text-anchor="middle">High-cost</text>
+<text class="feasible-sub"  x="530" y="442" text-anchor="middle">no sovereignty</text>
+</svg>

@@ -1,0 +1,302 @@
+#!/usr/bin/env python3
+"""
+Generate Figure 1 (model structure) and Figure 1b (regime grid)
+for the FLOP trade model paper.
+
+Usage:
+    python generate_figures.py [--output-dir DIR] [--png] [--dpi 300]
+
+Requires: cairosvg (only if --png)
+    pip install cairosvg --break-system-packages
+
+Font: Uses DejaVu Sans for full Unicode subscript coverage.
+      Installed by default on Ubuntu/Debian.
+"""
+
+import argparse
+import os
+
+# ---------------------------------------------------------------------------
+# Notation constants — Unicode subscript characters
+# DejaVu Sans has glyphs for all of these; Arial/Helvetica do NOT.
+# ---------------------------------------------------------------------------
+FONT = "DejaVu Sans, sans-serif"
+
+SUB_j = "\u2C7C"    # subscript j (producer country)
+SUB_k = "\u2096"    # subscript k (buyer country)
+SUB_t = "\u209C"    # subscript t (training — lowercase per Unicode)
+SUB_l = "\u2097"    # subscript l (inference — NOT subscript i)
+SUB_i = "\u1D62"    # subscript i (country index in distance)
+TAU = "\u03C4"      # tau
+LAMBDA = "\u03BB"   # lambda
+D_BAR = "d\u0304"   # d with combining macron
+MDASH = "\u2014"    # em dash
+CHECK = "\u2713"    # check mark
+CROSS = "\u2717"    # ballot X
+
+# Pre-built notation fragments
+C_j = f"c{SUB_j}"                   # cⱼ
+K_j = f"K{SUB_j}"                   # Kⱼ
+P_T = f"p{SUB_t}*"                  # pₜ*
+P_l = f"p{SUB_l}*"                  # pₗ*
+P_l_d = f"p{SUB_l}*(d)"             # pₗ*(d)
+TAU_l = f"{TAU}{SUB_l}(d)"          # τₗ(d)
+LAM_jk = f"{LAMBDA}{SUB_j}{SUB_k}"  # λⱼₖ
+D_ij = f"d{SUB_i}{SUB_j}"           # dᵢⱼ
+
+REGIME_COND = f"{C_j} vs {P_T}, {P_l}, {LAM_jk}, {D_ij}"
+
+
+def _css():
+    """Shared CSS styles for both figures."""
+    return '''
+.gray-fill  { fill:#F1EFE8; stroke:#5F5E5A; }
+.gray-title { fill:#2C2C2A; font-weight:500; font-size:14px; }
+.gray-sub   { fill:#5F5E5A; font-size:12px; }
+.teal-fill  { fill:#E1F5EE; stroke:#0F6E56; }
+.teal-title { fill:#04342C; font-weight:500; font-size:14px; }
+.teal-sub   { fill:#0F6E56; font-size:12px; }
+.purple-fill  { fill:#EEEDFE; stroke:#534AB7; }
+.purple-title { fill:#26215C; font-weight:500; font-size:14px; }
+.purple-sub   { fill:#534AB7; font-size:12px; }
+.coral-fill  { fill:#FAECE7; stroke:#993C1D; }
+.coral-title { fill:#4A1B0C; font-weight:500; font-size:14px; }
+.coral-sub   { fill:#993C1D; font-size:12px; }
+.arr { stroke:#5F5E5A; stroke-width:1.5; fill:none; }'''
+
+
+def _arrow_marker():
+    return '''<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5"
+        markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+  <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke"
+        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>'''
+
+
+def make_figure1():
+    """Figure 1: Model structure — primitives through prices to regimes."""
+    return f'''<svg width="680" height="562" viewBox="0 0 680 562"
+     xmlns="http://www.w3.org/2000/svg" font-family="{FONT}">
+<defs>
+{_arrow_marker()}
+<style>{_css()}</style>
+</defs>
+
+<!-- Tier 1: Country primitives (gray) -->
+<rect class="gray-fill" x="40"  y="30" width="142" height="56" rx="8" stroke-width="0.5"/>
+<text class="gray-title" x="111" y="56" text-anchor="middle">Electricity</text>
+<text class="gray-sub"   x="111" y="74" text-anchor="middle">dollars per kWh</text>
+
+<rect class="gray-fill" x="192" y="30" width="142" height="56" rx="8" stroke-width="0.5"/>
+<text class="gray-title" x="263" y="56" text-anchor="middle">Reliability</text>
+<text class="gray-sub"   x="263" y="74" text-anchor="middle">grid uptime</text>
+
+<rect class="gray-fill" x="344" y="30" width="142" height="56" rx="8" stroke-width="0.5"/>
+<text class="gray-title" x="415" y="56" text-anchor="middle">Sovereignty</text>
+<text class="gray-sub"   x="415" y="74" text-anchor="middle">political risk</text>
+
+<rect class="gray-fill" x="496" y="30" width="142" height="56" rx="8" stroke-width="0.5"/>
+<text class="gray-title" x="567" y="56" text-anchor="middle">Capital cost</text>
+<text class="gray-sub"   x="567" y="74" text-anchor="middle">financing cost</text>
+
+<line x1="111" y1="86" x2="240" y2="140" class="arr" marker-end="url(#arrow)"/>
+<line x1="263" y1="86" x2="300" y2="140" class="arr" marker-end="url(#arrow)"/>
+<line x1="415" y1="86" x2="380" y2="140" class="arr" marker-end="url(#arrow)"/>
+<line x1="567" y1="86" x2="440" y2="140" class="arr" marker-end="url(#arrow)"/>
+
+<!-- Tier 2: Production cost (teal) -->
+<rect class="teal-fill" x="200" y="140" width="280" height="56" rx="8" stroke-width="0.5"/>
+<text class="teal-title" x="340" y="166" text-anchor="middle">Production cost {C_j}</text>
+<text class="teal-sub"   x="340" y="184" text-anchor="middle">combined input costs</text>
+
+<line x1="300" y1="196" x2="150" y2="244" class="arr" marker-end="url(#arrow)"/>
+<line x1="380" y1="196" x2="530" y2="244" class="arr" marker-end="url(#arrow)"/>
+
+<!-- Tier 3a: World training price (teal, left) -->
+<rect class="teal-fill" x="40" y="244" width="220" height="92" rx="8" stroke-width="0.5"/>
+<text class="teal-title" x="150" y="268" text-anchor="middle">World training price {P_T}</text>
+<text class="teal-sub"   x="150" y="288" text-anchor="middle">global market</text>
+<text class="teal-sub"   x="150" y="306" text-anchor="middle">binding {K_j} raises {P_T}</text>
+<text class="teal-sub"   x="150" y="322" text-anchor="middle">above c(1) {MDASH} Prop. 2</text>
+
+<!-- Tier 3b: Capacity (purple, center) -->
+<rect class="purple-fill" x="280" y="244" width="120" height="92" rx="8" stroke-width="0.5"/>
+<text class="purple-title" x="340" y="272" text-anchor="middle">Capacity {K_j}</text>
+<text class="purple-sub"   x="340" y="294" text-anchor="middle">land, water,</text>
+<text class="purple-sub"   x="340" y="310" text-anchor="middle">grid, siting</text>
+
+<!-- Tier 3c: Regional inference price (teal, right) -->
+<rect class="teal-fill" x="420" y="244" width="220" height="92" rx="8" stroke-width="0.5"/>
+<text class="teal-title" x="530" y="268" text-anchor="middle">Inference price {P_l_d}</text>
+<text class="teal-sub"   x="530" y="288" text-anchor="middle">regional market</text>
+<text class="teal-sub"   x="530" y="306" text-anchor="middle">iceberg cost {TAU_l}</text>
+<text class="teal-sub"   x="530" y="322" text-anchor="middle">latency threshold {D_BAR}</text>
+
+<line x1="280" y1="290" x2="262" y2="290" class="arr" marker-end="url(#arrow)"/>
+<line x1="400" y1="290" x2="418" y2="290" class="arr" marker-end="url(#arrow)"/>
+
+<line x1="150" y1="336" x2="280" y2="380" class="arr" marker-end="url(#arrow)"/>
+<line x1="530" y1="336" x2="400" y2="380" class="arr" marker-end="url(#arrow)"/>
+
+<!-- Tier 4: Regime conditions (teal) -->
+<rect class="teal-fill" x="200" y="380" width="280" height="56" rx="8" stroke-width="0.5"/>
+<text class="teal-title" x="340" y="406" text-anchor="middle">Regime conditions</text>
+<text class="teal-sub"   x="340" y="424" text-anchor="middle">{REGIME_COND}</text>
+
+<line x1="215" y1="436" x2="95"  y2="480" class="arr" marker-end="url(#arrow)"/>
+<line x1="275" y1="436" x2="218" y2="480" class="arr" marker-end="url(#arrow)"/>
+<line x1="340" y1="436" x2="340" y2="480" class="arr" marker-end="url(#arrow)"/>
+<line x1="405" y1="436" x2="463" y2="480" class="arr" marker-end="url(#arrow)"/>
+<line x1="465" y1="436" x2="585" y2="480" class="arr" marker-end="url(#arrow)"/>
+
+<!-- Tier 5: Five equilibrium regimes (coral) — Proposition 1 -->
+<rect class="coral-fill" x="40"  y="480" width="110" height="72" rx="8" stroke-width="0.5"/>
+<text class="coral-title" x="95"  y="502" text-anchor="middle">EE</text>
+<text class="coral-sub"   x="95"  y="522" text-anchor="middle">T: export</text>
+<text class="coral-sub"   x="95"  y="540" text-anchor="middle">I: export</text>
+
+<rect class="coral-fill" x="163" y="480" width="110" height="72" rx="8" stroke-width="0.5"/>
+<text class="coral-title" x="218" y="502" text-anchor="middle">IE</text>
+<text class="coral-sub"   x="218" y="522" text-anchor="middle">T: import</text>
+<text class="coral-sub"   x="218" y="540" text-anchor="middle">I: export</text>
+
+<rect class="coral-fill" x="285" y="480" width="110" height="72" rx="8" stroke-width="0.5"/>
+<text class="coral-title" x="340" y="502" text-anchor="middle">ID</text>
+<text class="coral-sub"   x="340" y="522" text-anchor="middle">T: import</text>
+<text class="coral-sub"   x="340" y="540" text-anchor="middle">I: domestic</text>
+
+<rect class="coral-fill" x="408" y="480" width="110" height="72" rx="8" stroke-width="0.5"/>
+<text class="coral-title" x="463" y="502" text-anchor="middle">DD</text>
+<text class="coral-sub"   x="463" y="522" text-anchor="middle">T: domestic</text>
+<text class="coral-sub"   x="463" y="540" text-anchor="middle">I: domestic</text>
+
+<rect class="coral-fill" x="530" y="480" width="110" height="72" rx="8" stroke-width="0.5"/>
+<text class="coral-title" x="585" y="502" text-anchor="middle">II</text>
+<text class="coral-sub"   x="585" y="522" text-anchor="middle">T: import</text>
+<text class="coral-sub"   x="585" y="540" text-anchor="middle">I: import</text>
+</svg>'''
+
+
+def make_figure1b():
+    """Figure 1b: 3x3 regime feasibility grid (Proposition 1)."""
+    cap = f"Rows: training {MDASH} Columns: inference"
+    return f'''<svg width="680" height="500" viewBox="0 0 680 500"
+     xmlns="http://www.w3.org/2000/svg" font-family="{FONT}">
+<defs>
+<style>
+.head-fill     {{ fill:#F1EFE8; stroke:#5F5E5A; }}
+.head-text     {{ fill:#2C2C2A; font-weight:500; font-size:14px; }}
+.feasible-fill {{ fill:#FAECE7; stroke:#993C1D; }}
+.feasible-code {{ fill:#4A1B0C; font-weight:500; font-size:18px; }}
+.feasible-sub  {{ fill:#993C1D; font-size:12px; }}
+.ruled-fill    {{ fill:#F1EFE8; stroke:#888780; stroke-dasharray:4 3; }}
+.ruled-code    {{ fill:#888780; font-weight:500; font-size:18px; }}
+.ruled-sub     {{ fill:#888780; font-size:12px; }}
+.caption       {{ fill:#2C2C2A; font-size:12px; }}
+</style>
+</defs>
+
+<text class="caption" x="380" y="35" text-anchor="middle">{cap}</text>
+
+<rect class="head-fill" x="180" y="60" width="140" height="40" rx="6" stroke-width="0.5"/>
+<text class="head-text" x="250" y="85" text-anchor="middle">Export</text>
+<rect class="head-fill" x="320" y="60" width="140" height="40" rx="6" stroke-width="0.5"/>
+<text class="head-text" x="390" y="85" text-anchor="middle">Domestic</text>
+<rect class="head-fill" x="460" y="60" width="140" height="40" rx="6" stroke-width="0.5"/>
+<text class="head-text" x="530" y="85" text-anchor="middle">Import</text>
+
+<rect class="head-fill" x="60" y="100" width="120" height="120" rx="6" stroke-width="0.5"/>
+<text class="head-text" x="120" y="165" text-anchor="middle">Export</text>
+<rect class="head-fill" x="60" y="220" width="120" height="120" rx="6" stroke-width="0.5"/>
+<text class="head-text" x="120" y="285" text-anchor="middle">Domestic</text>
+<rect class="head-fill" x="60" y="340" width="120" height="120" rx="6" stroke-width="0.5"/>
+<text class="head-text" x="120" y="405" text-anchor="middle">Import</text>
+
+<rect class="feasible-fill" x="180" y="100" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="feasible-code" x="250" y="138" text-anchor="middle">EE  {CHECK}</text>
+<text class="feasible-sub"  x="250" y="166" text-anchor="middle">Training + inference</text>
+<text class="feasible-sub"  x="250" y="184" text-anchor="middle">exporter</text>
+<text class="feasible-sub"  x="250" y="202" text-anchor="middle">Cheapest producers</text>
+
+<rect class="ruled-fill" x="320" y="100" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="ruled-code" x="390" y="148" text-anchor="middle">ED  {CROSS}</text>
+<text class="ruled-sub"  x="390" y="175" text-anchor="middle">Ruled out</text>
+<text class="ruled-sub"  x="390" y="193" text-anchor="middle">Proposition 4</text>
+
+<rect class="ruled-fill" x="460" y="100" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="ruled-code" x="530" y="148" text-anchor="middle">EI  {CROSS}</text>
+<text class="ruled-sub"  x="530" y="175" text-anchor="middle">Ruled out</text>
+<text class="ruled-sub"  x="530" y="193" text-anchor="middle">Proposition 4</text>
+
+<rect class="ruled-fill" x="180" y="220" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="ruled-code" x="250" y="268" text-anchor="middle">DE  {CROSS}</text>
+<text class="ruled-sub"  x="250" y="295" text-anchor="middle">Ruled out</text>
+<text class="ruled-sub"  x="250" y="313" text-anchor="middle">Cost ordering</text>
+
+<rect class="feasible-fill" x="320" y="220" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="feasible-code" x="390" y="258" text-anchor="middle">DD  {CHECK}</text>
+<text class="feasible-sub"  x="390" y="286" text-anchor="middle">Both domestic</text>
+<text class="feasible-sub"  x="390" y="304" text-anchor="middle">Sovereignty premium</text>
+<text class="feasible-sub"  x="390" y="322" text-anchor="middle">justifies both</text>
+
+<rect class="ruled-fill" x="460" y="220" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="ruled-code" x="530" y="262" text-anchor="middle">DI  {CROSS}</text>
+<text class="ruled-sub"  x="530" y="288" text-anchor="middle">Ruled out</text>
+<text class="ruled-sub"  x="530" y="306" text-anchor="middle">Sovereignty</text>
+<text class="ruled-sub"  x="530" y="322" text-anchor="middle">+ latency</text>
+
+<rect class="feasible-fill" x="180" y="340" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="feasible-code" x="250" y="378" text-anchor="middle">IE  {CHECK}</text>
+<text class="feasible-sub"  x="250" y="406" text-anchor="middle">Inference hub</text>
+<text class="feasible-sub"  x="250" y="424" text-anchor="middle">Regional low-cost</text>
+<text class="feasible-sub"  x="250" y="442" text-anchor="middle">{C_j} above {P_T}</text>
+
+<rect class="feasible-fill" x="320" y="340" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="feasible-code" x="390" y="378" text-anchor="middle">ID  {CHECK}</text>
+<text class="feasible-sub"  x="390" y="406" text-anchor="middle">Hybrid</text>
+<text class="feasible-sub"  x="390" y="424" text-anchor="middle">Isolated or</text>
+<text class="feasible-sub"  x="390" y="442" text-anchor="middle">sovereign inference</text>
+
+<rect class="feasible-fill" x="460" y="340" width="140" height="120" rx="6" stroke-width="0.5"/>
+<text class="feasible-code" x="530" y="378" text-anchor="middle">II  {CHECK}</text>
+<text class="feasible-sub"  x="530" y="406" text-anchor="middle">Full importer</text>
+<text class="feasible-sub"  x="530" y="424" text-anchor="middle">High-cost</text>
+<text class="feasible-sub"  x="530" y="442" text-anchor="middle">no sovereignty</text>
+</svg>'''
+
+
+def svg_to_png(svg_content, png_path, dpi=300):
+    import cairosvg
+    cairosvg.svg2png(
+        bytestring=svg_content.encode("utf-8"),
+        write_to=png_path,
+        scale=dpi / 96.0,
+    )
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Generate FLOP trade model figures")
+    parser.add_argument("--output-dir", default=".", help="Output directory")
+    parser.add_argument("--dpi", type=int, default=300, help="PNG DPI")
+    parser.add_argument("--png", action="store_true", help="Also generate PNG")
+    args = parser.parse_args()
+    os.makedirs(args.output_dir, exist_ok=True)
+
+    figures = [
+        ("figure1_model_structure", make_figure1),
+        ("figure1b_regime_grid", make_figure1b),
+    ]
+    for name, func in figures:
+        svg = func()
+        svg_path = os.path.join(args.output_dir, f"{name}.svg")
+        with open(svg_path, "w", encoding="utf-8") as f:
+            f.write(svg)
+        print(f"[OK] {svg_path}")
+        if args.png:
+            png_path = os.path.join(args.output_dir, f"{name}.png")
+            svg_to_png(svg, png_path, args.dpi)
+            print(f"[OK] {png_path} ({args.dpi} DPI)")
+
+
+if __name__ == "__main__":
+    main()
