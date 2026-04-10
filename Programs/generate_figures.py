@@ -74,7 +74,7 @@ def _arrow_marker():
 
 
 def make_figure1():
-    """Figure 1: Model structure — primitives through prices to regimes."""
+    """Figure 1: Model structure — endowments through prices to regimes."""
     return f'''<svg width="680" height="562" viewBox="0 0 680 562"
      xmlns="http://www.w3.org/2000/svg" font-family="{FONT}">
 <defs>
@@ -82,7 +82,7 @@ def make_figure1():
 <style>{_css()}</style>
 </defs>
 
-<!-- Tier 1: Country primitives (gray) -->
+<!-- Tier 1: Country endowments (gray) -->
 <rect class="gray-fill" x="40"  y="30" width="142" height="56" rx="8" stroke-width="0.5"/>
 <text class="gray-title" x="111" y="56" text-anchor="middle">Electricity</text>
 <text class="gray-sub"   x="111" y="74" text-anchor="middle">dollars per kWh</text>
