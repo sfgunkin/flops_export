@@ -1388,14 +1388,19 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
     ver_el.addnext(el)
     abs_text_el = el
 
-    # Blank line before JEL
-    p_blank, blank_el = mkp(doc, body, abs_text_el)
-    p_blank.paragraph_format.space_before = Pt(0)
-    p_blank.paragraph_format.space_after = Pt(0)
-    p_blank.paragraph_format.line_spacing = 1.0
+    # Blank lines before JEL (3 total)
+    blank_els = []
+    prev = abs_text_el
+    for _ in range(3):
+        p_b, b_el = mkp(doc, body, prev)
+        p_b.paragraph_format.space_before = Pt(0)
+        p_b.paragraph_format.space_after = Pt(0)
+        p_b.paragraph_format.line_spacing = 1.0
+        blank_els.append(b_el)
+        prev = b_el
 
     # JEL classification and keywords after abstract
-    p_jel, jel_el = mkp(doc, body, blank_el)
+    p_jel, jel_el = mkp(doc, body, blank_els[-1])
     p_jel.paragraph_format.left_indent = Inches(0.5)
     p_jel.paragraph_format.right_indent = Inches(0.5)
     p_jel.paragraph_format.line_spacing = 1.0
@@ -1414,7 +1419,7 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
         'comparative advantage, electricity costs, developing countries'
     )
 
-    return title_el, author_el, ver_el, abs_text_el, kw_el, blank_el
+    return title_el, author_el, ver_el, abs_text_el, kw_el, blank_els
 
 
 def write_introduction(doc, body, hmap):
@@ -5897,7 +5902,7 @@ def fix_orphan_backlinks(body, refs):
 
 
 def apply_formatting(doc, body, refs, title_el, author_el, ver_el,
-                     abs_text_el, blank_el=None):
+                     abs_text_el, blank_els=None):
     print("Applying formatting...")
     # Set Normal style defaults
     normal = doc.styles['Normal']
@@ -5937,8 +5942,8 @@ def apply_formatting(doc, body, refs, title_el, author_el, ver_el,
 
     # Paragraphs to protect from global formatting (centered title page elements)
     _protected = {title_el, author_el, ver_el, abs_text_el}
-    if blank_el is not None:
-        _protected.add(blank_el)
+    if blank_els:
+        _protected.update(blank_els)
 
     # Remove empty paragraphs (blank lines) from body
     W_NS_URI = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'
@@ -7243,7 +7248,7 @@ def main():
     # STEPS
     # ═══════════════════════════════════════════════════════════════════════
 
-    title_el, author_el, ver_el, abs_text_el, kw_el, blank_el = (
+    title_el, author_el, ver_el, abs_text_el, kw_el, blank_els = (
         write_title_and_abstract(doc, body, all_el, hmap, demand_data)
     )
     write_introduction(doc, body, hmap)
@@ -7277,7 +7282,7 @@ def main():
     link_equations(body)
     fix_orphan_backlinks(body, refs)
     apply_formatting(doc, body, refs, title_el, author_el, ver_el,
-                     abs_text_el, blank_el)
+                     abs_text_el, blank_els)
     add_page_numbers_and_break(doc, body, kw_el)
 
     # ═══════════════════════════════════════════════════════════════════════
