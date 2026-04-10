@@ -4916,67 +4916,6 @@ def write_figure1_calibration(doc, body, last_ref):
     return note_el
 
 
-def write_figure1b_regime_grid(doc, body, after_el):
-    """Insert Figure 1b (regime feasibility grid) after Figure 1."""
-    print("Inserting Figure 1b (Regime Feasibility Grid)...")
-
-    fig_path = DOCS.parent / "Output" / "figure1b_regime_grid.png"
-    pb_el = add_page_break(doc, body, after_el)
-
-    # Figure title with bookmark
-    title_p = doc.add_paragraph()
-    title_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    title_p.paragraph_format.space_before = Pt(6)
-    title_p.paragraph_format.space_after = Pt(4)
-    title_p.paragraph_format.first_line_indent = Inches(0)
-    title_p._element.append(make_bookmark(153, 'Figure1b'))
-    r_title = title_p.add_run('Figure 1b')
-    r_title.bold = True
-    r_title.font.size = Pt(10)
-    title_p._element.append(make_bookmark_end(153))
-    run_ft = title_p.add_run('. Regime feasibility grid')
-    run_ft.bold = True
-    run_ft.font.size = Pt(10)
-    title_el = title_p._element
-    body.remove(title_el)
-    pb_el.addnext(title_el)
-
-    # Embed image
-    pic_p = doc.add_paragraph()
-    pic_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    pic_p.paragraph_format.space_before = Pt(4)
-    pic_p.paragraph_format.space_after = Pt(4)
-    run = pic_p.add_run()
-    run.add_picture(str(fig_path), width=Inches(6.5))
-    pic_el = pic_p._element
-    body.remove(pic_el)
-    title_el.addnext(pic_el)
-
-    # Notes
-    note_p = doc.add_paragraph()
-    note_p.paragraph_format.space_before = Pt(4)
-    note_p.paragraph_format.space_after = Pt(6)
-    note_p.paragraph_format.first_line_indent = Inches(0)
-    note_p.paragraph_format.left_indent = Inches(0.5)
-    note_p.paragraph_format.right_indent = Inches(0.5)
-    rn1 = note_p.add_run('Notes: ')
-    rn1.bold = True
-    rn1.font.size = Pt(10)
-    rn2 = note_p.add_run(
-        'Rows = training status, columns = inference status. '
-        'Five of nine combinations are feasible (\u2713); four are '
-        'ruled out (\u2717) by Proposition 4 or cost ordering.'
-    )
-    rn2.font.size = Pt(10)
-    note_p.paragraph_format.line_spacing = 1.0
-    note_p.alignment = WD_ALIGN_PARAGRAPH.LEFT
-    note_el = note_p._element
-    body.remove(note_el)
-    pic_el.addnext(note_el)
-
-    return note_el
-
-
 def write_table1(doc, body, after_el):
     """Table 1: Country regime taxonomy (5×5 grid), placed after Figure 1."""
     print("Inserting Table 1 (Country regime taxonomy)...")
@@ -7315,8 +7254,7 @@ def main():
     refs = hmap['refs']
     last_ref = write_references(doc, body, refs)
     last_fig1 = write_figure1_calibration(doc, body, last_ref)
-    last_fig1b = write_figure1b_regime_grid(doc, body, last_fig1)
-    last_table1_tax = write_table1(doc, body, last_fig1b)
+    last_table1_tax = write_table1(doc, body, last_fig1)
     last_table1 = write_table2(doc, body, last_table1_tax, demand_data)
     last_table3 = write_table3(doc, body, last_table1, demand_data)
     last_app_note = write_appendix(doc, body, last_table3, eca_cal, non_eca_cal, reg, demand_data)
