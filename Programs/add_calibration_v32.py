@@ -2899,7 +2899,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_hyperlink('Figure1cals', 'Figure 1'))
     p._element.append(make_bookmark_end(150))
     p.add_run(
-        ' summarizes the model structure, from country primitives '
+        ' summarizes the model structure, from country endowments '
         'through production costs and prices to equilibrium regimes. '
         'The analysis proceeds by adjusting production costs '
         'and applying bilateral trade frictions.'
@@ -4906,7 +4906,7 @@ def write_figure1_calibration(doc, body, last_ref):
     rn1.bold = True
     rn1.font.size = Pt(10)
     rn2 = note_p.add_run(
-        'Country primitives (gray) determine production cost '
+        'Country endowments (gray) determine production cost '
         'c\u2c7c, which together with capacity K\u2c7c (purple) sets '
         'the world training price p\u209c* and regional inference '
         'price p\u2097*(d). Regime conditions sort countries into '
