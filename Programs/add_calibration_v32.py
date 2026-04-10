@@ -1449,7 +1449,7 @@ def write_introduction(doc, body, hmap):
     p.add_run(
         '. Rather than '
         'exporting raw energy resources as primary commodities, '
-        'countries can use cheap electricity to produce a higher value-added digital service. '
+        'countries can use cheap electricity to produce higher-value-added digital services. '
         'For resource-rich developing countries, FLOP exporting could offer a route up the '
         'value chain.'
     )
@@ -1751,7 +1751,7 @@ def write_production_technology(doc, body, hmap):
         'Although the cost structure above is Ricardian '
         '(country-specific production costs driven by technology and input prices), '
         'the justification for resource-rich comparative advantage is closer to '
-        'Heckscher\u2013Ohlin: countries export goods intensive in their '
+        'the Heckscher\u2013Ohlin model: countries export goods intensive in their '
         'abundant factors (Heckscher 1919, Ohlin 1933). '
         'For compute production, the relevant endowment is not electricity, '
         'but the natural resources that generate it, such as hydropower '
@@ -3316,8 +3316,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'model because the higher world price narrows the gap between domestic and import costs. '
         f'The demand-weighted welfare cost is {demand_data["welfare_pct"]:.1f}% of '
         'average compute spending, in the range of the welfare gains from trade '
-        'in goods estimated in the quantitative trade literature, which fall between '
-        'roughly 0.2% and 10% depending on country size and specification '
+        'in goods estimated in the quantitative trade literature, which range '
+        'from roughly 0.2% to 10% depending on country size and specification '
         '(Eaton and Kortum 2002, Arkolakis et al. 2012).'
         ' At current demand levels (approximately 6\u2009\u00d7\u200910\u00b9\u2070 GPU-hours at '
         '$1.50/hr), this amounts to roughly $1.3\u2009billion per year. This cost is small '
@@ -3402,10 +3402,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_v('\u03C1')])
     p.add_run(
         ' compresses the cross-country cost spread, making electricity price '
-        'differences less decisive and making developing-country entry '
-        'easier. Countries combining cheap energy with adequate governance '
-        'retain their cost advantage regardless of the particular parameter '
-        'choice.'
+        'differences less decisive and facilitating developing-country '
+        'entry. Countries combining cheap energy with adequate governance '
+        'retain their cost advantage regardless of the choice of parameter.'
     )
 
     # Uniform λ robustness check
@@ -3622,9 +3621,9 @@ def write_conclusion(doc, body, hmap, demand_data):
         'power contracts, stable network connectivity, and a regulatory environment '
         'conducive for capital-intensive investment over a multi-decade horizon. '
         'The absence of these conditions shifts most countries '
-        'toward domestic production at a nontrivial welfare cost. The welfare loss is '
-        'small enough, however, that governments with legitimate data-sovereignty '
-        'objectives may prefer domestic supply. '
+        'toward domestic production at a nontrivial welfare cost. The welfare '
+        'loss is, however, small enough that governments with legitimate '
+        'data-sovereignty objectives may prefer domestic supply. '
     )
 
     p, cur_concl = mkp(doc, body, cur_concl)
@@ -3638,7 +3637,7 @@ def write_conclusion(doc, body, hmap, demand_data):
 
     p, _ = mkp(doc, body, cur_concl)
     p.add_run(
-        'FLOP exporting resembles capital-intensive resource processing when imported '
+        'FLOP exporting resembles capital-intensive resource processing, in which imported '
         'equipment transforms local energy into an exportable product with minimal '
         'domestic labor. But unlike extractive commodities, the underlying energy can be '
         'renewable, and compute demand is growing faster than demand for any physical '
