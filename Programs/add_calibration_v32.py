@@ -1388,8 +1388,14 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
     ver_el.addnext(el)
     abs_text_el = el
 
+    # Blank line before JEL
+    p_blank, blank_el = mkp(doc, body, abs_text_el)
+    p_blank.paragraph_format.space_before = Pt(0)
+    p_blank.paragraph_format.space_after = Pt(0)
+    p_blank.paragraph_format.line_spacing = 1.0
+
     # JEL classification and keywords after abstract
-    p_jel, jel_el = mkp(doc, body, abs_text_el)
+    p_jel, jel_el = mkp(doc, body, blank_el)
     p_jel.paragraph_format.left_indent = Inches(0.5)
     p_jel.paragraph_format.right_indent = Inches(0.5)
     p_jel.paragraph_format.line_spacing = 1.0
