@@ -2702,7 +2702,7 @@ class TestDocumentContent:
 
     def test_iran_cost_reflects_not_rests(self, docx_text):
         """'reflects' replaced 'rests' for Iran subsidy sentence."""
-        assert "cost reflects on one of the world" in docx_text
+        assert "cost reflects one of the world" in docx_text
         assert "cost rests on one of the world" not in docx_text
 
     def test_regime_changes_spelled_out(self, docx_text):

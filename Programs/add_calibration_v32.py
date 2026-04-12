@@ -1371,18 +1371,17 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
     r_abs_label = p.add_run('Abstract')
     r_abs_label.bold = True
     p.add_run(
-        ': Energy-rich developing countries could convert cheap electricity into high-value '
-        'AI compute exports. This paper develops a trade model of compute services that '
-        'distinguishes latency-insensitive training from latency-sensitive inference and '
-        'incorporates a bilateral sovereignty premium. '
-        'Calibration across 85 countries shows that several developing countries rank among '
-        'the cheapest producers under cost-recovery pricing, but bilateral trust deficits '
-        'sharply curtail developing-country exports. '
-        'Because hardware dominates unit cost, the cross-country cost spread is only '
-        '12\u201320 percent, making compute the easiest sector for developing countries '
-        'to enter on cost grounds and the most vulnerable to small policy-induced frictions. '
-        'The binding constraint for FLOP exporting is not electricity cost, but the institutional '
-        'credibility needed to overcome bilateral trust deficits.'
+        ': Can energy-rich developing countries convert cheap electricity into '
+        'AI compute exports? We develop a capacity-constrained Ricardian model of '
+        'compute trade in which training is globally tradable, but inference incurs '
+        'a latency cost, and delivered prices carry a bilateral sovereignty premium. '
+        'Calibrated across 85 countries, the model places several developing economies '
+        'among the cheapest producers of compute at unsubsidized prices, yet bilateral '
+        'trust deficits between developing-country producers and OECD buyers eliminate '
+        'nearly all of their exports. Globally priced hardware compresses the cross-country '
+        'cost spread to 12\u201320 percent, making compute the easiest tradable sector to '
+        'enter on cost grounds and the most sensitive to small policy frictions: the binding '
+        'export constraint is institutional credibility, not the price of power.'
     )
     el = p._element
     body.remove(el)
@@ -1461,7 +1460,7 @@ def write_introduction(doc, body, hmap):
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'Several megaprojects confirm that FLOP exporting is technically and commercially '
-        'feasible. Armenia is deploying 50,000 GPUs in a $4 billion '
+        'feasible. Armenia is deploying 50,000 GPUs as a part of a $4 billion '
         'investment (Firebird 2026). Kenya, Saudi Arabia, and Malaysia have each attracted '
         'billion-dollar data center commitments, '
         'Google has committed $15 billion to India, and OpenAI has proposed '
@@ -1494,7 +1493,7 @@ def write_introduction(doc, body, hmap):
     p.add_run(
         'Recent work examines compute governance and the geography of AI infrastructure '
         '(Sastry et al. 2024, Lehdonvirta et al. 2024, '
-        'Pilz et al. 2025), but no formal trade model of compute exists. '
+        'Pilz et al. 2025), but no formal trade model of compute has been developed. '
         'This paper offers the first such model, making three contributions. '
         'First, it develops a capacity-constrained Ricardian model of compute trade '
         'with an iceberg trade cost for latency degradation and a bilateral sovereignty '
@@ -1535,8 +1534,8 @@ def write_literature(doc, body, hmap):
         'Korinek and Stiglitz (2021) warn that developing countries may be left behind '
         'in the AI revolution; FLOP exporting offers a route in. '
         'The concept relates to Hausmann et al. (2007) on export composition and growth, '
-        'and to Lim\u00E3o and Venables (2001) on infrastructure as a trade cost '
-        'determinant. In our setting, network latency plays an analogous role.'
+        'and to Lim\u00E3o and Venables (2001) on infrastructure as a '
+        'determinant of trade costs. In our setting, network latency plays an analogous role.'
     )
 
     # IT-offshoring contrast
@@ -2728,8 +2727,8 @@ def write_data_section(doc, body, hmap, demand_data):
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'Because the compute export market is still emerging and bilateral trade-flow data '
-        'do not yet exist, the paper calibrates the model using engineering cost parameters '
-        'rather than estimating it from observed trade. The calibration identifies the cost '
+        'do not yet exist, the paper calibrates the model using hardware prices, electricity '
+        'tariffs, and facility cost coefficients rather than estimating it from observed trade. The calibration identifies the cost '
         'structure under which FLOP exporting becomes viable and provides a framework that '
         'can be taken to gravity-style estimation as transaction-level data emerge.'
     )
@@ -2910,7 +2909,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_bookmark_end(112))
     p.add_run(
         '). But this ranking is misleading. '
-        f'{cheapest["country"]}\u2019s headline electricity cost reflects on one of the '
+        f'{cheapest["country"]}\u2019s headline electricity cost reflects one of the '
         'world\u2019s largest fossil fuel subsidies. Turkmenistan, Algeria, Qatar, and '
         'several other low-cost producers face similar distortions. '
     )
@@ -2946,7 +2945,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'${demand_data["min_gap_mwh"] / 1000:.3f} to '
         f'${demand_data["max_gap_mwh_val"] / 1000:.3f}/kWh. '
         f'For {max_gap_country}, a 100\u2009MW IT-load data center would receive '
-        f'${max_fiscal_m:.0f}\u2009million per year in implicit transfers. '
+        f'${max_fiscal_m:.0f}\u2009million in implicit transfers per year. '
         'At hyperscale, such subsidies are fiscally unsustainable. '
         'The resulting cost-recovery ranking (column\u2009(2) of '
     )
@@ -2959,7 +2958,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'{adj_top5[3][1]}, '
         f'and {adj_top5[4][1]}. '
         f'{cheapest["country"]} drops from first to '
-        f'{_ordinal(demand_data["adj_rank_map"]["IRN"])} '
+        f'{_ordinal(demand_data["adj_rank_map"]["IRN"])}, '
         f'and Turkmenistan falls {abs(_tkm_delta)} places. '
         f'{_num_word(demand_data["regime_changes"]).capitalize()} '
         f'{"country changes" if demand_data["regime_changes"] == 1 else "countries change"} '
@@ -3012,7 +3011,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'the cheapest producers (Kyrgyzstan, Tajikistan, '
         'Ethiopia) received virtually no data-center FDI (Aykut et al. '
         '2026). Moreover, most announced investment flows between '
-        'geopolitical allies, consistent with the bilateral sovereignty '
+        'geopolitical allies, are consistent with the bilateral sovereignty '
         'premium rather than cost alone determining where capacity is built '
         '(Straub et al. 2026). Econometric evidence confirms that electricity '
         'costs are not a robust predictor of data center location once market '
@@ -3593,13 +3592,13 @@ def write_conclusion(doc, body, hmap, demand_data):
         'Under the bilateral sovereignty specification, trust deficits eliminate the cost '
         'advantage that developing countries hold under pure cost-recovery pricing. '
         'Compute exporting is constrained not by the price of electricity but by '
-        'institutional credibility, such as non-sanctioned status, credible long-term '
+        'institutional credibility, including non-sanctioned status, credible long-term '
         'power contracts, stable network connectivity, and a regulatory environment '
         'conducive to capital-intensive investment. '
         'The absence of these conditions shifts most countries '
         'toward domestic production at a nontrivial welfare cost. The welfare '
         'loss, however, is small enough that governments with legitimate '
-        'data-sovereignty objectives may prefer domestic supply. '
+        'data-sovereignty objectives may prefer to rely on domestic supply. '
     )
 
     p, cur_concl = mkp(doc, body, cur_concl)
