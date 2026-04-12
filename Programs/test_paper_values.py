@@ -5,7 +5,7 @@ Verifies ALL numerical values, equation relationships, data integrity,
 and equilibrium properties claimed in the paper. Independent of
 add_calibration_v30.py -- recomputes everything from raw data.
 
-v30 changes: ξ removed entirely, CR costs are baseline, 3 sensitivity scenarios.
+v30 changes: ξ removed, CR costs are baseline, 3 sensitivity specs.
 
 Usage:
     pytest test_paper_values.py -v
@@ -2692,6 +2692,92 @@ class TestDocumentContent:
 
     def test_no_welfare_losses_misphrase(self, docx_text):
         assert "welfare losses from trade barriers" not in docx_text
+
+    # ---------- v32 edit integration (Apr 12) ----------
+
+    def test_firebird_sentence_period(self, docx_text):
+        """Firebird citation ends with period, not comma."""
+        assert "(Firebird 2026)." in docx_text
+        assert "(Firebird 2026)," not in docx_text
+
+    def test_iran_cost_reflects_not_rests(self, docx_text):
+        """'reflects' replaced 'rests' for Iran subsidy sentence."""
+        assert "cost reflects on one of the world" in docx_text
+        assert "cost rests on one of the world" not in docx_text
+
+    def test_regime_changes_spelled_out(self, docx_text):
+        """Number of regime changes should be spelled out as a word."""
+        import re
+        m = re.search(
+            r"([\w]+) countries change their trade regimes", docx_text,
+        )
+        assert m, "Could not locate regime-change sentence"
+        word = m.group(1)
+        assert not word.isdigit(), (
+            f"Regime-change count should be a word, got '{word}'"
+        )
+
+    def test_no_em_dash_brazil(self, docx_text):
+        """Brazil sentence uses comma, not em dash."""
+        assert "India, and Brazil, countries with" in docx_text
+        assert "Brazil\u2014countries" not in docx_text
+
+    def test_in_contrast_cheapest_producers(self, docx_text):
+        """'In contrast' replaces em-dash 'while' construction."""
+        assert "infrastructure. In contrast, the cheapest producers" in (
+            docx_text
+        )
+
+    def test_no_countries_such_as_indonesia(self, docx_text):
+        """'countries such as' removed before Indonesia."""
+        assert "1 percent in Indonesia and Viet Nam" in docx_text
+        assert "countries such as Indonesia" not in docx_text
+
+    def test_eastern_data_western_computing_comma(self, docx_text):
+        """Eastern Data, Western Computing has a comma."""
+        assert "Eastern Data, Western Computing" in docx_text
+
+    def test_uniform_20pct_one_not_digit(self, docx_text):
+        """20% counterfactual uses 'one additional country' not '1'."""
+        import re
+        m = re.search(
+            r"premium to 20% shifts (\w+) additional", docx_text,
+        )
+        assert m, "Could not locate 20% sentence"
+        assert m.group(1) == "one", (
+            f"Expected 'one', got '{m.group(1)}'"
+        )
+
+    def test_welfare_cost_qualified(self, docx_text):
+        """Welfare cost sentence includes aggregate/modest qualifier."""
+        assert (
+            "significant in aggregate dollars but modest as a share "
+            "of compute spending"
+        ) in docx_text
+
+    def test_no_section3_linking_paragraph(self, docx_text):
+        """The old linking paragraph after Section 3 heading was removed."""
+        assert (
+            "This section models compute as a tradable good"
+            not in docx_text
+        )
+
+    # ---------- Citation integrity for new/edited refs ----------
+
+    def test_firebird_in_references(self, docx_text):
+        assert "Firebird" in docx_text
+
+    def test_caoui_steck_in_references(self, docx_text):
+        assert "Caoui" in docx_text and "Steck" in docx_text
+
+    def test_aykut_in_references(self, docx_text):
+        assert "Aykut" in docx_text
+
+    def test_straub_in_references(self, docx_text):
+        assert "Straub" in docx_text
+
+    def test_katz_in_references(self, docx_text):
+        assert "Katz" in docx_text
 
 
 # ================================================================
