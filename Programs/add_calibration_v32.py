@@ -61,7 +61,7 @@ v25: Based on v24 with the following changes:
 
 v24: Based on v23 with the following changes:
   - Decomposed ξ: now ξ_j^{eff} = grid reliability × operational risk only (no sanctions)
-  - Bilateral λ_{ij} = α₁·G_{ij} + α₂·(1-R_{ij}) + α₃·S_{ij}
+  - Bilateral λ_{ij} = w₁·G_{ij} + w₂·(1-R_{ij}) + w₃·S_{ij}
     (geopolitical distance, regulatory compatibility, sanctions)
   - Demand tiering: Tier 1 (sovereign, 10%), Tier 2 (regulated, 20%), Tier 3 (commercial, 70%)
   - New display equation (2) for λ_{ij}; all equations renumbered (+1 from old eq 2 onward)
@@ -193,10 +193,10 @@ SUBSIDY_ADJ = {
 # v24: BILATERAL SOVEREIGNTY PREMIUM λ_{ij}
 # ═══════════════════════════════════════════════════════════════════════
 
-# Bilateral λ_{ij} coefficients: λ_{ij} = α₁·G_{ij} + α₂·(1-R_{ij}) + α₃·S_{ij}
-ALPHA_GEO = 0.05     # α₁: geopolitical distance weight
-ALPHA_REG = 0.025    # α₂: regulatory incompatibility weight
-# α₃ = ∞ (sanctions → trade prohibited; handled by exclusion)
+# Bilateral λ_{ij} coefficients: λ_{ij} = w₁·G_{ij} + w₂·(1-R_{ij}) + w₃·S_{ij}
+ALPHA_GEO = 0.05     # w₁: geopolitical distance weight
+ALPHA_REG = 0.025    # w₂: regulatory incompatibility weight
+# w₃ = ∞ (sanctions → trade prohibited; handled by exclusion)
 
 # Uniform λ retained ONLY for robustness comparison (old specification)
 LAMBDA_UNIFORM = 0.10
@@ -311,11 +311,11 @@ def compute_bilateral_lambda(iso_i, iso_j):
 
 
 # v28: GPU export controls — partial restriction on training hardware for China
-# α₃ is normally ∞ (full ban) for SANCTIONED countries.  China is NOT sanctioned
+# w₃ is normally ∞ (full ban) for SANCTIONED countries.  China is NOT sanctioned
 # in the comprehensive sense, but faces GPU export controls on training-grade hardware.
 # We model this as a partial sanctions indicator: S(CHN, buyer) = 0.5 for training only.
 GPU_EXPORT_CONTROLLED = {'CHN'}
-GPU_CONTROL_ALPHA3 = 0.10  # partial α₃ for GPU-controlled (not full sanction)
+GPU_CONTROL_ALPHA3 = 0.10  # partial w₃ for GPU-controlled (not full sanction)
 
 
 def recompute_costs(cal, gpu_price=None, gpu_util=None,
@@ -1466,7 +1466,7 @@ def write_introduction(doc, body, hmap):
         'Google has committed $15 billion to India, and OpenAI has proposed '
         'a $25 billion \u201CStargate Argentina\u201D complex (Straub et al. 2026). '
         'Announced global data-center FDI reached over $310 billion in 2025, '
-        'with EMDEs accounting for roughly 40 percent of projects '
+        'with emerging markets and developing economies (EMDEs) accounting for roughly 40 percent of projects '
         '(Aykut et al. 2026). '
         'Cloud computing exports already exceed '
         '$9 billion annually (World Bank 2025). '
@@ -1850,11 +1850,11 @@ def write_trade_costs(doc, body, hmap):
     # v24: NEW Equation (2) — bilateral λ_{ij}
     _, cur = omath_display(doc, body, cur, [
         _msub('\u03BB', 'ij'), _t(' = '),
-        _msub('\u03B1', '1'), _t(' \u00b7 '),
+        _msub('w', '1'), _t(' \u00b7 '),
         _msub('G', 'ij'), _t(' + '),
-        _msub('\u03B1', '2'), _t(' \u00b7 (1 \u2212 '),
+        _msub('w', '2'), _t(' \u00b7 (1 \u2212 '),
         _msub('R', 'ij'), _t(') + '),
-        _msub('\u03B1', '3'), _t(' \u00b7 '),
+        _msub('w', '3'), _t(' \u00b7 '),
         _msub('S', 'ij'), _t('.'),
     ], eq_num='2')
 
@@ -2283,7 +2283,7 @@ def write_sourcing_and_equilibrium(doc, body, hmap, demand_data):
         'reflect scale economies and self-reinforcing colocation dynamics that the '
         'competitive framework abstracts from. The capacity ceilings '
     )
-    omath(p, [_msub('K\u0304', 'j')])
+    omath(p, [_mbar_sub('K', 'j')])
     p.add_run(
         ' partially capture the resulting gap between cost-based potential and realized '
         'investment; Section 7 discusses these limitations further.'
@@ -2827,11 +2827,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         ' is constructed from geopolitical distance, regulatory compatibility, and sanctions '
         'exposure, (eq. (2)), with coefficient weights '
     )
-    omath(p, [_msub('\u03B1', '1'), _t(f' = {ALPHA_GEO}')])
+    omath(p, [_msub('w', '1'), _t(f' = {ALPHA_GEO}')])
     p.add_run(' (geopolitical distance), ')
-    omath(p, [_msub('\u03B1', '2'), _t(f' = {ALPHA_REG}')])
+    omath(p, [_msub('w', '2'), _t(f' = {ALPHA_REG}')])
     p.add_run(' (regulatory incompatibility), and ')
-    omath(p, [_msub('\u03B1', '3'), _t(' = 0.10')])
+    omath(p, [_msub('w', '3'), _t(' = 0.10')])
     p.add_run(' (sanctions). For sanctioned pairs, ')
     omath(p, [_msub('\u03BB', 'ij'), _t(' = \u221E')])
     p.add_run(' (trade is prohibited). For allies with mutual data-adequacy agreements '
@@ -3098,7 +3098,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         _hhi_phrase = (
             f'Training demand is served by {n_exp} exporter'
             f'{"s" if n_exp > 1 else ""} '
-            f'(HHI = {cap_hhi:.4f}), confirming Proposition 2. '
+            f'(HHI = {cap_hhi:.3f}), confirming Proposition 2. '
         )
     p.add_run(
         '/hr, set by the marginal exporter\u2019s cost. ' + _hhi_phrase
@@ -3141,8 +3141,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         'Inference exports are more dispersed, with the top five exporters being '
         f'{inf_list}, collectively accounting for '
-        f'{sum(round(s * 100) for _, s in top5_inf):.0f}% of cross-border inference demand '
-        f'(HHI = {demand_data["hhi_i"]:.4f}). '
+        f'{sum(s * 100 for _, s in top5_inf):.0f}% of cross-border inference demand '
+        f'(HHI = {demand_data["hhi_i"]:.3f}). '
     )
 
     # ── A4. Developing countries (KEEP P79) ── (only create paragraph if content)
@@ -4889,7 +4889,7 @@ def write_figure1_calibration(doc, body, last_ref):
         'Country endowments (gray) determine production cost '
         'c\u2c7c, which together with capacity K\u2c7c (purple) sets '
         'the world training price p\u209c* and regional inference '
-        'price p\u2097*(d). Regime conditions sort countries into '
+        'price p\u1d62*(k). Regime conditions sort countries into '
         'five equilibrium regimes (coral) from Proposition 1.'
     )
     rn2.font.size = Pt(10)
