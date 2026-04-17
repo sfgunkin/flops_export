@@ -4854,6 +4854,122 @@ def write_workload_appendix(doc, body, last_el):
     return note_el
 
 
+def write_lrmc_appendix(doc, body, last_el):
+    """Appendix G: Symmetric LRMC Construction (v33, Issue 4.3 response).
+
+    Methodology note documenting how the cost-recovery electricity price vector
+    corrects both developing-country subsidies (IMF) and OECD/high-income
+    distortions (carbon adders + cross-subsidy add-backs).
+    """
+    print("Inserting Appendix G (Symmetric LRMC Construction)...")
+
+    pb = add_page_break(doc, body, last_el)
+    cur = mkh(doc, body, pb, 'Appendix G: Symmetric LRMC Construction', level=1)
+
+    # 1. Motivation
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'The cost-recovery specification in earlier versions of this paper '
+        'adjusted electricity prices downward for thirteen developing countries '
+        'whose observed industrial tariffs reflect explicit fossil-fuel '
+        'subsidies (IMF 2025), replacing subsidized tariffs with the estimated '
+        'long-run marginal cost of the dominant generation technology at '
+        'opportunity-cost fuel prices. No symmetric correction was applied to '
+        'OECD and high-income tariffs, which also embed distortions: emissions '
+        'externalities not priced at the retail meter, industrial '
+        'cross-subsidies financed by residential and commercial rate classes, '
+        'and regulated-access privileges for incumbents. The asymmetry biases '
+        'the cross-country cost spread in favor of OECD economies. This '
+        'appendix constructs a symmetric LRMC specification that corrects '
+        'distortions on both sides.'
+    )
+
+    # 2. Scope
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'Of the 85 calibrated countries, 13 retain the IMF-based LRMC '
+        'replacement used throughout the paper (Iran, Turkmenistan, Algeria, '
+        'Egypt, Qatar, Saudi Arabia, United Arab Emirates, Russia, Kazakhstan, '
+        'Nigeria, South Africa, Ethiopia, and Uzbekistan). Forty-three OECD, '
+        'EU non-OECD, and high-income non-OECD countries receive a symmetric '
+        'adjustment. Twenty-nine middle-income developing economies whose '
+        'observed industrial tariffs already approximate long-run marginal '
+        'cost retain their observed prices. Three countries (Qatar, Saudi '
+        'Arabia, United Arab Emirates) appear in both the developing-country '
+        'subsidy set and the high-income non-OECD set; the IMF-based treatment '
+        'dominates and no layering is applied.'
+    )
+
+    # 3. Carbon-price adder
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'The carbon-price adder equals the 2024 grid carbon intensity in '
+        'grams of CO\u2082 per kilowatt-hour (EMBER Yearly Electricity Data '
+        '2025 release) multiplied by the 2024 annual-average price under the '
+        'applicable emissions-trading or carbon-tax regime: EU ETS ($70.94 per '
+        'tonne, applied to EU27 plus Norway, Iceland, and Switzerland via the '
+        'linked Swiss ETS), UK ETS ($47.32), Canadian federal backstop '
+        '($58.48), California Cap-and-Trade plus RGGI coverage-weighted for '
+        'the United States ($3.81 effective national average), New Zealand '
+        'ETS ($39.50), and Singapore carbon tax ($18.60). Nominal instruments '
+        'with effective prices below ten dollars per tonne (Korea K-ETS, '
+        'Japanese carbon tax, Australian safeguard mechanism, Israel, Chile, '
+        'Mexico, Turkey, Colombia) are set to zero.'
+    )
+
+    # 4. Cross-subsidy add-back
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'Only well-documented, quantified industrial cross-subsidies exceeding '
+        '$0.005 per kilowatt-hour are included. Germany receives the largest '
+        'add-back ($0.038/kWh) reflecting the EEG renewables-surcharge '
+        'exemption and grid-fee exemption for energy-intensive industry '
+        '(Agora Energiewende; BDEW). France receives $0.015/kWh for '
+        'post-ARENH regulated nuclear access. Spain, Italy, the Netherlands, '
+        'and Belgium receive $0.010/kWh each from the Eurostat nrg_pc_205 '
+        'subsidies column (industrial band IB6). The United States receives '
+        '$0.015/kWh reflecting the industrial\u2013residential rate '
+        'differential in excess of cost-of-service documented by '
+        'Borenstein (2012) and Davis and Hausman (2016). Korea receives '
+        '$0.020/kWh reflecting KEPCO industrial tariffs below cost-of-service '
+        '(OECD Energy Policy Review). All other countries receive zero.'
+    )
+
+    # 5. Methodological choices
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'Three choices warrant note. First, the carbon adder uses 2024 '
+        'annual-average market prices, not the social cost of carbon; using '
+        'US EPA (2023) social-cost values would widen the OECD adjustment '
+        'further. Second, we use existing-asset variable cost rather than '
+        'replacement-cost capital for OECD nuclear and hydro; a '
+        'replacement-cost treatment would raise Norwegian and French LRMCs '
+        'materially. Third, the largest ten changes in per-kWh prices occur '
+        'in Germany, Poland, Cyprus, Estonia, Netherlands, Czechia, Italy, '
+        'Bulgaria, Malta, and Greece; the corresponding rank shifts in '
+        'Table A1 illustrate how the symmetric specification reallocates '
+        'comparative advantage toward countries with cleaner grids or '
+        'cost-reflective tariffs rather than toward those with '
+        'below-marginal-cost industrial rates.'
+    )
+
+    # 6. Effect on headline ranking
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'Under the symmetric LRMC specification, the five cheapest producers '
+        'are Kyrgyzstan, Ethiopia, Kosovo, Canada, and Tajikistan. Canada '
+        'drops from rank 2 to rank 4 on a small $0.008 per kilowatt-hour '
+        'carbon adder. Poland falls 21 positions, Germany 10, the United '
+        'States 10, and France 12. Nordic low-carbon grids and Switzerland '
+        'move by two positions or fewer. The qualitative conclusion is '
+        'strengthened, not overturned: countries with cheap, clean '
+        'electricity retain their cost advantage once both sides of the '
+        'distortion are corrected.'
+    )
+
+    return cur._element if hasattr(cur, '_element') else cur
+
+
 def write_figure1_calibration(doc, body, last_ref):
     """Insert Figure 1 (model structure diagram) after references."""
     print("Inserting Figure 1 (Model Structure)...")
@@ -7288,7 +7404,8 @@ def main():
     last_sens_app = write_sensitivity_appendix(doc, body, last_model_app, demand_data)
     last_dcf_app = write_kyrgyzstan_appendix(doc, body, last_sens_app)
     last_reg_app = write_construction_regression_appendix(doc, body, last_dcf_app)
-    write_workload_appendix(doc, body, last_reg_app)
+    last_work_app = write_workload_appendix(doc, body, last_reg_app)
+    write_lrmc_appendix(doc, body, last_work_app)
     link_citations(body)
     link_equations(body)
     fix_orphan_backlinks(body, refs)
