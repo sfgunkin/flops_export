@@ -2868,14 +2868,27 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_msub('w', '2'), _t(f' = {ALPHA_REG}')])
     p.add_run(' (regulatory incompatibility), and ')
     omath(p, [_msub('w', '3'), _t(' = 0.10')])
-    p.add_run(' (sanctions). For sanctioned pairs, ')
-    omath(p, [_msub('\u03BB', 'ij'), _t(' = \u221E')])
-    p.add_run(' (trade is prohibited). For allies with mutual data-adequacy agreements '
-              '(e.g., EU member states), ')
+    p.add_run(
+        ' (sanctions). The weights are calibrated so that an intra-bloc '
+        'pair with data-adequacy (for example, two EU member states) faces '
+    )
     omath(p, [_msub('\u03BB', 'ij'), _t(' \u2248 0')])
-    p.add_run('. For non-adversarial pairs without regulatory agreements, ')
-    omath(p, [_msub('\u03BB', 'ij')])
-    p.add_run(' falls in the range 0.04\u20130.07.')
+    p.add_run(', a typical cross-bloc pair without regulatory agreement faces ')
+    omath(p, [_msub('\u03BB', 'ij'), _t(' \u2248 0.04\u20130.07')])
+    p.add_run(
+        ', and adversarial or sanctioned pairs face '
+    )
+    omath(p, [_msub('\u03BB', 'ij'), _t(' \u2192 \u221E')])
+    p.add_run(
+        '. The implied premium on non-adversarial services trade stays '
+        'below the 16% upper bound for regulatory barriers to communication '
+        'services estimated by Benz and Jaax (2020), and the headline '
+        'results are reported alongside a uniform-premium robustness check '
+        'in Table 3 to make the sensitivity to these weights transparent. '
+        'For sanctioned pairs, '
+    )
+    omath(p, [_msub('\u03BB', 'ij'), _t(' = \u221E')])
+    p.add_run(' (trade is prohibited).')
     fn15_p = make_footnote(
         p, 'The bilateral sovereignty coefficients capture the geopolitical and '
         'data-governance components of services trade costs, which constitute a subset '
