@@ -3117,7 +3117,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'capacity constraints, the equilibrium training price is '
     )
     omath(p, [_msub('p', 'T'), _t(f' = ${p_T_val:.2f}')])
-    if cap_hhi >= 0.99:
+    if cap_hhi >= 0.95:
         _hhi_phrase = (
             f'Training demand is served by a dominant exporter '
             f'(HHI = {cap_hhi:.3f}, with {n_exp - 1} other producer'
@@ -3270,14 +3270,18 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     es20 = demand_data["export_share_20"]
     extra = demand_data["extra_dom"]
     extra_names = demand_data.get("extra_dom_names", [])
-    # Build a name fragment like "(Tajikistan)" or "(Tajikistan and Kosovo)"
+    # Build a name fragment; abbreviate lists longer than 3 for readability
     if extra_names and extra == len(extra_names):
         if len(extra_names) == 1:
             _name_frag = f' ({extra_names[0]})'
         elif len(extra_names) == 2:
             _name_frag = f' ({extra_names[0]} and {extra_names[1]})'
+        elif len(extra_names) == 3:
+            _name_frag = (f' ({extra_names[0]}, {extra_names[1]}, and '
+                          f'{extra_names[2]})')
         else:
-            _name_frag = f' ({", ".join(extra_names[:-1])}, and {extra_names[-1]})'
+            _name_frag = (f' (including {extra_names[0]}, {extra_names[1]}, '
+                          f'and {extra_names[2]})')
     else:
         _name_frag = ''
     if es10 < 0.005:
@@ -3297,7 +3301,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         )
     else:
         p.add_run(
-            f'Doubling the uniform sovereignty premium to 20% shifts {extra} '
+            f'Raising the uniform premium to 20% shifts {_num_word(extra)} '
             f'additional {"country" if extra == 1 else "countries"}'
             f'{_name_frag} '
             'to domestic training production, reducing '
