@@ -1089,6 +1089,12 @@ CITATIONS = [
     ('Chandramowli et al.', '2024', 'Chandramowli2024', 'Chandramowli, S.'),
     ('Katz et al.', '2025', 'KatzEtAl2025', 'Katz, R.'),
     ('Straub et al.', '2026', 'StraubEtAl2026', 'Straub, S.'),
+    # v33: theoretical-scaffolding citations for bilateral sovereignty premium
+    ('Anderson and van Wincoop', '2003', 'AndersonVanWincoop2003',
+     'Anderson, J.E.'),
+    ('Anderson and Marcouiller', '2002', 'AndersonMarcouiller2002',
+     'Anderson, J.E.'),
+    ('Antr\u00E0s', '2003', 'Antras2003', 'Antr\u00E0s, P.'),
 ]
 
 # Auto-generate CITE_MAP: both "Author (Year)" and "Author Year" forms
@@ -1203,6 +1209,10 @@ ITALIC_IN_REFS = {
     'Stojkoski': 'Nature Communications',
     'World Bank. (2025). Digital': 'Digital Progress and Trends Report 2025',
     'Benz': 'OECD Trade Policy Papers',
+    # v33: theoretical-scaffolding citations
+    'Anderson, J.E. and E. van Wincoop': 'American Economic Review',
+    'Anderson, J.E. and D. Marcouiller': 'Review of Economics and Statistics',
+    'Antr\u00E0s': 'Quarterly Journal of Economics',
     # v31
     'Caoui': 'Information Economics and Policy',
     'Aykut': 'Watch This Space',
@@ -1894,8 +1904,69 @@ def write_trade_costs(doc, body, hmap):
         _msub('S', 'ij'), _t('.'),
     ], eq_num='2')
 
-    # Equation (3): delivered cost — simplified (no ξ)
+    # v33: Theoretical scaffolding for the bilateral premium (referee 3.3)
     p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'Two established literatures motivate this functional form. The '
+        'multiplicative wedge '
+    )
+    omath(p, [_t('(1 + '), _msub('\u03BB', 'ij'), _t(')')])
+    p.add_run(
+        ' on delivered cost is the standard representation of ad valorem '
+        'bilateral trade frictions in the gravity literature (Anderson and '
+        'van Wincoop 2003), where pair-specific wedges capture border '
+        'effects, policy barriers, and non-tariff measures that raise the '
+        'price paid by buyer '
+    )
+    omath(p, [_v('j')])
+    p.add_run(' for seller ')
+    omath(p, [_v('i')])
+    p.add_run(
+        '\u2019s services above the seller\u2019s own cost. The linear '
+        'additive structure of the three components '
+    )
+    omath(p, [_msub('G', 'ij'), _t(', '),
+              _msub('R', 'ij'), _t(', '),
+              _msub('S', 'ij')])
+    p.add_run(
+        ' treats geopolitical, regulatory, and sanctions frictions as '
+        'separable contributions to the wedge, consistent with the '
+        'iceberg-equivalent decomposition of services trade costs in Benz '
+        'and Jaax (2020).'
+    )
+
+    # Second scaffolding paragraph: microfoundation
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'The microfoundation for why the wedge scales with bilateral '
+        'institutional alignment is the incomplete-contracts and '
+        'insecure-property-rights view of international trade (Anderson '
+        'and Marcouiller 2002, Antr\u00E0s 2003). Compute trade is '
+        'contract-intensive: the buyer hands sensitive data to a remote '
+        'seller and relies on the seller\u2019s jurisdiction to enforce '
+        'confidentiality, service-level obligations, and, in many '
+        'applications, the buyer\u2019s ability to retrieve or delete its '
+        'data. Where these contracts are weakly enforceable, the buyer '
+        'discounts the seller\u2019s effective price, and the size of the '
+        'discount varies systematically with the pair-specific strength of '
+        'the enforcement environment: political alignment '
+    )
+    omath(p, [_msub('G', 'ij')])
+    p.add_run(' proxies dispute-resolution willingness, mutual data '
+              'adequacy ')
+    omath(p, [_msub('R', 'ij')])
+    p.add_run(
+        ' proxies enforceable contractual floors on data handling, and '
+        'sanctions '
+    )
+    omath(p, [_msub('S', 'ij')])
+    p.add_run(
+        ' proxy the extreme case where no enforcement is possible. '
+        'Equation (2) is thus the natural implementation of the '
+        'insecure-trade framework in a services-trade setting where the '
+        'traded object is a compute service bundled with a data-handling '
+        'contract.'
+    )
     p.add_run('The delivered cost of service ')
     omath(p, [_v('s'), _t(' \u2208 {'), _v('T'), _t(', '), _v('I'), _t('}')])
     p.add_run(' from seller ')
@@ -5748,6 +5819,17 @@ def write_references(doc, body, refs):
         'Benz, S. and A. Jaax. (2020). \u201CThe Costs of Regulatory Barriers to Trade '
         'in Services: New Estimates of Ad Valorem Tariff Equivalents.\u201D '
         'OECD Trade Policy Papers, No. 238. Paris: OECD Publishing.',
+
+        'Anderson, J.E. and E. van Wincoop. (2003). \u201CGravity with Gravitas: '
+        'A Solution to the Border Puzzle.\u201D '
+        'American Economic Review, 93(1): 170\u2013192.',
+
+        'Anderson, J.E. and D. Marcouiller. (2002). \u201CInsecure Trade: '
+        'Reduced-Form Evidence.\u201D '
+        'Review of Economics and Statistics, 84(2): 342\u2013352.',
+
+        'Antr\u00E0s, P. (2003). \u201CFirms, Contracts, and Trade Structure.\u201D '
+        'Quarterly Journal of Economics, 118(4): 1375\u20131418.',
 
         'Brainard, S. (1997). \u201CAn Empirical Assessment of the Proximity-Concentration '
         'Trade-off.\u201D American Economic Review, 87(4): 520\u2013544.',
