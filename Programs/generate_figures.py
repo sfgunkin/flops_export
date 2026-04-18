@@ -17,34 +17,47 @@ import argparse
 import os
 
 # ---------------------------------------------------------------------------
-# Notation constants — Unicode subscript characters
-# DejaVu Sans has glyphs for all of these; Arial/Helvetica do NOT.
+# Notation fragments — rendered with SVG <tspan> markup for subscripts
+# rather than Unicode subscript codepoints. The tspan approach is
+# font-agnostic: PNG rasterizers (cairosvg, Inkscape, librsvg) render the
+# glyphs correctly regardless of whether the local font has Unicode
+# subscript coverage. Unicode subscript codepoints (U+2096 ₖ, U+2C7C ⱼ,
+# U+1D62 ᵢ, U+209C ₜ) require DejaVu Sans or Noto; on systems without
+# those fonts they rasterize as black boxes — the bug this fixes.
 # ---------------------------------------------------------------------------
-FONT = "DejaVu Sans, sans-serif"
+FONT = "Arial, Helvetica, sans-serif"
 
-SUB_j = "\u2C7C"    # subscript j (producer country)
-SUB_k = "\u2096"    # subscript k (buyer country)
-SUB_t = "\u209C"    # subscript t (training — lowercase per Unicode)
-SUB_l = "\u2097"    # subscript l (inference — NOT subscript i)
-SUB_i = "\u1D62"    # subscript i (country index in distance)
-TAU = "\u03C4"      # tau
+TAU = "\u03C4"      # tau (Greek, in every standard font)
 LAMBDA = "\u03BB"   # lambda
-D_BAR = "d\u0304"   # d with combining macron
-MDASH = "\u2014"    # em dash
-CHECK = "\u2713"    # check mark
-CROSS = "\u2717"    # ballot X
+MDASH = "\u2014"
+CHECK = "\u2713"
+CROSS = "\u2717"
 
-# Pre-built notation fragments
-C_j = f"c{SUB_j}"                   # cⱼ
-K_j = f"K{SUB_j}"                   # Kⱼ
-P_T = f"p{SUB_t}*"                  # pₜ*
-P_l = f"p{SUB_l}*"                  # pₗ*
-P_l_d = f"p{SUB_l}*(d)"             # pₗ*(d)
-TAU_l = f"{TAU}{SUB_l}(d)"          # τₗ(d)
-LAM_jk = f"{LAMBDA}{SUB_j}{SUB_k}"  # λⱼₖ
-D_ij = f"d{SUB_i}{SUB_j}"           # dᵢⱼ
 
-REGIME_COND = f"{C_j} vs {P_T}, {P_l}, {LAM_jk}, {D_ij}"
+def _sub(base, sub):
+    """Render `base` followed by subscript `sub` using SVG tspan markup.
+    Works in any SVG renderer and any font."""
+    return (f'{base}<tspan baseline-shift="sub" font-size="0.7em">'
+            f'{sub}</tspan>')
+
+
+def _bar(letter):
+    """Render a letter with an overbar (macron) via SVG tspan."""
+    return (f'<tspan text-decoration="overline">{letter}</tspan>')
+
+
+# Pre-built notation fragments (SVG markup, embed inside <text>...</text>)
+C_j = _sub('c', 'j')                           # c_j
+K_j = _sub('K', 'j')                           # K_j
+P_T = _sub('p', 'T') + '*'                     # p_T*
+P_I = _sub('p', 'I') + '*'                     # p_I*
+P_I_k = _sub('p', 'I') + '*(k)'                # p_I*(k)
+TAU_I = _sub(TAU, 'I') + ' \u00b7 l'           # τ_I · l
+LAM_jk = _sub(LAMBDA, 'jk')                    # λ_jk
+D_ij = _sub('d', 'ij')                         # d_ij
+L_BAR = _bar('l')                              # l̄
+
+REGIME_COND = f"{C_j} vs {P_T}, {P_I}, {LAM_jk}, {D_ij}"
 
 
 def _css():
@@ -127,10 +140,10 @@ def make_figure1():
 
 <!-- Tier 3c: Regional inference price (teal, right) -->
 <rect class="teal-fill" x="420" y="244" width="220" height="92" rx="8" stroke-width="0.5"/>
-<text class="teal-title" x="530" y="268" text-anchor="middle">Inference price {P_l_d}</text>
+<text class="teal-title" x="530" y="268" text-anchor="middle">Inference price {P_I_k}</text>
 <text class="teal-sub"   x="530" y="288" text-anchor="middle">regional market</text>
-<text class="teal-sub"   x="530" y="306" text-anchor="middle">iceberg cost {TAU_l}</text>
-<text class="teal-sub"   x="530" y="322" text-anchor="middle">latency threshold {D_BAR}</text>
+<text class="teal-sub"   x="530" y="306" text-anchor="middle">iceberg cost {TAU_I}</text>
+<text class="teal-sub"   x="530" y="322" text-anchor="middle">latency threshold {L_BAR}</text>
 
 <line x1="280" y1="290" x2="262" y2="290" class="arr" marker-end="url(#arrow)"/>
 <line x1="400" y1="290" x2="418" y2="290" class="arr" marker-end="url(#arrow)"/>
@@ -266,12 +279,48 @@ def make_figure1b():
 
 
 def svg_to_png(svg_content, png_path, dpi=300):
+    """Rasterize SVG to PNG. Prefers a headless browser (Playwright) as the
+    reference renderer for <tspan baseline-shift> subscripts; falls back to
+    cairosvg if Playwright is unavailable. Browser rendering is font-agnostic
+    and produces identical output to what Word users will see."""
+    try:
+        _svg_to_png_playwright(svg_content, png_path, dpi)
+        return
+    except ImportError:
+        pass
     import cairosvg
     cairosvg.svg2png(
         bytestring=svg_content.encode("utf-8"),
         write_to=png_path,
         scale=dpi / 96.0,
     )
+
+
+def _svg_to_png_playwright(svg_content, png_path, dpi):
+    """Rasterize SVG using a headless Chromium browser."""
+    import re
+    from playwright.sync_api import sync_playwright
+    # Extract intrinsic width/height to size the viewport precisely
+    m_w = re.search(r'width="(\d+)"', svg_content)
+    m_h = re.search(r'height="(\d+)"', svg_content)
+    w_px = int(m_w.group(1)) if m_w else 800
+    h_px = int(m_h.group(1)) if m_h else 600
+    scale = dpi / 96.0
+    html = (
+        '<!DOCTYPE html><html><head><meta charset="utf-8">'
+        '<style>html,body{margin:0;padding:0;background:white;}</style>'
+        f'</head><body>{svg_content}</body></html>'
+    )
+    with sync_playwright() as p:
+        browser = p.chromium.launch()
+        page = browser.new_page(
+            viewport={'width': w_px, 'height': h_px},
+            device_scale_factor=scale,
+        )
+        page.set_content(html, wait_until='load')
+        svg_handle = page.query_selector('svg')
+        svg_handle.screenshot(path=png_path, omit_background=False)
+        browser.close()
 
 
 def main():

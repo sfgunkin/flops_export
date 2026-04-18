@@ -1,5 +1,5 @@
 <svg width="680" height="562" viewBox="0 0 680 562"
-     xmlns="http://www.w3.org/2000/svg" font-family="DejaVu Sans, sans-serif">
+     xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
 <defs>
 <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5"
         markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -46,7 +46,7 @@
 
 <!-- Tier 2: Production cost (teal) -->
 <rect class="teal-fill" x="200" y="140" width="280" height="56" rx="8" stroke-width="0.5"/>
-<text class="teal-title" x="340" y="166" text-anchor="middle">Production cost cⱼ</text>
+<text class="teal-title" x="340" y="166" text-anchor="middle">Production cost c<tspan baseline-shift="sub" font-size="0.7em">j</tspan></text>
 <text class="teal-sub"   x="340" y="184" text-anchor="middle">combined input costs</text>
 
 <line x1="300" y1="196" x2="150" y2="244" class="arr" marker-end="url(#arrow)"/>
@@ -54,23 +54,23 @@
 
 <!-- Tier 3a: World training price (teal, left) -->
 <rect class="teal-fill" x="40" y="244" width="220" height="92" rx="8" stroke-width="0.5"/>
-<text class="teal-title" x="150" y="268" text-anchor="middle">World training price pₜ*</text>
+<text class="teal-title" x="150" y="268" text-anchor="middle">World training price p<tspan baseline-shift="sub" font-size="0.7em">T</tspan>*</text>
 <text class="teal-sub"   x="150" y="288" text-anchor="middle">global market</text>
-<text class="teal-sub"   x="150" y="306" text-anchor="middle">binding Kⱼ raises pₜ*</text>
+<text class="teal-sub"   x="150" y="306" text-anchor="middle">binding K<tspan baseline-shift="sub" font-size="0.7em">j</tspan> raises p<tspan baseline-shift="sub" font-size="0.7em">T</tspan>*</text>
 <text class="teal-sub"   x="150" y="322" text-anchor="middle">above c(1) — Prop. 2</text>
 
 <!-- Tier 3b: Capacity (purple, center) -->
 <rect class="purple-fill" x="280" y="244" width="120" height="92" rx="8" stroke-width="0.5"/>
-<text class="purple-title" x="340" y="272" text-anchor="middle">Capacity Kⱼ</text>
+<text class="purple-title" x="340" y="272" text-anchor="middle">Capacity K<tspan baseline-shift="sub" font-size="0.7em">j</tspan></text>
 <text class="purple-sub"   x="340" y="294" text-anchor="middle">land, water,</text>
 <text class="purple-sub"   x="340" y="310" text-anchor="middle">grid, siting</text>
 
 <!-- Tier 3c: Regional inference price (teal, right) -->
 <rect class="teal-fill" x="420" y="244" width="220" height="92" rx="8" stroke-width="0.5"/>
-<text class="teal-title" x="530" y="268" text-anchor="middle">Inference price pₗ*(d)</text>
+<text class="teal-title" x="530" y="268" text-anchor="middle">Inference price p<tspan baseline-shift="sub" font-size="0.7em">I</tspan>*(k)</text>
 <text class="teal-sub"   x="530" y="288" text-anchor="middle">regional market</text>
-<text class="teal-sub"   x="530" y="306" text-anchor="middle">iceberg cost τₗ(d)</text>
-<text class="teal-sub"   x="530" y="322" text-anchor="middle">latency threshold d̄</text>
+<text class="teal-sub"   x="530" y="306" text-anchor="middle">iceberg cost τ<tspan baseline-shift="sub" font-size="0.7em">I</tspan> · l</text>
+<text class="teal-sub"   x="530" y="322" text-anchor="middle">latency threshold <tspan text-decoration="overline">l</tspan></text>
 
 <line x1="280" y1="290" x2="262" y2="290" class="arr" marker-end="url(#arrow)"/>
 <line x1="400" y1="290" x2="418" y2="290" class="arr" marker-end="url(#arrow)"/>
@@ -81,7 +81,7 @@
 <!-- Tier 4: Regime conditions (teal) -->
 <rect class="teal-fill" x="200" y="380" width="280" height="56" rx="8" stroke-width="0.5"/>
 <text class="teal-title" x="340" y="406" text-anchor="middle">Regime conditions</text>
-<text class="teal-sub"   x="340" y="424" text-anchor="middle">cⱼ vs pₜ*, pₗ*, λⱼₖ, dᵢⱼ</text>
+<text class="teal-sub"   x="340" y="424" text-anchor="middle">c<tspan baseline-shift="sub" font-size="0.7em">j</tspan> vs p<tspan baseline-shift="sub" font-size="0.7em">T</tspan>*, p<tspan baseline-shift="sub" font-size="0.7em">I</tspan>*, λ<tspan baseline-shift="sub" font-size="0.7em">jk</tspan>, d<tspan baseline-shift="sub" font-size="0.7em">ij</tspan></text>
 
 <line x1="215" y1="436" x2="95"  y2="480" class="arr" marker-end="url(#arrow)"/>
 <line x1="275" y1="436" x2="218" y2="480" class="arr" marker-end="url(#arrow)"/>
