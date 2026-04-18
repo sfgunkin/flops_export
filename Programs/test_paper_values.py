@@ -3665,3 +3665,309 @@ class TestWACCPromotedInIntro:
     def test_table3_notes_define_wacc_bands(self, docx_text):
         """Table 3 notes describe the four WACC bands (8/12/15/18%)."""
         assert 'HIC 8%' in docx_text and 'LIC 18%' in docx_text
+
+
+# ================================================================
+# Derived-quantity relationships — structural invariants between
+# the paper's results. These catch bugs that point-value tests miss:
+# if ρ is rescaled or SUBSIDY_ADJ entries drift, point tests can be
+# updated superficially, but relationship tests enforce the
+# economics (monotone in subsidy, monotone in WACC, etc.).
+# ================================================================
+@pytest.fixture(scope="session")
+def wacc_adjusted_costs(calibration_data, cost_recovery_costs):
+    """c_j under spec (4): CR electricity + host-country WACC hardware."""
+    rho_base = GPU_PRICE / (GPU_LIFE * H_YR * GPU_UTIL)
+    out = {}
+    for r in calibration_data:
+        iso = r['iso3']
+        wacc = WACC_BY_GROUP[INCOME_GROUP[iso]]
+        rho_wacc = GPU_PRICE * _crf(wacc, GPU_LIFE) / (H_YR * GPU_UTIL)
+        # Replace baseline ρ in the CR cost with the WACC annuity ρ
+        out[iso] = cost_recovery_costs[iso] - rho_base + rho_wacc
+    return out
+
+
+class TestDerivedRelationships:
+    """Structural relationships between derived quantities across specs.
+
+    Each test states a relationship that must hold by economic logic,
+    not a specific numerical target. If the relationship breaks, the
+    model is misspecified or the pipeline has a bug."""
+
+    # ─────────────── Spec monotonicity (CR vs raw) ───────────────
+
+    def test_cr_weakly_raises_cost_for_subsidized(
+        self, calibration_data, raw_costs, cost_recovery_costs,
+    ):
+        """Replacing a subsidized tariff with LRMC cannot make a country
+        cheaper. Holds with equality for non-subsidized countries."""
+        for iso in SUBSIDY_ADJ:
+            # The adjustment is only an increase when the LRMC exceeds
+            # the observed tariff (true for all 13 IMF-based entries).
+            row = next(r for r in calibration_data if r['iso3'] == iso)
+            if SUBSIDY_ADJ[iso] > float(row['p_E_usd_kwh']):
+                assert cost_recovery_costs[iso] > raw_costs[iso] - 1e-9, (
+                    f"{iso}: CR did not raise cost"
+                )
+
+    def test_non_adjusted_unchanged_cr(
+        self, calibration_data, raw_costs, cost_recovery_costs,
+    ):
+        """Countries not in SUBSIDY_ADJ have c_j_cr identical to c_j_raw."""
+        adj = set(SUBSIDY_ADJ.keys())
+        for r in calibration_data:
+            iso = r['iso3']
+            if iso not in adj:
+                assert abs(raw_costs[iso] - cost_recovery_costs[iso]) < 1e-6
+
+    # ─────────────── Cost decomposition & magnitudes ───────────────
+
+    def test_cost_components_sum_to_total(self, calibration_data):
+        """c_j = electricity + hardware + construction + networking.
+        Enforces the additive decomposition of equation (1)."""
+        for r in calibration_data:
+            elec = float(r['c_j_electricity'])
+            hw = float(r['c_j_hardware'])
+            constr = float(r['c_j_construction'])
+            total = float(r['c_j_total'])
+            networking = total - (elec + hw + constr)
+            # residual may be slightly negative from CSV rounding (5 dp); allow ε
+            assert -5e-5 <= networking <= 0.25, (
+                f"{r['iso3']}: networking residual ${networking:.5f} "
+                "outside [-ε, 0.25]"
+            )
+
+    def test_hardware_is_largest_component(self, calibration_data):
+        """In the paper's frame, hardware dominates — it should be the
+        largest component in every country, not just on average."""
+        for r in calibration_data:
+            hw = float(r['c_j_hardware'])
+            elec = float(r['c_j_electricity'])
+            constr = float(r['c_j_construction'])
+            assert hw > elec, f"{r['iso3']}: hw ${hw} <= elec ${elec}"
+            assert hw > constr, f"{r['iso3']}: hw ${hw} <= constr ${constr}"
+
+    def test_cost_spread_narrow_property(self, raw_costs):
+        """The 12-20% spread is a headline finding; assert the ratio
+        between most- and least-expensive country is structurally small.
+        A spread > 30% would indicate a cost-structure bug."""
+        mn, mx = min(raw_costs.values()), max(raw_costs.values())
+        spread = (mx - mn) / mn
+        assert 0.10 <= spread <= 0.25, f"spread = {spread:.1%}"
+
+    # ─────────────── PUE-temperature relationship ───────────────
+
+    def test_pue_monotone_in_temperature(self, calibration_data):
+        """PUE(θ) is weakly increasing in summer temperature: for any
+        two countries i,j with θ_i ≤ θ_j, PUE_i ≤ PUE_j."""
+        pairs = [(float(r['theta_summer_C']), float(r['pue'])) for r in calibration_data]
+        pairs.sort()
+        for (t1, p1), (t2, p2) in zip(pairs, pairs[1:]):
+            assert p1 <= p2 + 1e-6, f"θ={t1}→PUE={p1} > θ={t2}→PUE={p2}"
+
+    def test_pue_floor_holds(self, calibration_data):
+        """No country has PUE below the climate floor PHI = 1.08."""
+        for r in calibration_data:
+            assert float(r['pue']) >= PHI - 1e-6
+
+    def test_hot_country_pays_electricity_premium(self, calibration_data):
+        """For two countries with the same observed p_E, the hotter one
+        has a higher electricity-cost component (via PUE)."""
+        rows = [r for r in calibration_data
+                if abs(float(r['p_E_usd_kwh']) - 0.038) < 0.005]
+        if len(rows) >= 2:
+            rows.sort(key=lambda r: float(r['theta_summer_C']))
+            cold, hot = rows[0], rows[-1]
+            if float(hot['theta_summer_C']) > float(cold['theta_summer_C']) + 2:
+                assert float(hot['c_j_electricity']) > float(cold['c_j_electricity'])
+
+    # ─────────────── WACC channel relationships ───────────────
+
+    def test_wacc_strictly_raises_cost_for_non_hic(
+        self, calibration_data, wacc_adjusted_costs, cost_recovery_costs,
+    ):
+        """Under spec (4), any non-HIC country's cost STRICTLY exceeds
+        its spec (2) cost (higher annuity factor). HIC countries may
+        rise too (8% WACC vs straight-line), but the gap is smaller."""
+        for r in calibration_data:
+            iso = r['iso3']
+            group = INCOME_GROUP[iso]
+            delta = wacc_adjusted_costs[iso] - cost_recovery_costs[iso]
+            if group in ('UMIC', 'LMIC', 'LIC'):
+                # WACC exceeds the HIC baseline → ρ goes up → delta > 0
+                assert delta > 0.05, (
+                    f"{iso} ({group}): WACC delta = ${delta:.3f}, expected > $0.05"
+                )
+
+    def test_wacc_delta_monotone_across_groups(
+        self, calibration_data, wacc_adjusted_costs, cost_recovery_costs,
+    ):
+        """Average WACC-induced cost increase is strictly monotone in
+        income group: LIC > LMIC > UMIC > HIC."""
+        deltas = {'HIC': [], 'UMIC': [], 'LMIC': [], 'LIC': []}
+        for r in calibration_data:
+            iso = r['iso3']
+            d = wacc_adjusted_costs[iso] - cost_recovery_costs[iso]
+            deltas[INCOME_GROUP[iso]].append(d)
+        means = {g: sum(v) / len(v) for g, v in deltas.items() if v}
+        assert means['LIC'] > means['LMIC'], means
+        assert means['LMIC'] > means['UMIC'], means
+        assert means['UMIC'] > means['HIC'], means
+
+    def test_wacc_gap_preserves_cross_spec_dominance(
+        self, cost_recovery_costs, wacc_adjusted_costs,
+    ):
+        """Within the same income group, WACC spec preserves the
+        CR-ranking: if country A cheaper than B in spec (2) and both are
+        in the same group, A remains cheaper in spec (4)."""
+        # Compare two HIC pairs
+        for iso_a, iso_b in [('CAN', 'USA'), ('NOR', 'SWE'), ('FIN', 'ISL')]:
+            if (INCOME_GROUP[iso_a] == INCOME_GROUP[iso_b]
+                    and cost_recovery_costs[iso_a] < cost_recovery_costs[iso_b]):
+                assert wacc_adjusted_costs[iso_a] < wacc_adjusted_costs[iso_b], (
+                    f"{iso_a} < {iso_b} under CR but not WACC"
+                )
+
+    # ─────────────── Bilateral vs cost-recovery relationships ──────
+
+    def test_bilateral_lambda_nonneg(self, calibration_data):
+        """λ_{ij} ≥ 0 everywhere: the sovereignty premium cannot be
+        negative (no discount for cross-border sourcing)."""
+        for r in calibration_data:
+            iso = r['iso3']
+            for buyer in ['USA', 'DEU', 'JPN', 'KOR', 'IND', 'BRA']:
+                lam = compute_bilateral_lambda(iso, buyer)
+                if lam < float('inf'):
+                    assert lam >= 0, f"λ({iso},{buyer}) = {lam}"
+
+    def test_bilateral_delivered_weakly_exceeds_cr(
+        self, calibration_data, cost_recovery_costs,
+    ):
+        """For any non-sanctioned (j,k), delivered price P(j,k) =
+        (1+λ_jk)·c_j ≥ c_j. Economic content: sovereignty is a cost,
+        not a subsidy."""
+        for r in calibration_data:
+            iso = r['iso3']
+            if iso in SANCTIONED:
+                continue
+            c_j = cost_recovery_costs[iso]
+            for buyer in ['USA', 'DEU', 'JPN']:
+                lam = compute_bilateral_lambda(iso, buyer)
+                if lam < float('inf'):
+                    delivered = (1 + lam) * c_j
+                    assert delivered >= c_j - 1e-9
+
+    def test_domestic_premium_zero(self):
+        """λ_{ii} = 0 for every country: no self-sourcing premium."""
+        for iso in ['USA', 'CAN', 'IRN', 'CHN', 'KGZ', 'DEU']:
+            assert compute_bilateral_lambda(iso, iso) == 0.0
+
+    def test_intra_eu_lower_than_cross_bloc(self):
+        """Intra-EU λ < cross-bloc λ for any EU pair. Calibration target
+        from §5: intra-bloc + data-adequacy → λ ≈ 0; cross-bloc → > 0."""
+        intra = compute_bilateral_lambda('DEU', 'FRA')
+        cross = compute_bilateral_lambda('DEU', 'CHN')
+        assert intra < cross, f"intra-EU {intra} >= cross-bloc {cross}"
+
+    # ─────────────── Spec ranking relationships ───────────────
+
+    def test_subsidized_countries_lose_rank_under_cr(
+        self, calibration_data, raw_costs, cost_recovery_costs,
+    ):
+        """Iran/Turkmenistan/etc. top the raw ranking; under CR they
+        lose many positions. This is the main content of Table 3 col (2)."""
+        raw_rank = {iso: i for i, iso in enumerate(
+            sorted(raw_costs, key=raw_costs.get), 1)}
+        cr_rank = {iso: i for i, iso in enumerate(
+            sorted(cost_recovery_costs, key=cost_recovery_costs.get), 1)}
+        # Average rank drop for subsidized countries should be substantial
+        drops = [cr_rank[iso] - raw_rank[iso] for iso in SUBSIDY_ADJ
+                 if iso in raw_rank]
+        mean_drop = sum(drops) / len(drops)
+        # IMF-adjusted ones drop; OECD ones (ADJ includes 43) drop mildly.
+        # Subset to just the 13 IMF-based developing countries:
+        imf_core = {'IRN', 'TKM', 'DZA', 'EGY', 'UZB', 'QAT', 'SAU',
+                    'ARE', 'RUS', 'KAZ', 'NGA', 'ZAF', 'ETH'}
+        imf_drops = [cr_rank[iso] - raw_rank[iso] for iso in imf_core]
+        assert sum(imf_drops) / len(imf_drops) >= 5, (
+            f"mean IMF drop {sum(imf_drops)/len(imf_drops):.1f}, "
+            f"full mean {mean_drop:.1f}"
+        )
+
+    def test_cr_ranking_not_identical_to_raw(
+        self, raw_costs, cost_recovery_costs,
+    ):
+        """Cost-recovery reorders the top-20; top-5 differs from raw."""
+        top5_raw = tuple(sorted(raw_costs, key=raw_costs.get)[:5])
+        top5_cr = tuple(sorted(cost_recovery_costs,
+                               key=cost_recovery_costs.get)[:5])
+        assert top5_raw != top5_cr, (
+            "CR produces identical top-5 to raw — subsidy adjustment has no effect"
+        )
+
+    def test_rank_correlation_raw_cr_high_but_not_perfect(
+        self, raw_costs, cost_recovery_costs,
+    ):
+        """Spearman correlation between raw and CR rankings should be
+        high (both driven by same hardware+construction base) but not 1
+        (SUBSIDY_ADJ reorders subsidized countries)."""
+        isos = list(raw_costs.keys())
+        raw_rank = {iso: i for i, iso in enumerate(
+            sorted(isos, key=raw_costs.get), 1)}
+        cr_rank = {iso: i for i, iso in enumerate(
+            sorted(isos, key=cost_recovery_costs.get), 1)}
+        n = len(isos)
+        d2 = sum((raw_rank[iso] - cr_rank[iso]) ** 2 for iso in isos)
+        spearman = 1 - 6 * d2 / (n * (n * n - 1))
+        assert 0.40 <= spearman < 0.999, f"Spearman = {spearman:.3f}"
+
+    # ─────────────── Demand conservation ───────────────
+
+    def test_demand_weights_sum_to_one(self, demand_weights):
+        """Σ ω_k = 1 (demand share normalization)."""
+        omega, _ = demand_weights
+        assert abs(sum(omega.values()) - 1.0) < 1e-9
+
+    def test_demand_weights_nonneg(self, demand_weights):
+        """Every ω_k ≥ 0; no negative demand shares."""
+        omega, _ = demand_weights
+        for iso, w in omega.items():
+            assert w >= 0, f"{iso}: ω = {w}"
+
+    # ─────────────── Symmetric-LRMC relationships ───────────────
+
+    def test_symmetric_delta_equals_carbon_plus_crosssub(
+        self, lrmc_p_E, lrmc_carbon_adder, lrmc_cross_subsidy,
+    ):
+        """For apply_symmetric_lrmc countries, the per-kWh delta equals
+        carbon adder + cross-subsidy add-back exactly. Identity:
+            delta_p_E = carbon_adder + cross_subsidy."""
+        ca = {r['iso3']: float(r['carbon_adder_usd_per_kwh'])
+              for r in lrmc_carbon_adder}
+        cs = {r['iso3']: float(r['cross_subsidy_usd_per_kwh'])
+              for r in lrmc_cross_subsidy}
+        for r in lrmc_p_E:
+            if r['treatment'] != 'apply_symmetric_lrmc':
+                continue
+            delta = float(r['delta_v32_to_symmetric'])
+            expected = ca.get(r['iso3'], 0) + cs.get(r['iso3'], 0)
+            assert abs(delta - expected) < 1e-5, (
+                f"{r['iso3']}: delta={delta} vs carbon+subsidy={expected}"
+            )
+
+    def test_carbon_adder_zero_iff_zero_price_or_zero_intensity(
+        self, lrmc_carbon_adder,
+    ):
+        """Carbon adder is zero iff (price == 0) OR (intensity == 0).
+        Tests the multiplicative structure."""
+        for r in lrmc_carbon_adder:
+            ci = float(r['gco2_per_kwh'])
+            p = float(r['carbon_price_usd_per_tco2'])
+            ad = float(r['carbon_adder_usd_per_kwh'])
+            if ad == 0:
+                assert p == 0 or ci == 0, (
+                    f"{r['iso3']}: adder=0 but price={p}, CI={ci}"
+                )
+            else:
+                assert p > 0 and ci > 0
