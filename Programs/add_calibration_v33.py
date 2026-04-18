@@ -3164,8 +3164,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     # ── A3. Bridge from CR to bilateral sovereignty ──
     _t3_cr_sorted = sorted(_t3, key=lambda x: x["rank_cr"])
     p.add_run(
-        'the remaining cross-country variation is '
-        'narrow. Cheap energy is necessary but not sufficient for FLOP exporting ('
+        'the remaining cross-country variation is narrow ('
     )
     p._element.append(make_bookmark(141, 'TableA2txt'))
     p._element.append(make_hyperlink('TableA2', 'Table A2'))
