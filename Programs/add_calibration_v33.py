@@ -226,6 +226,65 @@ SUBSIDY_ADJ = {
 }
 
 # ═══════════════════════════════════════════════════════════════════════
+# v33: COST-OF-CAPITAL CHANNEL — host-country WACC (referee issue 3.1)
+# ═══════════════════════════════════════════════════════════════════════
+#
+# World Bank FY2025 income-group classifications map each host country to a
+# WACC benchmark. The levelized hardware cost is the standard annuity:
+#     rho_hw_j = GPU_PRICE * CRF(WACC_j, GPU_LIFE) / (H_YR * GPU_UTIL)
+# where CRF(r, N) = r / (1 - (1+r)^(-N)).
+#
+# Calibration targets (from §7.2): 8% WACC -> $1.58/hr; 18% WACC -> $1.87/hr.
+# These bracket the range; intermediate UMIC/LMIC use 12%/15% respectively.
+WACC_BY_GROUP = {
+    'HIC': 0.08,   # OECD + high-income non-OECD (baseline, Calcaterra 2024)
+    'UMIC': 0.12,  # upper-middle-income (sovereign bond spread ~400 bps over HIC)
+    'LMIC': 0.15,  # lower-middle-income
+    'LIC': 0.18,   # low-income (ceiling, referee headline number)
+}
+
+INCOME_GROUP = {
+    # HIC: 41 countries (OECD members in sample + HI non-OECD)
+    'AUS': 'HIC', 'AUT': 'HIC', 'BEL': 'HIC', 'CAN': 'HIC', 'CHE': 'HIC',
+    'CHL': 'HIC', 'CYP': 'HIC', 'CZE': 'HIC', 'DEU': 'HIC', 'DNK': 'HIC',
+    'ESP': 'HIC', 'EST': 'HIC', 'FIN': 'HIC', 'FRA': 'HIC', 'GBR': 'HIC',
+    'GRC': 'HIC', 'GRL': 'HIC', 'HRV': 'HIC', 'HUN': 'HIC', 'IRL': 'HIC',
+    'ISL': 'HIC', 'ISR': 'HIC', 'ITA': 'HIC', 'JPN': 'HIC', 'KOR': 'HIC',
+    'LTU': 'HIC', 'LUX': 'HIC', 'LVA': 'HIC', 'MLT': 'HIC', 'NLD': 'HIC',
+    'NOR': 'HIC', 'NZL': 'HIC', 'POL': 'HIC', 'PRT': 'HIC', 'ROU': 'HIC',
+    'SGP': 'HIC', 'SVK': 'HIC', 'SVN': 'HIC', 'SWE': 'HIC', 'USA': 'HIC',
+    'ARE': 'HIC', 'QAT': 'HIC', 'SAU': 'HIC',
+    # UMIC: 24 countries
+    'ALB': 'UMIC', 'ARG': 'UMIC', 'ARM': 'UMIC', 'AZE': 'UMIC', 'BGR': 'UMIC',
+    'BIH': 'UMIC', 'BLR': 'UMIC', 'BRA': 'UMIC', 'CHN': 'UMIC', 'COL': 'UMIC',
+    'DZA': 'UMIC', 'GEO': 'UMIC', 'IDN': 'UMIC', 'IRN': 'UMIC', 'KAZ': 'UMIC',
+    'MDA': 'UMIC', 'MEX': 'UMIC', 'MKD': 'UMIC', 'MNE': 'UMIC', 'MYS': 'UMIC',
+    'RUS': 'UMIC', 'SRB': 'UMIC', 'THA': 'UMIC', 'TKM': 'UMIC', 'TUR': 'UMIC',
+    'UKR': 'UMIC', 'XKX': 'UMIC', 'ZAF': 'UMIC',
+    # LMIC: 14 countries
+    'EGY': 'LMIC', 'GHA': 'LMIC', 'IND': 'LMIC', 'KEN': 'LMIC', 'KGZ': 'LMIC',
+    'MAR': 'LMIC', 'NGA': 'LMIC', 'PAK': 'LMIC', 'PHL': 'LMIC', 'SEN': 'LMIC',
+    'TJK': 'LMIC', 'UZB': 'LMIC', 'VNM': 'LMIC',
+    # LIC: 1 country in sample
+    'ETH': 'LIC',
+}
+
+
+def _crf(wacc, life_years):
+    """Capital recovery factor (annuity): r / (1 - (1+r)^-N)."""
+    return wacc / (1.0 - (1.0 + wacc) ** (-life_years))
+
+
+def country_wacc(iso):
+    return WACC_BY_GROUP[INCOME_GROUP.get(iso, 'HIC')]
+
+
+def rho_hw_wacc(iso, gpu_price=25000, gpu_life=3, h_yr=8766, gpu_util=0.70):
+    """Host-country WACC-adjusted hardware amortization ($/hr per GPU)."""
+    return gpu_price * _crf(country_wacc(iso), gpu_life) / (h_yr * gpu_util)
+
+
+# ═══════════════════════════════════════════════════════════════════════
 # v24: BILATERAL SOVEREIGNTY PREMIUM λ_{ij}
 # ═══════════════════════════════════════════════════════════════════════
 
@@ -1561,8 +1620,15 @@ def write_introduction(doc, body, hmap):
         'Several developing countries rank among the cheapest producers under cost-recovery '
         'pricing, but under the bilateral sovereignty specification, trust deficits eliminate '
         'all developing-country exports. '
+        'The cost-of-capital channel amplifies this result: because hardware dominates the '
+        'compute cost stack, a 10-percentage-point gap in the weighted average cost of '
+        'capital between OECD hyperscalers (8%) and locally financed developing-country '
+        'operators (18%) adds roughly $0.29/GPU-hour to unit cost \u2014 about four times '
+        'the electricity-cost spread across the top 20 countries (Calcaterra et al. 2024; '
+        'see Table 3, column (4)). '
         'For energy-rich developing countries, the limiting factor is not electricity cost '
-        'but the institutional credibility needed to overcome bilateral trust deficits.'
+        'but the institutional credibility needed to overcome bilateral trust deficits '
+        'and compress the cost of capital.'
     )
 
 
@@ -5641,14 +5707,15 @@ def write_table3(doc, body, after_el, demand_data):
 
     top_raw = sorted(table3_data, key=lambda x: x["cj_raw"])[:25]
     top_cr = sorted(table3_data, key=lambda x: x["cj_cr"])[:25]
+    top_wacc = sorted(table3_data, key=lambda x: x["cj_wacc"])[:25]
     # Bilateral: sort by delivered price P(j,USA), exclude inf (sanctioned)
     finite_bilat = [d for d in table3_data if d["p_bilat_usa"] < float('inf')]
     top_bilat = sorted(finite_bilat, key=lambda x: x["p_bilat_usa"])[:25]
 
-    # ─── Build table (9 columns): Country+P+Type per spec ───
+    # ─── Build table (12 columns): Country+P+Type per spec × 4 ───
     n_data = 25
     n_rows = 2 + n_data  # 2 header rows + data
-    n_cols = 9
+    n_cols = 12
     tbl = doc.add_table(rows=n_rows, cols=n_cols)
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     tbl.style = 'Table Grid'
@@ -5663,6 +5730,8 @@ def write_table3(doc, body, after_el, demand_data):
     _s(0, 3, '(2) Cost-Recovery', bold=True)
     _tbl_merge(tbl, 0, 6, 8)
     _s(0, 6, '(3) Bilateral', bold=True)
+    _tbl_merge(tbl, 0, 9, 11)
+    _s(0, 9, '(4) CR + host WACC', bold=True)
 
     # Top + bottom border on row 0
     for j in range(n_cols):
@@ -5670,10 +5739,11 @@ def write_table3(doc, body, after_el, demand_data):
 
     # ─── Row 1: Sub-headers ───
     # P consistent with equation (3): P_s(j,k) = (1+λ_jk)·(1+τ·l_jk)·c_j
-    # Specs (1)-(2): λ=0 → P = c_j; Spec (3): P(j,US) = c_j(1+λ_{j,US})
+    # Specs (1)-(2) and (4): λ=0 → P = c_j; Spec (3): P(j,US) = c_j(1+λ_{j,US})
     sub_headers = ['Country', 'P\u2c7c', 'Type',
                    'Country', 'P\u2c7c', 'Type',
-                   'Country', 'P\u2c7c\u2096', 'Type']
+                   'Country', 'P\u2c7c\u2096', 'Type',
+                   'Country', 'P\u2c7c', 'Type']
     for j, hdr in enumerate(sub_headers):
         align = 'left' if j % 3 == 0 else 'center'
         _s(1, j, hdr, bold=True, align=align)
@@ -5697,16 +5767,22 @@ def write_table3(doc, body, after_el, demand_data):
         _s(ri, 6, _sname(d_bi["country"]), align='left')
         _s(ri, 7, f'${d_bi["p_bilat_usa"]:.2f}')
         _s(ri, 8, _flag(d_bi, "type_bilat_usa"))
+        # (4) CR + host WACC: ρ_hw computed at host-country WACC
+        d_wc = top_wacc[i]
+        _s(ri, 9, _sname(d_wc["country"]), align='left')
+        _s(ri, 10, f'${d_wc["cj_wacc"]:.2f}')
+        _s(ri, 11, _flag(d_wc, "type_cr"))  # reuse CR regime type
 
     # Double bottom border on last data row
     for j in range(n_cols):
         _tbl_border(tbl.cell(n_data + 1, j)._tc, ['bottom'], style='double')
 
-    # Column widths (landscape)
+    # Column widths (landscape) — narrower to fit 4 specs
     _tbl_col_widths(tbl, [
-        1400, 550, 450,       # (1) Raw
-        1400, 550, 450,       # (2) Cost-Recovery
-        1400, 550, 450,       # (3) Bilateral
+        1100, 500, 400,       # (1) Raw
+        1100, 500, 400,       # (2) Cost-Recovery
+        1100, 500, 400,       # (3) Bilateral
+        1100, 500, 400,       # (4) WACC
     ])
     _tbl_cell_spacing(tbl)
 
@@ -5737,6 +5813,11 @@ def write_table3(doc, body, after_el, demand_data):
         '(2)\u2009Cost-recovery: subsidized tariffs replaced with LRMC. '
         '(3)\u2009Bilateral: cost-recovery prices with bilateral sovereignty premium '
         '\u03bb\u2c7c\u2096 from equation (2); countries ranked by delivered price to US buyer. '
+        '(4)\u2009CR + host WACC: cost-recovery prices with hardware amortization '
+        'computed at the host country\u2019s weighted average cost of capital '
+        '(HIC 8%, UMIC 12%, LMIC 15%, LIC 18%; annuity formula applied over a '
+        'three-year GPU life). This column isolates the cost-of-capital channel '
+        'that is otherwise absorbed by the uniform \u03c1 in columns (1)\u2013(3). '
         '* = sanctioned/GPU-blocked. \u2020 = developing-country exporter. '
         'See '
     )
@@ -7253,6 +7334,14 @@ def main():
         d["cj_raw"] = d["elec_raw"] + rho_hw + d["constr_cost"] + rho_net    # (1) Raw
         d["cj_cr"] = d["elec_cr"] + rho_hw + d["constr_cost"] + rho_net      # (2) Cost-recovery
 
+    # ── Table 3: Spec (4) WACC-adjusted cost recovery (v33, referee 3.1) ──
+    # Replace uniform rho_hw with host-country WACC annuity factor.
+    for d in table3_data:
+        d["wacc"] = country_wacc(d["iso"])
+        d["rho_hw_wacc"] = rho_hw_wacc(d["iso"])
+        d["cj_wacc"] = (d["elec_cr"] + d["rho_hw_wacc"]
+                        + d["constr_cost"] + rho_net)
+
     # ── Bilateral delivered price P(j, USA) = c_j(1 + λ_{j,USA}) ──
     for d in table3_data:
         lam = compute_bilateral_lambda(d["iso"], "USA")
@@ -7262,8 +7351,9 @@ def main():
         else:
             d["p_bilat_usa"] = d["cj_cr"] * (1 + lam)
 
-    # Rank under specs (1)-(2)
-    for key, spec in [("rank_raw", "cj_raw"), ("rank_cr", "cj_cr")]:
+    # Rank under specs (1)-(2) and (4)
+    for key, spec in [("rank_raw", "cj_raw"), ("rank_cr", "cj_cr"),
+                      ("rank_wacc", "cj_wacc")]:
         sorted_by = sorted(table3_data, key=lambda x: x[spec])
         for rank, d in enumerate(sorted_by, 1):
             d[key] = rank
