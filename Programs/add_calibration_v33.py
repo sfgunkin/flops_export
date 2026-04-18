@@ -744,7 +744,9 @@ def _sq_frac(num, sub_num, den, sub_den):
 
 
 def omath_display(doc, body, cursor, parts, eq_num=None):
-    """Display equation in a borderless 2-column table: centered equation + right-aligned number."""
+    """Display equation in a borderless 2-column table.
+
+    Layout: centered equation + right-aligned number."""
     tbl = doc.add_table(rows=1, cols=2)
     tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
     # Remove all borders
@@ -1571,7 +1573,8 @@ def write_introduction(doc, body, hmap):
         'Google has committed $15 billion to India, and OpenAI has proposed '
         'a $25 billion \u201CStargate Argentina\u201D complex (Straub et al. 2026). '
         'Announced global data-center FDI reached over $310 billion in 2025, '
-        'with emerging markets and developing economies (EMDEs) accounting for roughly 40 percent of projects '
+        'with emerging markets and developing economies (EMDEs) accounting '
+        'for roughly 40 percent of projects '
         '(Aykut et al. 2026). '
         'Cloud computing exports already exceed '
         '$9 billion annually (World Bank 2025). '
@@ -1785,9 +1788,14 @@ def write_production_technology(doc, body, hmap):
     p.add_run(' = 8,766 hours per year, ')
     omath(p, [_v('\u03B2')])
     p.add_run(' = utilization rate),')
-    make_footnote(p, 'For the NVIDIA H100: $25,000 / (3 years \u00d7 8,766 hours/year \u00d7 70% '
-                  'utilization) \u2248 $1.36/hr. Street prices have fallen to $18,000\u2013$22,000 '
-                  'as of late 2025. Each GPU draws approximately 700 watts.', 9)
+    make_footnote(
+        p,
+        'For the NVIDIA H100: $25,000 / (3 years \u00d7 8,766 hours/year '
+        '\u00d7 70% utilization) \u2248 $1.36/hr. Street prices have fallen '
+        'to $18,000\u2013$22,000 as of late 2025. Each GPU draws '
+        'approximately 700 watts.',
+        9,
+    )
     p.add_run(' ')
     omath(p, [_v('\u03B7')])
     p.add_run(
@@ -2901,7 +2909,8 @@ def write_data_section(doc, body, hmap, demand_data):
     p.add_run(
         'Because the compute export market is still emerging and bilateral trade-flow data '
         'do not yet exist, the paper calibrates the model using hardware prices, electricity '
-        'tariffs, and facility cost coefficients rather than estimating it from observed trade. The calibration identifies the cost '
+        'tariffs, and facility cost coefficients rather than estimating it '
+        'from observed trade. The calibration identifies the cost '
         'structure under which FLOP exporting becomes viable and provides a framework that '
         'can be taken to gravity-style estimation as transaction-level data emerge.'
     )
@@ -3106,7 +3115,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         'We replace subsidized tariffs with cost-recovery prices to distinguish '
         'real comparative advantage from subsidy-driven advantage. '
-        'The cost-recovery prices are defined as the long-run marginal cost (LRMC) of the dominant '
+        'The cost-recovery prices are defined as the long-run marginal '
+        'cost (LRMC) of the dominant '
         'generation technology at opportunity-cost fuel prices (IMF 2025, Lazard 2025). '
         f'We apply this adjustment to {demand_data["n_adjusted"]} countries '
         'whose retail electricity prices fall below the estimated LRMC.'
@@ -3952,11 +3962,12 @@ def write_appendix(doc, body, last_ref_el, eca_cal, non_eca_cal, reg, demand_dat
         'For 13 countries with subsidized tariffs, this is the estimated long-run marginal cost '
         'of electricity generation (shown in bold). '
         'For all other countries, the cost-recovery price equals the observed tariff. '
-        'The 37 DCCI countries span 52 markets: Australia, Austria, Brazil, Canada, Chile, '
-        'China, Colombia, Denmark, Finland, France, Germany, Greece, India, Indonesia, Ireland, '
-        'Italy, Japan, Kenya, Malaysia, Mexico, Netherlands, New Zealand, Nigeria, Norway, Poland, '
-        'Portugal, Saudi Arabia, Singapore, South Africa, South Korea, Spain, Sweden, Switzerland, '
-        'UAE, UK, Uruguay, and USA. '
+        'The 37 DCCI countries span 52 markets: Australia, Austria, '
+        'Brazil, Canada, Chile, China, Colombia, Denmark, Finland, France, '
+        'Germany, Greece, India, Indonesia, Ireland, Italy, Japan, Kenya, '
+        'Malaysia, Mexico, Netherlands, New Zealand, Nigeria, Norway, '
+        'Poland, Portugal, Saudi Arabia, Singapore, South Africa, South '
+        'Korea, Spain, Sweden, Switzerland, UAE, UK, Uruguay, and USA. '
         'The 95% prediction intervals for imputed countries span about \u00b1$3.50/W, '
         'which translates to \u00b1$0.02/hr in total cost (1.5\u20132% of the mean).'
     )
@@ -5930,8 +5941,8 @@ def write_references(doc, body, refs):
 
         'Cloudscene. (2025). Global Data Center Directory. cloudscene.com.',
 
-        'Deloitte. (2025). \u201CTechnology, Media, and Telecommunications Predictions 2026.\u201D '
-        'Deloitte Insights.',
+        'Deloitte. (2025). \u201CTechnology, Media, and Telecommunications '
+        'Predictions 2026.\u201D Deloitte Insights.',
 
         'Deloitte and Google. (2020). \u201CMilliseconds Make Millions.\u201D '
         'Deloitte Digital and Google.',
@@ -7251,7 +7262,8 @@ def main():
         _reg_5type_uniform[r] += 1
     demand_data["regime_5_uniform"] = regime_5_uniform
     demand_data["reg_5type_counts_uniform"] = _reg_5type_uniform
-    print(f"  5-type regimes (uniform): {dict((k, v) for k, v in _reg_5type_uniform.items() if v)}")
+    _r5u = {k: v for k, v in _reg_5type_uniform.items() if v}
+    print(f"  5-type regimes (uniform): {_r5u}")
 
     # Count regime changes: pre-cost-recovery vs cost-recovery 5-type regimes
     orig_train_exporters = set(shares_0_orig.keys())
