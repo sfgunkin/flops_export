@@ -1,0 +1,9 @@
+[flake8]
+max-line-length = 99
+exclude =
+    .git,
+    __pycache__,
+    work/lrmc_symmetric/build_symmetric_lrmc.py
+# W503: line break before binary operator (conflicts with PEP 8 update)
+# E226: missing whitespace around arithmetic operator (too strict for math-heavy code)
+extend-ignore = W503,E226
