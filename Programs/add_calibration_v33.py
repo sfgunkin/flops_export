@@ -3704,23 +3704,47 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'GPU generation choices.'
     )
 
-    # Cost of capital
+    # Cost of capital — v33: promoted from caveat to headline (referee 3.1)
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Cost of capital. ')
     p.add_run(
-        'The calibration assumes uniform financing via straight-line '
-        'depreciation. In practice, the financing gap is large '
-        '(Calcaterra et al. 2024). An OECD hyperscaler at 8% WACC faces '
-        'hardware costs of $1.58/hr; a developing-country operator at 18% '
-        'pays $1.87 \u2014 a $0.29 gap on hardware alone, roughly four '
-        'times the electricity cost spread across the top 20 countries. '
-        'If hyperscalers finance at their own WACC regardless of host '
-        'country, baseline rankings hold. If locally financed, '
-        'institutional weaknesses raise the cost of capital, and the '
-        'ranking of cheap-energy developing countries compresses sharply. '
-        'Since most data-center FDI in practice is financed at the '
-        'hyperscaler\u2019s home WACC, this channel sets an upper bound on '
-        'the developing-country discount but does not eliminate it.'
+        'Because hardware dominates the compute cost stack, the single '
+        'largest determinant of the ranking is the cost at which capital '
+        'can be financed. An OECD hyperscaler at an 8% weighted average '
+        'cost of capital faces hardware costs of $1.58/GPU-hour; a '
+        'locally financed developing-country operator at 18% pays $1.87 '
+        '\u2014 a $0.29 gap on hardware alone, roughly four times the '
+        'electricity cost spread across the top twenty countries '
+        '(Calcaterra et al. 2024). Column (4) of '
+    )
+    p._element.append(make_hyperlink('Table3', 'Table 3'))
+    p.add_run(
+        ' reports the cost-recovery ranking with hardware amortized at '
+        'each country\u2019s income-group WACC (HIC 8%, UMIC 12%, LMIC 15%, '
+        'LIC 18%). Under this specification the advantage of cheap-energy '
+        'developing countries compresses substantially, and the regime '
+        'classifications shift accordingly.'
+    )
+
+    p, cur = mkp(doc, body, cur)
+    p.add_run(
+        'This is the mechanism that links the cost-recovery and bilateral '
+        'sovereignty specifications: institutional credibility matters for '
+        'compute trade not only through the sovereignty premium '
+    )
+    omath(p, [_msub('\u03BB', 'ij')])
+    p.add_run(
+        ', but also through the cost of capital facing any locally '
+        'financed operator. Hyperscaler-led foreign direct investment '
+        'partially bypasses the channel \u2014 when a multinational owns, '
+        'finances, and operates the facility outright, it may fund at its '
+        'home WACC \u2014 but partial ownership, local debt, sovereign '
+        'guarantees, and the pass-through of country risk to operating '
+        'agreements reintroduce the channel in proportion to host-country '
+        'financial exposure. A pure-hyperscaler case is therefore a '
+        'boundary, not a baseline. The paper treats spec (4) as the '
+        'more realistic benchmark for questions about whether a developing '
+        'country can capture compute-export rents with domestic capital.'
     )
 
     # ────────────────────────────────────────────────────────────────────
