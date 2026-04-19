@@ -1695,7 +1695,7 @@ def write_literature(doc, body, hmap):
         'but does not offer a formal framework linking costs to trade patterns. '
         'Biglaiser et al. (2024) survey cloud market IO, and '
         'Stojkoski et al. (2024) estimate cloud export geography but treat services as '
-        'homogeneous. The present model adds supply-side cost structure and a '
+        'homogeneous. Our model adds supply-side cost structure and a '
         'training\u2013inference distinction.'
     )
 
@@ -3734,11 +3734,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         'This is the mechanism that links the cost-recovery and bilateral '
         'sovereignty specifications: institutional credibility matters for '
-        'compute trade not only through the sovereignty premium '
+        'compute trade through two channels, the sovereignty premium '
     )
     omath(p, [_msub('\u03BB', 'ij')])
     p.add_run(
-        ', but also through the cost of capital facing any locally '
+        ' and the cost of capital facing any locally '
         'financed operator. Hyperscaler-led foreign direct investment '
         'partially bypasses the channel \u2014 when a multinational owns, '
         'finances, and operates the facility outright, it may fund at its '
@@ -3772,7 +3772,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'countries capable of serving inference demand would expand. For '
         'EMDEs with weak grid infrastructure but adequate mobile '
         'connectivity, edge computing may offer a leapfrogging path that '
-        'bypasses the grid bottlenecks central to the present model '
+        'bypasses the grid bottlenecks central to the model '
         '(Aykut et al. 2026). Incorporating heterogeneous compute '
         'architectures\u2014centralized GPU clusters for training, '
         'distributed edge nodes for inference\u2014into the trade framework '
