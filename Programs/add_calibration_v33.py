@@ -1959,23 +1959,30 @@ def write_trade_costs(doc, body, hmap):
     omath(p, [_msub('R', 'ij')])
     p.add_run(
         ', coded as 1 for country pairs covered by a mutual data-adequacy agreement '
-        'and 0 otherwise; and a sanctions indicator '
+        'and 0 otherwise. Pairs under comprehensive trade sanctions '
+        '('
     )
-    omath(p, [_msub('S', 'ij')])
+    omath(p, [_msub('S', 'ij'), _t(' = 1')])
     p.add_run(
-        ' equal to 1 if either country maintains comprehensive trade sanctions against the other:'
+        ') are treated separately as a corner case: trade is prohibited '
+        'by assumption, so '
+    )
+    omath(p, [_msub('\u03BB', 'ij'), _t(' = \u221E')])
+    p.add_run(
+        '. For all other (non-sanctioned) pairs, the bilateral premium is:'
     )
     p.paragraph_format.space_after = Pt(4)
 
-    # v24: NEW Equation (2) — bilateral λ_{ij}
+    # v33: Eq. (2) rewritten — S_{ij} removed from the linear form to
+    # eliminate the contradiction between the equation (finite w_3·S) and
+    # the text (λ = ∞ for sanctioned pairs). Sanctions handled as corner
+    # case above (referee validity audit).
     _, cur = omath_display(doc, body, cur, [
         _msub('\u03BB', 'ij'), _t(' = '),
         _msub('w', '1'), _t(' \u00b7 '),
         _msub('G', 'ij'), _t(' + '),
         _msub('w', '2'), _t(' \u00b7 (1 \u2212 '),
-        _msub('R', 'ij'), _t(') + '),
-        _msub('w', '3'), _t(' \u00b7 '),
-        _msub('S', 'ij'), _t('.'),
+        _msub('R', 'ij'), _t(').'),
     ], eq_num='2')
 
     # v33: Theoretical scaffolding for the bilateral premium (referee 3.3)
@@ -3006,35 +3013,32 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     )
     omath(p, [_msub('\u03BB', 'ij')])
     p.add_run(
-        ' is constructed from geopolitical distance, regulatory compatibility, and sanctions '
-        'exposure, (eq. (2)), with coefficient weights '
+        ' is constructed from geopolitical distance and regulatory '
+        'compatibility (eq. (2)), with coefficient weights '
     )
     omath(p, [_msub('w', '1'), _t(f' = {ALPHA_GEO}')])
-    p.add_run(' (geopolitical distance), ')
+    p.add_run(' (geopolitical distance) and ')
     omath(p, [_msub('w', '2'), _t(f' = {ALPHA_REG}')])
-    p.add_run(' (regulatory incompatibility), and ')
-    omath(p, [_msub('w', '3'), _t(' = 0.10')])
     p.add_run(
-        ' (sanctions). The weights are calibrated so that an intra-bloc '
-        'pair with data-adequacy (for example, two EU member states) faces '
+        ' (regulatory incompatibility). Sanctioned pairs are excluded by '
+        'assumption ('
+    )
+    omath(p, [_msub('\u03BB', 'ij'), _t(' = \u221E')])
+    p.add_run(
+        ') rather than assigned a finite weight. The continuous weights '
+        'are calibrated so that an intra-bloc pair with data-adequacy '
+        '(for example, two EU member states) faces '
     )
     omath(p, [_msub('\u03BB', 'ij'), _t(' \u2248 0')])
-    p.add_run(', a typical cross-bloc pair without regulatory agreement faces ')
+    p.add_run(', and a typical cross-bloc pair without a regulatory agreement faces ')
     omath(p, [_msub('\u03BB', 'ij'), _t(' \u2248 0.04\u20130.07')])
-    p.add_run(
-        ', and adversarial or sanctioned pairs face '
-    )
-    omath(p, [_msub('\u03BB', 'ij'), _t(' \u2192 \u221E')])
     p.add_run(
         '. The implied premium on non-adversarial services trade stays '
         'below the 16% upper bound for regulatory barriers to communication '
         'services estimated by Benz and Jaax (2020), and the headline '
         'results are reported alongside a uniform-premium robustness check '
-        'in Table 3 to make the sensitivity to these weights transparent. '
-        'For sanctioned pairs, '
+        'in Table 3 to make the sensitivity to these weights transparent.'
     )
-    omath(p, [_msub('\u03BB', 'ij'), _t(' = \u221E')])
-    p.add_run(' (trade is prohibited).')
     fn15_p = make_footnote(
         p, 'The bilateral sovereignty coefficients capture the geopolitical and '
         'data-governance components of services trade costs, which constitute a subset '

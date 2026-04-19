@@ -1,0 +1,19 @@
+{
+  "R2": 0.49140093927383943,
+  "adj_R2": 0.2879613149833753,
+  "F_stat": 2.415463265761019,
+  "n_obs": 36,
+  "coefficients": {
+    "ln_gdp_pc": 0.035311664008797816,
+    "ln_pop": -0.027493346809643993,
+    "urban_share": 0.004803697764274025,
+    "seismic": -0.06775592481834514,
+    "reg_East Asia & Pacific": 0.05908654457012974,
+    "reg_Latin America & Caribbean": -0.0874841957731396,
+    "reg_Middle East, North Africa, Afghanistan & Pakistan": -0.11629141286166034,
+    "reg_North America": 0.0028367997075555706,
+    "reg_South Asia": -0.052457761403442715,
+    "reg_Sub-Saharan Africa": 0.1700906767153192,
+    "intercept": 2.0982435938612607
+  }
+}

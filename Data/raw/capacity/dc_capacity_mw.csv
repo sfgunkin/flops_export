@@ -1,0 +1,87 @@
+iso3,country,capacity_mw,n_datacenters,mw_per_dc,source_tier,source
+USA,United States,53700,5427,9.9,1,Synergy Research 2024
+CHN,China,31900,449,71.0,1,Synergy Research/IEA 2024
+JPN,Japan,2400,222,10.8,1,Mordor Intelligence 2024
+GBR,United Kingdom,2590,523,5.0,1,Industry reports 2025
+DEU,Germany,1955,529,3.7,1,German DC Association 2024
+IND,India,3600,153,23.5,1,Synergy Research/IEA 2024
+SGP,Singapore,1130,99,11.4,1,Cushman & Wakefield 2024
+AUS,Australia,2670,314,8.5,1,Mordor Intelligence 2024
+FRA,France,1400,322,4.3,1,CBRE/Cushman 2024
+NLD,Netherlands,1800,298,6.0,1,CBRE EMEA 2024
+KOR,South Korea,850,43,19.8,1,Arizton/Industry reports 2024
+CAN,Canada,3200,337,9.5,1,CBRE North America 2024
+IRL,Ireland,1260,55,22.9,1,Oireachtas/Mordor 2024
+BRA,Brazil,1200,197,6.1,2,CBRE LatAm estimate
+RUS,Russia,2000,251,8.0,2,Estimated from Rostelecom/IXcellerate reports
+ITA,Italy,850,168,5.1,2,CBRE EMEA estimate
+MEX,Mexico,900,173,5.2,2,CBRE LatAm estimate
+ESP,Spain,720,144,5.0,2,CBRE EMEA estimate
+POL,Poland,600,144,4.2,2,CBRE EMEA estimate
+SWE,Sweden,500,95,5.3,2,Nordic DC hub estimate
+NOR,Norway,400,47,8.5,2,Nordic DC hub estimate
+IDN,Indonesia,500,88,5.7,2,Cushman APAC estimate
+TUR,Turkey,350,35,10.0,2,CBRE EMEA estimate
+TWN,Taiwan,750,19,39.5,2,Mordor Intelligence estimate
+ISR,Israel,300,20,15.0,2,Industry reports estimate
+MYS,Malaysia,500,62,8.1,2,Cushman APAC estimate
+THA,Thailand,300,42,7.1,2,Cushman APAC estimate
+VNM,Vietnam,250,33,7.6,2,Cushman APAC estimate
+CHE,Switzerland,500,121,4.1,2,CBRE EMEA estimate
+BEL,Belgium,400,81,4.9,2,CBRE EMEA estimate
+FIN,Finland,350,48,7.3,2,Nordic DC hub estimate
+DNK,Denmark,300,50,6.0,2,Nordic DC hub estimate
+SAU,Saudi Arabia,400,25,16.0,2,Arizton MEA estimate
+ARE,United Arab Emirates,500,30,16.7,2,Arizton MEA estimate
+ZAF,South Africa,250,56,4.5,2,Arizton MEA estimate
+CHL,Chile,200,59,3.4,2,CBRE LatAm estimate
+COL,Colombia,150,41,3.7,2,CBRE LatAm estimate
+ARG,Argentina,150,29,5.2,2,CBRE LatAm estimate
+NZL,New Zealand,250,83,3.0,2,Cushman APAC estimate
+PHL,Philippines,200,39,5.1,2,Cushman APAC estimate
+AUT,Austria,250,68,3.7,2,CBRE EMEA estimate
+KAZ,Kazakhstan,100,25,4.0,3,DC count x regional avg
+EGY,Egypt,150,15,10.0,2,Arizton MEA estimate
+QAT,Qatar,80,8,10.0,3,DC count x regional avg
+PAK,Pakistan,50,11,4.5,3,DC count x regional avg
+UKR,Ukraine,175,58,3.0,3,DC count x regional avg
+ROU,Romania,100,31,3.2,3,DC count x regional avg
+CZE,Czechia,130,34,3.8,3,DC count x regional avg
+HUN,Hungary,50,15,3.3,3,DC count x regional avg
+BGR,Bulgaria,75,24,3.1,3,DC count x regional avg
+GRC,Greece,50,14,3.6,3,DC count x regional avg
+PRT,Portugal,100,21,4.8,3,DC count x regional avg
+SVK,Slovakia,40,14,2.9,3,DC count x regional avg
+HRV,Croatia,30,9,3.3,3,DC count x regional avg
+SRB,Serbia,40,12,3.3,3,DC count x regional avg
+SVN,Slovenia,40,13,3.1,3,DC count x regional avg
+LTU,Lithuania,55,18,3.1,3,DC count x regional avg
+LVA,Latvia,80,27,3.0,3,DC count x regional avg
+EST,Estonia,50,16,3.1,3,DC count x regional avg
+LUX,Luxembourg,70,23,3.0,3,DC count x regional avg
+NGA,Nigeria,100,19,5.3,3,Arizton MEA estimate
+KEN,Kenya,60,20,3.0,3,Arizton MEA estimate
+MAR,Morocco,50,12,4.2,3,DC count x regional avg
+ISL,Iceland,60,6,10.0,3,Nordic DC hub estimate
+MLT,Malta,20,6,3.3,3,DC count x regional avg
+CYP,Cyprus,20,6,3.3,3,DC count x regional avg
+MKD,North Macedonia,18,6,3.0,3,DC count x regional avg
+BLR,Belarus,35,9,3.9,3,DC count x regional avg
+GEO,Georgia,15,4,3.8,3,DC count x regional avg
+MDA,Moldova,20,7,2.9,3,DC count x regional avg
+UZB,Uzbekistan,25,5,5.0,3,DC count x regional avg
+AZE,Azerbaijan,10,1,10.0,3,DC count x regional avg
+BIH,Bosnia and Herzegovina,10,2,5.0,3,DC count x regional avg
+DZA,Algeria,25,5,5.0,3,DC count x regional avg
+GHA,Ghana,15,3,5.0,3,DC count x regional avg
+SEN,Senegal,10,2,5.0,3,DC count x regional avg
+IRN,Iran,10,2,5.0,3,DC count x regional avg
+TKM,Turkmenistan,5,1,5.0,3,DC count x regional avg
+KGZ,Kyrgyzstan,5,1,5.0,3,DC count x regional avg
+ETH,Ethiopia,10,2,5.0,3,DC count x regional avg
+TJK,Tajikistan,5,1,5.0,3,DC count x regional avg
+MNE,Montenegro,5,1,5.0,3,DC count x regional avg
+ARM,Armenia,10,2,5.0,3,DC count x regional avg
+XKX,Kosovo,5,1,5.0,3,DC count x regional avg
+ALB,Albania,5,1,5.0,3,DC count x regional avg
+GRL,Greenland,5,1,5.0,3,DC count x regional avg

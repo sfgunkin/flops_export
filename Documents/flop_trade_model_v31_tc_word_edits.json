@@ -1,0 +1,467 @@
+[
+  {
+    "type": "text",
+    "para_base": 1,
+    "para_edit": 1,
+    "location": "¶1 \"Cheap Energy...\"",
+    "detail": "\"Enough:\" → \"Enough:A Trade Model of AI Com...\"",
+    "old": "Cheap Energy Might Not Be Enough:",
+    "new": "Cheap Energy Might Not Be Enough:A Trade Model of AI Compute Services"
+  },
+  {
+    "type": "text",
+    "para_base": 3,
+    "para_edit": 3,
+    "location": "¶3 \"v31  —  Marc...\"",
+    "detail": "\"v31 | 13, | 22:36\" → \"v30 | 03, | 20:28\"",
+    "old": "v31  —  March 13, 2026  22:36",
+    "new": "v30  —  March 03, 2026  20:28"
+  },
+  {
+    "type": "inserted",
+    "para_base": null,
+    "para_edit": 5,
+    "location": "after ¶4",
+    "detail": "blank paragraph (spacing)",
+    "old": null,
+    "new": ""
+  },
+  {
+    "type": "inserted",
+    "para_base": null,
+    "para_edit": 6,
+    "location": "after ¶4",
+    "detail": "blank paragraph (spacing)",
+    "old": null,
+    "new": ""
+  },
+  {
+    "type": "text",
+    "para_base": 11,
+    "para_edit": 13,
+    "location": "¶11 \"Several mega...\"",
+    "detail": "\"Cloud\" → \"Microsoft $17.5 billion, Cloud...\"",
+    "old": "Several megaprojects confirm that FLOP exporting is technically and commercially feasible. Armenia is deploying 50,000 GPUs in a $4 billion investment (Firebird 2026), Kenya, Saudi Arabia, and Malaysia have each attracted billion-dollar data center commitments, Google has committed $15 billion to India, and OpenAI has proposed a $25 billion “Stargate Argentina” complex (Straub et al. 2026). Announced global data-center FDI reached over $310 billion in 2025, with EMDEs accounting for roughly 40 percent of projects (Aykut et al. 2026). Cloud computing exports already exceed $9 billion annually (World Bank 2025). If Kyrgyzstan builds a 40 MW AI data center, it could generate annual revenue of $630–950 million at wholesale contract rates, equivalent to over 15% of Kyrgyzstan’s $3.8 billion in goods exports (World Bank 2024).",
+    "new": "Several megaprojects confirm that FLOP exporting is technically and commercially feasible. Armenia is deploying 50,000 GPUs in a $4 billion investment (Firebird 2026), Kenya, Saudi Arabia, and Malaysia have each attracted billion-dollar data center commitments, Google has committed $15 billion to India, Microsoft $17.5 billion, CloudHQ is building a $4.8 billion campus in Mexico, and OpenAI has proposed a $25 billion “Stargate Argentina” complex (Straub et al. 2026). Announced global data-center FDI reached over $310 billion in 2025, with EMDEs accounting for roughly 40 percent of projects (Aykut et al. 2026). and cloud computing exports already exceed $9 billion annually (World Bank 2025). If Kyrgyzstan builds a 40 MW AI data center, it could generate annual revenue of $630–950 million at wholesale contract rates, equivalent to over 15% of Kyrgyzstan’s $3.8 billion in goods exports (World Bank 2024)."
+  },
+  {
+    "type": "run_format",
+    "para_base": 15,
+    "para_edit": 17,
+    "location": "¶15 \"Goldfarb and...\"",
+    "detail": "\"on export co...\" underline: None → True",
+    "run_index": 3,
+    "run_text": " on export composition and growth, and to ",
+    "property": "underline",
+    "old_value": "None",
+    "new_value": "True"
+  },
+  {
+    "type": "run_format",
+    "para_base": 15,
+    "para_edit": 17,
+    "location": "¶15 \"Goldfarb and...\"",
+    "detail": "\"on export co...\" font_color: None → 1F3864",
+    "run_index": 3,
+    "run_text": " on export composition and growth, and to ",
+    "property": "font_color",
+    "old_value": "None",
+    "new_value": "1F3864"
+  },
+  {
+    "type": "inserted",
+    "para_base": null,
+    "para_edit": 21,
+    "location": "after ¶18",
+    "detail": "inserted: \"Concurrent evidence on the geography of ...\"",
+    "old": null,
+    "new": "Concurrent evidence on the geography of data-center investment corroborates several predictions of the model developed below. Announced data-center FDI reached over $310 billion globally in 2025, but the distribution across EMDEs is highly uneven: Malaysia, India, and Brazil dominate, while Europe and Central Asia, Sub-Saharan Africa, and the cheapest-energy producers in our calibration attract negligible investment (Aykut et al. 2026). The source–destination matrix is dominated by North American hyperscalers, consistent with the role of geopolitical alignment and institutional trust in shaping bilateral trade flows. Most data-center FDI announcements flow between geopolitical allies, confirming that the sovereignty premium is not merely a theoretical construct but a first-order determinant of revealed investment patterns (Straub et al. 2026). The present model formalizes this mechanism."
+  },
+  {
+    "type": "run_format",
+    "para_base": 27,
+    "para_edit": 30,
+    "location": "¶27 \"Countries pr...\"",
+    "detail": "\"(denoted I) ...\" italic: None → True",
+    "run_index": 4,
+    "run_text": " (denoted I) encompass real-time workloads such as chatbot responses, autonomous decisions, and interactive agents. Each query must travel to the server and back within milliseconds, so the service quality degrades as delivery delays (latency) increase. ",
+    "property": "italic",
+    "old_value": "None",
+    "new_value": "True"
+  },
+  {
+    "type": "run_format",
+    "para_base": 27,
+    "para_edit": 30,
+    "location": "¶27 \"Countries pr...\"",
+    "detail": "\", is the rou...\" italic: None → True",
+    "run_index": 7,
+    "run_text": ", is the round-trip time for a data packet to travel from the seller country ",
+    "property": "italic",
+    "old_value": "None",
+    "new_value": "True"
+  },
+  {
+    "type": "run_format",
+    "para_base": 59,
+    "para_edit": 62,
+    "location": "¶59 \"Electricity ...\"",
+    "detail": "\"national uti...\" underline: None → True",
+    "run_index": 5,
+    "run_text": " national utility tariffs for Central Asian countries, and ",
+    "property": "underline",
+    "old_value": "None",
+    "new_value": "True"
+  },
+  {
+    "type": "run_format",
+    "para_base": 59,
+    "para_edit": 62,
+    "location": "¶59 \"Electricity ...\"",
+    "detail": "\"national uti...\" font_color: None → 1F3864",
+    "run_index": 5,
+    "run_text": " national utility tariffs for Central Asian countries, and ",
+    "property": "font_color",
+    "old_value": "None",
+    "new_value": "1F3864"
+  },
+  {
+    "type": "run_format",
+    "para_base": 62,
+    "para_edit": 65,
+    "location": "¶62 \"Demand. Comp...\"",
+    "detail": "\") and region...\" underline: None → True",
+    "run_index": 6,
+    "run_text": ") and regional averages. Since the results below depend only on demand shares, not on the absolute level ",
+    "property": "underline",
+    "old_value": "None",
+    "new_value": "True"
+  },
+  {
+    "type": "run_format",
+    "para_base": 62,
+    "para_edit": 65,
+    "location": "¶62 \"Demand. Comp...\"",
+    "detail": "\") and region...\" font_color: None → 1F3864",
+    "run_index": 6,
+    "run_text": ") and regional averages. Since the results below depend only on demand shares, not on the absolute level ",
+    "property": "font_color",
+    "old_value": "None",
+    "new_value": "1F3864"
+  },
+  {
+    "type": "run_format",
+    "para_base": 66,
+    "para_edit": 69,
+    "location": "¶66 \"PUE. The bas...\"",
+    "detail": "\"is the appro...\" underline: None → True",
+    "run_index": 6,
+    "run_text": " is the approximate outdoor temperature above which mechanical cooling is needed, below which free-air cooling suffices. Together, these yield PUE values from 1.08 (Iceland, Scandinavia) to 1.41 (UAE), consistent with the industry average of 1.56 (",
+    "property": "underline",
+    "old_value": "None",
+    "new_value": "True"
+  },
+  {
+    "type": "run_format",
+    "para_base": 66,
+    "para_edit": 69,
+    "location": "¶66 \"PUE. The bas...\"",
+    "detail": "\"is the appro...\" font_color: None → 1F3864",
+    "run_index": 6,
+    "run_text": " is the approximate outdoor temperature above which mechanical cooling is needed, below which free-air cooling suffices. Together, these yield PUE values from 1.08 (Iceland, Scandinavia) to 1.41 (UAE), consistent with the industry average of 1.56 (",
+    "property": "font_color",
+    "old_value": "None",
+    "new_value": "1F3864"
+  },
+  {
+    "type": "run_format",
+    "para_base": 69,
+    "para_edit": 72,
+    "location": "¶69 \"Sovereignty ...\"",
+    "detail": "\"(sanctions)....\" underline: None → True",
+    "run_index": 6,
+    "run_text": " (sanctions). For sanctioned pairs, ",
+    "property": "underline",
+    "old_value": "None",
+    "new_value": "True"
+  },
+  {
+    "type": "run_format",
+    "para_base": 69,
+    "para_edit": 72,
+    "location": "¶69 \"Sovereignty ...\"",
+    "detail": "\"(sanctions)....\" font_color: None → 1F3864",
+    "run_index": 6,
+    "run_text": " (sanctions). For sanctioned pairs, ",
+    "property": "font_color",
+    "old_value": "None",
+    "new_value": "1F3864"
+  },
+  {
+    "type": "text",
+    "para_base": 77,
+    "para_edit": 80,
+    "location": "¶77 \"Recent FDI d...\"",
+    "detail": "\"frameworks | infrastructure—wh...\" → \"frameworks, streamlined permit...\"",
+    "old": "Recent FDI data confirm this pattern. Among EMDEs, the largest recipients of data-center investment are Malaysia, India, and Brazil—countries with moderate electricity costs but strong regulatory frameworks and credible grid infrastructure—while the cheapest producers in our calibration (Kyrgyzstan, Tajikistan, Ethiopia) have received virtually no data-center FDI (Aykut et al. 2026). Moreover, most announced investment flows between geopolitical allies, consistent with the bilateral sovereignty premium rather than cost alone determining where capacity is built (Straub et al. 2026). Econometric evidence confirms that electricity costs are not a robust predictor of data center location once market size and regulatory environment are controlled for (Caoui and Steck 2025).",
+    "new": "Recent FDI data confirm this pattern. Among EMDEs, the largest recipients of data-center investment are Malaysia, India, and Brazil—countries with moderate electricity costs but strong regulatory frameworks, streamlined permitting, and credible grid infrastructure (Aykut et al. 2026). By contrast, the cheapest producers in our calibration (Kyrgyzstan, Tajikistan, Ethiopia) have received virtually no data-center FDI. The mismatch between cost rankings and revealed investment patterns provides out-of-sample validation that the institutional quality parameter and the bilateral sovereignty premium capture constraints that dominate pure cost advantage in determining where compute capacity is actually built."
+  },
+  {
+    "type": "run_format",
+    "para_base": 79,
+    "para_edit": 82,
+    "location": "¶79 \"Trade flows ...\"",
+    "detail": "\"Under the bi...\" underline: None → True",
+    "run_index": 5,
+    "run_text": "Under the bilateral sovereignty premium, most training demand shifts to domestic production, and the residual export market is served by a single exporter at $1.58/hr.",
+    "property": "underline",
+    "old_value": "None",
+    "new_value": "True"
+  },
+  {
+    "type": "run_format",
+    "para_base": 79,
+    "para_edit": 82,
+    "location": "¶79 \"Trade flows ...\"",
+    "detail": "\"Under the bi...\" font_color: None → 1F3864",
+    "run_index": 5,
+    "run_text": "Under the bilateral sovereignty premium, most training demand shifts to domestic production, and the residual export market is served by a single exporter at $1.58/hr.",
+    "property": "font_color",
+    "old_value": "None",
+    "new_value": "1F3864"
+  },
+  {
+    "type": "text",
+    "para_base": 83,
+    "para_edit": 86,
+    "location": "¶83 \"Among these ...\"",
+    "detail": "\"Among these demand centers,\" → \"(none)\"",
+    "old": "Among these demand centers, China illustrates the DD regime. Despite hosting one of the world’s largest data-center markets, virtually all capacity is built and financed by domestic technology firms and state-owned operators such as Alibaba Cloud, Tencent, Baidu, and China Telecom, with negligible foreign FDI (Aykut et al. 2026). The model predicts exactly this outcome: China’s sovereignty premium is effectively infinite for most Western buyers, yet its large domestic demand and moderate production costs make domestic production of both training and inference the equilibrium strategy. Government initiatives such as the Eastern Data Western Computing project further reinforce domestic sourcing by shifting energy-intensive computing to western provinces with cheaper power.",
+    "new": "China illustrates the DD regime. Despite hosting one of the world’s largest data-center markets, virtually all capacity is built and financed by domestic technology firms and state-owned operators such as Alibaba Cloud, Tencent, Baidu, and China Telecom, with negligible foreign FDI (Aykut et al. 2026). The model predicts exactly this outcome: China’s sovereignty premium is effectively infinite for most Western buyers, yet its large domestic demand and moderate production costs make domestic production of both training and inference the equilibrium strategy. Government initiatives such as the Eastern Data Western Computing project further reinforce domestic sourcing by shifting energy-intensive computing to western provinces with cheaper power."
+  },
+  {
+    "type": "text",
+    "para_base": 86,
+    "para_edit": 89,
+    "location": "¶86 \"The welfare ...\"",
+    "detail": "\"Sovereignty preferences are no...\" → \"(none)\"",
+    "old": "The welfare implications of the sovereignty premium depend on whether it reflects genuine security externalities or regulatory overreach. Some domestic processing preference is justified for confidential data, but much of the current policy push extends the sovereignty logic to routine commercial computation. The welfare cost is significant. The bilateral premium shifts most countries toward domestic production, forgoing the cost savings from specialization. The premium is also partly endogenous to the absence of credible international data governance: where enforceable data-protection agreements exist (as within the EU), the premium falls; where they do not, even commercially motivated buyers face rational reasons to prefer domestic processing. Sovereignty preferences are not limited to developing countries: France’s SecNumCloud certification mandates EU-only data hosting and staffing, effectively excluding U.S. hyperscalers from sovereign workloads. Developing countries that adopt broad data localization requirements risk foreclosing both import savings and regional export opportunities, the specialization gains that the model predicts. The World Bank (2025) frames this as a core policy trade-off: building domestic capacity versus securing affordable access to international cloud services.",
+    "new": "The welfare implications of the sovereignty premium depend on whether it reflects genuine security externalities or regulatory overreach. Some domestic processing preference is justified for confidential data, but much of the current policy push extends the sovereignty logic to routine commercial computation. The welfare cost is significant. The bilateral premium shifts most countries toward domestic production, forgoing the cost savings from specialization. The premium is also partly endogenous to the absence of credible international data governance: where enforceable data-protection agreements exist (as within the EU), the premium falls; where they do not, even commercially motivated buyers face rational reasons to prefer domestic processing. Developing countries that adopt broad data localization requirements risk foreclosing both import savings and regional export opportunities, the specialization gains that the model predicts. The World Bank (2025) frames this as a core policy trade-off: building domestic capacity versus securing affordable access to international cloud services."
+  },
+  {
+    "type": "text",
+    "para_base": 89,
+    "para_edit": 92,
+    "location": "¶89 \"The calibrat...\"",
+    "detail": "\"economies.\" → \"economies (Aykut et al. 2026).\"",
+    "old": "The calibration adjusts for energy subsidies and institutional quality, but several constraints remain outside the model and would further narrow the set of viable exporters. GPU export controls bar Iran, Russia, and Belarus from acquiring current-generation hardware. Water scarcity constrains cooling in the Middle East and North Africa; hyperscale data centers can consume billions of liters of water annually, and next-generation high-density GPU clusters increasingly rely on liquid-cooling technologies that intensify this pressure in water-stressed economies. Fiscal sustainability is a concern: regulated tariffs in many developing countries cover operating expenses but not full capital cost, so exporting compute at scale while the domestic energy sector cannot maintain its capital stock may prove politically unsustainable. Finally, export controls, logistics costs, and local distribution markups can raise effective GPU prices by 5–15% in developing countries, substantially eroding the thin cost advantages documented in Table A1. These omitted constraints all work against developing-country competitiveness; the calibration results should therefore be read as upper bounds.",
+    "new": "The calibration adjusts for energy subsidies and institutional quality, but several constraints remain outside the model and would further narrow the set of viable exporters. GPU export controls bar Iran, Russia, and Belarus from acquiring current-generation hardware. Water scarcity constrains cooling in the Middle East and North Africa; hyperscale data centers can consume billions of liters of water annually, and next-generation high-density GPU clusters increasingly rely on liquid-cooling technologies that intensify this pressure in water-stressed economies (Aykut et al. 2026). Fiscal sustainability is a concern: regulated tariffs in many developing countries cover operating expenses but not full capital cost, so exporting compute at scale while the domestic energy sector cannot maintain its capital stock may prove politically unsustainable. Finally, export controls, logistics costs, and local distribution markups can raise effective GPU prices by 5–15% in developing countries, substantially eroding the thin cost advantages documented in Table A1. These omitted constraints all work against developing-country competitiveness; the calibration results should therefore be read as upper bounds."
+  },
+  {
+    "type": "deleted",
+    "para_base": 97,
+    "para_edit": null,
+    "location": "¶97 \"7.2 Model Ex...\"",
+    "detail": "removed: \"7.2 Model Extensions\"",
+    "old": "7.2 Model Extensions",
+    "new": null
+  },
+  {
+    "type": "deleted",
+    "para_base": 98,
+    "para_edit": null,
+    "location": "¶98 \"Cross-countr...\"",
+    "detail": "removed: \"Cross-country evidence on policy readine...\"",
+    "old": "Cross-country evidence on policy readiness reinforces this conclusion. Economies with advanced AI and cloud strategies—such as Singapore, Australia, Japan, and South Korea—record estimated economic impacts from AI and cloud investment of 3–4 percent of GDP, compared with less than 1 percent in countries such as Indonesia and Viet Nam (Katz et al. 2025). The model’s institutional quality parameter captures, in reduced form, the complementary investments in digital skills, regulatory predictability, and grid modernization that separate these two groups. Countries that align digital ambitions with energy-sector planning—Malaysia through its National Energy Transition Roadmap, Brazil with an electricity mix over 80 percent renewable, the UAE with nuclear- and solar-powered AI hubs—are emerging as preferred destinations for hyperscalers, exactly as the model predicts for countries combining moderate costs with high institutional quality (Aykut et al. 2026).",
+    "new": null
+  },
+  {
+    "type": "deleted",
+    "para_base": 99,
+    "para_edit": null,
+    "location": "¶99 \"A further ex...\"",
+    "detail": "removed: \"A further extension concerns the emergin...\"",
+    "old": "A further extension concerns the emerging shift from centralized inference to edge computing. As AI moves from heavy training workloads toward real-time inference on lightweight models deployed on local devices, the effective capacity ceiling for inference relaxes: inference need not be concentrated in large data centers but can be distributed across many small nodes connected via existing mobile networks. If this trend accelerates, the inference market’s HHI could fall further, and the set of countries capable of serving inference demand would expand. For EMDEs with weak grid infrastructure but adequate mobile connectivity, edge computing may offer a leapfrogging path that bypasses the grid bottlenecks central to the present model (Aykut et al. 2026). Incorporating heterogeneous compute architectures—centralized GPU clusters for training, distributed edge nodes for inference—into the trade framework is a natural direction for future work.",
+    "new": null
+  },
+  {
+    "type": "inserted",
+    "para_base": null,
+    "para_edit": 105,
+    "location": "after ¶104",
+    "detail": "inserted: \"Cross-country evidence on policy readine...\"",
+    "old": null,
+    "new": "Cross-country evidence on policy readiness reinforces this conclusion. Economies with advanced AI and cloud strategies—such as Singapore, Australia, Japan, and South Korea—record estimated economic impacts from AI and cloud investment of 3–4 percent of GDP, compared with less than 1 percent in countries such as Indonesia and Viet Nam (Katz, R., K. Jung, and F. Callorda 2025). The model’s institutional quality parameter captures, in reduced form, the complementary investments in digital skills, regulatory predictability, and grid modernization that separate these two groups. Countries that align digital ambitions with energy-sector planning—Malaysia through its National Energy Transition Roadmap, Brazil with an electricity mix over 80 percent renewable, the UAE with nuclear- and solar-powered AI hubs—are emerging as preferred destinations for hyperscalers, exactly as the model predicts for countries combining moderate costs with high institutional quality (Aykut et al. 2026)."
+  },
+  {
+    "type": "inserted",
+    "para_base": null,
+    "para_edit": 106,
+    "location": "after ¶104",
+    "detail": "inserted: \"A further extension concerns the emergin...\"",
+    "old": null,
+    "new": "A further extension concerns the emerging shift from centralized inference to edge computing. As AI moves from heavy training workloads toward real-time inference on lightweight models deployed on local devices, the effective capacity ceiling for inference relaxes: inference need not be concentrated in large data centers but can be distributed across many small nodes connected via existing mobile networks. If this trend accelerates, the inference market’s HHI could fall further, and the set of countries capable of serving inference demand would expand. For EMDEs with weak grid infrastructure but adequate mobile connectivity, edge computing may offer a leapfrogging path that bypasses the grid bottlenecks central to the present model (Aykut et al. 2026). Incorporating heterogeneous compute architectures—centralized GPU clusters for training, distributed edge nodes for inference—into the trade framework is a natural direction for future work."
+  },
+  {
+    "type": "deleted",
+    "para_base": 109,
+    "para_edit": null,
+    "location": "¶109 \"Aykut, D., S...\"",
+    "detail": "removed: \"Aykut, D., S. Ozyurt, K. Jung, and E. Ve...\"",
+    "old": "Aykut, D., S. Ozyurt, K. Jung, and E. Vergara Cobos. (2026). “Data Center and AI Investment in EMDEs: Risks and Opportunities.” Watch This Space. Washington, DC: World Bank Group.",
+    "new": null
+  },
+  {
+    "type": "deleted",
+    "para_base": 117,
+    "para_edit": null,
+    "location": "¶117 \"Caoui, E. H....\"",
+    "detail": "removed: \"Caoui, E. H., and A. Steck. (2025). “Con...\"",
+    "old": "Caoui, E. H., and A. Steck. (2025). “Content Providers and the Deployment of Internet Infrastructure.” Information Economics and Policy. doi:10.1016/j.infoecopol.2025.101134.",
+    "new": null
+  },
+  {
+    "type": "deleted",
+    "para_base": 118,
+    "para_edit": null,
+    "location": "¶118 \"Chandramowli...\"",
+    "detail": "removed: \"Chandramowli, S., et al. (2024). “Impact...\"",
+    "old": "Chandramowli, S., et al. (2024). “Impact of Emerging Technologies on Electricity Demand and Prices.” Rhodium Group Analysis.",
+    "new": null
+  },
+  {
+    "type": "deleted",
+    "para_base": 136,
+    "para_edit": null,
+    "location": "¶136 \"Katz, R., K....\"",
+    "detail": "removed: \"Katz, R., K. Jung, and F. Callorda. (202...\"",
+    "old": "Katz, R., K. Jung, and F. Callorda. (2025). “The Economic Impact of AI and Cloud Investment in Asia-Pacific.” Report prepared for the Asian Development Bank.",
+    "new": null
+  },
+  {
+    "type": "deleted",
+    "para_base": 148,
+    "para_edit": null,
+    "location": "¶148 \"Straub, S., ...\"",
+    "detail": "removed: \"Straub, S., et al. (2026). Infrastructur...\"",
+    "old": "Straub, S., et al. (2026). Infrastructure Foundations: From Current Assets to Future Growth. Sustainable Infrastructure Series. Washington, DC: World Bank.",
+    "new": null
+  },
+  {
+    "type": "run_format",
+    "para_base": 153,
+    "para_edit": 150,
+    "location": "¶153 \"World Bank. ...\"",
+    "detail": "\".\" underline: None → True",
+    "run_index": 3,
+    "run_text": ".",
+    "property": "underline",
+    "old_value": "None",
+    "new_value": "True"
+  },
+  {
+    "type": "run_format",
+    "para_base": 153,
+    "para_edit": 150,
+    "location": "¶153 \"World Bank. ...\"",
+    "detail": "\".\" font_color: None → 1F3864",
+    "run_index": 3,
+    "run_text": ".",
+    "property": "font_color",
+    "old_value": "None",
+    "new_value": "1F3864"
+  },
+  {
+    "type": "inserted",
+    "para_base": null,
+    "para_edit": 151,
+    "location": "after ¶153",
+    "detail": "inserted: \"Acemoglu, D. (2024). “The Simple Macroec...\"",
+    "old": null,
+    "new": "Acemoglu, D. (2024). “The Simple Macroeconomics of AI.” NBER Working Paper No. 32487."
+  },
+  {
+    "type": "inserted",
+    "para_base": null,
+    "para_edit": 152,
+    "location": "after ¶153",
+    "detail": "inserted: \"Aykut, D., S. Ozyurt, K. Jung, and E. Ve...\"",
+    "old": null,
+    "new": "Aykut, D., S. Ozyurt, K. Jung, and E. Vergara Cobos. (2026). “Data Center and AI Investment in EMDEs: Risks and Opportunities.” Watch This Space. Washington, DC: World Bank Group."
+  },
+  {
+    "type": "inserted",
+    "para_base": null,
+    "para_edit": 153,
+    "location": "after ¶153",
+    "detail": "inserted: \"Chandramowli, S., et al. (2024). “Impact...\"",
+    "old": null,
+    "new": "Chandramowli, S., et al. (2024). “Impact of Emerging Technologies on Electricity Demand and Prices.” Rhodium Group Analysis."
+  },
+  {
+    "type": "inserted",
+    "para_base": null,
+    "para_edit": 154,
+    "location": "after ¶153",
+    "detail": "inserted: \"Katz, R., K. Jung, and F. Callorda. (202...\"",
+    "old": null,
+    "new": "Katz, R., K. Jung, and F. Callorda. (2025). “The Economic Impact of AI and Cloud Investment in Asia-Pacific.” Report prepared for the Asian Development Bank."
+  },
+  {
+    "type": "inserted",
+    "para_base": null,
+    "para_edit": 155,
+    "location": "after ¶153",
+    "detail": "inserted: \"Straub, S., et al. (2026). Infrastructur...\"",
+    "old": null,
+    "new": "Straub, S., et al. (2026). Infrastructure Foundations: From Current Assets to Future Growth. Sustainable Infrastructure Series. Washington, DC: World Bank."
+  },
+  {
+    "type": "run_format",
+    "para_base": 174,
+    "para_edit": 176,
+    "location": "¶174 \"Each country...\"",
+    "detail": "\". Training d...\" underline: None → True",
+    "run_index": 8,
+    "run_text": ". Training demand is ",
+    "property": "underline",
+    "old_value": "None",
+    "new_value": "True"
+  },
+  {
+    "type": "run_format",
+    "para_base": 174,
+    "para_edit": 176,
+    "location": "¶174 \"Each country...\"",
+    "detail": "\". Training d...\" font_color: None → 1F3864",
+    "run_index": 8,
+    "run_text": ". Training demand is ",
+    "property": "font_color",
+    "old_value": "None",
+    "new_value": "1F3864"
+  },
+  {
+    "type": "run_format",
+    "para_base": 176,
+    "para_edit": 178,
+    "location": "¶176 \"Country k im...\"",
+    "detail": "\"is defined b...\" underline: None → True",
+    "run_index": 7,
+    "run_text": " is defined by:",
+    "property": "underline",
+    "old_value": "None",
+    "new_value": "True"
+  },
+  {
+    "type": "run_format",
+    "para_base": 176,
+    "para_edit": 178,
+    "location": "¶176 \"Country k im...\"",
+    "detail": "\"is defined b...\" font_color: None → 1F3864",
+    "run_index": 7,
+    "run_text": " is defined by:",
+    "property": "font_color",
+    "old_value": "None",
+    "new_value": "1F3864"
+  }
+]

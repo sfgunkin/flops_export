@@ -1,0 +1,87 @@
+iso3,country,demand_share,source
+USA,United States,0.4313322302,capacity_proxy
+CHN,China,0.2562290157,capacity_proxy
+JPN,Japan,0.0192774181,capacity_proxy
+GBR,United Kingdom,0.0208035470,capacity_proxy
+DEU,Germany,0.0157030635,capacity_proxy
+IND,India,0.0289161272,capacity_proxy
+SGP,Singapore,0.0090764510,capacity_proxy
+AUS,Australia,0.0214461276,capacity_proxy
+FRA,France,0.0112451606,capacity_proxy
+NLD,Netherlands,0.0144580636,capacity_proxy
+KOR,South Korea,0.0068274189,capacity_proxy
+CAN,Canada,0.0257032241,capacity_proxy
+IRL,Ireland,0.0101206445,capacity_proxy
+BRA,Brazil,0.0096387091,capacity_proxy
+RUS,Russia,0.0160645151,capacity_proxy
+ITA,Italy,0.0068274189,capacity_proxy
+MEX,Mexico,0.0072290318,capacity_proxy
+ESP,Spain,0.0057832254,capacity_proxy
+POL,Poland,0.0048193545,capacity_proxy
+SWE,Sweden,0.0040161288,capacity_proxy
+NOR,Norway,0.0032129030,capacity_proxy
+IDN,Indonesia,0.0040161288,capacity_proxy
+TUR,Turkey,0.0028112901,capacity_proxy
+TWN,Taiwan,0.0060241932,capacity_proxy
+ISR,Israel,0.0024096773,capacity_proxy
+MYS,Malaysia,0.0040161288,capacity_proxy
+THA,Thailand,0.0024096773,capacity_proxy
+VNM,Vietnam,0.0020080644,capacity_proxy
+CHE,Switzerland,0.0040161288,capacity_proxy
+BEL,Belgium,0.0032129030,capacity_proxy
+FIN,Finland,0.0028112901,capacity_proxy
+DNK,Denmark,0.0024096773,capacity_proxy
+SAU,Saudi Arabia,0.0032129030,capacity_proxy
+ARE,United Arab Emirates,0.0040161288,capacity_proxy
+ZAF,South Africa,0.0020080644,capacity_proxy
+CHL,Chile,0.0016064515,capacity_proxy
+COL,Colombia,0.0012048386,capacity_proxy
+ARG,Argentina,0.0012048386,capacity_proxy
+NZL,New Zealand,0.0020080644,capacity_proxy
+PHL,Philippines,0.0016064515,capacity_proxy
+AUT,Austria,0.0020080644,capacity_proxy
+KAZ,Kazakhstan,0.0008032258,capacity_proxy
+EGY,Egypt,0.0012048386,capacity_proxy
+QAT,Qatar,0.0006425806,capacity_proxy
+PAK,Pakistan,0.0004016129,capacity_proxy
+UKR,Ukraine,0.0014056451,capacity_proxy
+ROU,Romania,0.0008032258,capacity_proxy
+CZE,Czechia,0.0010441935,capacity_proxy
+HUN,Hungary,0.0004016129,capacity_proxy
+BGR,Bulgaria,0.0006024193,capacity_proxy
+GRC,Greece,0.0004016129,capacity_proxy
+PRT,Portugal,0.0008032258,capacity_proxy
+SVK,Slovakia,0.0003212903,capacity_proxy
+HRV,Croatia,0.0002409677,capacity_proxy
+SRB,Serbia,0.0003212903,capacity_proxy
+SVN,Slovenia,0.0003212903,capacity_proxy
+LTU,Lithuania,0.0004417742,capacity_proxy
+LVA,Latvia,0.0006425806,capacity_proxy
+EST,Estonia,0.0004016129,capacity_proxy
+LUX,Luxembourg,0.0005622580,capacity_proxy
+NGA,Nigeria,0.0008032258,capacity_proxy
+KEN,Kenya,0.0004819355,capacity_proxy
+MAR,Morocco,0.0004016129,capacity_proxy
+ISL,Iceland,0.0004819355,capacity_proxy
+MLT,Malta,0.0001606452,capacity_proxy
+CYP,Cyprus,0.0001606452,capacity_proxy
+MKD,North Macedonia,0.0001445806,capacity_proxy
+BLR,Belarus,0.0002811290,capacity_proxy
+GEO,Georgia,0.0001204839,capacity_proxy
+MDA,Moldova,0.0001606452,capacity_proxy
+UZB,Uzbekistan,0.0002008064,capacity_proxy
+AZE,Azerbaijan,0.0000803226,capacity_proxy
+BIH,Bosnia and Herzegovina,0.0000803226,capacity_proxy
+DZA,Algeria,0.0002008064,capacity_proxy
+GHA,Ghana,0.0001204839,capacity_proxy
+SEN,Senegal,0.0000803226,capacity_proxy
+IRN,Iran,0.0000803226,capacity_proxy
+TKM,Turkmenistan,0.0000401613,capacity_proxy
+KGZ,Kyrgyzstan,0.0000401613,capacity_proxy
+ETH,Ethiopia,0.0000803226,capacity_proxy
+TJK,Tajikistan,0.0000401613,capacity_proxy
+MNE,Montenegro,0.0000401613,capacity_proxy
+ARM,Armenia,0.0000803226,capacity_proxy
+XKX,Kosovo,0.0000401613,capacity_proxy
+ALB,Albania,0.0000401613,capacity_proxy
+GRL,Greenland,0.0000401613,capacity_proxy

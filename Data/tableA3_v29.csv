@@ -1,0 +1,6 @@
+Scenario,Parameter_change,Dev_top15,Max_markup,Spearman_rho,Top5
+"Baseline (omega=0.50, rho=$1.36, Form B)","omega=0.50, rho=$1.36",0,5.1%,-0.00,"Norway, Canada, Finland, Sweden, Iceland"
+High governance weight (omega=0.85),omega=0.85,0,5.5%,-0.07,"Norway, Finland, Canada, Sweden, Iceland"
+Low hardware share (rho=$1.30),rho=$1.30 (-4.4%),0,5.3%,-0.00,"Norway, Canada, Finland, Sweden, Iceland"
+High hardware share (rho=$1.42),rho=$1.42 (+4.4%),0,4.9%,-0.00,"Norway, Canada, Finland, Sweden, Iceland"
+Form A (v26 specification),"c_adj = c_cr / xi_eff, omega=0.85",0,12.2%,-0.28,"Finland, Norway, Denmark, Iceland, New Zealand"

@@ -1,0 +1,44 @@
+iso3,country,gco2_per_kwh,carbon_price_usd_per_tco2,carbon_adder_usd_per_kwh,regime_name
+CAN,Canada,130,58.48,0.007602,Canada federal backstop
+COL,Colombia,150,0.0,0.0,Other (COL)
+NOR,Norway,20,70.94,0.001419,EU ETS
+FIN,Finland,65,70.94,0.004611,EU ETS
+SWE,Sweden,40,70.94,0.002838,EU ETS
+USA,United States of America,370,3.81,0.00141,US CA/WA+RGGI weighted
+TUR,Turkey,420,0.0,0.0,Other (TUR)
+ISL,Iceland,35,70.94,0.002483,EU ETS
+GBR,United Kingdom,200,47.32,0.009464,UK ETS
+AUS,Australia,530,0.0,0.0,Other (AUS)
+NZL,New Zealand,110,39.5,0.004345,Other (NZL)
+MEX,Mexico,400,0.0,0.0,Other (MEX)
+FRA,France,50,70.94,0.003547,EU ETS
+CHL,Chile,330,0.0,0.0,Other (CHL)
+POL,Poland,660,70.94,0.04682,EU ETS
+LVA,Latvia,200,70.94,0.014188,EU ETS
+PRT,Portugal,120,70.94,0.008513,EU ETS
+MLT,Malta,380,70.94,0.026957,EU ETS
+ISR,Israel,520,0.0,0.0,Other (ISR)
+ESP,Spain,160,70.94,0.01135,EU ETS
+BEL,Belgium,160,70.94,0.01135,EU ETS
+LUX,Luxembourg,70,70.94,0.004966,EU ETS
+NLD,Netherlands,340,70.94,0.02412,EU ETS
+EST,Estonia,560,70.94,0.039726,EU ETS
+KOR,South Korea,430,0.0,0.0,"K-ETS (<$10 effective, set to 0)"
+DNK,Denmark,135,70.94,0.009577,EU ETS
+LTU,Lithuania,150,70.94,0.010641,EU ETS
+SVN,Slovenia,200,70.94,0.014188,EU ETS
+ROU,Romania,250,70.94,0.017735,EU ETS
+DEU,Germany,380,70.94,0.026957,EU ETS
+GRC,Greece,370,70.94,0.026248,EU ETS
+BGR,Bulgaria,380,70.94,0.026957,EU ETS
+SVK,Slovakia,120,70.94,0.008513,EU ETS
+AUT,Austria,100,70.94,0.007094,EU ETS
+ITA,Italy,260,70.94,0.018444,EU ETS
+JPN,Japan,450,0.0,0.0,Other (JPN)
+CZE,Czechia,430,70.94,0.030504,EU ETS
+CHE,Switzerland,40,70.94,0.002838,EU ETS
+HUN,Hungary,230,70.94,0.016316,EU ETS
+SGP,Singapore,400,18.6,0.00744,Other (SGP)
+CYP,Cyprus,600,70.94,0.042564,EU ETS
+HRV,Croatia,170,70.94,0.01206,EU ETS
+IRL,Ireland,300,70.94,0.021282,EU ETS

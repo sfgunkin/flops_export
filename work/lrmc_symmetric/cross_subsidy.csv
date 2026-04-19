@@ -1,0 +1,44 @@
+iso3,country,cross_subsidy_usd_per_kwh,source_citation
+CAN,Canada,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+COL,Colombia,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+NOR,Norway,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+FIN,Finland,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+SWE,Sweden,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+USA,United States of America,0.015,"Industrial-residential differential (Borenstein 2012, Davis-Hausman 2016)"
+TUR,Turkey,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+ISL,Iceland,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+GBR,United Kingdom,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+AUS,Australia,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+NZL,New Zealand,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+MEX,Mexico,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+FRA,France,0.015,Post-ARENH nuclear access (CRE)
+CHL,Chile,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+POL,Poland,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+LVA,Latvia,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+PRT,Portugal,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+MLT,Malta,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+ISR,Israel,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+ESP,Spain,0.01,Eurostat IB6 subsidies column
+BEL,Belgium,0.01,Eurostat IB6 subsidies column
+LUX,Luxembourg,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+NLD,Netherlands,0.01,Eurostat IB6 subsidies column
+EST,Estonia,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+KOR,South Korea,0.02,KEPCO below-cost (OECD Energy Policy Review)
+DNK,Denmark,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+LTU,Lithuania,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+SVN,Slovenia,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+ROU,Romania,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+DEU,Germany,0.038,EEG + grid-fee industrial exemption (Agora/BDEW)
+GRC,Greece,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+BGR,Bulgaria,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+SVK,Slovakia,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+AUT,Austria,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+ITA,Italy,0.01,Eurostat IB6 subsidies column
+JPN,Japan,0.0,No systematic post-2016 cross-subsidy
+CZE,Czechia,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+CHE,Switzerland,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+HUN,Hungary,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+SGP,Singapore,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+CYP,Cyprus,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+HRV,Croatia,0.0,Zero — no documented cross-subsidy >$0.005/kWh
+IRL,Ireland,0.0,Zero — no documented cross-subsidy >$0.005/kWh

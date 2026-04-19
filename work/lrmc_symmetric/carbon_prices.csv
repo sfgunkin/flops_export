@@ -1,0 +1,44 @@
+iso3,country,carbon_price_usd_per_tco2,regime_name,year,notes
+CAN,Canada,58.48,Canada federal backstop,2024,2024 annual average; protocol §2.2
+COL,Colombia,0.0,Other (COL),2024,2024 annual average; protocol §2.2
+NOR,Norway,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+FIN,Finland,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+SWE,Sweden,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+USA,United States of America,3.81,US CA/WA+RGGI weighted,2024,2024 annual average; protocol §2.2
+TUR,Turkey,0.0,Other (TUR),2024,2024 annual average; protocol §2.2
+ISL,Iceland,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+GBR,United Kingdom,47.32,UK ETS,2024,2024 annual average; protocol §2.2
+AUS,Australia,0.0,Other (AUS),2024,2024 annual average; protocol §2.2
+NZL,New Zealand,39.5,Other (NZL),2024,2024 annual average; protocol §2.2
+MEX,Mexico,0.0,Other (MEX),2024,2024 annual average; protocol §2.2
+FRA,France,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+CHL,Chile,0.0,Other (CHL),2024,2024 annual average; protocol §2.2
+POL,Poland,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+LVA,Latvia,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+PRT,Portugal,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+MLT,Malta,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+ISR,Israel,0.0,Other (ISR),2024,2024 annual average; protocol §2.2
+ESP,Spain,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+BEL,Belgium,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+LUX,Luxembourg,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+NLD,Netherlands,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+EST,Estonia,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+KOR,South Korea,0.0,"K-ETS (<$10 effective, set to 0)",2024,2024 annual average; protocol §2.2
+DNK,Denmark,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+LTU,Lithuania,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+SVN,Slovenia,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+ROU,Romania,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+DEU,Germany,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+GRC,Greece,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+BGR,Bulgaria,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+SVK,Slovakia,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+AUT,Austria,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+ITA,Italy,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+JPN,Japan,0.0,Other (JPN),2024,2024 annual average; protocol §2.2
+CZE,Czechia,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+CHE,Switzerland,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+HUN,Hungary,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+SGP,Singapore,18.6,Other (SGP),2024,2024 annual average; protocol §2.2
+CYP,Cyprus,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+HRV,Croatia,70.94,EU ETS,2024,2024 annual average; protocol §2.2
+IRL,Ireland,70.94,EU ETS,2024,2024 annual average; protocol §2.2

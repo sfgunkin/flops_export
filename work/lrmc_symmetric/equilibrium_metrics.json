@@ -1,0 +1,36 @@
+{
+  "label": "symmetric_LRMC",
+  "p_T": 1.5998,
+  "n_train_exporters": 4,
+  "hhi_T": 0.9855,
+  "hhi_I": 0.9999,
+  "top5_train": [
+    [
+      "CAN",
+      "Canada",
+      99.27
+    ],
+    [
+      "ETH",
+      "Ethiopia",
+      0.36
+    ],
+    [
+      "KGZ",
+      "Kyrgyzstan",
+      0.18
+    ],
+    [
+      "XKX",
+      "Kosovo",
+      0.18
+    ]
+  ],
+  "top5_inf": [
+    [
+      "KGZ",
+      "Kyrgyzstan",
+      100.0
+    ]
+  ]
+}

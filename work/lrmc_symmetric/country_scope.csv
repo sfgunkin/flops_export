@@ -1,0 +1,86 @@
+iso3,country,in_v32_adjusted,in_oecd_scope,treatment
+IRN,Iran,True,False,keep_v32_adjusted
+TKM,Turkmenistan,True,False,keep_v32_adjusted
+ETH,Ethiopia,True,False,keep_v32_adjusted
+KGZ,Kyrgyzstan,False,False,keep_observed
+EGY,Egypt,True,False,keep_v32_adjusted
+DZA,Algeria,True,False,keep_v32_adjusted
+CAN,Canada,False,True,apply_symmetric_lrmc
+RUS,Russia,True,False,keep_v32_adjusted
+ZAF,South Africa,True,False,keep_v32_adjusted
+XKX,Kosovo,False,False,keep_observed
+NGA,Nigeria,True,False,keep_v32_adjusted
+TJK,Tajikistan,False,False,keep_observed
+MNE,Montenegro,False,False,keep_observed
+CHN,China,False,False,keep_observed
+QAT,Qatar,True,True,keep_v32_adjusted
+UKR,Ukraine,False,False,keep_observed
+ARG,Argentina,False,False,keep_observed
+COL,Colombia,False,True,apply_symmetric_lrmc
+AZE,Azerbaijan,False,False,keep_observed
+NOR,Norway,False,True,apply_symmetric_lrmc
+KAZ,Kazakhstan,True,False,keep_v32_adjusted
+UZB,Uzbekistan,True,False,keep_v32_adjusted
+FIN,Finland,False,True,apply_symmetric_lrmc
+VNM,Vietnam,False,False,keep_observed
+SAU,Saudi Arabia,True,True,keep_v32_adjusted
+BRA,Brazil,False,False,keep_observed
+ARE,United Arab Emirates,True,True,keep_v32_adjusted
+SWE,Sweden,False,True,apply_symmetric_lrmc
+IND,India,False,False,keep_observed
+IDN,Indonesia,False,False,keep_observed
+GEO,Georgia,False,False,keep_observed
+USA,United States of America,False,True,apply_symmetric_lrmc
+KEN,Kenya,False,False,keep_observed
+TUR,Turkey,False,True,apply_symmetric_lrmc
+BIH,Bosnia and Herz.,False,False,keep_observed
+ISL,Iceland,False,True,apply_symmetric_lrmc
+GBR,United Kingdom,False,True,apply_symmetric_lrmc
+BLR,Belarus,False,False,keep_observed
+AUS,Australia,False,True,apply_symmetric_lrmc
+NZL,New Zealand,False,True,apply_symmetric_lrmc
+MAR,Morocco,False,False,keep_observed
+MEX,Mexico,False,True,apply_symmetric_lrmc
+FRA,France,False,True,apply_symmetric_lrmc
+ARM,Armenia,False,False,keep_observed
+CHL,Chile,False,True,apply_symmetric_lrmc
+POL,Poland,False,True,apply_symmetric_lrmc
+LVA,Latvia,False,True,apply_symmetric_lrmc
+PRT,Portugal,False,True,apply_symmetric_lrmc
+MLT,Malta,False,True,apply_symmetric_lrmc
+MYS,Malaysia,False,False,keep_observed
+PHL,Philippines,False,False,keep_observed
+ISR,Israel,False,True,apply_symmetric_lrmc
+ESP,Spain,False,True,apply_symmetric_lrmc
+THA,Thailand,False,False,keep_observed
+BEL,Belgium,False,True,apply_symmetric_lrmc
+SRB,Serbia,False,False,keep_observed
+PAK,Pakistan,False,False,keep_observed
+LUX,Luxembourg,False,True,apply_symmetric_lrmc
+NLD,Netherlands,False,True,apply_symmetric_lrmc
+EST,Estonia,False,True,apply_symmetric_lrmc
+KOR,South Korea,False,True,apply_symmetric_lrmc
+MDA,Moldova,False,False,keep_observed
+DNK,Denmark,False,True,apply_symmetric_lrmc
+LTU,Lithuania,False,True,apply_symmetric_lrmc
+MKD,North Macedonia,False,False,keep_observed
+GHA,Ghana,False,False,keep_observed
+SVN,Slovenia,False,True,apply_symmetric_lrmc
+ALB,Albania,False,False,keep_observed
+ROU,Romania,False,True,apply_symmetric_lrmc
+DEU,Germany,False,True,apply_symmetric_lrmc
+GRC,Greece,False,True,apply_symmetric_lrmc
+BGR,Bulgaria,False,True,apply_symmetric_lrmc
+SVK,Slovakia,False,True,apply_symmetric_lrmc
+AUT,Austria,False,True,apply_symmetric_lrmc
+ITA,Italy,False,True,apply_symmetric_lrmc
+JPN,Japan,False,True,apply_symmetric_lrmc
+CZE,Czechia,False,True,apply_symmetric_lrmc
+CHE,Switzerland,False,True,apply_symmetric_lrmc
+HUN,Hungary,False,True,apply_symmetric_lrmc
+SGP,Singapore,False,True,apply_symmetric_lrmc
+CYP,Cyprus,False,True,apply_symmetric_lrmc
+SEN,Senegal,False,False,keep_observed
+HRV,Croatia,False,True,apply_symmetric_lrmc
+IRL,Ireland,False,True,apply_symmetric_lrmc
+GRL,Greenland,False,False,keep_observed

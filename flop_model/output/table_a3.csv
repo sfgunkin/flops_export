@@ -1,0 +1,6 @@
+Scenario,omega,rho,form,Dev_top_15,Max_markup,Spearman_rho,Top_5
+baseline,0.5,1.3580609063155265,B,0,0.05347649909206451,-0.15276529216337698,"Canada, Norway, Finland, Sweden, Iceland"
+form_a,0.85,1.3580609063155265,A,0,0.12512033669216038,-0.4023060386945476,"Finland, Norway, Denmark, Iceland, New Zealand"
+high_governance,0.85,1.3580609063155265,B,0,0.05553971093729006,-0.22020715262849325,"Canada, Norway, Finland, Sweden, Iceland"
+low_hardware,0.5,1.3,B,0,0.05587593881390714,-0.18954465507133084,"Canada, Norway, Finland, Sweden, Iceland"
+high_hardware,0.5,1.42,B,1,0.050906518025023224,-0.050029314051201874,"Canada, Norway, Finland, Sweden, Iceland"

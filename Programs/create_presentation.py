@@ -29,19 +29,19 @@ from pptx.util import Emu, Inches, Pt
 
 
 class C:
-    darkBg = RGBColor(0x0B, 0x1D, 0x2E)
-    medBg = RGBColor(0x13, 0x2F, 0x46)
-    accent = RGBColor(0x00, 0xB4, 0xD8)
-    accentDim = RGBColor(0x08, 0x91, 0xB2)
-    warm = RGBColor(0xF5, 0x9E, 0x0B)
-    lightBg = RGBColor(0xF0, 0xF5, 0xFA)
-    cardBg = RGBColor(0xFF, 0xFF, 0xFF)
-    textWhite = RGBColor(0xFF, 0xFF, 0xFF)
-    textLight = RGBColor(0xCB, 0xD5, 0xE1)
-    textDark = RGBColor(0x1E, 0x29, 0x3B)
-    textMuted = RGBColor(0x64, 0x74, 0x8B)
-    greenAcc = RGBColor(0x10, 0xB9, 0x81)
-    redAcc = RGBColor(0xEF, 0x44, 0x44)
+    darkBg = RGBColor(0x2C, 0x2C, 0x2C)
+    medBg = RGBColor(0x3D, 0x38, 0x35)
+    accent = RGBColor(0xC6, 0x7B, 0x5C)
+    accentDim = RGBColor(0xA8, 0x62, 0x4A)
+    warm = RGBColor(0x4A, 0x7C, 0x59)
+    lightBg = RGBColor(0xE8, 0xED, 0xE4)
+    cardBg = RGBColor(0xFA, 0xF8, 0xF5)
+    textWhite = RGBColor(0xFA, 0xF8, 0xF5)
+    textLight = RGBColor(0xC4, 0xBD, 0xB6)
+    textDark = RGBColor(0x33, 0x33, 0x33)
+    textMuted = RGBColor(0x7A, 0x85, 0x74)
+    greenAcc = RGBColor(0x5B, 0x8C, 0x5A)
+    redAcc = RGBColor(0xC4, 0x5B, 0x4A)
 
 
 HEADER = "Georgia"
@@ -54,7 +54,7 @@ BODY = "Calibri"
 
 
 def hex_to_rgb(h):
-    """Convert hex string like '0B1D2E' to RGBColor."""
+    """Convert hex string like '2C2C2C' to RGBColor."""
     return RGBColor(int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16))
 
 
@@ -71,41 +71,43 @@ def add_rect(slide, x, y, w, h, fill_color, transparency=None):
     shape.fill.fore_color.rgb = fill_color
     shape.line.fill.background()
     if transparency is not None:
-        # Set transparency via XML on the shape's spPr
         sp_pr = shape._element.find(qn('p:spPr'))
-        if sp_pr is None:
-            sp_pr = shape._element
-        solid_fill = sp_pr.find(qn('a:solidFill'))
-        if solid_fill is not None:
-            srgb = solid_fill.find(qn('a:srgbClr'))
-            if srgb is not None:
-                alpha = srgb.makeelement(qn('a:alpha'), {})
-                alpha.set('val', str(int((100 - transparency) * 1000)))
-                srgb.append(alpha)
-    # Remove shadow
-    shape.shadow.inherit = False
+        if sp_pr is not None:
+            solid_fill = sp_pr.find(qn('a:solidFill'))
+            if solid_fill is not None:
+                srgb = solid_fill.find(qn('a:srgbClr'))
+                if srgb is not None:
+                    alpha = srgb.makeelement(qn('a:alpha'), {})
+                    alpha.set('val', str(int((100 - transparency) * 1000)))
+                    srgb.append(alpha)
+    # Suppress shadow by adding empty effectLst
+    sp_pr = shape._element.find(qn('p:spPr'))
+    if sp_pr is not None:
+        for old in sp_pr.findall(qn('a:effectLst')):
+            sp_pr.remove(old)
+        from lxml import etree
+        sp_pr.append(etree.fromstring(
+            '<a:effectLst xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"/>'
+        ))
     return shape
 
 
 def add_shadow(shape):
-    """Apply a subtle outer shadow to a shape."""
-    sp = shape._element
-    sp_pr = sp.find(qn('p:spPr'))
-    if sp_pr is None:
-        sp_pr = sp.find(qn('a:spPr'))
+    """Apply a subtle outer shadow to a shape via OOXML."""
+    sp_pr = shape._element.find(qn('p:spPr'))
     if sp_pr is None:
         return
-    effect_lst = sp_pr.makeelement(qn('a:effectLst'), {})
-    outer_shdw = effect_lst.makeelement(qn('a:outerShdw'), {
-        'blurRad': '101600',   # 8pt blur
-        'dist': '38100',       # 3pt offset
-        'dir': '8100000',      # 135 degrees
-    })
-    srgb_clr = outer_shdw.makeelement(qn('a:srgbClr'), {'val': '000000'})
-    alpha = srgb_clr.makeelement(qn('a:alpha'), {'val': '12000'})  # 12% opacity
-    srgb_clr.append(alpha)
-    outer_shdw.append(srgb_clr)
-    effect_lst.append(outer_shdw)
+    # Remove any existing effectLst to avoid duplicates
+    for old in sp_pr.findall(qn('a:effectLst')):
+        sp_pr.remove(old)
+    from lxml import etree
+    effect_xml = (
+        '<a:effectLst xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">'
+        '<a:outerShdw blurRad="101600" dist="38100" dir="8100000" algn="bl" rotWithShape="0">'
+        '<a:srgbClr val="000000"><a:alpha val="12000"/></a:srgbClr>'
+        '</a:outerShdw></a:effectLst>'
+    )
+    effect_lst = etree.fromstring(effect_xml)
     sp_pr.append(effect_lst)
 
 
@@ -210,7 +212,15 @@ def add_oval(slide, x, y, w, h, fill_color):
     shape.fill.solid()
     shape.fill.fore_color.rgb = fill_color
     shape.line.fill.background()
-    shape.shadow.inherit = False
+    # Suppress shadow by adding empty effectLst
+    sp_pr = shape._element.find(qn('p:spPr'))
+    if sp_pr is not None:
+        for old in sp_pr.findall(qn('a:effectLst')):
+            sp_pr.remove(old)
+        from lxml import etree
+        sp_pr.append(etree.fromstring(
+            '<a:effectLst xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"/>'
+        ))
     return shape
 
 
@@ -219,7 +229,7 @@ def add_image_safe(slide, path, x, y, w, h):
     if os.path.exists(path):
         slide.shapes.add_picture(path, Inches(x), Inches(y), Inches(w), Inches(h))
     else:
-        add_rect(slide, x, y, w, h, hex_to_rgb("334455"))
+        add_rect(slide, x, y, w, h, hex_to_rgb("4A4340"))
         add_textbox(slide, x, y, w, h, f"[Image: {path}]",
                     font_size=9, color=C.textMuted, align=PP_ALIGN.CENTER,
                     valign=MSO_ANCHOR.MIDDLE)
@@ -296,14 +306,14 @@ def main():
                 font_name=HEADER, font_size=30, color=C.textWhite, bold=True)
     add_textbox(s1x, 0.5, 0.65, 7.5, 0.35,
                 "A data center converts electricity into floating-point operations — the raw commodity of AI",
-                font_name=BODY, font_size=12, color=hex_to_rgb("CFD8DC"), italic=True)
+                font_name=BODY, font_size=12, color=hex_to_rgb("D4CFC8"), italic=True)
 
     # Production pipeline: 4 stages below photo
     stages = [
-        {"label": "Electricity", "sub": "Grid power (pⱼᴱ)\nLocal price — only\ncountry-varying input", "color": "00B4D8", "icon": "⚡"},
-        {"label": "Cooling", "sub": "PUE overhead\nClimate-dependent\n(θⱼ → cooling cost)", "color": "0097A7", "icon": "🏭"},
-        {"label": "GPU Hardware", "sub": "H100/B200 racks\nGlobally priced\n(~90% of unit cost)", "color": "00ACC1", "icon": "🖥"},
-        {"label": "FLOPs Output", "sub": "Compute services\nTraining (batch)\nInference (real-time)", "color": "F59E0B", "icon": "📊"},
+        {"label": "Electricity", "sub": "Grid power (pⱼᴱ)\nLocal price — only\ncountry-varying input", "color": "C67B5C", "icon": "⚡"},
+        {"label": "Cooling", "sub": "PUE overhead\nClimate-dependent\n(θⱼ → cooling cost)", "color": "A8624A", "icon": "🏭"},
+        {"label": "GPU Hardware", "sub": "H100/B200 racks\nGlobally priced\n(~90% of unit cost)", "color": "8B7355", "icon": "🖥"},
+        {"label": "FLOPs Output", "sub": "Compute services\nTraining (batch)\nInference (real-time)", "color": "4A7C59", "icon": "📊"},
     ]
 
     for i, st in enumerate(stages):
@@ -312,7 +322,7 @@ def main():
         clr = hex_to_rgb(st["color"])
 
         # Card
-        add_card(s1x, xPos, yPos, 2.2, 1.35, hex_to_rgb("1A2332"))
+        add_card(s1x, xPos, yPos, 2.2, 1.35, hex_to_rgb("352F2B"))
         # Top accent
         add_rect(s1x, xPos, yPos, 2.2, 0.05, clr)
         # Icon
@@ -331,13 +341,13 @@ def main():
                         align=PP_ALIGN.CENTER, valign=MSO_ANCHOR.MIDDLE)
 
     # Bottom strip: cost equation
-    add_rect(s1x, 0, 4.7, 10, 0.55, hex_to_rgb("111B27"))
+    add_rect(s1x, 0, 4.7, 10, 0.55, hex_to_rgb("2A2725"))
     add_rich_text(s1x, 0.5, 4.72, 9.0, 0.5, [
         {"text": "Unit cost:  ", "color": C.warm, "bold": True, "font_size": 12},
         {"text": "cⱼ = ", "color": C.textWhite, "font_size": 12},
         {"text": "electricity (~8%)", "color": C.accent, "bold": True, "font_size": 12},
         {"text": "  +  ", "color": C.textWhite, "font_size": 12},
-        {"text": "hardware (~90%)", "color": hex_to_rgb("00ACC1"), "bold": True, "font_size": 12},
+        {"text": "hardware (~90%)", "color": hex_to_rgb("8B7355"), "bold": True, "font_size": 12},
         {"text": "  +  ", "color": C.textWhite, "font_size": 12},
         {"text": "networking + construction (~2%)", "color": C.textMuted, "bold": True, "font_size": 12},
     ], valign=MSO_ANCHOR.MIDDLE)
@@ -357,22 +367,22 @@ def main():
     megaprojects = [
         {"region": "ARMENIA", "project": "Firebird / NVIDIA AI Factory",
          "detail": "$4B total (Phase 1: $500M) · 100 MW\n50,000 NVIDIA GPUs · US-approved chip transfer\nPM Pashinyan lobbied Trump directly",
-         "color": "F59E0B"},
+         "color": "C67B5C"},
         {"region": "SAUDI ARABIA", "project": "HUMAIN / NEOM / DataVolt",
          "detail": "$23B+ in AI partnerships · 11 data centers\n200 MW each · NEOM pivoting to DC hub\nPIF goal: 3rd-largest AI provider globally",
-         "color": "00BCD4"},
+         "color": "4A7C59"},
         {"region": "UAE", "project": "OpenAI–G42 Abu Dhabi",
          "detail": "5 GW campus · largest single AI site globally\nStargate international expansion\nKhazna 100 MW AI facility in Ajman",
-         "color": "00B4D8"},
+         "color": "8B7355"},
         {"region": "INDONESIA", "project": "Jakarta / Batam DC corridor",
          "detail": "Princeton Digital: $1B Jakarta campus\nMicrosoft & Google cloud regions\nLargest SE Asian market by demand",
-         "color": "4CAF50"},
+         "color": "5B8C5A"},
         {"region": "KENYA", "project": "Africa Data Centres / IXAfrica",
          "detail": "East Africa's DC hub · 1 GW pipeline\nCheap geothermal power (~$0.07/kWh)\nMicrosoft & Google African cloud regions",
-         "color": "E91E63"},
+         "color": "A8624A"},
         {"region": "MALAYSIA", "project": "Johor corridor (Microsoft / NTT)",
          "detail": "$34B investment boom · $6B market by 2031\nMicrosoft 2nd cloud region (SE Asia 3)\nCyberjaya: 22 existing + 9 upcoming DCs",
-         "color": "7C4DFF"},
+         "color": "6B7F5E"},
     ]
 
     for i, mp in enumerate(megaprojects):
@@ -383,7 +393,7 @@ def main():
         clr = hex_to_rgb(mp["color"])
 
         # Card
-        add_card(s1y, xPos, yPos, 3.0, 1.55, hex_to_rgb("1A2332"))
+        add_card(s1y, xPos, yPos, 3.0, 1.55, hex_to_rgb("352F2B"))
         # Left accent bar
         add_rect(s1y, xPos, yPos, 0.06, 1.55, clr)
         # Region label
@@ -397,7 +407,7 @@ def main():
                     font_size=9, color=C.textMuted)
 
     # Bottom bar
-    add_rect(s1y, 0, 4.65, 10, 0.6, hex_to_rgb("111B27"))
+    add_rect(s1y, 0, 4.65, 10, 0.6, hex_to_rgb("2A2725"))
     add_rich_text(s1y, 0.5, 4.65, 9.0, 0.6, [
         {"text": "Key question: ", "color": C.warm, "bold": True, "font_size": 12},
         {"text": "These countries have cheap energy and political will. Can they overcome sovereignty frictions and institutional gaps to capture AI compute demand?",
@@ -430,7 +440,7 @@ def main():
     # Right column — 3 stat callouts
     stats = [
         {"num": "2×", "label": "compute demand\ndoubling rate", "icon": "⚡"},
-        {"num": "85", "label": "countries\ncalibrated", "icon": "🌍"},
+        {"num": "10×", "label": "electricity price\nspread", "icon": "💡"},
         {"num": "$9B+", "label": "cloud exports\nannually", "icon": "🖥"},
     ]
     for i, st in enumerate(stats):
@@ -726,11 +736,11 @@ def main():
 
     # Supply stack bars
     bars = [
-        {"label": "KGZ", "w": 0.6, "cost": "$1.58", "color": "4DD0E1", "h_frac": 0.61},
-        {"label": "CAN", "w": 1.1, "cost": "$1.59", "color": "26C6DA", "h_frac": 0.71},
-        {"label": "KOS", "w": 0.45, "cost": "$1.60", "color": "00BCD4", "h_frac": 0.79},
-        {"label": "FIN", "w": 0.7, "cost": "$1.61", "color": "00ACC1", "h_frac": 0.86},
-        {"label": "...", "w": 0.55, "cost": "$1.65+", "color": "0097A7", "h_frac": 1.0},
+        {"label": "KGZ", "w": 0.6, "cost": "$1.58", "color": "D4956B", "h_frac": 0.61},
+        {"label": "CAN", "w": 1.1, "cost": "$1.59", "color": "C67B5C", "h_frac": 0.71},
+        {"label": "KOS", "w": 0.45, "cost": "$1.60", "color": "B0694D", "h_frac": 0.79},
+        {"label": "FIN", "w": 0.7, "cost": "$1.61", "color": "A8624A", "h_frac": 0.86},
+        {"label": "...", "w": 0.55, "cost": "$1.65+", "color": "8B5A3E", "h_frac": 1.0},
     ]
     barX = 5.4
     barBaseY = 3.0
@@ -881,7 +891,7 @@ def main():
         cell.fill.fore_color.rgb = C.darkBg
 
     for i, reg in enumerate(regimes):
-        row_bg = hex_to_rgb("F8FAFC") if i % 2 == 0 else C.cardBg
+        row_bg = hex_to_rgb("F2EFE9") if i % 2 == 0 else C.cardBg
         data = [reg["code"], reg["train"], reg["infer"], reg["desc"]]
         for j, val in enumerate(data):
             cell = tbl.cell(i + 1, j)
@@ -913,17 +923,17 @@ def main():
                 font_size=12, color=C.textMuted, italic=True)
 
     # Nested circles
-    outer = add_oval(s6b, 0.6, 1.15, 5.0, 3.3, hex_to_rgb("E0F7FA"))
+    outer = add_oval(s6b, 0.6, 1.15, 5.0, 3.3, hex_to_rgb("E8EDE4"))
     outer.line.color.rgb = C.accent
     outer.line.width = Pt(2.5)
     add_textbox(s6b, 0.8, 1.25, 2.5, 0.35, "Inference Exporters",
                 font_size=12, color=C.accent, bold=True)
 
-    inner = add_oval(s6b, 1.5, 1.75, 3.2, 2.2, hex_to_rgb("B2EBF2"))
-    inner.line.color.rgb = hex_to_rgb("0288D1")
+    inner = add_oval(s6b, 1.5, 1.75, 3.2, 2.2, hex_to_rgb("D4DFD0"))
+    inner.line.color.rgb = hex_to_rgb("4A7C59")
     inner.line.width = Pt(2.5)
     add_textbox(s6b, 2.1, 2.05, 2.0, 0.6, "Training\nExporters",
-                font_size=13, color=hex_to_rgb("0288D1"), bold=True, align=PP_ALIGN.CENTER)
+                font_size=13, color=hex_to_rgb("4A7C59"), bold=True, align=PP_ALIGN.CENTER)
 
     # Labels
     for text, x, y in [("Canada", 2.3, 2.65), ("Kyrgyzstan†", 2.3, 2.93)]:
@@ -936,15 +946,15 @@ def main():
                     font_size=10, color=C.accent, align=PP_ALIGN.CENTER)
 
     add_textbox(s6b, 2.7, 3.25, 0.6, 0.3, "EE",
-                font_size=10, color=hex_to_rgb("0288D1"), bold=True, align=PP_ALIGN.CENTER)
+                font_size=10, color=hex_to_rgb("4A7C59"), bold=True, align=PP_ALIGN.CENTER)
     add_textbox(s6b, 1.6, 3.85, 0.5, 0.25, "IE",
                 font_size=10, color=C.accent, bold=True, align=PP_ALIGN.CENTER)
 
     # Right cards
     add_card(s6b, 6.0, 1.15, 3.7, 1.65)
-    add_rect(s6b, 6.0, 1.15, 0.07, 1.65, hex_to_rgb("0288D1"))
+    add_rect(s6b, 6.0, 1.15, 0.07, 1.65, hex_to_rgb("4A7C59"))
     add_textbox(s6b, 6.25, 1.2, 3.3, 0.3, "Why nesting holds",
-                font_size=13, color=hex_to_rgb("0288D1"), bold=True)
+                font_size=13, color=hex_to_rgb("4A7C59"), bold=True)
     add_textbox(s6b, 6.25, 1.52, 3.3, 1.2,
                 "Training has no distance penalty (τ = 0), so a training exporter wins the global cost competition.\n\nThat same cost advantage dominates the latency markup for nearby buyers → it also wins inference locally.",
                 font_size=11, color=C.textDark)
@@ -996,7 +1006,7 @@ def main():
         tbl.columns[j].width = Inches(w)
 
     for i, row in enumerate(rank_rows):
-        row_bg = C.darkBg if i == 0 else (hex_to_rgb("F8FAFC") if (i - 1) % 2 == 0 else C.cardBg)
+        row_bg = C.darkBg if i == 0 else (hex_to_rgb("F2EFE9") if (i - 1) % 2 == 0 else C.cardBg)
         for j, val in enumerate(row):
             cell = tbl.cell(i, j)
             cell.text = val
@@ -1054,7 +1064,7 @@ def main():
         tbl.columns[j].width = Inches(w)
 
     for i, row in enumerate(sov_rows):
-        row_bg = C.darkBg if i == 0 else (hex_to_rgb("F8FAFC") if (i - 1) % 2 == 0 else C.cardBg)
+        row_bg = C.darkBg if i == 0 else (hex_to_rgb("F2EFE9") if (i - 1) % 2 == 0 else C.cardBg)
         for j, val in enumerate(row):
             cell = tbl.cell(i, j)
             cell.text = val
