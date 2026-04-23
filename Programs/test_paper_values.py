@@ -4009,3 +4009,402 @@ class TestDerivedRelationships:
                 )
             else:
                 assert p > 0 and ci > 0
+
+
+# ================================================================
+# PROSE-AGNOSTIC RELATIONSHIPS (skill: write-paper-tests)
+# ================================================================
+# The fixtures and tests below follow the "relationships, not phrasings"
+# principle: extract numeric claims from prose via regex and verify
+# them against the data pipeline. Designed to survive author rewrites.
+
+@pytest.fixture(scope="session")
+def docx_para_texts(docx_body_xml):
+    """Per-paragraph prose text (tables stripped). Use for prose-level
+    regex — the existing ``docx_text`` concatenates run text across
+    tables and causes false matches when cell values abut numeric text."""
+    import re
+    body_no_tables = re.sub(
+        r"<w:tbl\b[^>]*>.*?</w:tbl>", "", docx_body_xml, flags=re.DOTALL,
+    )
+    paras = re.findall(
+        r"<w:p\b[^>]*>(.*?)</w:p>", body_no_tables, re.DOTALL,
+    )
+    out = []
+    for p in paras:
+        runs = re.findall(
+            r"<(?:w:t|m:t)[^>]*>([^<]*)</(?:w:t|m:t)>", p,
+        )
+        t = "".join(runs).strip()
+        if t:
+            out.append(t)
+    return out
+
+
+@pytest.fixture(scope="session")
+def iso_to_name(calibration_data):
+    return {r["iso3"]: r["country"] for r in calibration_data}
+
+
+@pytest.fixture(scope="session")
+def name_to_iso(iso_to_name):
+    return {v: k for k, v in iso_to_name.items()}
+
+
+@pytest.fixture(scope="session")
+def docx_tables_v33():
+    """python-docx ``Document.tables`` handle on v33. Used only for
+    cell-by-cell data checks; prose goes through ``docx_para_texts``."""
+    from docx import Document
+    return Document(
+        str(DATA.parent / "Documents" / "flop_trade_model_v33.docx")
+    ).tables
+
+
+class TestProseAgnosticRelationships:
+    """Skill-style invariants (``write-paper-tests``). Verify numeric
+    claims, cross-references, table cell values, and inline arithmetic
+    without pinning to exact phrasings.
+
+    Categories (see skill): 4a membership, 4f anti-regression,
+    4g prose↔table↔figure correspondence, 4k bounds,
+    4m inline arithmetic, 4o equation numbering density.
+    """
+
+    # ─── 4g: cross-reference resolution ──────────────────────────────
+
+    def test_every_table_reference_has_caption(self, docx_para_texts):
+        """Every 'Table N' or 'Table AN' cited in prose must have a
+        corresponding caption. Catches dangling refs after renumbering."""
+        import re
+        full = "\n".join(docx_para_texts)
+        refs = set(re.findall(r"\bTable\s+(A?\d+)\b", full))
+        caption_re = re.compile(r"\bTable\s+(A?\d+)[.\s:]")
+        captions = set()
+        for p in docx_para_texts:
+            captions.update(caption_re.findall(p))
+        missing = sorted(refs - captions)
+        assert not missing, f"Table refs with no caption: {missing}"
+
+    def test_every_figure_reference_has_caption(self, docx_para_texts):
+        """Every 'Figure N' cited in prose must resolve to a caption."""
+        import re
+        full = "\n".join(docx_para_texts)
+        refs = set(re.findall(r"\bFigure\s+(\d+)\b", full))
+        caption_re = re.compile(r"\bFigure\s+(\d+)[.\s:]")
+        captions = set()
+        for p in docx_para_texts:
+            captions.update(caption_re.findall(p))
+        missing = sorted(refs - captions)
+        assert not missing, f"Figure refs with no caption: {missing}"
+
+    def test_equation_in_text_refs_within_declared_set(self, docx_para_texts):
+        """Every 'equation (N)' or 'Eq. (N)' cited in prose must be
+        within the declared equation-number set {1..6} ∪ {B.1..B.5}."""
+        import re
+        full = "\n".join(docx_para_texts)
+        declared_main = {str(n) for n in range(1, 7)}
+        declared_app = {f"B.{n}" for n in range(1, 6)}
+        valid = declared_main | declared_app
+        refs = set()
+        for m in re.finditer(
+            r"(?:equation|Eq\.?)\s*\(?([B\.\d]+)\)?", full,
+        ):
+            n = m.group(1).strip(".")
+            if re.fullmatch(r"B\.\d+|\d+", n):
+                refs.add(n)
+        bad = sorted(refs - valid)
+        assert not bad, f"Equation refs outside declared set: {bad}"
+
+    # ─── 4g / 4o: numbering density ──────────────────────────────────
+
+    def test_main_equations_1_to_6_all_numbered(self, docx_tables_v33):
+        """The six main numbered display equations are emitted as 1×2
+        tables (eq | right-aligned number). Verify that numbers (1)..(6)
+        each appear in such a caption cell with no gaps."""
+        found = set()
+        for tbl in docx_tables_v33:
+            if len(tbl.rows) != 1 or len(tbl.rows[0].cells) != 2:
+                continue
+            rhs = tbl.rows[0].cells[1].text.strip()
+            if rhs in ("(1)", "(2)", "(3)", "(4)", "(5)", "(6)"):
+                found.add(int(rhs.strip("()")))
+        missing = [n for n in range(1, 7) if n not in found]
+        assert not missing, f"Main equations missing numbers: {missing}"
+
+    def test_appendix_b_equations_b1_to_b5_all_numbered(self, docx_tables_v33):
+        """Appendix B display equations (B.1)..(B.5) — no gaps."""
+        found = set()
+        for tbl in docx_tables_v33:
+            if len(tbl.rows) != 1 or len(tbl.rows[0].cells) != 2:
+                continue
+            rhs = tbl.rows[0].cells[1].text.strip()
+            m = rhs.strip("()").strip()
+            if m.startswith("B."):
+                try:
+                    found.add(int(m.split(".")[1]))
+                except ValueError:
+                    pass
+        missing = [n for n in range(1, 6) if n not in found]
+        assert not missing, f"Appendix B eqs missing numbers: {missing}"
+
+    def test_main_table_numbering_dense(self, docx_para_texts):
+        """Prose references Tables 1..3 (main) and A1..AK (appendix),
+        no numeric gaps."""
+        import re
+        full = "\n".join(docx_para_texts)
+        main = sorted({int(m) for m in re.findall(r"\bTable\s+(\d+)\b", full)})
+        app = sorted({int(m) for m in re.findall(r"\bTable\s+A(\d+)\b", full)})
+        assert main == list(range(min(main), max(main) + 1)), (
+            f"Main-body table numbering has gaps: {main}"
+        )
+        assert app and app == list(range(min(app), max(app) + 1)), (
+            f"Appendix table numbering has gaps: {app}"
+        )
+
+    # ─── 4g: Table cells match source data ───────────────────────────
+
+    def test_table_a2_cr_cj_cells_match_cost_recovery_costs(
+        self, cost_recovery_costs, name_to_iso, docx_tables_v33,
+    ):
+        """Table A2 col (2) 'c_j' cells equal cost_recovery_costs at
+        the displayed 2-decimal precision. Catches renderer drift."""
+        tbl = docx_tables_v33[10]  # Table A2, 87 rows × 8 cols
+        mismatches = []
+        checked = 0
+        for row in tbl.rows[2:]:  # skip 2 header rows
+            country = row.cells[0].text.strip()
+            cr_cell = row.cells[4].text.strip()  # CR c_j
+            iso = name_to_iso.get(country)
+            if iso is None or not cr_cell.startswith("$"):
+                continue
+            try:
+                cell_val = float(cr_cell.lstrip("$"))
+            except ValueError:
+                continue
+            data_val = cost_recovery_costs[iso]
+            if abs(cell_val - round(data_val, 2)) > 0.015:
+                mismatches.append((country, cell_val, data_val))
+            checked += 1
+        assert checked >= 50, (
+            f"Only {checked} Table A2 rows parsed — header offset wrong?"
+        )
+        assert not mismatches, (
+            f"Table A2 CR cells mismatch data ({len(mismatches)}): "
+            f"first 3 = {mismatches[:3]}"
+        )
+
+    def test_table_a1_pue_cells_match_data(
+        self, calibration_data, name_to_iso, docx_tables_v33,
+    ):
+        """Table A1 PUE column values match PUE(θ_j) per the data."""
+        tbl = docx_tables_v33[9]  # Table A1
+        by_iso = {r["iso3"]: float(r["pue"]) for r in calibration_data}
+        mismatches = []
+        checked = 0
+        # Locate PUE column by header
+        header = [c.text.strip() for c in tbl.rows[0].cells]
+        pue_idx = next((i for i, h in enumerate(header) if "PUE" in h), None)
+        if pue_idx is None:
+            pytest.skip("PUE column not located by header")
+        for row in tbl.rows[1:]:
+            country = row.cells[0].text.strip()
+            iso = name_to_iso.get(country)
+            if iso not in by_iso:
+                continue
+            raw = row.cells[pue_idx].text.strip()
+            try:
+                cell = float(raw)
+            except ValueError:
+                continue
+            if abs(cell - round(by_iso[iso], 2)) > 0.015:
+                mismatches.append((country, cell, by_iso[iso]))
+            checked += 1
+        assert checked >= 50
+        assert not mismatches, (
+            f"Table A1 PUE cells mismatch ({len(mismatches)}): {mismatches[:3]}"
+        )
+
+    # ─── 4m: Inline arithmetic round-trip ────────────────────────────
+
+    def test_kyrgyzstan_wacc_inline_formula(self, docx_para_texts):
+        """Kyrgyzstan WACC note: w_e·r_e + w_d·r_d·(1−t) = r. The
+        paper's claimed operands must produce its claimed result."""
+        import re
+        target = None
+        for p in docx_para_texts:
+            if "WACC" in p and "60%" in p and "12.6%" in p:
+                target = p
+                break
+        assert target, "Kyrgyzstan WACC note paragraph not found"
+        m = re.search(
+            r"WACC\s*=\s*(\d+)%\s*\xd7\s*(\d+(?:\.\d+)?)%.*?"
+            r"(\d+)%\s*\xd7\s*(\d+(?:\.\d+)?)%\s*\xd7\s*"
+            r"\(\s*1\s*[−\-]\s*(\d+(?:\.\d+)?)%\s*\).*?"
+            r"=\s*(\d+(?:\.\d+)?)%",
+            target,
+        )
+        assert m, f"WACC formula regex did not match: {target[:200]}"
+        w_e, r_e, w_d, r_d, t, res = [float(x) / 100 for x in m.groups()]
+        # Weights should sum to 1 (structural check)
+        assert abs(w_e + w_d - 1.0) < 1e-9, (
+            f"equity + debt weights = {w_e + w_d}, not 1"
+        )
+        computed = w_e * r_e + w_d * r_d * (1 - t)
+        assert abs(computed - res) < 5e-4, (
+            f"WACC {w_e}*{r_e} + {w_d}*{r_d}*(1-{t}) = {computed:.4f}, "
+            f"paper claims {res:.4f}"
+        )
+
+    def test_kyrgyzstan_capex_share_consistency(self, docx_para_texts):
+        """'$5850M of the $6506M total CAPEX (90%)': claimed share
+        must match operands."""
+        import re
+        for p in docx_para_texts:
+            m = re.search(
+                r"\$(\d[\d,]*)M\s+of\s+the\s+\$(\d[\d,]*)M\s+total\s+CAPEX\s*"
+                r"\((\d+(?:\.\d+)?)%\)",
+                p,
+            )
+            if m:
+                num = float(m.group(1).replace(",", ""))
+                den = float(m.group(2).replace(",", ""))
+                claimed = float(m.group(3)) / 100
+                computed = num / den
+                assert abs(computed - claimed) < 0.01, (
+                    f"{num}/{den} = {computed:.3f}, paper claims {claimed}"
+                )
+                return
+        pytest.skip("CAPEX share sentence not found in prose")
+
+    # ─── 4k: Share / probability bounds ──────────────────────────────
+
+    def test_prose_parenthetical_shares_in_0_100(self, docx_para_texts):
+        """'(N%)' parentheticals in prose are bounded in [0, 100]."""
+        import re
+        pat = re.compile(r"\(\s*(\d+(?:\.\d+)?)\s*%\s*\)")
+        violations = []
+        for p in docx_para_texts:
+            for m in pat.finditer(p):
+                v = float(m.group(1))
+                if not (0.0 <= v <= 100.0):
+                    violations.append(v)
+        assert not violations, f"Out-of-range % parentheticals: {violations}"
+
+    def test_hhi_values_in_0_to_1(self, docx_para_texts):
+        """Any 'HHI = N.NNN' or 'HHI_T = N.NNN' in prose must be in
+        [0, 1] (unit-interval HHI, not basis points)."""
+        import re
+        pat = re.compile(r"HHI(?:_\w+)?\s*=\s*(\d+(?:\.\d+)?)")
+        for p in docx_para_texts:
+            for m in pat.finditer(p):
+                v = float(m.group(1))
+                assert 0.0 <= v <= 1.0005, (
+                    f"HHI outside [0, 1]: {v} in '{p[:120]}...'"
+                )
+
+    def test_demand_shares_cited_in_prose_sum_to_feasible_total(
+        self, docx_para_texts, demand_weights,
+    ):
+        """Where the paper cites a cluster of top demand shares in a
+        single parenthesized enumeration, the sum of the cited shares
+        must not exceed 100%. Catches a broken renumbering that would
+        make shares overlap."""
+        import re
+        # Match "Country (N%), Country (N%), ..." patterns (>=2)
+        pat = re.compile(
+            r"(?:[A-Z][A-Za-z ]+\s*\(\s*\d+(?:\.\d+)?\s*%\s*\)\s*,\s*){2,}"
+            r"[A-Z][A-Za-z ]+\s*\(\s*\d+(?:\.\d+)?\s*%\s*\)"
+        )
+        for p in docx_para_texts:
+            for m in pat.finditer(p):
+                chunk = m.group()
+                vals = [
+                    float(x) for x in re.findall(
+                        r"\(\s*(\d+(?:\.\d+)?)\s*%\s*\)", chunk,
+                    )
+                ]
+                assert sum(vals) <= 100.5, (
+                    f"Cluster shares sum > 100: {vals} in '{chunk}'"
+                )
+
+    # ─── 4a: Membership — prose decimals are legitimate values ───────
+
+    def test_prose_percent_decimals_are_legitimate_values(
+        self, docx_para_texts, demand_weights, calibration_data,
+    ):
+        """Every '\\d+\\.\\d+%' or '\\d+\\.\\d+ percent' in prose must
+        match SOME legitimate data value at 1-dp precision. Catches
+        stale numbers surviving prose rewrites.
+
+        Legitimate set: cost shares, demand shares, HHI % forms,
+        welfare metrics, WACC bands, known parameter percentages."""
+        import re
+        omega, _ = demand_weights
+        legit = {round(w * 100, 1) for w in omega.values()}
+        legit |= {0.0, 100.0}
+        # Cost shares (hw/elec/constr) at 1 dp for every country
+        for r in calibration_data:
+            total = float(r["c_j_total"])
+            legit.add(round(float(r["c_j_hardware"]) / total * 100, 1))
+            legit.add(round(float(r["c_j_electricity"]) / total * 100, 1))
+            legit.add(round(
+                float(r["c_j_construction"]) / total * 100, 1))
+        # Welfare / HHI / model parameter values cited in prose
+        legit.update({
+            # Welfare gains (bilateral, uniform)
+            4.7, 17.0,
+            # Welfare-as-spending-share
+            1.6, 9.5,
+            # HHI values rendered as percent
+            46.0, 98.6, 99.8,
+            # WACC bands + Kyrgyzstan IRR/WACC
+            8.0, 12.0, 15.0, 18.0, 12.6, 17.6, 14.4,
+            # Paper-cited data factoids
+            1.5, 3.8, 53.0, 77.0, 90.0, 99.8,
+            # Hardware share bounds + spread
+            2.0,
+            # Cited aggregates from literature (IMF, Aykut, IEA)
+            0.2, 3.4, 8.9, 40.0, 43.1, 25.6, 2.9, 2.6, 2.1,
+        })
+        pat = re.compile(r"(\d+\.\d+)\s*(?:%|percent\b(?!age))")
+        bad = []
+        for p in docx_para_texts:
+            for m in pat.finditer(p):
+                v = round(float(m.group(1)), 1)
+                if v not in legit:
+                    lo = max(0, m.start() - 40)
+                    hi = min(len(p), m.end() + 25)
+                    bad.append((v, p[lo:hi].replace("\n", " ")))
+        assert not bad, (
+            "Prose decimals not matched to data "
+            f"({len(bad)} unique):\n  "
+            + "\n  ".join(f"{v}: ...{c}..." for v, c in bad[:8])
+        )
+
+    # ─── 4f: Anti-regression ─────────────────────────────────────────
+
+    def test_v32_cr_top5_ordering_phrasing_absent(self, docx_para_texts):
+        """v32 CR top-5: KGZ / CAN / ETH / XKX / TJK. v33 under
+        symmetric LRMC: KGZ / ETH / XKX / CAN / TJK (Canada drops to
+        rank 4). Detect any stale 'Canada second' phrasing that would
+        contradict v33's ranking."""
+        full = "\n".join(docx_para_texts).lower()
+        forbidden = [
+            "canada ranks second",
+            "canada ranked second",
+            "canada is second",
+            "canada (ranked 2)",
+            "canada, ranked 2,",
+        ]
+        bad = [s for s in forbidden if s in full]
+        assert not bad, f"Stale Canada-second phrasing: {bad}"
+
+    def test_no_stale_v28_floor_language_in_v33(self, docx_para_texts):
+        """v28 had an institutional-efficiency 'floor' (ξ_floor = 0.30);
+        removed in v29. Ensure no floor-language survives in v33."""
+        full = "\n".join(docx_para_texts).lower()
+        for bad in ("floor of 0.30", "institutional floor",
+                    "institutional-efficiency floor",
+                    "with a floor of 0.3"):
+            assert bad not in full, f"Stale v28 floor phrase: {bad!r}"
