@@ -3708,6 +3708,35 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'GPU generation choices.'
     )
 
+    # Form of the sovereignty wedge — referee 5.x polish
+    p, cur = mkp(doc, body, cur, space_before=6)
+    add_italic(p, 'Form of the sovereignty wedge. ')
+    omath(p, [_msub('λ', 'jk')])
+    p.add_run(
+        ' is modeled as an ad valorem markup on the cost of compute. '
+        'While standard in services trade, this functional form is a '
+        'simplification. Government cloud security certifications '
+        '(e.g., SecNumCloud, IRAP), sanctions and export-control '
+        'screening, and bilateral digital-services agreements impose '
+        'mostly fixed costs that add an entry margin on top of the '
+        'cost-comparison margin, and thus raise the entry threshold '
+        'for developing-country exporters. Our model also treats '
+    )
+    omath(p, [_msub('λ', 'jk')])
+    p.add_run(
+        ' as fixed, but in practice, sanctions, export-control '
+        'revisions, and regulatory reversals arrive as exogenous '
+        'shocks. The impact of these two assumptions on the stability '
+        'of our results could be assessed through a Monte Carlo '
+        'simulation using stochastic '
+    )
+    omath(p, [_msub('λ', 'jk')])
+    p.add_run(
+        ' and fixed costs. We expect our main finding to hold — '
+        'both modifications cut against developing-country entrants '
+        '— and leave the formal version to future work.'
+    )
+
     # Cost of capital — v33: promoted from caveat to headline (referee 3.1)
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Cost of capital. ')
