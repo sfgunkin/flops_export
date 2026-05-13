@@ -3739,16 +3739,15 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     )
     omath(p, [_msub('λ', 'jk')])
     p.add_run(
-        ' as fixed, but in practice, sanctions, export-control '
-        'revisions, and regulatory reversals arrive as exogenous '
-        'shocks. The impact of these two assumptions on the stability '
-        'of our results could be assessed through a Monte Carlo '
-        'simulation using stochastic '
+        ' as fixed, but in practice, sanctions, export-control revisions, '
+        'and regulatory reversals arrive as exogenous shocks. The impact '
+        'of these two assumptions on the stability of our results could '
+        'be assessed through a Monte Carlo simulation using stochastic '
     )
     omath(p, [_msub('λ', 'jk')])
     p.add_run(
-        ' and fixed costs. We expect our main finding to hold — '
-        'both modifications cut against developing-country entrants '
+        ' and fixed costs. We expect our main finding to hold '
+        '— both modifications cut against developing-country entrants '
         '— and leave the formal version to future work.'
     )
 
@@ -3789,9 +3788,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'home WACC \u2014 but partial ownership, local debt, sovereign '
         'guarantees, and the pass-through of country risk to operating '
         'agreements reintroduce the channel in proportion to the host '
-        'country’s financial exposure. A pure-hyperscaler case is '
-        'therefore a '
-        'boundary, not a baseline. The paper treats spec (4) as the '
+        'country’s financial exposure. A pure-hyperscaler case is therefore '
+        'a boundary, not a baseline. The paper treats spec (4) as the '
         'more realistic benchmark for questions about whether a developing '
         'country can capture compute-export rents with domestic capital.'
     )
