@@ -1449,7 +1449,9 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
         'This paper\u2019s findings, interpretations, and conclusions are entirely '
         'those of the author and do not necessarily represent the views of the '
         'author\u2019s employer, the World Bank, its Executive Directors, or the '
-        'countries they represent. Michael Lokshin: mlokshin@worldbank.org', 1,
+        'countries they represent. Michael Lokshin: mlokshin@worldbank.org. '
+        'I thank Ivan Torre, Christine Ann McDaniel, and Erhan Artuc for '
+        'their constructive comments.', 1,
     )
 
     # Version stamp
