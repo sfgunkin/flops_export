@@ -2782,7 +2782,7 @@ class TestDocumentContent:
     def test_welfare_cost_qualified(self, docx_text):
         """Welfare cost sentence includes aggregate/modest qualifier."""
         assert (
-            "significant in aggregate dollars but modest as a share "
+            "high in aggregate dollars but modest as a share "
             "of compute spending"
         ) in docx_text
 
