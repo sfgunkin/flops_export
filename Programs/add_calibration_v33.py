@@ -1145,6 +1145,7 @@ CITATIONS = [
     ('Bailey, Strezhnev, and Voeten', '2017', 'BaileyEtAl2017', 'Bailey, M.'),
     ('Benz and Jaax', '2020', 'BenzJaax2020', 'Benz, S.'),
     # v31: new references
+    ('Alvarez et al.', '2026', 'AlvarezEtAl2026', 'Alvarez, F.'),
     ('Caoui and Steck', '2025', 'CaouiSteck2025', 'Caoui, E.'),
     ('Aykut et al.', '2026', 'AykutEtAl2026', 'Aykut, D.'),
     ('Chandramowli et al.', '2024', 'Chandramowli2024', 'Chandramowli, S.'),
@@ -1276,6 +1277,7 @@ ITALIC_IN_REFS = {
     'Antr\u00E0s': 'Quarterly Journal of Economics',
     # v31
     'Caoui': 'Information Economics and Policy',
+    'Alvarez': 'NBER Working Paper',
     'Aykut': 'Watch This Space',
     'Chandramowli': 'Rhodium Group Analysis',
     'Straub': 'Infrastructure Foundations: From Current Assets to Future Growth',
@@ -1556,7 +1558,8 @@ def write_introduction(doc, body, hmap):
     )
     add_italic(p, 'FLOP exporting')
     p.add_run(
-        '. Rather than '
+        ', where FLOP denotes floating-point operations, the standard '
+        'unit of computational work. Rather than '
         'exporting raw energy resources as primary commodities, '
         'countries can use cheap electricity to produce higher-value-added digital services. '
         'For resource-rich developing countries, FLOP exporting could offer a route up the '
@@ -1990,7 +1993,7 @@ def write_trade_costs(doc, body, hmap):
     # v33: Theoretical scaffolding for the bilateral premium (referee 3.3)
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Two established literatures motivate this functional form. The '
+        'Two established bodies of literature motivate this functional form. The '
         'multiplicative wedge '
     )
     omath(p, [_t('(1 + '), _msub('\u03BB', 'ij'), _t(')')])
@@ -3027,7 +3030,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     )
     omath(p, [_msub('\u03BB', 'ij'), _t(' = \u221E')])
     p.add_run(
-        ') rather than assigned a finite weight. The continuous weights '
+        ') rather than being assigned a finite weight. The continuous weights '
         'are calibrated so that an intra-bloc pair with data-adequacy '
         '(for example, two EU member states) faces '
     )
@@ -3310,9 +3313,13 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         for iso, mu in top_mu:
             co = next((r["country"] for r in cal if r["iso3"] == iso), iso)
             mu_labels.append(f'{co} (${mu:.3f}/hr)')
+        if len(mu_labels) >= 2:
+            mu_joined = ', '.join(mu_labels[:-1]) + ', and ' + mu_labels[-1]
+        else:
+            mu_joined = mu_labels[0]
         p.add_run(
             'The largest shadow values of grid capacity are in '
-            f'{", ".join(mu_labels)}, '
+            f'{mu_joined}, '
             'indicating modest returns to capacity expansion. '
         )
     # Top inference exporters
@@ -3494,7 +3501,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_msub('p', 'T'), _t(' < '), _msub('c', 'k'),
               _t(' \u2264 (1 + '), _msub('\u03BB', 'ij'), _t(') \u00b7 '), _msub('p', 'T')])
     p.add_run(
-        ' produce domestically at above-world-price costs). '
+        ' produce domestically at above-world-price costs. '
         'Under capacity constraints, both components are smaller than in the unconstrained '
         'model because the higher world price narrows the gap between domestic and import costs. '
         f'The demand-weighted welfare cost is {demand_data["welfare_pct"]:.1f}% of '
@@ -3517,7 +3524,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'Some domestic processing preference is justified for confidential '
         'data, but much of the current policy push extends the sovereignty '
         'logic to routine commercial computation. The welfare cost is '
-        'significant in aggregate dollars but modest as a share of compute '
+        'high in aggregate dollars but modest as a share of compute '
         'spending. The bilateral premium shifts most countries toward '
         'domestic production, forgoing the cost savings from specialization. '
         'The premium is also partly endogenous to the absence of credible '
@@ -3654,11 +3661,12 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'North Africa; hyperscale data centers can consume billions of '
         'liters of water annually, and next-generation high-density GPU '
         'clusters increasingly rely on liquid-cooling technologies, '
-        'intensifying this pressure in water-stressed economies. Fiscal '
-        'sustainability is a concern: regulated tariffs in many developing '
-        'countries cover operating expenses but not full capital cost, so '
-        'exporting compute at scale while the domestic energy sector cannot '
-        'maintain its capital stock may prove politically unsustainable. '
+        'intensifying this pressure in water-stressed economies. Regulated '
+        'tariffs in many developing countries cover operating expenses but '
+        'not the full capital cost, raising concerns about financial '
+        'sustainability. Exporting compute at scale while the domestic '
+        'energy sector cannot maintain its capital stock may prove '
+        'politically unsustainable. '
         'Finally, logistics costs and local distribution '
         'markups can raise effective GPU prices by 5\u201315% in developing '
         'countries that are not subject to export bans, eroding the thin '
@@ -3692,7 +3700,12 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'wholesale electricity prices by roughly 19 percent between 2025 '
         'and 2028 (Chandramowli et al. 2024), and AI data-center expansion '
         'alone could increase retail prices by 8\u20139 percent by 2030 '
-        '(IMF 2025). For small grids such as Kyrgyzstan\u2019s, the '
+        '(IMF 2025). Alvarez et al. (2026) find that in the US, a '
+        'one-unit increase in log cumulative data-center revenue raises '
+        'local electricity prices by roughly 0.9 percent, significant at '
+        'the 1 percent level in every horizon; counties that ever host a '
+        'data center exhibit a 3.9 percent level effect on retail prices. '
+        'For small grids such as Kyrgyzstan\u2019s, the '
         'proportional impact would be substantially larger, further eroding '
         'the cost advantages documented above.'
     )
@@ -3756,8 +3769,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         ' reports the cost-recovery ranking with hardware amortized at '
         'each country\u2019s income-group WACC (HIC 8%, UMIC 12%, LMIC 15%, '
-        'LIC 18%). Under this specification the advantage of cheap-energy '
-        'developing countries compresses substantially, and the regime '
+        'LIC 18%). Under this specification, the advantage of cheap-energy '
+        'developing countries compresses, and the regime '
         'classifications shift accordingly.'
     )
 
@@ -3775,8 +3788,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'finances, and operates the facility outright, it may fund at its '
         'home WACC \u2014 but partial ownership, local debt, sovereign '
         'guarantees, and the pass-through of country risk to operating '
-        'agreements reintroduce the channel in proportion to host-country '
-        'financial exposure. A pure-hyperscaler case is therefore a '
+        'agreements reintroduce the channel in proportion to the host '
+        'country’s financial exposure. A pure-hyperscaler case is '
+        'therefore a '
         'boundary, not a baseline. The paper treats spec (4) as the '
         'more realistic benchmark for questions about whether a developing '
         'country can capture compute-export rents with domestic capital.'
@@ -5957,6 +5971,10 @@ def write_references(doc, body, refs):
     new_refs = [
         'Asian Development Bank. (2020). \u201CToktogul Rehabilitation Project Phase 3: '
         'Sector Assessment.\u201D Asian Development Bank. Report No. 49013-002.',
+
+        'Alvarez, F., Argente, D., Chow, J., and D. Van Patten. (2026). '
+        '\u201CData Centers and Local Economies in the Age of AI: '
+        'A Shift-Share Approach.\u201D NBER Working Paper No. 35194.',
 
         'Aykut, D., S. Ozyurt, K. Jung, and E. Vergara Cobos. (2026). '
         '\u201CData Center and AI Investment in EMDEs: Risks and Opportunities.\u201D '
