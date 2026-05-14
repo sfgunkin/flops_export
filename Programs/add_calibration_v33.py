@@ -1959,16 +1959,17 @@ def write_trade_costs(doc, body, hmap):
     )
     p.paragraph_format.space_after = Pt(2)
 
-    # v33: Eq. (2) rewritten — S_{ij} removed from the linear form to
-    # eliminate the contradiction between the equation (finite w_3·S) and
-    # the text (λ = ∞ for sanctioned pairs). Sanctions handled as corner
-    # case above (referee validity audit).
+    # v33 (user edit, May 14): Eq. (2) rewritten as inline piecewise to
+    # make the sanctions corner case explicit alongside the linear wedge.
+    # S_{ij}=1 → λ=∞; otherwise the additive G/R form applies. Literal
+    # braces typed inline; (1 − R_ij) parens kept.
     _, cur = omath_display(doc, body, cur, [
-        _msub('\u03BB', 'ij'), _t(' = '),
+        _msub('\u03BB', 'ij'), _t(' = {'),
+        _t('\u221e if '), _msub('S', 'ij'), _t(' = 1; '),
         _msub('w', '1'), _t(' \u00b7 '),
         _msub('G', 'ij'), _t(' + '),
         _msub('w', '2'), _t(' \u00b7 (1 \u2212 '),
-        _msub('R', 'ij'), _t(').'),
+        _msub('R', 'ij'), _t(') otherwise}.'),
     ], eq_num='2')
 
     # v33: Theoretical scaffolding for the bilateral premium (referee 3.3)
