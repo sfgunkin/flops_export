@@ -1157,6 +1157,8 @@ CITATIONS = [
     ('Anderson and Marcouiller', '2002', 'AndersonMarcouiller2002',
      'Anderson, J.E.'),
     ('Antr\u00E0s', '2003', 'Antras2003', 'Antr\u00E0s, P.'),
+    # v33: ML scaling trends citation
+    ('Sevilla et al.', '2022', 'SevillaEtAl2022', 'Sevilla, J.'),
 ]
 
 # Auto-generate CITE_MAP: both "Author (Year)" and "Author Year" forms
@@ -1541,11 +1543,11 @@ def write_introduction(doc, body, hmap):
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'The expansion of artificial intelligence drives the demand for computational '
-        'resources. The compute used to train the largest AI '
-        'models has been doubling every six months since 2010 (Epoch AI 2024). '
-        'Data centers accounted for approximately 1.5% of global electricity demand in '
-        '2024, and that share is projected to more than double by 2030 '
-        '(IEA 2025).'
+        'resources. The compute used to train the machine learning '
+        'models (ML) has been doubling every six months since 2010 '
+        '(Sevilla et al. 2022). In 2024, data centers accounted for approximately '
+        '1.5% of global electricity demand, and that share is projected to exceed 3% '
+        'by 2030 (IEA 2025).'
     )
     # footnote 2 removed (unclear)
 
@@ -1573,32 +1575,13 @@ def write_introduction(doc, body, hmap):
     p.add_run(
         'Several megaprojects confirm that FLOP exporting is technically and commercially '
         'feasible. Armenia is deploying 50,000 GPUs as a part of a $4 billion '
-        'investment (Firebird 2026). Kenya, Saudi Arabia, and Malaysia have each attracted '
-        'billion-dollar data center commitments, '
+        'investment (Firebird 2026). Kenya, Saudi Arabia, and Malaysia have attracted '
+        'billion-dollar investments in data centers. '
         'Google has committed $15 billion to India, and OpenAI has proposed '
         'a $25 billion \u201CStargate Argentina\u201D complex (Straub et al. 2026). '
-        'Announced global data-center FDI reached over $310 billion in 2025, '
-        'with emerging markets and developing economies (EMDEs) accounting '
-        'for roughly 40 percent of projects '
-        '(Aykut et al. 2026). '
-        'Cloud computing exports already exceed '
-        '$9 billion annually (World Bank 2025). '
-        'If Kyrgyzstan builds a 40 MW AI data center, it could generate annual '
-        'revenue of $630\u2013950 million at wholesale contract rates, equivalent '
-        'to over 15% of Kyrgyzstan\u2019s $3.8 billion in goods exports '
-        '(World Bank 2024).'
-    )
-    make_footnote(
-        p,
-        'At $0.038/kWh electricity, a 40 MW facility houses approximately '
-        '53,000 GPUs with production costs of $453 million per year. A Kyrgyz '
-        'operator would most likely sell at wholesale or long-term contract '
-        'rates of roughly $0.80\u20131.20/GPU-hour, yielding gross revenue of '
-        '$630\u2013950 million. Hyperscaler retail rates '
-        '($2.00\u20132.50/GPU-hour) represent an upper bound that is unlikely '
-        'for a new market entrant. Even at the wholesale lower bound, this '
-        'exceeds 15% of Kyrgyzstan\u2019s $3.8 billion in goods exports '
-        '(2024).', 5,
+        'Global data-center FDI reached over $310 billion in 2025 '
+        '(Aykut et al. 2026) and annual cloud computing exports exceed '
+        '$9 billion (World Bank 2025).'
     )
 
     # Para 9: First paper + contributions
@@ -1620,11 +1603,10 @@ def write_introduction(doc, body, hmap):
     # Para 11: Calibration findings preview
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'The calibration reveals that cheap electricity and favorable cooling conditions '
-        'are necessary but not sufficient for competitive compute exporting. Hardware '
-        'amortization accounts for approximately 90 percent of the compute unit cost and '
-        'is identical across countries, compressing the total cost spread to '
-        '12\u201320 percent. '
+        'Our calibration exercise reveals that cheap electricity and favorable cooling '
+        'conditions are necessary but not sufficient for competitive compute exporting. '
+        'Hardware amortization accounts for approximately 90 percent of the compute unit '
+        'cost, compressing the total cost spread to 12\u201320 percent. '
         'Several developing countries rank among the cheapest producers under cost-recovery '
         'pricing, but under the bilateral sovereignty specification, trust deficits eliminate '
         'all developing-country exports. '
@@ -1632,8 +1614,7 @@ def write_introduction(doc, body, hmap):
         'compute cost stack, a 10-percentage-point gap in the weighted average cost of '
         'capital between OECD hyperscalers (8%) and locally financed developing-country '
         'operators (18%) adds roughly $0.29/GPU-hour to unit cost \u2014 about four times '
-        'the electricity-cost spread across the top 20 countries (Calcaterra et al. 2024; '
-        'see Table 3, column (4)). '
+        'the electricity-cost spread across the top 20 countries (Calcaterra et al. 2024). '
         'For energy-rich developing countries, the limiting factor is not electricity cost '
         'but the institutional credibility needed to overcome bilateral trust deficits '
         'and compress the cost of capital.'
@@ -1681,8 +1662,8 @@ def write_literature(doc, body, hmap):
         'cooling costs. '
         'Liu et al. (2023) study data center placement under renewable energy constraints. '
         'In international trade theory, Brainard (1997) formalizes the proximity-concentration '
-        'trade-off between serving a market locally and concentrating production abroad, '
-        'and Helpman et al. (2004) extend this to heterogeneous firms choosing between '
+        'trade-off between serving a market locally and concentrating production abroad. '
+        'Helpman et al. (2004) extend this to heterogeneous firms choosing between '
         'exporting and FDI.'
     )
 
@@ -1818,7 +1799,7 @@ def write_production_technology(doc, body, hmap):
     p.add_run(' and ')
     omath(p, [_v('\u03B7')])
     p.add_run(
-        ' are determined in global hardware markets and are common across countries.'
+        ' are determined in global hardware markets.'
     )
     make_footnote(
         p,
@@ -1847,7 +1828,7 @@ def write_production_technology(doc, body, hmap):
         _v('\u03C6'), _t(' + '), _v('\u03B4'), _t(' \u00b7 max(0, '),
         _msub('\u03B8', 'j'), _t(' \u2212 '), _mbar('\u03B8'), _t('),'),
     ])
-    p.add_run('where ')
+    p.add_run(' where ')
     omath(p, [_v('\u03C6')])
     p.add_run(' is the base PUE at or below the free-cooling threshold ')
     omath(p, [_mbar('\u03B8')])
@@ -1976,7 +1957,7 @@ def write_trade_costs(doc, body, hmap):
     p.add_run(
         '. For all other (non-sanctioned) pairs, the bilateral premium is:'
     )
-    p.paragraph_format.space_after = Pt(4)
+    p.paragraph_format.space_after = Pt(2)
 
     # v33: Eq. (2) rewritten — S_{ij} removed from the linear form to
     # eliminate the contradiction between the equation (finite w_3·S) and
@@ -2009,11 +1990,10 @@ def write_trade_costs(doc, body, hmap):
     omath(p, [_v('i')])
     p.add_run(
         '\u2019s services above the seller\u2019s own cost. The linear '
-        'additive structure of the three components '
+        'additive structure of the two components '
     )
-    omath(p, [_msub('G', 'ij'), _t(', '),
-              _msub('R', 'ij'), _t(', '),
-              _msub('S', 'ij')])
+    omath(p, [_msub('G', 'ij'), _t(' and '),
+              _msub('R', 'ij')])
     p.add_run(
         ' treats geopolitical, regulatory, and sanctions frictions as '
         'separable contributions to the wedge, consistent with the '
@@ -2024,18 +2004,17 @@ def write_trade_costs(doc, body, hmap):
     # Second scaffolding paragraph: microfoundation
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'The microfoundation for why the wedge scales with bilateral '
-        'institutional alignment is the incomplete-contracts and '
-        'insecure-property-rights view of international trade (Anderson '
-        'and Marcouiller 2002, Antr\u00E0s 2003). Compute trade is '
+        'The wedge dependence on bilateral institutional alignment follows '
+        'from the incomplete-contracts theory (Anderson and Marcouiller '
+        '2002, Antr\u00E0s 2003). Compute trade is '
         'contract-intensive: the buyer hands sensitive data to a remote '
         'seller and relies on the seller\u2019s jurisdiction to enforce '
         'confidentiality, service-level obligations, and, in many '
         'applications, the buyer\u2019s ability to retrieve or delete its '
-        'data. Where these contracts are weakly enforceable, the buyer '
-        'discounts the seller\u2019s effective price, and the size of the '
-        'discount varies systematically with the pair-specific strength of '
-        'the enforcement environment: political alignment '
+        'data. In countries where these contracts are weakly enforceable, '
+        'the buyer discounts the seller\u2019s effective price, and the size of '
+        'the discount varies with the pair-specific strength of '
+        'the enforcement environment. Political alignment '
     )
     omath(p, [_msub('G', 'ij')])
     p.add_run(' proxies dispute-resolution willingness, mutual data '
@@ -6121,6 +6100,11 @@ def write_references(doc, body, refs):
 
         'Blinder, A. (2006). \u201COffshoring: The Next Industrial Revolution?\u201D '
         'Foreign Affairs, 85(2): 113\u2013128.',
+
+        'Sevilla, J., L. Heim, A. Ho, T. Besiroglu, M. Hobbhahn, and '
+        'P. Villalobos. (2022). \u201CCompute Trends across Three Eras of '
+        'Machine Learning.\u201D arXiv Working Paper No. 2202.05924. '
+        'https://doi.org/10.48550/arXiv.2202.05924.',
 
         'Stojkoski, V., P. Koch, E. Coll, and C. A. Hidalgo. (2024). '
         '\u201CEstimating Digital Product Trade through Corporate Revenue Data.\u201D '
