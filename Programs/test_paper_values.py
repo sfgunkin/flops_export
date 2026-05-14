@@ -3661,11 +3661,14 @@ class TestWACCPromotedInIntro:
         intro = docx_text.split('2. Related Literature')[0]
         assert 'Calcaterra' in intro
 
-    def test_intro_points_to_table3_col4(self, docx_text):
-        """The intro directs the reader to Table 3, column (4)."""
+    def test_intro_cites_wacc_channel(self, docx_text):
+        """The intro must describe the WACC channel quantitatively
+        (user removed the explicit Table 3 col-4 pointer in v33; the
+        substantive WACC bridge — 8%/18% bands and the $0.29/GPU-hr
+        gap — must still appear)."""
         intro = docx_text.split('2. Related Literature')[0]
-        assert 'Table 3' in intro
-        assert 'column (4)' in intro or 'col. (4)' in intro
+        assert '8%' in intro and '18%' in intro
+        assert '0.29' in intro
 
     def test_table3_has_wacc_header(self, docx_text):
         """Table 3's group-header row contains the WACC spec title."""
