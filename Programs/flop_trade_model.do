@@ -20,7 +20,7 @@ set more off
 set type double
 
 * ── Paths ─────────────────────────────────────────────────────────────────────
-global root "F:/onedrive/__documents/papers/FLOPsExport"
+global root "F:/onedrive/__documents/papers/_Submitted/FLOPsExport"
 global data "$root/Data"
 global raw  "$root/Data/raw"
 global out  "$root/Data/stata_results"

@@ -17,7 +17,7 @@ from netCDF4 import Dataset
 import geopandas as gpd
 from shapely.geometry import Point
 
-DATA = pathlib.Path(r"F:\onedrive\__documents\papers\FLOPsExport\Data")
+DATA = pathlib.Path(r"F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Data")
 NC_FILE = DATA / "9c1731acf1918646b171f5be7afaa012.nc"
 
 # ── 1. Load ERA5 data ──────────────────────────────────────────────────────

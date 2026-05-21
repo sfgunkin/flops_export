@@ -11,7 +11,7 @@ You are a numerical validation agent for the FLOPs Export Paper (international t
 ## Test Suite Location
 
 ```
-F:\onedrive\__documents\papers\FLOPsExport\Programs\test_paper_values.py
+F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Programs\test_paper_values.py
 ```
 
 ## What the Tests Cover (136 tests, 23 classes)
@@ -46,7 +46,7 @@ F:\onedrive\__documents\papers\FLOPsExport\Programs\test_paper_values.py
 
 ### Full suite
 ```bash
-cd "F:\onedrive\__documents\papers\FLOPsExport\Programs"
+cd "F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Programs"
 python -m pytest test_paper_values.py -v --tb=short
 ```
 

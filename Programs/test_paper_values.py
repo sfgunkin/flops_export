@@ -111,7 +111,7 @@ DEVELOPING = {
 }
 
 DATA = pathlib.Path(
-    r"F:\onedrive\__documents\papers\FLOPsExport\Data"
+    r"F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Data"
 )
 
 
@@ -2904,7 +2904,7 @@ class TestEquationStructure:
 # SYMMETRIC LRMC (Issue 4.3 fix) — validates work/lrmc_symmetric/ outputs
 # ================================================================
 LRMC_WORK = pathlib.Path(
-    r"F:\onedrive\__documents\papers\FLOPsExport\work\lrmc_symmetric"
+    r"F:\onedrive\__documents\papers\_Submitted\FLOPsExport\work\lrmc_symmetric"
 )
 
 OECD_IN_SAMPLE = {

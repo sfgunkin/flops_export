@@ -12,7 +12,7 @@ import math
 import pathlib
 import numpy as np
 
-DATA = pathlib.Path(r"F:\onedrive\__documents\papers\FLOPsExport\Data")
+DATA = pathlib.Path(r"F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Data")
 
 # ── 1. Map DCCI markets to ISO3 codes ──────────────────────────────────────
 

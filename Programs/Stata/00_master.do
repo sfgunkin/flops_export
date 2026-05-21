@@ -14,7 +14,7 @@ set maxvar 10000
 // PATHS
 // ═══════════════════════════════════════════════════════════════════════════════
 
-global root     "F:/onedrive/__documents/papers/FLOPsExport"
+global root     "F:/onedrive/__documents/papers/_Submitted/FLOPsExport"
 global data     "$root/Data"
 global programs "$root/Programs/Stata"
 global temp     "$programs/temp"

@@ -143,8 +143,8 @@ from lxml import etree
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-DOCS = pathlib.Path(r"F:\onedrive\__documents\papers\FLOPsExport\Documents")
-DATA = pathlib.Path(r"F:\onedrive\__documents\papers\FLOPsExport\Data")
+DOCS = pathlib.Path(r"F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Documents")
+DATA = pathlib.Path(r"F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Data")
 
 TAU = 0.0008
 L_BAR = 200.0          # Inference latency threshold (ms)
