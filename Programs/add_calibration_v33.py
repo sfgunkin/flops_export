@@ -1489,9 +1489,9 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
         'compute trade in which training is globally tradable, but inference incurs '
         'a latency cost, and delivered prices carry a bilateral sovereignty premium. '
         'Calibrated across 85 countries, the model places several developing economies '
-        'among the cheapest producers of compute at unsubsidized prices, yet bilateral '
+        'among the cheapest producers at unsubsidized prices, yet bilateral '
         'trust deficits between developing-country producers and OECD buyers eliminate '
-        'nearly all of their exports. Globally priced hardware compresses the cross-country '
+        'nearly all exports. Globally priced hardware compresses the cross-country '
         'cost spread to 12\u201320 percent, making compute the easiest tradable sector to '
         'enter on cost grounds and the most sensitive to small policy frictions: the binding '
         'export constraint is institutional credibility, not the price of power.'
@@ -1562,9 +1562,9 @@ def write_introduction(doc, body, hmap):
     p.add_run(
         ', where FLOP denotes floating-point operations, the standard '
         'unit of computational work. Rather than '
-        'exporting raw energy resources as primary commodities, '
+        'exporting raw energy resources, '
         'countries can use cheap electricity to produce higher-value-added digital services. '
-        'For resource-rich developing countries, FLOP exporting could offer a route up the '
+        'For resource-rich developing countries, FLOP exporting offers a route up the '
         'value chain.'
     )
 
@@ -1843,10 +1843,10 @@ def write_production_technology(doc, body, hmap):
     # Endowment paragraph
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Although the cost structure above is Ricardian '
+        'The cost structure above is Ricardian '
         '(country-specific production costs driven by technology and input prices), '
-        'the justification for resource-rich comparative advantage is closer to '
-        'the Heckscher\u2013Ohlin model: countries export goods intensive in their '
+        'but the justification for resource-rich comparative advantage is closer to '
+        'the Heckscher\u2013Ohlin: countries export goods intensive in their '
         'abundant factors (Heckscher 1919, Ohlin 1933). '
         'For compute production, the relevant endowment is not electricity, '
         'but the natural resources that generate it, such as hydropower '
@@ -2104,7 +2104,7 @@ def write_trade_costs(doc, body, hmap):
     omath(p, [_mbar('l')])
     p.add_run(
         ' (typically 200\u2013300 ms for interactive applications), the service becomes '
-        'unusable regardless of price, modeled as '
+        'unusable regardless of price: '
     )
     omath(p, [_msub('P', 'I'), _t('('), _v('j'), _t(', '), _v('k'),
               _t(') = \u221E')])
@@ -2611,7 +2611,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         ') is necessarily cheap enough to export inference to nearby buyers '
         '(Proposition 4). A country that produces training domestically cannot '
         'import inference, because the sovereignty premium that justifies domestic '
-        'training production also justifies domestic inference production, which faces '
+        'training also justifies domestic inference production, which faces '
         'latency degradation when imported. A domestic training producer that '
         'exports inference would require simultaneously high sovereignty preference '
         'and low costs, a combination ruled out by the model\u2019s cost ordering. '
@@ -3174,7 +3174,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     _kgz_rank = _t3_cr_sorted[0]["rank_cr"]
     _kgz_cap = int(_dc_k.get("KGZ", 5))
     p.add_run(
-        f'The gap between cost advantage and actual investment is wide. '
+        f'Cost advantage and actual investment diverge sharply. '
         f'{_num_word(len(_small_cap)).capitalize()} of the twenty cheapest producers have '
         f'under 100\u2009MW of installed capacity '
         f'(e.g., Kyrgyzstan: rank\u2009{_kgz_rank}, {_kgz_cap}\u2009MW), '
@@ -3182,7 +3182,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         f'(Netherlands: rank\u2009{_nld_rank}, {_nld_cap:,}\u2009MW; '
         f'Ireland: rank\u2009{_irl_rank}, {_irl_cap:,}\u2009MW). '
         'The cost ranking identifies the feasible set '
-        'of exporters, not a prediction of realized investment.'
+        'of exporters, not realized investment.'
     )
 
     # v31: FDI data confirming cost-vs-investment mismatch + bilateral channel
@@ -3194,9 +3194,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'regulatory frameworks and credible grid infrastructure. In contrast, '
         'the cheapest producers (Kyrgyzstan, Tajikistan, '
         'Ethiopia) received virtually no data-center FDI (Aykut et al. '
-        '2026). Moreover, most announced investment flows between '
-        'geopolitical allies, are consistent with the bilateral sovereignty '
-        'premium rather than cost alone determining where capacity is built '
+        '2026). Most investment flows between '
+        'geopolitical allies, consistent with the bilateral sovereignty '
+        'premium rather than cost alone driving where capacity is built '
         '(Straub et al. 2026). Econometric evidence confirms that electricity '
         'costs are not a robust predictor of data center location once market '
         'size and regulatory environment are controlled for (Caoui and Steck '
@@ -3447,23 +3447,19 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
             f'{_name_frag} to domestic '
             'production, but the marginal effect is small. '
             'Inference exports are more resilient to sovereignty premia because '
-            'the latency advantage of proximity partially insulates regional hubs. '
-            'The ease with which modest premia eliminate trade explains the '
-            'welfare costs documented below.'
+            'the latency advantage of proximity partially insulates regional hubs.'
         )
     else:
         p.add_run(
             f'Raising the uniform premium to 20% shifts {_num_word(extra)} '
             f'additional {"country" if extra == 1 else "countries"}'
             f'{_name_frag} '
-            'to domestic training production, reducing '
+            'to domestic training, reducing '
             'the share of global training demand available to foreign producers '
             f'from {es10 * 100:.0f}% to '
             f'{es20 * 100:.0f}%. '
             'Inference exports are more resilient to sovereignty premia because '
-            'the latency advantage of proximity partially insulates regional hubs. '
-            'The ease with which modest premia eliminate trade explains the '
-            'welfare costs documented below.'
+            'the latency advantage of proximity partially insulates regional hubs.'
         )
 
     # ── A4. Welfare cost of sovereignty (KEEP P81) ──
@@ -3828,10 +3824,10 @@ def write_conclusion(doc, body, hmap, demand_data):
         'The calibration on a sample of 85 countries demonstrates that because hardware '
         'is globally priced and dominates unit cost, the cross-country cost spread in '
         'compute production is far narrower than in any other tradable sector. '
-        'As a result, countries with cheap electricity and favorable cooling conditions '
-        'face a low absolute barrier to cost-competitiveness. At the same time, '
+        'Countries with cheap electricity and favorable cooling conditions '
+        'face a low barrier to cost-competitiveness. But '
         'even modest frictions, such as a sovereignty premium, a '
-        'governance penalty, or a higher cost of capital, are sufficient to alter a '
+        'governance penalty, or a higher cost of capital, can alter a '
         'country\u2019s trade regime. Compute is therefore simultaneously the easiest sector '
         'for developing countries to enter on cost grounds and the most vulnerable to '
         'small policy-induced distortions.'

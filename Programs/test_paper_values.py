@@ -2619,7 +2619,7 @@ class TestDocumentContent:
         assert "Heckscher\u2013Ohlin" in docx_text
 
     def test_ricardian_vs_ho_hybrid_acknowledged(self, docx_text):
-        assert "the cost structure above is Ricardian" in docx_text
+        assert "cost structure above is Ricardian" in docx_text
 
     # ---------- Fix 2c: World Bank sentence rephrased ----------
 
