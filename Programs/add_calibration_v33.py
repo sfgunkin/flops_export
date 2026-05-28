@@ -1259,7 +1259,6 @@ ITALIC_IN_REFS = {
     'World Bank': 'World Development Indicators',
     'Lehdonvirta': 'Proceedings of the AAAI/ACM Conference on AI, Ethics, and Society',
     'Pilz': 'AI\u2019s Power Requirements Under Exponential Growth',
-    'Chandramowli': 'Power Surge: Navigating US Electricity Demand Growth',
     'IMF': 'IMF Working Paper',
     'Lazard': 'Lazard\u2019s Levelized Cost of Energy Analysis, Version 17.0',
     'U.S. Department': 'Horizontal Merger Guidelines',
@@ -1282,7 +1281,7 @@ ITALIC_IN_REFS = {
     'Caoui': 'Information Economics and Policy',
     'Alvarez': 'NBER Working Paper',
     'Aykut': 'Watch This Space',
-    'Chandramowli': 'Rhodium Group Analysis',
+    'Chandramowli': 'Power Surge: Navigating US Electricity Demand Growth',
     'Straub': 'Infrastructure Foundations: From Current Assets to Future Growth',
 }
 
