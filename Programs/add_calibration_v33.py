@@ -5954,7 +5954,7 @@ def write_references(doc, body, refs):
         '\u201CData Center and AI Investment in EMDEs: Risks and Opportunities.\u201D '
         'Watch This Space. Washington, DC: World Bank Group.',
 
-        'Barroso, L., U. H\u00F6lzle, and P. Ranganathan. (2018). '
+        'Barroso, L., H\u00F6lzle, U., and P. Ranganathan. (2018). '
         'The Datacenter as a Computer: Designing Warehouse-Scale Machines, '
         '3rd ed. San Rafael, CA: Morgan & Claypool.',
 
@@ -5976,9 +5976,9 @@ def write_references(doc, body, refs):
         'Brainard, S. (1997). \u201CAn Empirical Assessment of the Proximity-Concentration '
         'Trade-off.\u201D American Economic Review, 87(4): 520\u2013544.',
 
-        'Calcaterra, M., L. Reis, P. Fragkos, T. Briera, H. Boer, F. Egli, '
-        'J. Emmerling, G. Iyer, S. Mittal, F. Polzin, M. Sanders, T. Schmidt, '
-        'A. Serebriakova, and B. Steffen. (2024). \u201CReducing the Cost of Capital '
+        'Calcaterra, M., Reis, L., Fragkos, P., Briera, T., Boer, H., Egli, F., '
+        'Emmerling, J., Iyer, G., Mittal, S., Polzin, F., Sanders, M., Schmidt, T., '
+        'Serebriakova, A., and B. Steffen. (2024). \u201CReducing the Cost of Capital '
         'to Finance the Energy Transition in Developing Countries.\u201D '
         'Nature Energy, 9(10): 1241\u20131251.',
 
@@ -5986,7 +5986,7 @@ def write_references(doc, body, refs):
         'of Internet Infrastructure.\u201D '
         'Information Economics and Policy. doi:10.1016/j.infoecopol.2025.101134.',
 
-        'Chandramowli, S., P. Cook, J. Mackovyak, H. Parmar, and M. Scheller. '
+        'Chandramowli, S., Cook, P., Mackovyak, J., Parmar, H., and M. Scheller. '
         '(2024). Power Surge: Navigating US Electricity Demand Growth. ICF.',
 
         'Cloudscene. (2025). Global Data Center Directory. cloudscene.com.',
@@ -6007,7 +6007,7 @@ def write_references(doc, body, refs):
         'Firebird. (2026). \u201CPhase 2 of Armenia AI Megaproject, Scaling to $4 Billion '
         'and 50,000 GPUs.\u201D Press release, January 2026.',
 
-        'Flucker, S., R. Tozer, and R. Whitehead. (2013). \u201CData Centre Energy '
+        'Flucker, S., Tozer, R., and R. Whitehead. (2013). \u201CData Centre Energy '
         'Efficiency Analysis to Minimize Total Cost of Ownership.\u201D Building Services '
         'Engineering Research and Technology, 34(1): 103\u2013117.',
 
@@ -6020,10 +6020,10 @@ def write_references(doc, body, refs):
 
         'Google. (2024). 2024 Environmental Report. sustainability.google.',
 
-        'Hausmann, R., J. Hwang, and D. Rodrik. (2007). \u201CWhat You Export Matters.\u201D '
+        'Hausmann, R., Hwang, J., and D. Rodrik. (2007). \u201CWhat You Export Matters.\u201D '
         'Journal of Economic Growth, 12(1): 1\u201325.',
 
-        'Helpman, E., M. Melitz, and S. Yeaple. (2004). \u201CExport Versus FDI with '
+        'Helpman, E., Melitz, M., and S. Yeaple. (2004). \u201CExport Versus FDI with '
         'Heterogeneous Firms.\u201D American Economic Review, 94(1): 300\u2013316.',
 
         'Hersbach, H., et al. (2020). \u201CThe ERA5 Global Reanalysis.\u201D '
@@ -6049,7 +6049,7 @@ def write_references(doc, body, refs):
         'Disadvantage, Transport Costs, and Trade.\u201D '
         'World Bank Economic Review, 15(3): 451\u2013479.',
 
-        'Liu, Z., A. Wierman, Y. Chen, B. Raber, and J. Moriarty. (2023). '
+        'Liu, Z., Wierman, A., Chen, Y., Raber, B., and J. Moriarty. (2023). '
         '\u201CSustainability of Data Center Digital Twins.\u201D '
         'Proceedings of ACM e-Energy, pp. 178\u2013189.',
 
@@ -6067,16 +6067,16 @@ def write_references(doc, body, refs):
 
         'World Bank. (2024). World Development Indicators. Washington, DC.',
 
-        'Lehdonvirta, V., B. Wu, and Z. Hawkins. (2024). \u201CCompute North vs. Compute South: '
+        'Lehdonvirta, V., Wu, B., and Z. Hawkins. (2024). \u201CCompute North vs. Compute South: '
         'The Uneven Possibilities of Compute-Based AI Governance Around the Globe.\u201D '
         'Proceedings of the AAAI/ACM Conference on AI, Ethics, and Society, 7(1): 828\u2013838.',
 
-        'Pilz, K., Y. Mahmood, and L. Heim. (2025). AI\u2019s Power Requirements Under '
+        'Pilz, K., Mahmood, Y., and L. Heim. (2025). AI\u2019s Power Requirements Under '
         'Exponential Growth. Santa Monica, CA: RAND Corporation, RR-A3572-1.',
 
-        'Sastry, G., L. Heim, H. Belfield, M. Anderljung, M. Brundage, J. Hazell, '
-        'C. O\u2019Keefe, G. K. Hadfield, R. Ngo, K. Pilz, G. Gor, E. Bluemke, S. Shoker, '
-        'J. Egan, R. F. Trager, S. Avin, A. Weller, Y. Bengio, and D. Coyle. (2024). '
+        'Sastry, G., Heim, L., Belfield, H., Anderljung, M., Brundage, M., Hazell, J., '
+        'O\u2019Keefe, C., Hadfield, G. K., Ngo, R., Pilz, K., Gor, G., Bluemke, E., Shoker, S., '
+        'Egan, J., Trager, R. F., Avin, S., Weller, A., Bengio, Y., and D. Coyle. (2024). '
         '\u201CComputing Power and the Governance of '
         'Artificial Intelligence.\u201D arXiv:2402.08797.',
 
@@ -6095,31 +6095,31 @@ def write_references(doc, body, refs):
         'Ohlin, B. (1933). Interregional and International Trade. '
         'Cambridge, MA: Harvard University Press.',
 
-        'Biglaiser, G., J. Cr\u00E9mer, and A. Mantovani. (2024). '
+        'Biglaiser, G., Cr\u00E9mer, J., and A. Mantovani. (2024). '
         '\u201CThe Economics of the Cloud.\u201D '
         'Toulouse School of Economics Working Paper No. 24-1520.',
 
         'Blinder, A. (2006). \u201COffshoring: The Next Industrial Revolution?\u201D '
         'Foreign Affairs, 85(2): 113\u2013128.',
 
-        'Sevilla, J., L. Heim, A. Ho, T. Besiroglu, M. Hobbhahn, and '
+        'Sevilla, J., Heim, L., Ho, A., Besiroglu, T., Hobbhahn, M., and '
         'P. Villalobos. (2022). \u201CCompute Trends across Three Eras of '
         'Machine Learning.\u201D arXiv Working Paper No. 2202.05924. '
         'https://doi.org/10.48550/arXiv.2202.05924.',
 
-        'Stojkoski, V., P. Koch, E. Coll, and C. A. Hidalgo. (2024). '
+        'Stojkoski, V., Koch, P., Coll, E., and C. A. Hidalgo. (2024). '
         '\u201CEstimating Digital Product Trade through Corporate Revenue Data.\u201D '
         'Nature Communications, 15: 5262.',
 
         'World Bank. (2025). Digital Progress and Trends Report 2025: '
         'Strengthening AI Foundations. Washington, DC: World Bank.',
 
-        'Katz, R., K. Jung, and F. Callorda. (2025). \u201CThe Economic Impact of AI '
+        'Katz, R., Jung, K., and F. Callorda. (2025). \u201CThe Economic Impact of AI '
         'and Cloud Investment in Asia-Pacific.\u201D Report prepared for the Asian '
         'Development Bank.',
 
-        'Straub, S., H. He, Y. Li, X. Lyu, J. Steinbuks, E. Vergara Cobos, '
-        'C. Dann, M. García-Santana, and H. Selod. (2026). Infrastructure '
+        'Straub, S., He, H., Li, Y., Lyu, X., Steinbuks, J., Vergara Cobos, E., '
+        'Dann, C., García-Santana, M., and H. Selod. (2026). Infrastructure '
         'Foundations: From Current Assets to Future Growth. Sustainable '
         'Infrastructure Series. Washington, DC: World Bank.',
 
