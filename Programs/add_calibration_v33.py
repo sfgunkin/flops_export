@@ -1153,9 +1153,9 @@ CITATIONS = [
     ('Straub et al.', '2026', 'StraubEtAl2026', 'Straub, S.'),
     # v33: theoretical-scaffolding citations for bilateral sovereignty premium
     ('Anderson and van Wincoop', '2003', 'AndersonVanWincoop2003',
-     'Anderson, J.E.'),
+     'Anderson, J. and E. van Wincoop'),
     ('Anderson and Marcouiller', '2002', 'AndersonMarcouiller2002',
-     'Anderson, J.E.'),
+     'Anderson, J. and D. Marcouiller'),
     ('Antr\u00E0s', '2003', 'Antras2003', 'Antr\u00E0s, P.'),
     # v33: ML scaling trends citation
     ('Sevilla et al.', '2022', 'SevillaEtAl2022', 'Sevilla, J.'),
@@ -1274,8 +1274,8 @@ ITALIC_IN_REFS = {
     'World Bank. (2025). Digital': 'Digital Progress and Trends Report 2025',
     'Benz': 'OECD Trade Policy Papers',
     # v33: theoretical-scaffolding citations
-    'Anderson, J.E. and E. van Wincoop': 'American Economic Review',
-    'Anderson, J.E. and D. Marcouiller': 'Review of Economics and Statistics',
+    'Anderson, J. and E. van Wincoop': 'American Economic Review',
+    'Anderson, J. and D. Marcouiller': 'Review of Economics and Statistics',
     'Antr\u00E0s': 'Quarterly Journal of Economics',
     # v31
     'Caoui': 'Information Economics and Policy',
@@ -1590,7 +1590,7 @@ def write_introduction(doc, body, hmap):
         'Recent work examines compute governance and the geography of AI infrastructure '
         '(Sastry et al. 2024, Lehdonvirta et al. 2024, '
         'Pilz et al. 2025), but no formal trade model of compute has been developed. '
-        'This paper offers the first such model, making three contributions. '
+        'This paper offers the first such model and makes three contributions. '
         'First, it develops a capacity-constrained Ricardian model of compute trade '
         'with an iceberg trade cost for latency degradation and a bilateral sovereignty '
         'premium for geopolitical frictions. '
@@ -1935,7 +1935,7 @@ def write_trade_costs(doc, body, hmap):
     )
     omath(p, [_msub('G', 'ij')])
     p.add_run(
-        ', measured from UN General Assembly ideal-point distance '
+        ', measured from the UN General Assembly ideal-point distance '
         '(Bailey, Strezhnev, and Voeten 2017) and normalized so that '
     )
     omath(p, [_msub('G', 'ij'), _t(' \u2208 [0, 1]')])
@@ -1944,7 +1944,7 @@ def write_trade_costs(doc, body, hmap):
     )
     omath(p, [_msub('R', 'ij')])
     p.add_run(
-        ', coded as 1 for country pairs covered by a mutual data-adequacy agreement '
+        ', coded as 1 for country pairs covered by a mutual data adequacy agreement '
         'and 0 otherwise. Pairs under comprehensive trade sanctions '
         '('
     )
@@ -2212,7 +2212,7 @@ def write_demand(doc, body, hmap, demand_data):
                   'Installed capacity is preferable to GDP as a demand proxy because '
                   'compute consumption is driven by data center infrastructure, not aggregate '
                   'income. Ireland and the Netherlands, for example, host far more capacity '
-                  'per capita than their GDP shares would predict, while large economies like '
+                  'per capita than their GDP shares would predict. At the same time, large economies like '
                   'India and Brazil account for modest shares of global data center power.',
                   20)
 
@@ -2752,7 +2752,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     fn9_p = make_footnote(p,
                           'The nesting result assumes that the training exporter\u2019s '
                           'latency cone is non-empty. Formally, country j has a non-empty '
-                          'latency cone if ', 23)
+                          'latency cone if there exists some country ', 23)
     fn9_om = OxmlElement('m:oMath')
     fn9_om.append(_t('\u2203k'))
     fn9_p.append(fn9_om)
@@ -3011,7 +3011,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_msub('\u03BB', 'ij'), _t(' = \u221E')])
     p.add_run(
         ') rather than being assigned a finite weight. The continuous weights '
-        'are calibrated so that an intra-bloc pair with data-adequacy '
+        'are calibrated so that an intra-bloc pair with data adequacy '
         '(for example, two EU member states) faces '
     )
     omath(p, [_msub('\u03BB', 'ij'), _t(' \u2248 0')])
@@ -3117,8 +3117,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'prices ($0.065\u2013$0.100/kWh). For the Gulf states, it uses the '
         'opportunity cost of domestic gas combustion relative to LNG exports. '
         'For coal-dependent producers (Kazakhstan, South Africa), the '
-        'calibration uses the Eskom-style cost-recovery tariff. For Ethiopia, '
-        'it uses the IMF\u2019s hydro cost-recovery target ($0.050/kWh). The '
+        'calibration uses the Eskom-style cost-recovery tariff. Ethiopia '
+        'uses the IMF\u2019s hydro cost-recovery target ($0.050/kWh). The '
         'IMF estimates global fossil fuel subsidies at $6.7 trillion in 2024. '
         'Explicit subsidies (below-cost pricing) account for 8%; the remainder '
         'reflects unpriced environmental costs. The calibration uses only the '
@@ -3570,8 +3570,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         ' compresses the cross-country cost spread, making electricity price '
         'differences less decisive and facilitating '
-        'entry by developing countries. Countries combining cheap energy with adequate governance '
-        'retain their cost advantage regardless of the choice of parameter.'
+        'entry by developing countries. Countries that combine cheap energy with adequate governance '
+        'retain their cost advantage regardless of the chosen parameter.'
     )
 
     # Uniform λ robustness check
@@ -3679,8 +3679,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         '(IMF 2025). Alvarez et al. (2026) find that in the US, a '
         'one-unit increase in log cumulative data-center revenue raises '
         'local electricity prices by roughly 0.9 percent, significant at '
-        'the 1 percent level in every horizon; counties that ever host a '
-        'data center exhibit a 3.9 percent level effect on retail prices. '
+        'the 1 percent level across all horizons; counties that have ever hosted a '
+        'data center exhibit a 3.9 percent effect on retail prices. '
         'For small grids such as Kyrgyzstan\u2019s, the '
         'proportional impact would be substantially larger, further eroding '
         'the cost advantages documented above.'
@@ -3732,8 +3732,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     add_italic(p, 'Cost of capital. ')
     p.add_run(
         'Because hardware dominates the compute cost stack, the single '
-        'largest determinant of the ranking is the cost at which capital '
-        'can be financed. An OECD hyperscaler at an 8% weighted average '
+        'largest determinant of the ranking is the cost of financing '
+        'capital. An OECD hyperscaler at an 8% weighted average '
         'cost of capital faces hardware costs of $1.58/GPU-hour; a '
         'locally financed developing-country operator at 18% pays $1.87 '
         '\u2014 a $0.29 gap on hardware alone, roughly four times the '
@@ -5950,7 +5950,7 @@ def write_references(doc, body, refs):
         '\u201CData Centers and Local Economies in the Age of AI: '
         'A Shift-Share Approach.\u201D NBER Working Paper No. 35194.',
 
-        'Aykut, D., S. Ozyurt, K. Jung, and E. Vergara Cobos. (2026). '
+        'Aykut, D., Ozyurt, S., Jung, K., and E. Vergara Cobos. (2026). '
         '\u201CData Center and AI Investment in EMDEs: Risks and Opportunities.\u201D '
         'Watch This Space. Washington, DC: World Bank Group.',
 
@@ -5962,11 +5962,11 @@ def write_references(doc, body, refs):
         'in Services: New Estimates of Ad Valorem Tariff Equivalents.\u201D '
         'OECD Trade Policy Papers, No. 238. Paris: OECD Publishing.',
 
-        'Anderson, J.E. and E. van Wincoop. (2003). \u201CGravity with Gravitas: '
+        'Anderson, J. and E. van Wincoop. (2003). \u201CGravity with Gravitas: '
         'A Solution to the Border Puzzle.\u201D '
         'American Economic Review, 93(1): 170\u2013192.',
 
-        'Anderson, J.E. and D. Marcouiller. (2002). \u201CInsecure Trade: '
+        'Anderson, J. and D. Marcouiller. (2002). \u201CInsecure Trade: '
         'Reduced-Form Evidence.\u201D '
         'Review of Economics and Statistics, 84(2): 342\u2013352.',
 
@@ -5982,7 +5982,7 @@ def write_references(doc, body, refs):
         'to Finance the Energy Transition in Developing Countries.\u201D '
         'Nature Energy, 9(10): 1241\u20131251.',
 
-        'Caoui, E. H., and A. Steck. (2025). \u201CContent Providers and the Deployment '
+        'Caoui, E., and A. Steck. (2025). \u201CContent Providers and the Deployment '
         'of Internet Infrastructure.\u201D '
         'Information Economics and Policy. doi:10.1016/j.infoecopol.2025.101134.',
 
@@ -6077,10 +6077,10 @@ def write_references(doc, body, refs):
         'Artificial Intelligence.\u201D arXiv:2402.08797.',
 
 
-        'Arkolakis, C., A. Costinot, and A. Rodr\u00EDguez-Clare. (2012). \u201CNew Trade '
+        'Arkolakis, C., Costinot, A., and A. Rodr\u00EDguez-Clare. (2012). \u201CNew Trade '
         'Models, Same Old Gains?\u201D American Economic Review, 102(1): 94\u2013130.',
 
-        'Bailey, M., A. Strezhnev, and E. Voeten. (2017). \u201CEstimating Dynamic '
+        'Bailey, M., Strezhnev, A., and E. Voeten. (2017). \u201CEstimating Dynamic '
         'State Preferences from United Nations Voting Data.\u201D '
         'Journal of Conflict Resolution, 61(2): 430\u2013456.',
 
