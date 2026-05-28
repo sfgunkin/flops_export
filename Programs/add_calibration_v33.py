@@ -1259,6 +1259,7 @@ ITALIC_IN_REFS = {
     'World Bank': 'World Development Indicators',
     'Lehdonvirta': 'Proceedings of the AAAI/ACM Conference on AI, Ethics, and Society',
     'Pilz': 'AI\u2019s Power Requirements Under Exponential Growth',
+    'Chandramowli': 'Power Surge: Navigating US Electricity Demand Growth',
     'IMF': 'IMF Working Paper',
     'Lazard': 'Lazard\u2019s Levelized Cost of Energy Analysis, Version 17.0',
     'U.S. Department': 'Horizontal Merger Guidelines',
@@ -5986,8 +5987,8 @@ def write_references(doc, body, refs):
         'of Internet Infrastructure.\u201D '
         'Information Economics and Policy. doi:10.1016/j.infoecopol.2025.101134.',
 
-        'Chandramowli, S., et al. (2024). \u201CImpact of Emerging Technologies on '
-        'Electricity Demand and Prices.\u201D Rhodium Group Analysis.',
+        'Chandramowli, S., P. Cook, J. Mackovyak, H. Parmar, and M. Scheller. '
+        '(2024). Power Surge: Navigating US Electricity Demand Growth. ICF.',
 
         'Cloudscene. (2025). Global Data Center Directory. cloudscene.com.',
 
@@ -6035,8 +6036,9 @@ def write_references(doc, body, refs):
         'IMF. (2025). \u201CFossil Fuel Subsidies Data: 2025 Update.\u201D '
         'IMF Working Paper WP/25/270.',
 
-        'Korinek, A., and J. Stiglitz. (2021). \u201CAI, Globalization, and Strategies for '
-        'Economic Development.\u201D NBER Working Paper No. 28453.',
+        'Korinek, A., and J. Stiglitz. (2021). \u201CArtificial Intelligence, '
+        'Globalization, and Strategies for Economic Development.\u201D '
+        'NBER Working Paper No. 28453.',
 
         'Lazard. (2025). Lazard\u2019s Levelized Cost of Energy Analysis, Version 17.0. '
         'lazard.com.',
@@ -6073,7 +6075,10 @@ def write_references(doc, body, refs):
         'Pilz, K., Y. Mahmood, and L. Heim. (2025). AI\u2019s Power Requirements Under '
         'Exponential Growth. Santa Monica, CA: RAND Corporation, RR-A3572-1.',
 
-        'Sastry, G., L. Heim, et al. (2024). \u201CComputing Power and the Governance of '
+        'Sastry, G., L. Heim, H. Belfield, M. Anderljung, M. Brundage, J. Hazell, '
+        'C. O\u2019Keefe, G. K. Hadfield, R. Ngo, K. Pilz, G. Gor, E. Bluemke, S. Shoker, '
+        'J. Egan, R. F. Trager, S. Avin, A. Weller, Y. Bengio, and D. Coyle. (2024). '
+        '\u201CComputing Power and the Governance of '
         'Artificial Intelligence.\u201D arXiv:2402.08797.',
 
 
