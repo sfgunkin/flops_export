@@ -6118,9 +6118,10 @@ def write_references(doc, body, refs):
         'and Cloud Investment in Asia-Pacific.\u201D Report prepared for the Asian '
         'Development Bank.',
 
-        'Straub, S., et al. (2026). Infrastructure Foundations: From Current Assets '
-        'to Future Growth. Sustainable Infrastructure Series. Washington, DC: '
-        'World Bank.',
+        'Straub, S., H. He, Y. Li, X. Lyu, J. Steinbuks, E. Vergara Cobos, '
+        'C. Dann, M. García-Santana, and H. Selod. (2026). Infrastructure '
+        'Foundations: From Current Assets to Future Growth. Sustainable '
+        'Infrastructure Series. Washington, DC: World Bank.',
 
     ]
 
