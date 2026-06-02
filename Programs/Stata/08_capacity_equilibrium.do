@@ -42,40 +42,24 @@ foreach iso of global SANCTIONED {
 
 // ─── Run solver: lambda = 0 (pure cost minimization) ─────────────────────────
 di as txt _n "=== Capacity-constrained equilibrium (lambda=0) ==="
+solve_tagged, lambda(0) suffix(_lam0)
 
-sort c_j
-solve_equilibrium, lambda(0)
+local p_T_0   = r(p_T)
+local n_exp_0 = r(n_exporters)
+local hhi_T_0 = r(hhi_T)
 
-local p_T_0     = r(p_T)
-local n_exp_0   = r(n_exporters)
-local hhi_T_0   = r(hhi_T)
-
-// Save results
 gen double p_T_lambda0 = `p_T_0'
 gen double lambda_star = c_j / `p_T_0' - 1
 
-// Save exporter details
-rename exporter_share exporter_share_lam0
-rename shadow_value   shadow_value_lam0
-rename is_exporter    is_exporter_lam0
-
 // ─── Run solver: lambda = LAMBDA (with sovereignty) ──────────────────────────
 di as txt _n "=== Capacity-constrained equilibrium (lambda=$LAMBDA) ==="
-
-// Rerun solver — need fresh share/shadow vars
-cap drop exporter_share shadow_value is_exporter
-
-sort c_j
-solve_equilibrium, lambda($LAMBDA)
+solve_tagged, lambda($LAMBDA) suffix(_sov)
 
 local p_T_sov   = r(p_T)
 local n_exp_sov = r(n_exporters)
 local hhi_T_sov = r(hhi_T)
 
 gen double p_T_sovereign = `p_T_sov'
-rename exporter_share exporter_share_sov
-rename shadow_value   shadow_value_sov
-rename is_exporter    is_exporter_sov
 
 // ─── Summary ─────────────────────────────────────────────────────────────────
 di as txt _n "=== Summary ==="

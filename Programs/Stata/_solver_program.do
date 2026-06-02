@@ -1,7 +1,8 @@
 /*==============================================================================
   _solver_program.do — Reusable capacity-constrained equilibrium solver
 
-  Defines `solve_equilibrium`, called by 08, 09, and 12.
+  Defines `solve_equilibrium` (called directly by 12) and the thin wrapper
+  `solve_tagged` (used by 08 and 09 to run the solver and suffix-tag its outputs).
 
   Input dataset (in memory): one obs per country, sorted by cost ascending.
     Required variables: iso3 (str), c_j (double), k_bar_j (double),
@@ -76,7 +77,13 @@ program define solve_equilibrium, rclass
     }
 
     // Compute exporter shares, shadow values
+    // Drop by EXACT name only: with varabbrev on (Stata default), a bare
+    // "cap drop shadow_value" would abbreviation-match and silently delete a
+    // previously-renamed "shadow_value_lam0" left by an earlier solver call.
+    local _va = c(varabbrev)
+    set varabbrev off
     cap drop exporter_share shadow_value is_exporter
+    set varabbrev `_va'
     gen double exporter_share = 0
     gen double shadow_value = 0
     gen byte   is_exporter = 0
@@ -140,4 +147,45 @@ program define solve_equilibrium, rclass
 
     di as txt "  p_T = $" %9.4f `p_T' "/hr, " ///
               `n_exp' " exporters, HHI_T = " %6.4f `hhi_T'
+end
+
+
+/*------------------------------------------------------------------------------
+  solve_tagged — run solve_equilibrium and tag its three output variables with
+  a caller-supplied suffix in one step.
+
+  Replaces the repeated "solve_equilibrium / rename exporter_share .../ rename
+  shadow_value .../ rename is_exporter ..." boilerplate in 08 and 09. Forwards
+  the solver's r() scalars unchanged.
+
+      solve_tagged, lambda(0)       suffix(_lam0)
+      solve_tagged, lambda($LAMBDA) suffix(_sov)
+
+  Produces: exporter_share`suffix', shadow_value`suffix', is_exporter`suffix'.
+  The drop of any pre-existing same-suffix vars is exact-name only (varabbrev
+  is forced off locally) so it can never abbreviation-match a different suffix.
+------------------------------------------------------------------------------*/
+cap program drop solve_tagged
+program define solve_tagged, rclass
+    version 17
+    syntax , LAMbda(real) SUFfix(name)
+
+    sort c_j
+    solve_equilibrium, lambda(`lambda')
+
+    // Forward the solver's return scalars unchanged
+    return scalar p_T         = r(p_T)
+    return scalar n_exporters = r(n_exporters)
+    return scalar hhi_T       = r(hhi_T)
+    return scalar Q_TX        = r(Q_TX)
+    return scalar converged   = r(converged)
+
+    // Tag the three output variables with `suffix' (exact-name drop only)
+    local _va = c(varabbrev)
+    set varabbrev off
+    cap drop exporter_share`suffix' shadow_value`suffix' is_exporter`suffix'
+    set varabbrev `_va'
+    rename exporter_share exporter_share`suffix'
+    rename shadow_value   shadow_value`suffix'
+    rename is_exporter    is_exporter`suffix'
 end

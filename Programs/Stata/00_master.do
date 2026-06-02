@@ -9,6 +9,10 @@ clear all
 set more off
 set type double
 set maxvar 10000
+set varabbrev off   // never abbreviation-match variable names: the solver
+                    // renames vars to *_lam0 / *_cr then re-drops the bare
+                    // names; with varabbrev on those drops silently delete
+                    // the renamed copies (breaks steps 8-11)
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // PATHS

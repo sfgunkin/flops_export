@@ -110,6 +110,9 @@ forvalues i = 1/10 {
 }
 di as txt _n "  HHI_I = " %6.4f `hhi_I'
 
+// Restore the key name so the m:1 merge below (on best_inf_source) matches;
+// it was renamed to iso3 only for the display loop above.
+rename iso3 best_inf_source
 tempfile inf_shares
 save `inf_shares'
 restore
@@ -131,6 +134,9 @@ forvalues i = 1/`=_N' {
 restore
 
 // ─── Save ────────────────────────────────────────────────────────────────────
+// Standardize the country key to iso3 (the pipeline-wide convention) so step 11
+// can merge 1:1 on iso3; this dataset uses iso3_k internally (from postfile).
+rename iso3_k iso3
 compress
 save "$temp/inference_sourcing.dta", replace
 

@@ -81,33 +81,21 @@ cap drop exporter_share_sov shadow_value_sov is_exporter_sov
 cap drop p_T_lambda0 p_T_sovereign lambda_star
 
 di as txt _n "=== Re-computing equilibrium (cost-recovery, lambda=0) ==="
+solve_tagged, lambda(0) suffix(_cr)
 
-sort c_j
-solve_equilibrium, lambda(0)
-
-local p_T_cr     = r(p_T)
-local n_exp_cr   = r(n_exporters)
-local hhi_T_cr   = r(hhi_T)
+local p_T_cr   = r(p_T)
+local n_exp_cr = r(n_exporters)
+local hhi_T_cr = r(hhi_T)
 
 gen double p_T_costrecovery = `p_T_cr'
 gen double lambda_star_cr = c_j / `p_T_cr' - 1
-rename exporter_share exporter_share_cr
-rename shadow_value   shadow_value_cr
-rename is_exporter    is_exporter_cr
 
 di as txt _n "=== Re-computing equilibrium (cost-recovery, lambda=$LAMBDA) ==="
-
-cap drop exporter_share shadow_value is_exporter
-sort c_j
-solve_equilibrium, lambda($LAMBDA)
+solve_tagged, lambda($LAMBDA) suffix(_cr_sov)
 
 local p_T_cr_sov   = r(p_T)
 local n_exp_cr_sov = r(n_exporters)
 local hhi_T_cr_sov = r(hhi_T)
-
-rename exporter_share exporter_share_cr_sov
-rename shadow_value   shadow_value_cr_sov
-rename is_exporter    is_exporter_cr_sov
 
 // ─── Summary ─────────────────────────────────────────────────────────────────
 di as txt _n "=== Cost-Recovery Equilibrium Summary ==="

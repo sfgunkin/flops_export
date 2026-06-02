@@ -223,7 +223,7 @@ preserve
 keep if best_train_source != iso3_k
 contract best_train_source, freq(n_served)
 gsort -n_served
-list in 1/5, noobs
+if _N > 0 list in 1/`=min(5, _N)', noobs
 restore
 
 // Inference hubs
@@ -232,7 +232,7 @@ preserve
 keep if best_inf_source != iso3_k
 contract best_inf_source, freq(n_served)
 gsort -n_served
-list in 1/10, noobs
+if _N > 0 list in 1/`=min(10, _N)', noobs
 restore
 
 compress
