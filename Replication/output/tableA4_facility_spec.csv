@@ -1,0 +1,11 @@
+parameter,value
+IT capacity,40 MW
+PUE,1.08
+Number of GPUs,"57,142"
+Electricity price,$0.038/kWh
+Construction cost,$7.83/W
+Staff,"50 @ $12,000/yr"
+Revenue per GPU-hr,$2.00
+WACC,12.6%
+Tax rate,10%
+Connectivity,$2.4M/yr (100 Gbps)

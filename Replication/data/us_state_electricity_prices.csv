@@ -1,0 +1,62 @@
+state,state_name,price_usd_kwh,price_eur_kwh
+NM,New Mexico,0.0543,0.05
+LA,Louisiana,0.0561,0.0516
+OK,Oklahoma,0.0584,0.0537
+WSC,West South Central,0.0605,0.0557
+TX,Texas,0.0612,0.0563
+TN,Tennessee,0.0621,0.0571
+KY,Kentucky,0.065,0.0598
+AR,Arkansas,0.0661,0.0608
+WA,Washington,0.0661,0.0608
+ESC,East South Central,0.0672,0.0618
+IA,Iowa,0.068,0.0626
+MS,Mississippi,0.0681,0.0627
+SC,South Carolina,0.0684,0.0629
+OH,Ohio,0.071,0.0653
+GA,Georgia,0.0721,0.0663
+AL,Alabama,0.0725,0.0667
+ND,North Dakota,0.0725,0.0667
+MT,Montana,0.0759,0.0698
+NE,Nebraska,0.0766,0.0705
+ID,Idaho,0.0769,0.0707
+MTN,Mountain,0.077,0.0708
+WNC,West North Central,0.0772,0.071
+KS,Kansas,0.0773,0.0711
+SAT,South Atlantic,0.0776,0.0714
+NC,North Carolina,0.0777,0.0715
+WV,West Virginia,0.0781,0.0719
+UT,Utah,0.0786,0.0723
+MO,Missouri,0.0787,0.0724
+PA,Pennsylvania,0.0787,0.0724
+AZ,Arizona,0.079,0.0727
+WY,Wyoming,0.0796,0.0732
+OR,Oregon,0.0805,0.0741
+ENC,East North Central,0.0808,0.0743
+IN,Indiana,0.0815,0.075
+MI,Michigan,0.0826,0.076
+SD,South Dakota,0.0828,0.0762
+DE,Delaware,0.0849,0.0781
+FL,Florida,0.085,0.0782
+MAT,Middle Atlantic,0.0852,0.0784
+WI,Wisconsin,0.0854,0.0786
+CO,Colorado,0.0862,0.0793
+NV,Nevada,0.0864,0.0795
+IL,Illinois,0.0883,0.0812
+VA,Virginia,0.0899,0.0827
+MN,Minnesota,0.0915,0.0842
+NY,New York,0.0917,0.0844
+MD,Maryland,0.1001,0.0921
+DC,District of Columbia,0.108,0.0994
+VT,Vermont,0.1158,0.1065
+NJ,New Jersey,0.1193,0.1098
+ME,Maine,0.1246,0.1146
+PACC,Pacific Contiguous,0.1538,0.1415
+NH,New Hampshire,0.1621,0.1491
+NEW,New England,0.1628,0.1498
+CT,Connecticut,0.1712,0.1575
+MA,Massachusetts,0.1819,0.1673
+AK,Alaska,0.1931,0.1777
+RI,Rhode Island,0.197,0.1812
+CA,California,0.2153,0.1981
+PACN,Pacific Noncontiguous,0.2993,0.2754
+HI,Hawaii,0.3413,0.314

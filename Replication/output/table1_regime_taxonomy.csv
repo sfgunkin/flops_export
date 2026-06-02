@@ -1,0 +1,6 @@
+code,training,inference
+EE,Exporter,Exporter
+IE,Importer,Exporter (hub)
+ID,Importer,Domestic
+DD,Domestic,Domestic
+II,Importer,Importer

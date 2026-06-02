@@ -1,0 +1,7 @@
+workload,example,latency,offshorable,treatment
+Model training,GPT-class pretraining,None,Yes,Training (T)
+Fine-tuning,Domain adaptation,None,Yes,Training (T)
+Batch inference,Bulk embeddings,Seconds,Yes,Training (T)
+Interactive chat,Chatbot response,<300 ms,Regional,Inference (I)
+Real-time agents,Autonomous decisions,<100 ms,Local,Inference (I)
+Edge inference,On-device models,<10 ms,No,Inference (I)

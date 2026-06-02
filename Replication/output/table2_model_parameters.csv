@@ -1,0 +1,16 @@
+parameter,symbol,value,source
+GPU power draw,gamma,0.700 kW,NVIDIA H100
+GPU price,P_GPU,"$25,000",Street price 2024
+GPU lifetime,L,3 years,Barroso et al. 2018
+Utilization rate,beta,0.70,Industry
+Networking cost,eta,$0.15/hr,Assumption
+PUE base,phi,1.08,Google 2024
+PUE slope,delta,0.015/C,Calibration
+PUE ref temp,thetabar,15 C,Free-cooling threshold
+DC lifetime,D,15 years,Industry
+Latency degradation,tau,0.0008/ms,Deloitte 2025
+Training share,alpha,0.50,Deloitte 2025
+Total demand,Q,60B GPU-hr,Calibration
+Geo premium weight,w1,0.05,Calibration
+Reg premium weight,w2,0.025,Calibration
+Uniform premium,lambda,0.10,Robustness

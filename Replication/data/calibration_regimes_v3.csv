@@ -1,0 +1,83 @@
+iso3,country,c_k,P_T_domestic,P_I_domestic,best_train_source,best_train_cost,best_inf_source,best_inf_cost,regime,regime_with_sovereignty
+ALB,Albania,1.53383,1.53383,1.53387,IRN,1.40794,DZA,1.50703,full import,full domestic
+ARE,United Arab Emirates,1.47148,1.47148,1.47156,IRN,1.40794,ARE,1.47156,import training + build inference,full domestic
+ARG,Argentina,1.46177,1.46177,1.46182,IRN,1.40794,ARG,1.46182,import training + build inference,full domestic
+ARM,Armenia,1.49949,1.49949,1.50549,IRN,1.40794,AZE,1.48063,full import,full domestic
+AUS,Australia,1.49601,1.49601,1.52913,IRN,1.40794,AUS,1.52913,import training + build inference,full domestic
+AUT,Austria,1.54753,1.54753,1.55815,IRN,1.40794,XKX,1.46627,full import,full domestic
+AZE,Azerbaijan,1.46308,1.46308,1.46893,IRN,1.40794,AZE,1.46893,import training + build inference,full domestic
+BEL,Belgium,1.51105,1.51105,1.52253,IRN,1.40794,DZA,1.48903,full import,full domestic
+BGR,Bulgaria,1.54435,1.54435,1.54955,IRN,1.40794,XKX,1.47813,full import,full domestic
+BIH,Bosnia and Herz.,1.48814,1.48814,1.49409,IRN,1.40794,BIH,1.49409,import training + build inference,full domestic
+BLR,Belarus,1.496,1.496,1.50198,IRN,1.40794,RUS,1.46736,full import,full domestic
+BRA,Brazil,1.47108,1.47108,1.51139,IRN,1.40794,BRA,1.51139,import training + build inference,full domestic
+CAN,Canada,1.44207,1.44207,1.49018,IRN,1.40794,CAN,1.49018,import training + build inference,full domestic
+CHE,Switzerland,1.55602,1.55602,1.57162,IRN,1.40794,MNE,1.48035,full import,import training + build inference
+CHL,Chile,1.50218,1.50218,1.50221,IRN,1.40794,CHL,1.50221,import training + build inference,full domestic
+CHN,China,1.45527,1.45527,1.56713,IRN,1.40794,KGZ,1.47418,full import,full domestic
+COL,Colombia,1.46289,1.46289,1.46687,IRN,1.40794,COL,1.46687,import training + build inference,full domestic
+CYP,Cyprus,1.57795,1.57795,1.57799,IRN,1.40794,XKX,1.54417,full import,import training + build inference
+CZE,Czechia,1.55401,1.55401,1.56349,IRN,1.40794,XKX,1.48369,full import,import training + build inference
+DEU,Germany,1.54336,1.54336,1.56397,IRN,1.40794,XKX,1.49661,full import,full domestic
+DNK,Denmark,1.5228,1.5228,1.52284,IRN,1.40794,NOR,1.47846,full import,full domestic
+DZA,Algeria,1.43535,1.43535,1.43542,IRN,1.40794,DZA,1.43542,import training + build inference,full domestic
+EGY,Egypt,1.43409,1.43409,1.43418,IRN,1.40794,EGY,1.43418,import training + build inference,full domestic
+ESP,Spain,1.50877,1.50877,1.5174,IRN,1.40794,DZA,1.49541,full import,full domestic
+EST,Estonia,1.51935,1.51935,1.51942,IRN,1.40794,FIN,1.47572,full import,full domestic
+FIN,Finland,1.46748,1.46748,1.46755,IRN,1.40794,FIN,1.46755,import training + build inference,full domestic
+FRA,France,1.49745,1.49745,1.51885,IRN,1.40794,DZA,1.49147,full import,full domestic
+GBR,United Kingdom,1.49562,1.49562,1.50605,IRN,1.40794,DZA,1.49281,full import,full domestic
+GEO,Georgia,1.48215,1.48215,1.48219,IRN,1.40794,AZE,1.47712,full import,full domestic
+GHA,Ghana,1.52603,1.52603,1.52611,IRN,1.40794,GHA,1.52611,import training + build inference,full domestic
+GRC,Greece,1.54393,1.54393,1.55247,IRN,1.40794,XKX,1.51815,full import,full domestic
+GRL,Greenland,1.61609,1.61609,1.62255,IRN,1.40794,CAN,1.50552,full import,import training + build inference
+HRV,Croatia,1.58437,1.58437,1.5844,IRN,1.40794,XKX,1.48428,full import,import training + build inference
+HUN,Hungary,1.5641,1.5641,1.56413,IRN,1.40794,XKX,1.47214,full import,import training + build inference
+IDN,Indonesia,1.47638,1.47638,1.47644,IRN,1.40794,IDN,1.47644,import training + build inference,full domestic
+IND,India,1.47581,1.47581,1.50316,IRN,1.40794,IND,1.50316,import training + build inference,full domestic
+IRL,Ireland,1.5847,1.5847,1.58716,IRN,1.40794,DZA,1.49532,full import,import training + build inference
+IRN,Iran,1.40794,1.40794,1.41358,IRN,1.40794,IRN,1.41358,full domestic,full domestic
+ISL,Iceland,1.49211,1.49211,1.49218,IRN,1.40794,ISL,1.49218,import training + build inference,full domestic
+ISR,Israel,1.50838,1.50838,1.51061,IRN,1.40794,ISR,1.51061,import training + build inference,full domestic
+ITA,Italy,1.54798,1.54798,1.56717,IRN,1.40794,DZA,1.48148,full import,full domestic
+JPN,Japan,1.55259,1.55259,1.56449,IRN,1.40794,JPN,1.56449,import training + build inference,import training + build inference
+KAZ,Kazakhstan,1.46557,1.46557,1.46561,IRN,1.40794,KGZ,1.45704,full import,full domestic
+KEN,Kenya,1.48785,1.48785,1.48792,IRN,1.40794,KEN,1.48792,import training + build inference,full domestic
+KGZ,Kyrgyzstan,1.42847,1.42847,1.43419,IRN,1.40794,KGZ,1.43419,import training + build inference,full domestic
+KOR,South Korea,1.52058,1.52058,1.52062,IRN,1.40794,KOR,1.52062,import training + build inference,full domestic
+LTU,Lithuania,1.52311,1.52311,1.5284,IRN,1.40794,FIN,1.48631,full import,full domestic
+LUX,Luxembourg,1.51713,1.51713,1.51718,IRN,1.40794,DZA,1.47951,full import,full domestic
+LVA,Latvia,1.50316,1.50316,1.50319,IRN,1.40794,FIN,1.47619,full import,full domestic
+MAR,Morocco,1.49669,1.49669,1.49674,IRN,1.40794,MAR,1.49674,import training + build inference,full domestic
+MDA,Moldova,1.52206,1.52206,1.52211,IRN,1.40794,UKR,1.51956,full import,full domestic
+MEX,Mexico,1.49687,1.49687,1.53684,IRN,1.40794,CAN,1.53515,full import,full domestic
+MKD,North Macedonia,1.52511,1.52511,1.53121,IRN,1.40794,MKD,1.53121,import training + build inference,full domestic
+MLT,Malta,1.50556,1.50556,1.5056,IRN,1.40794,MLT,1.5056,import training + build inference,full domestic
+MNE,Montenegro,1.45474,1.45474,1.46056,IRN,1.40794,MNE,1.46056,import training + build inference,full domestic
+MYS,Malaysia,1.50576,1.50576,1.50579,IRN,1.40794,MYS,1.50579,import training + build inference,full domestic
+NGA,Nigeria,1.45294,1.45294,1.45309,IRN,1.40794,NGA,1.45309,import training + build inference,full domestic
+NLD,Netherlands,1.51892,1.51892,1.52434,IRN,1.40794,XKX,1.49031,full import,full domestic
+NOR,Norway,1.46503,1.46503,1.47089,IRN,1.40794,NOR,1.47089,import training + build inference,full domestic
+NZL,New Zealand,1.49631,1.49631,1.50524,IRN,1.40794,NZL,1.50524,import training + build inference,full domestic
+PAK,Pakistan,1.51533,1.51533,1.51537,IRN,1.40794,PAK,1.51537,import training + build inference,full domestic
+PHL,Philippines,1.50732,1.50732,1.52235,IRN,1.40794,PHL,1.52235,import training + build inference,full domestic
+POL,Poland,1.50255,1.50255,1.50588,IRN,1.40794,UKR,1.48682,full import,full domestic
+PRT,Portugal,1.50405,1.50405,1.50412,IRN,1.40794,PRT,1.50412,import training + build inference,full domestic
+ROU,Romania,1.53712,1.53712,1.53717,IRN,1.40794,XKX,1.50954,full import,full domestic
+RUS,Russia,1.44426,1.44426,1.49349,IRN,1.40794,RUS,1.49349,import training + build inference,full domestic
+SAU,Saudi Arabia,1.47018,1.47018,1.47023,IRN,1.40794,SAU,1.47023,import training + build inference,full domestic
+SGP,Singapore,1.56559,1.56559,1.56564,IRN,1.40794,IDN,1.49194,full import,import training + build inference
+SRB,Serbia,1.51323,1.51323,1.51328,IRN,1.40794,XKX,1.46084,full import,full domestic
+SVK,Slovakia,1.54594,1.54594,1.54598,IRN,1.40794,XKX,1.47636,full import,full domestic
+SVN,Slovenia,1.53372,1.53372,1.53377,IRN,1.40794,XKX,1.47001,full import,full domestic
+SWE,Sweden,1.47517,1.47517,1.48,IRN,1.40794,SWE,1.48,import training + build inference,full domestic
+THA,Thailand,1.50934,1.50934,1.50939,IRN,1.40794,THA,1.50939,import training + build inference,full domestic
+TJK,Tajikistan,1.4544,1.4544,1.46022,IRN,1.40794,TKM,1.45629,full import,full domestic
+TKM,Turkmenistan,1.41662,1.41662,1.42229,IRN,1.40794,TKM,1.42229,import training + build inference,full domestic
+TUR,Turkey,1.48787,1.48787,1.49944,IRN,1.40794,TUR,1.49944,import training + build inference,full domestic
+UKR,Ukraine,1.45795,1.45795,1.458,IRN,1.40794,UKR,1.458,import training + build inference,full domestic
+USA,United States of America,1.48369,1.48369,1.53639,IRN,1.40794,CAN,1.50437,full import,full domestic
+UZB,Uzbekistan,1.46737,1.46737,1.47324,IRN,1.40794,TKM,1.44495,full import,full domestic
+VNM,Vietnam,1.46984,1.46984,1.49121,IRN,1.40794,VNM,1.49121,import training + build inference,full domestic
+XKX,Kosovo,1.44686,1.44686,1.44689,IRN,1.40794,XKX,1.44689,import training + build inference,full domestic
+ZAF,South Africa,1.44619,1.44619,1.4595,IRN,1.40794,ZAF,1.4595,import training + build inference,full domestic
