@@ -1,48 +1,21 @@
 [
   {
     "type": "text",
-    "para_base": 3,
-    "para_edit": 3,
-    "location": "¶3 \"v33  —  Apri...\"",
-    "detail": "\"April 19, | 15:19\" → \"May 14, | 00:34\"",
-    "old": "v33  —  April 19, 2026  15:19",
-    "new": "v33  —  May 14, 2026  00:34"
-  },
-  {
-    "type": "text",
-    "para_base": 12,
-    "para_edit": 12,
-    "location": "¶12 \"The expansio...\"",
-    "detail": "\"largest AI | (Epoch AI 2024). ...\" → \"machine learning | (ML) | (Sev...\"",
-    "old": "The expansion of artificial intelligence drives the demand for computational resources. The compute used to train the largest AI models has been doubling every six months since 2010 (Epoch AI 2024). Data centers accounted for approximately 1.5% of global electricity demand in 2024, and that share is projected to more than double by 2030 (IEA 2025).",
-    "new": "The expansion of artificial intelligence drives the demand for computational resources. The compute used to train the machine learning models (ML) has been doubling every six months since 2010 (Sevilla et al. 2022). In 2024, data centers accounted for approximately 1.5% of global electricity demand, and that share is projected to exceed 3% by 2030 (IEA 2025)."
+    "para_base": 4,
+    "para_edit": 4,
+    "location": "¶4 \"Abstract: Ca...\"",
+    "detail": "\"of compute | of their\" → \"(none)\"",
+    "old": "Abstract: Can energy-rich developing countries convert cheap electricity into AI compute exports? We develop a capacity-constrained Ricardian model of compute trade in which training is globally tradable, but inference incurs a latency cost, and delivered prices carry a bilateral sovereignty premium. Calibrated across 85 countries, the model places several developing economies among the cheapest producers of compute at unsubsidized prices, yet bilateral trust deficits between developing-country producers and OECD buyers eliminate nearly all of their exports. Globally priced hardware compresses the cross-country cost spread to 12–20 percent, making compute the easiest tradable sector to enter on cost grounds and the most sensitive to small policy frictions: the binding export constraint is institutional credibility, not the price of power.",
+    "new": "Abstract: Can energy-rich developing countries convert cheap electricity into AI compute exports? We develop a capacity-constrained Ricardian model of compute trade in which training is globally tradable, but inference incurs a latency cost, and delivered prices carry a bilateral sovereignty premium. Calibrated across 85 countries, the model places several developing economies among the cheapest producers at unsubsidized prices, yet bilateral trust deficits between developing-country producers and OECD buyers eliminate nearly all exports. Globally priced hardware compresses the cross-country cost spread to 12–20 percent, making compute the easiest tradable sector to enter on cost grounds and the most sensitive to small policy frictions: the binding export constraint is institutional credibility, not the price of power."
   },
   {
     "type": "text",
     "para_base": 13,
     "para_edit": 13,
     "location": "¶13 \"This surge i...\"",
-    "detail": "\"exporting.\" → \"exporting, where FLOP denotes ...\"",
-    "old": "This surge in demand for compute creates an export opportunity. We refer to the production of compute services in one country for consumption in another as FLOP exporting. Rather than exporting raw energy resources as primary commodities, countries can use cheap electricity to produce higher-value-added digital services. For resource-rich developing countries, FLOP exporting could offer a route up the value chain.",
-    "new": "This surge in demand for compute creates an export opportunity. We refer to the production of compute services in one country for consumption in another as FLOP exporting, where FLOP denotes floating-point operations, the standard unit of computational work. Rather than exporting raw energy resources as primary commodities, countries can use cheap electricity to produce higher-value-added digital services. For resource-rich developing countries, FLOP exporting could offer a route up the value chain."
-  },
-  {
-    "type": "text",
-    "para_base": 14,
-    "para_edit": 14,
-    "location": "¶14 \"Several mega...\"",
-    "detail": "\"each | center commitments, | A...\" → \"investments in | centers. | Gl...\"",
-    "old": "Several megaprojects confirm that FLOP exporting is technically and commercially feasible. Armenia is deploying 50,000 GPUs as a part of a $4 billion investment (Firebird 2026). Kenya, Saudi Arabia, and Malaysia have each attracted billion-dollar data center commitments, Google has committed $15 billion to India, and OpenAI has proposed a $25 billion “Stargate Argentina” complex (Straub et al. 2026). Announced global data-center FDI reached over $310 billion in 2025, with emerging markets and developing economies (EMDEs) accounting for roughly 40 percent of projects (Aykut et al. 2026). Cloud computing exports already exceed $9 billion annually (World Bank 2025). If Kyrgyzstan builds a 40 MW AI data center, it could generate annual revenue of $630–950 million at wholesale contract rates, equivalent to over 15% of Kyrgyzstan’s $3.8 billion in goods exports (World Bank 2024).",
-    "new": "Several megaprojects confirm that FLOP exporting is technically and commercially feasible. Armenia is deploying 50,000 GPUs as a part of a $4 billion investment (Firebird 2026). Kenya, Saudi Arabia, and Malaysia have attracted billion-dollar investments in data centers. Google has committed $15 billion to India, and OpenAI has proposed a $25 billion “Stargate Argentina” complex (Straub et al. 2026). Global data-center FDI reached over $310 billion in 2025 (Aykut et al. 2026) and annual cloud computing exports exceed $9 billion (World Bank 2025). "
-  },
-  {
-    "type": "text",
-    "para_base": 16,
-    "para_edit": 16,
-    "location": "¶16 \"The calibrat...\"",
-    "detail": "\"The | cost and is identical ac...\" → \"Our | exercise | cost, | 2024)...\"",
-    "old": "The calibration reveals that cheap electricity and favorable cooling conditions are necessary but not sufficient for competitive compute exporting. Hardware amortization accounts for approximately 90 percent of the compute unit cost and is identical across countries, compressing the total cost spread to 12–20 percent. Several developing countries rank among the cheapest producers under cost-recovery pricing, but under the bilateral sovereignty specification, trust deficits eliminate all developing-country exports. The cost-of-capital channel amplifies this result: because hardware dominates the compute cost stack, a 10-percentage-point gap in the weighted average cost of capital between OECD hyperscalers (8%) and locally financed developing-country operators (18%) adds roughly $0.29/GPU-hour to unit cost — about four times the electricity-cost spread across the top 20 countries (Calcaterra et al. 2024; see Table 3, column (4)). For energy-rich developing countries, the limiting factor is not electricity cost but the institutional credibility needed to overcome bilateral trust deficits and compress the cost of capital.",
-    "new": "Our calibration exercise reveals that cheap electricity and favorable cooling conditions are necessary but not sufficient for competitive compute exporting. Hardware amortization accounts for approximately 90 percent of the compute unit cost, compressing the total cost spread to 12–20 percent. Several developing countries rank among the cheapest producers under cost-recovery pricing, but under the bilateral sovereignty specification, trust deficits eliminate all developing-country exports. The cost-of-capital channel amplifies this result: because hardware dominates the compute cost stack, a 10-percentage-point gap in the weighted average cost of capital between OECD hyperscalers (8%) and locally financed developing-country operators (18%) adds roughly $0.29/GPU-hour to unit cost — about four times the electricity-cost spread across the top 20 countries (Calcaterra et al. 2024). For energy-rich developing countries, the limiting factor is not electricity cost but the institutional credibility needed to overcome bilateral trust deficits and compress the cost of capital."
+    "detail": "\"resources as primary commoditi...\" → \"resources, | offers\"",
+    "old": "This surge in demand for compute creates an export opportunity. We refer to the production of compute services in one country for consumption in another as FLOP exporting, where FLOP denotes floating-point operations, the standard unit of computational work. Rather than exporting raw energy resources as primary commodities, countries can use cheap electricity to produce higher-value-added digital services. For resource-rich developing countries, FLOP exporting could offer a route up the value chain.",
+    "new": "This surge in demand for compute creates an export opportunity. We refer to the production of compute services in one country for consumption in another as FLOP exporting, where FLOP denotes floating-point operations, the standard unit of computational work. Rather than exporting raw energy resources, countries can use cheap electricity to produce higher-value-added digital services. For resource-rich developing countries, FLOP exporting offers a route up the value chain."
   },
   {
     "type": "run_format",
@@ -70,40 +43,12 @@
   },
   {
     "type": "text",
-    "para_base": 20,
-    "para_edit": 20,
-    "location": "¶20 \"Several stud...\"",
-    "detail": "\"abroad, and\" → \"abroad.\"",
-    "old": "Several studies examine where firms should build data centers. Flucker et al. (2013) show that climate affects data center cooling costs. Liu et al. (2023) study data center placement under renewable energy constraints. In international trade theory, Brainard (1997) formalizes the proximity-concentration trade-off between serving a market locally and concentrating production abroad, and Helpman et al. (2004) extend this to heterogeneous firms choosing between exporting and FDI.",
-    "new": "Several studies examine where firms should build data centers. Flucker et al. (2013) show that climate affects data center cooling costs. Liu et al. (2023) study data center placement under renewable energy constraints. In international trade theory, Brainard (1997) formalizes the proximity-concentration trade-off between serving a market locally and concentrating production abroad. Helpman et al. (2004) extend this to heterogeneous firms choosing between exporting and FDI."
-  },
-  {
-    "type": "text",
-    "para_base": 26,
-    "para_edit": 26,
-    "location": "¶26 \"where γ is G...\"",
-    "detail": "\"markets and are common across ...\" → \"markets.\"",
-    "old": "where γ is GPU power draw (kW), pE,j is the electricity price ($/kWh), ρ = PGPU / (L · H · β) is amortized hardware cost per GPU-hour (PGPU = purchase price, L = lifetime in years, H = 8,766 hours per year, β = utilization rate), η is amortized networking cost, and the last term amortizes per-GPU construction costs pL,j (= per-watt cost × 700 W) over the facility’s lifetime D. Both ρ and η are determined in global hardware markets and are common across countries. Cross-country variation in cj is therefore driven by electricity prices, climate, and construction costs. The PUE function captures temperature-dependent cooling overhead:",
-    "new": "where γ is GPU power draw (kW), pE,j is the electricity price ($/kWh), ρ = PGPU / (L · H · β) is amortized hardware cost per GPU-hour (PGPU = purchase price, L = lifetime in years, H = 8,766 hours per year, β = utilization rate), η is amortized networking cost, and the last term amortizes per-GPU construction costs pL,j (= per-watt cost × 700 W) over the facility’s lifetime D. Both ρ and η are determined in global hardware markets. Cross-country variation in cj is therefore driven by electricity prices, climate, and construction costs. The PUE function captures temperature-dependent cooling overhead:"
-  },
-  {
-    "type": "text",
-    "para_base": 27,
-    "para_edit": 27,
-    "location": "¶27 \"PUE(θj) = φ ...\"",
-    "detail": "\"− θ),where\" → \"- θ), where\"",
-    "old": "PUE(θj) = φ + δ · max(0, θj − θ),where φ is the base PUE at or below the free-cooling threshold θ, δ is the marginal PUE penalty per °C above θ, and θj is country j’s peak summer temperature.",
-    "new": "PUE(θj) = φ + δ · max(0, θj - θ), where φ is the base PUE at or below the free-cooling threshold θ, δ is the marginal PUE penalty per °C above θ, and θj is country j’s peak summer temperature."
-  },
-  {
-    "type": "format",
-    "para_base": 31,
-    "para_edit": 31,
-    "location": "¶31 \"Governments ...\"",
-    "detail": "space_after: 4.0pt → 2.0pt",
-    "property": "space_after",
-    "old_value": "4.0pt",
-    "new_value": "2.0pt"
+    "para_base": 28,
+    "para_edit": 28,
+    "location": "¶28 \"Although the...\"",
+    "detail": "\"Although the | Heckscher–Ohlin...\" → \"The | but | Heckscher–Ohlin:\"",
+    "old": "Although the cost structure above is Ricardian (country-specific production costs driven by technology and input prices), the justification for resource-rich comparative advantage is closer to the Heckscher–Ohlin model: countries export goods intensive in their abundant factors (Heckscher 1919, Ohlin 1933). For compute production, the relevant endowment is not electricity, but the natural resources that generate it, such as hydropower (Kyrgyzstan, Ethiopia, Georgia), oil and gas (Iran, Turkmenistan, Qatar), solar irradiance (North Africa, the Gulf), and geothermal energy (Kenya, Iceland).",
+    "new": "The cost structure above is Ricardian (country-specific production costs driven by technology and input prices), but the justification for resource-rich comparative advantage is closer to the Heckscher–Ohlin: countries export goods intensive in their abundant factors (Heckscher 1919, Ohlin 1933). For compute production, the relevant endowment is not electricity, but the natural resources that generate it, such as hydropower (Kyrgyzstan, Ethiopia, Georgia), oil and gas (Iran, Turkmenistan, Qatar), solar irradiance (North Africa, the Gulf), and geothermal energy (Kenya, Iceland)."
   },
   {
     "type": "run_format",
@@ -130,42 +75,13 @@
     "new_value": "1F3864"
   },
   {
-    "type": "text",
-    "para_base": 32,
-    "para_edit": 32,
-    "location": "¶32 \"Two establis...\"",
-    "detail": "\"literatures | three | Gij, Rij...\" → \"bodies of literature | two | G...\"",
-    "old": "Two established literatures motivate this functional form. The multiplicative wedge (1 + λij) on delivered cost is the standard representation of ad valorem bilateral trade frictions in the gravity literature (Anderson and van Wincoop 2003), where pair-specific wedges capture border effects, policy barriers, and non-tariff measures that raise the price paid by buyer j for seller i’s services above the seller’s own cost. The linear additive structure of the three components Gij, Rij, Sij treats geopolitical, regulatory, and sanctions frictions as separable contributions to the wedge, consistent with the iceberg-equivalent decomposition of services trade costs in Benz and Jaax (2020).",
-    "new": "Two established bodies of literature motivate this functional form. The multiplicative wedge (1 + λij) on delivered cost is the standard representation of ad valorem bilateral trade frictions in the gravity literature (Anderson and van Wincoop 2003), where pair-specific wedges capture border effects, policy barriers, and non-tariff measures that raise the price paid by buyer j for seller i’s services above the seller’s own cost. The linear additive structure of the two components Gij and Rijtreats geopolitical, regulatory, and sanctions frictions as separable contributions to the wedge, consistent with the iceberg-equivalent decomposition of services trade costs in Benz and Jaax (2020)."
-  },
-  {
-    "type": "formula",
-    "para_base": 32,
-    "para_edit": 32,
-    "location": "¶32 \"Two establis...\"",
-    "detail": "Gij, Rij, Sij → Gij and Rij",
-    "old_omml": "<m:oMath xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><m:sSub><m:sSubPr></m:sSubPr><m:e><m:r><m:rPr><m:sty m:val=\"i\"></m:sty></m:rPr><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t xml:space=\"preserve\">G</m:t></m:r></m:e><m:sub><m:r><m:rPr><m:sty m:val=\"i\"></m:sty></m:rPr><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t xml:space=\"preserve\">ij</m:t></m:r></m:sub></m:sSub><m:r><m:rPr><m:sty m:val=\"p\"></m:sty></m:rPr><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t xml:space=\"preserve\">, </m:t></m:r><m:sSub><m:sSubPr></m:sSubPr><m:e><m:r><m:rPr><m:sty m:val=\"i\"></m:sty></m:rPr><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t xml:space=\"preserve\">R</m:t></m:r></m:e><m:sub><m:r><m:rPr><m:sty m:val=\"i\"></m:sty></m:rPr><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t xml:space=\"preserve\">ij</m:t></m:r></m:sub></m:sSub><m:r><m:rPr><m:sty m:val=\"p\"></m:sty></m:rPr><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t xml:space=\"preserve\">, </m:t></m:r><m:sSub><m:sSubPr></m:sSubPr><m:e><m:r><m:rPr><m:sty m:val=\"i\"></m:sty></m:rPr><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t xml:space=\"preserve\">S</m:t></m:r></m:e><m:sub><m:r><m:rPr><m:sty m:val=\"i\"></m:sty></m:rPr><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t xml:space=\"preserve\">ij</m:t></m:r></m:sub></m:sSub></m:oMath>",
-    "new_omml": "<m:oMath xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><m:sSub><m:sSubPr><m:ctrlPr><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr></m:ctrlPr></m:sSubPr><m:e><m:r><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t>G</m:t></m:r></m:e><m:sub><m:r><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t>ij</m:t></m:r></m:sub></m:sSub><m:r><m:rPr><m:sty m:val=\"p\"></m:sty></m:rPr><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t xml:space=\"preserve\"> and</m:t></m:r><m:r><m:rPr><m:sty m:val=\"p\"></m:sty></m:rPr><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t xml:space=\"preserve\"> </m:t></m:r><m:sSub><m:sSubPr><m:ctrlPr><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr></m:ctrlPr></m:sSubPr><m:e><m:r><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t>R</m:t></m:r></m:e><m:sub><m:r><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t>ij</m:t></m:r></m:sub></m:sSub></m:oMath>",
-    "old_unicode": "Gij, Rij, Sij",
-    "new_unicode": "Gij and Rij"
-  },
-  {
-    "type": "text",
-    "para_base": 33,
-    "para_edit": 33,
-    "location": "¶33 \"The microfou...\"",
-    "detail": "\"microfoundation for why the | ...\" → \"dependence on | follows from |...\"",
-    "old": "The microfoundation for why the wedge scales with bilateral institutional alignment is the incomplete-contracts and insecure-property-rights view of international trade (Anderson and Marcouiller 2002, Antràs 2003). Compute trade is contract-intensive: the buyer hands sensitive data to a remote seller and relies on the seller’s jurisdiction to enforce confidentiality, service-level obligations, and, in many applications, the buyer’s ability to retrieve or delete its data. Where these contracts are weakly enforceable, the buyer discounts the seller’s effective price, and the size of the discount varies systematically with the pair-specific strength of the enforcement environment: political alignment Gij proxies dispute-resolution willingness, mutual data adequacy Rij proxies enforceable contractual floors on data handling, and sanctions Sij proxy the extreme case where no enforcement is possible. Equation (2) is thus the natural implementation of the insecure-trade framework in a services-trade setting where the traded object is a compute service bundled with a data-handling contract.The delivered cost of service s ∈ {T, I} from seller j to buyer k is:",
-    "new": "The wedge dependence on bilateral institutional alignment follows from the incomplete-contracts theory (Anderson and Marcouiller 2002, Antràs 2003). Compute trade is contract-intensive: the buyer hands sensitive data to a remote seller and relies on the seller’s jurisdiction to enforce confidentiality, service-level obligations, and, in many applications, the buyer’s ability to retrieve or delete its data. In countries where these contracts are weakly enforceable, the buyer discounts the seller’s effective price, and the size of the discount varies with the pair-specific strength of the enforcement environment. Political alignment Gij proxies dispute-resolution willingness, mutual data adequacy Rij proxies enforceable contractual floors on data handling, and sanctions Sij proxy the extreme case where no enforcement is possible. Equation (2) is thus the natural implementation of the insecure-trade framework in a services-trade setting where the traded object is a compute service bundled with a data-handling contract.The delivered cost of service s ∈ {T, I} from seller j to buyer k is:"
-  },
-  {
     "type": "run_format",
     "para_base": 33,
     "para_edit": 33,
-    "location": "¶33 \"The microfou...\"",
-    "detail": "\"The delivere...\" underline: None → True",
-    "run_index": 6,
-    "run_text": "The delivered cost of service ",
+    "location": "¶33 \"The wedge de...\"",
+    "detail": "\"proxies enfo...\" underline: None → True",
+    "run_index": 4,
+    "run_text": " proxies enforceable contractual floors on data handling, and sanctions ",
     "property": "underline",
     "old_value": "None",
     "new_value": "True"
@@ -174,10 +90,10 @@
     "type": "run_format",
     "para_base": 33,
     "para_edit": 33,
-    "location": "¶33 \"The microfou...\"",
-    "detail": "\"The delivere...\" font_color: None → 1F3864",
-    "run_index": 6,
-    "run_text": "The delivered cost of service ",
+    "location": "¶33 \"The wedge de...\"",
+    "detail": "\"proxies enfo...\" font_color: None → 1F3864",
+    "run_index": 4,
+    "run_text": " proxies enforceable contractual floors on data handling, and sanctions ",
     "property": "font_color",
     "old_value": "None",
     "new_value": "1F3864"
@@ -205,6 +121,24 @@
     "property": "font_color",
     "old_value": "None",
     "new_value": "1F3864"
+  },
+  {
+    "type": "text",
+    "para_base": 35,
+    "para_edit": 35,
+    "location": "¶35 \"The paramete...\"",
+    "detail": "\"price, modeled as\" → \"price:\"",
+    "old": "The parameter τ measures the rate of quality degradation per millisecond of round-trip latency, with τT = 0 and τI = τ > 0. For training (τT = 0), the delivered cost is the sum of the production cost and the sovereignty markup. For inference, the delivered cost increases with latency at rate τI. Beyond a threshold l (typically 200–300 ms for interactive applications), the service becomes unusable regardless of price, modeled as PI(j, k) = ∞ if ljk > l.",
+    "new": "The parameter τ measures the rate of quality degradation per millisecond of round-trip latency, with τT = 0 and τI = τ > 0. For training (τT = 0), the delivered cost is the sum of the production cost and the sovereignty markup. For inference, the delivered cost increases with latency at rate τI. Beyond a threshold l (typically 200–300 ms for interactive applications), the service becomes unusable regardless of price: PI(j, k) = ∞ if ljk > l."
+  },
+  {
+    "type": "text",
+    "para_base": 56,
+    "para_edit": 56,
+    "location": "¶56 \"The remainin...\"",
+    "detail": "\"production\" → \"(none)\"",
+    "old": "The remaining four combinations cannot arise in equilibrium. A training exporter cannot simultaneously produce inference domestically or import it: a country cheap enough to win a global training competition (cj < pT) is necessarily cheap enough to export inference to nearby buyers (Proposition 4). A country that produces training domestically cannot import inference, because the sovereignty premium that justifies domestic training production also justifies domestic inference production, which faces latency degradation when imported. A domestic training producer that exports inference would require simultaneously high sovereignty preference and low costs, a combination ruled out by the model’s cost ordering. Table 1 summarizes this taxonomy.",
+    "new": "The remaining four combinations cannot arise in equilibrium. A training exporter cannot simultaneously produce inference domestically or import it: a country cheap enough to win a global training competition (cj < pT) is necessarily cheap enough to export inference to nearby buyers (Proposition 4). A country that produces training domestically cannot import inference, because the sovereignty premium that justifies domestic training also justifies domestic inference production, which faces latency degradation when imported. A domestic training producer that exports inference would require simultaneously high sovereignty preference and low costs, a combination ruled out by the model’s cost ordering. Table 1 summarizes this taxonomy."
   },
   {
     "type": "run_format",
@@ -279,22 +213,13 @@
     "new_value": "1F3864"
   },
   {
-    "type": "text",
-    "para_base": 74,
-    "para_edit": 74,
-    "location": "¶74 \"Sovereignty ...\"",
-    "detail": "\"0.04–0.07.\" → \"being | 0.04-0.07.\"",
-    "old": "Sovereignty premium. The bilateral sovereignty premium λij is constructed from geopolitical distance and regulatory compatibility (eq. (2)), with coefficient weights w1 = 0.05 (geopolitical distance) and w2 = 0.025 (regulatory incompatibility). Sanctioned pairs are excluded by assumption (λij = ∞) rather than assigned a finite weight. The continuous weights are calibrated so that an intra-bloc pair with data-adequacy (for example, two EU member states) faces λij ≈ 0, and a typical cross-bloc pair without a regulatory agreement faces λij ≈ 0.04–0.07. The implied premium on non-adversarial services trade stays below the 16% upper bound for regulatory barriers to communication services estimated by Benz and Jaax (2020), and the headline results are reported alongside a uniform-premium robustness check in Table 3 to make the sensitivity to these weights transparent. As a robustness check, we also report results under a uniform premium λ = 10%. The training share of compute demand is α = 0.50, within the industry range of 0.4–0.6 (Deloitte 2025). Construction costs are amortized over 15 years.",
-    "new": "Sovereignty premium. The bilateral sovereignty premium λij is constructed from geopolitical distance and regulatory compatibility (eq. (2)), with coefficient weights w1 = 0.05 (geopolitical distance) and w2 = 0.025 (regulatory incompatibility). Sanctioned pairs are excluded by assumption (λij = ∞) rather than being assigned a finite weight. The continuous weights are calibrated so that an intra-bloc pair with data-adequacy (for example, two EU member states) faces λij ≈ 0, and a typical cross-bloc pair without a regulatory agreement faces λij ≈ 0.04-0.07. The implied premium on non-adversarial services trade stays below the 16% upper bound for regulatory barriers to communication services estimated by Benz and Jaax (2020), and the headline results are reported alongside a uniform-premium robustness check in Table 3 to make the sensitivity to these weights transparent. As a robustness check, we also report results under a uniform premium λ = 10%. The training share of compute demand is α = 0.50, within the industry range of 0.4–0.6 (Deloitte 2025). Construction costs are amortized over 15 years."
-  },
-  {
     "type": "run_format",
     "para_base": 74,
     "para_edit": 74,
     "location": "¶74 \"Sovereignty ...\"",
     "detail": "\") rather tha...\" underline: None → True",
     "run_index": 6,
-    "run_text": ") rather than assigned a finite weight. The continuous weights are calibrated so that an intra-bloc pair with data-adequacy (for example, two EU member states) faces ",
+    "run_text": ") rather than being assigned a finite weight. The continuous weights are calibrated so that an intra-bloc pair with data-adequacy (for example, two EU member states) faces ",
     "property": "underline",
     "old_value": "None",
     "new_value": "True"
@@ -306,19 +231,28 @@
     "location": "¶74 \"Sovereignty ...\"",
     "detail": "\") rather tha...\" font_color: None → 1F3864",
     "run_index": 6,
-    "run_text": ") rather than assigned a finite weight. The continuous weights are calibrated so that an intra-bloc pair with data-adequacy (for example, two EU member states) faces ",
+    "run_text": ") rather than being assigned a finite weight. The continuous weights are calibrated so that an intra-bloc pair with data-adequacy (for example, two EU member states) faces ",
     "property": "font_color",
     "old_value": "None",
     "new_value": "1F3864"
   },
   {
     "type": "text",
-    "para_base": 84,
-    "para_edit": 84,
-    "location": "¶84 \"Trade flows ...\"",
-    "detail": "\"(none)\" → \"and\"",
-    "old": "Trade flows under capacity constraints. Weighing the sourcing patterns by demand shares from equation (4) and applying capacity constraints, the equilibrium training price is pT = $1.60/hr, set by the marginal exporter’s cost. Training demand is served by a dominant exporter (HHI = 0.984, with 3 other producers at the margin), leaving the training market close to the unconstrained benchmark of Proposition 2. The largest shadow values of grid capacity are in Kyrgyzstan ($0.019/hr), Ethiopia ($0.003/hr), Kosovo ($0.001/hr), indicating modest returns to capacity expansion. Under the bilateral sovereignty premium, most training demand shifts to domestic production, and the residual export market is served by a single exporter at $1.58/hr.",
-    "new": "Trade flows under capacity constraints. Weighing the sourcing patterns by demand shares from equation (4) and applying capacity constraints, the equilibrium training price is pT = $1.60/hr, set by the marginal exporter’s cost. Training demand is served by a dominant exporter (HHI = 0.984, with 3 other producers at the margin), leaving the training market close to the unconstrained benchmark of Proposition 2. The largest shadow values of grid capacity are in Kyrgyzstan ($0.019/hr), Ethiopia ($0.003/hr), and Kosovo ($0.001/hr), indicating modest returns to capacity expansion. Under the bilateral sovereignty premium, most training demand shifts to domestic production, and the residual export market is served by a single exporter at $1.58/hr."
+    "para_base": 80,
+    "para_edit": 80,
+    "location": "¶80 \"The gap betw...\"",
+    "detail": "\"The gap between cost | is wide...\" → \"Cost | diverge sharply.\"",
+    "old": "The gap between cost advantage and actual investment is wide. Eight of the twenty cheapest producers have under 100 MW of installed capacity (e.g., Kyrgyzstan: rank 1, 5 MW), while countries outside the top twenty host large clusters (Netherlands: rank 67, 1,800 MW; Ireland: rank 83, 1,260 MW). The cost ranking identifies the feasible set of exporters, not a prediction of realized investment.",
+    "new": "Cost advantage and actual investment diverge sharply. Eight of the twenty cheapest producers have under 100 MW of installed capacity (e.g., Kyrgyzstan: rank 1, 5 MW), while countries outside the top twenty host large clusters (Netherlands: rank 67, 1,800 MW; Ireland: rank 83, 1,260 MW). The cost ranking identifies the feasible set of exporters, not realized investment."
+  },
+  {
+    "type": "text",
+    "para_base": 81,
+    "para_edit": 81,
+    "location": "¶81 \"Recent FDI d...\"",
+    "detail": "\"Moreover, most announced | are...\" → \"Most | driving\"",
+    "old": "Recent FDI data confirm this pattern. Among EMDEs, the largest recipients of data-center investment are Malaysia, India, and Brazil, countries with moderate electricity costs but strong regulatory frameworks and credible grid infrastructure. In contrast, the cheapest producers (Kyrgyzstan, Tajikistan, Ethiopia) received virtually no data-center FDI (Aykut et al. 2026). Moreover, most announced investment flows between geopolitical allies, are consistent with the bilateral sovereignty premium rather than cost alone determining where capacity is built (Straub et al. 2026). Econometric evidence confirms that electricity costs are not a robust predictor of data center location once market size and regulatory environment are controlled for (Caoui and Steck 2025).",
+    "new": "Recent FDI data confirm this pattern. Among EMDEs, the largest recipients of data-center investment are Malaysia, India, and Brazil, countries with moderate electricity costs but strong regulatory frameworks and credible grid infrastructure. In contrast, the cheapest producers (Kyrgyzstan, Tajikistan, Ethiopia) received virtually no data-center FDI (Aykut et al. 2026). Most investment flows between geopolitical allies, consistent with the bilateral sovereignty premium rather than cost alone driving where capacity is built (Straub et al. 2026). Econometric evidence confirms that electricity costs are not a robust predictor of data center location once market size and regulatory environment are controlled for (Caoui and Steck 2025)."
   },
   {
     "type": "run_format",
@@ -346,134 +280,27 @@
   },
   {
     "type": "text",
-    "para_base": 90,
-    "para_edit": 90,
-    "location": "¶90 \"Welfare cost...\"",
-    "detail": "\"costs).\" → \"costs.\"",
-    "old": "Welfare cost of sovereignty. The bilateral sovereignty premium imposes a welfare cost with two components, an import markup (importers pay λij · pT per unit above the competitive price) and an allocative inefficiency (countries with pT < ck ≤ (1 + λij) · pT produce domestically at above-world-price costs). Under capacity constraints, both components are smaller than in the unconstrained model because the higher world price narrows the gap between domestic and import costs. The demand-weighted welfare cost is 1.6% of average compute spending, in the range of the welfare gains from trade in goods estimated in the quantitative trade literature, which range from roughly 0.2% to 10% depending on country size and specification (Eaton and Kortum 2002, Arkolakis et al. 2012). At current demand levels (approximately 6 × 10¹⁰ GPU-hours at $1.50/hr), this amounts to roughly $1.3 billion per year. This cost is small enough that governments with legitimate data-sovereignty objectives, such as military applications, health records, and national statistical systems, may prefer domestic production even at the cost of efficiency.",
-    "new": "Welfare cost of sovereignty. The bilateral sovereignty premium imposes a welfare cost with two components, an import markup (importers pay λij · pT per unit above the competitive price) and an allocative inefficiency (countries with pT < ck ≤ (1 + λij) · pT produce domestically at above-world-price costs. Under capacity constraints, both components are smaller than in the unconstrained model because the higher world price narrows the gap between domestic and import costs. The demand-weighted welfare cost is 1.6% of average compute spending, in the range of the welfare gains from trade in goods estimated in the quantitative trade literature, which range from roughly 0.2% to 10% depending on country size and specification (Eaton and Kortum 2002, Arkolakis et al. 2012). At current demand levels (approximately 6 × 10¹⁰ GPU-hours at $1.50/hr), this amounts to roughly $1.3 billion per year. This cost is small enough that governments with legitimate data-sovereignty objectives, such as military applications, health records, and national statistical systems, may prefer domestic production even at the cost of efficiency."
+    "para_base": 89,
+    "para_edit": 89,
+    "location": "¶89 \"Raising the ...\"",
+    "detail": "\"training production, | The eas...\" → \"training,\"",
+    "old": "Raising the uniform premium to 20% shifts five additional countries (including Croatia, Cyprus, and Germany) to domestic training production, reducing the share of global training demand available to foreign producers from 3% to 0%. Inference exports are more resilient to sovereignty premia because the latency advantage of proximity partially insulates regional hubs. The ease with which modest premia eliminate trade explains the welfare costs documented below.",
+    "new": "Raising the uniform premium to 20% shifts five additional countries (including Croatia, Cyprus, and Germany) to domestic training, reducing the share of global training demand available to foreign producers from 3% to 0%. Inference exports are more resilient to sovereignty premia because the latency advantage of proximity partially insulates regional hubs."
   },
   {
     "type": "text",
-    "para_base": 91,
-    "para_edit": 91,
-    "location": "¶91 \"The welfare ...\"",
-    "detail": "\"significant\" → \"high\"",
-    "old": "The welfare implications of the sovereignty premium depend on whether it reflects genuine security externalities or regulatory overreach. Some domestic processing preference is justified for confidential data, but much of the current policy push extends the sovereignty logic to routine commercial computation. The welfare cost is significant in aggregate dollars but modest as a share of compute spending. The bilateral premium shifts most countries toward domestic production, forgoing the cost savings from specialization. The premium is also partly endogenous to the absence of credible international data governance: where enforceable data-protection agreements exist (as within the EU), the premium falls; where they do not, even commercially motivated buyers face rational reasons to prefer domestic processing. Sovereignty preferences are not limited to developing countries: France’s SecNumCloud certification mandates EU-only data hosting and staffing, effectively excluding U.S. hyperscalers from sovereign workloads. Developing countries that adopt broad data localization requirements risk foreclosing both import savings and regional export opportunities, the specialization gains that the model predicts. The World Bank (2025) frames this as a core policy trade-off: building domestic capacity versus securing affordable access to international cloud services.",
-    "new": "The welfare implications of the sovereignty premium depend on whether it reflects genuine security externalities or regulatory overreach. Some domestic processing preference is justified for confidential data, but much of the current policy push extends the sovereignty logic to routine commercial computation. The welfare cost is high in aggregate dollars but modest as a share of compute spending. The bilateral premium shifts most countries toward domestic production, forgoing the cost savings from specialization. The premium is also partly endogenous to the absence of credible international data governance: where enforceable data-protection agreements exist (as within the EU), the premium falls; where they do not, even commercially motivated buyers face rational reasons to prefer domestic processing. Sovereignty preferences are not limited to developing countries: France’s SecNumCloud certification mandates EU-only data hosting and staffing, effectively excluding U.S. hyperscalers from sovereign workloads. Developing countries that adopt broad data localization requirements risk foreclosing both import savings and regional export opportunities, the specialization gains that the model predicts. The World Bank (2025) frames this as a core policy trade-off: building domestic capacity versus securing affordable access to international cloud services."
-  },
-  {
-    "type": "text",
-    "para_base": 99,
-    "para_edit": 99,
-    "location": "¶99 \"The calibrat...\"",
-    "detail": "\"Fiscal sustainability is a con...\" → \"Regulated | the | raising conc...\"",
-    "old": "The calibration adjusts for energy subsidies and institutional quality, but several constraints remain outside the model and would further narrow the set of viable exporters. GPU export controls bar Iran, Russia, and Belarus from acquiring current-generation hardware. Water scarcity constrains cooling in the Middle East and North Africa; hyperscale data centers can consume billions of liters of water annually, and next-generation high-density GPU clusters increasingly rely on liquid-cooling technologies, intensifying this pressure in water-stressed economies. Fiscal sustainability is a concern: regulated tariffs in many developing countries cover operating expenses but not full capital cost, so exporting compute at scale while the domestic energy sector cannot maintain its capital stock may prove politically unsustainable. Finally, logistics costs and local distribution markups can raise effective GPU prices by 5–15% in developing countries that are not subject to export bans, eroding the thin cost advantages. These omitted constraints all work against developing-country competitiveness; the calibration results should therefore be read as upper bounds.",
-    "new": "The calibration adjusts for energy subsidies and institutional quality, but several constraints remain outside the model and would further narrow the set of viable exporters. GPU export controls bar Iran, Russia, and Belarus from acquiring current-generation hardware. Water scarcity constrains cooling in the Middle East and North Africa; hyperscale data centers can consume billions of liters of water annually, and next-generation high-density GPU clusters increasingly rely on liquid-cooling technologies, intensifying this pressure in water-stressed economies. Regulated tariffs in many developing countries cover operating expenses but not the full capital cost, raising concerns about financial sustainability. Exporting compute at scale while the domestic energy sector cannot maintain its capital stock may prove politically unsustainable. Finally, logistics costs and local distribution markups can raise effective GPU prices by 5–15% in developing countries that are not subject to export bans, eroding the thin cost advantages. These omitted constraints all work against developing-country competitiveness; the calibration results should therefore be read as upper bounds."
-  },
-  {
-    "type": "text",
-    "para_base": 100,
-    "para_edit": 100,
-    "location": "¶100 \"Endogenous e...\"",
-    "detail": "\"(none)\" → \"Alvarez et al. (2026) find tha...\"",
-    "old": "Endogenous electricity prices. The model treats electricity prices as exogenous. For small, cheap-energy countries, a hyperscale facility can be large relative to the host grid — a 100 MW data center would consume roughly 3% of Kyrgyzstan’s 3,800 MW national output. At the multi-facility scale, data centers would compete with residential heating, likely triggering regulatory intervention. The capacity ceiling Kj partially addresses this, but the fixed-price assumption implies that the cost advantages in Table A1 are upper bounds. An extension with upward-sloping supply curves would compress these advantages. Recent estimates suggest that AI workloads, combined with broader electrification, could raise U.S. wholesale electricity prices by roughly 19 percent between 2025 and 2028 (Chandramowli et al. 2024), and AI data-center expansion alone could increase retail prices by 8–9 percent by 2030 (IMF 2025). For small grids such as Kyrgyzstan’s, the proportional impact would be substantially larger, further eroding the cost advantages documented above.",
-    "new": "Endogenous electricity prices. The model treats electricity prices as exogenous. For small, cheap-energy countries, a hyperscale facility can be large relative to the host grid — a 100 MW data center would consume roughly 3% of Kyrgyzstan’s 3,800 MW national output. At the multi-facility scale, data centers would compete with residential heating, likely triggering regulatory intervention. The capacity ceiling Kj partially addresses this, but the fixed-price assumption implies that the cost advantages in Table A1 are upper bounds. An extension with upward-sloping supply curves would compress these advantages. Recent estimates suggest that AI workloads, combined with broader electrification, could raise U.S. wholesale electricity prices by roughly 19 percent between 2025 and 2028 (Chandramowli et al. 2024), and AI data-center expansion alone could increase retail prices by 8–9 percent by 2030 (IMF 2025). Alvarez et al. (2026) find that in the US, a one-unit increase in log cumulative data-center revenue raises local electricity prices by roughly 0.9 percent, significant at the 1 percent level in every horizon; counties that ever host a data center exhibit a 3.9 percent level effect on retail prices. For small grids such as Kyrgyzstan’s, the proportional impact would be substantially larger, further eroding the cost advantages documented above."
-  },
-  {
-    "type": "text",
-    "para_base": 102,
-    "para_edit": 102,
-    "location": "¶102 \"Cost of capi...\"",
-    "detail": "\"Cost of capital. Because hardw...\" → \"Form | sovereignty wedge. λjk ...\"",
-    "old": "Cost of capital. Because hardware dominates the compute cost stack, the single largest determinant of the ranking is the cost at which capital can be financed. An OECD hyperscaler at an 8% weighted average cost of capital faces hardware costs of $1.58/GPU-hour; a locally financed developing-country operator at 18% pays $1.87 — a $0.29 gap on hardware alone, roughly four times the electricity cost spread across the top twenty countries (Calcaterra et al. 2024). Column (4) of Table 3 reports the cost-recovery ranking with hardware amortized at each country’s income-group WACC (HIC 8%, UMIC 12%, LMIC 15%, LIC 18%). Under this specification the advantage of cheap-energy developing countries compresses substantially, and the regime classifications shift accordingly.",
-    "new": "Form of the sovereignty wedge. λjk is modeled as an ad valorem markup on the cost of compute. While standard in services trade, this functional form is a simplification. Government cloud security certifications (e.g., SecNumCloud, IRAP), sanctions and export-control screening, and bilateral digital-services agreements impose mostly fixed costs that add an entry margin on top of the cost-comparison margin, and thus raise the entry threshold for developing-country exporters. Our model also treats λjk as fixed, but in practice, sanctions, export-control revisions, and regulatory reversals arrive as exogenous shocks. The impact of these two assumptions on the stability of our results could be assessed through a Monte Carlo simulation using stochastic λjk and fixed costs. We expect our main finding to hold — both modifications cut against developing-country entrants — and leave the formal version to future work."
-  },
-  {
-    "type": "formula",
-    "para_base": 102,
-    "para_edit": 102,
-    "location": "¶102 \"Cost of capi...\"",
-    "detail": "added formula: λjk",
-    "old_omml": null,
-    "new_omml": "<m:oMath xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><m:sSub><m:sSubPr><m:ctrlPr><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr></m:ctrlPr></m:sSubPr><m:e><m:r><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t>λ</m:t></m:r></m:e><m:sub><m:r><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t>jk</m:t></m:r></m:sub></m:sSub></m:oMath>",
-    "old_unicode": null,
-    "new_unicode": "λjk"
-  },
-  {
-    "type": "formula",
-    "para_base": 102,
-    "para_edit": 102,
-    "location": "¶102 \"Cost of capi...\"",
-    "detail": "added formula: λjk",
-    "old_omml": null,
-    "new_omml": "<m:oMath xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><m:sSub><m:sSubPr><m:ctrlPr><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr></m:ctrlPr></m:sSubPr><m:e><m:r><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t>λ</m:t></m:r></m:e><m:sub><m:r><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t>jk</m:t></m:r></m:sub></m:sSub></m:oMath>",
-    "old_unicode": null,
-    "new_unicode": "λjk"
-  },
-  {
-    "type": "formula",
-    "para_base": 102,
-    "para_edit": 102,
-    "location": "¶102 \"Cost of capi...\"",
-    "detail": "added formula: λjk",
-    "old_omml": null,
-    "new_omml": "<m:oMath xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><m:sSub><m:sSubPr><m:ctrlPr><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr></m:ctrlPr></m:sSubPr><m:e><m:r><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t>λ</m:t></m:r></m:e><m:sub><m:r><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t>jk</m:t></m:r></m:sub></m:sSub></m:oMath>",
-    "old_unicode": null,
-    "new_unicode": "λjk"
-  },
-  {
-    "type": "text",
-    "para_base": 103,
-    "para_edit": 103,
-    "location": "¶103 \"This is the ...\"",
-    "detail": "\"This | mechanism that links th...\" → \"Cost of capital. Because hardw...\"",
-    "old": "This is the mechanism that links the cost-recovery and bilateral sovereignty specifications: institutional credibility matters for compute trade through two channels, the sovereignty premium λij and the cost of capital facing any locally financed operator. Hyperscaler-led foreign direct investment partially bypasses the channel — when a multinational owns, finances, and operates the facility outright, it may fund at its home WACC — but partial ownership, local debt, sovereign guarantees, and the pass-through of country risk to operating agreements reintroduce the channel in proportion to host-country financial exposure. A pure-hyperscaler case is therefore a boundary, not a baseline. The paper treats spec (4) as the more realistic benchmark for questions about whether a developing country can capture compute-export rents with domestic capital.",
-    "new": "Cost of capital. Because hardware dominates the compute cost stack, the single largest determinant of the ranking is the cost at which capital can be financed. An OECD hyperscaler at an 8% weighted average cost of capital faces hardware costs of $1.58/GPU-hour; a locally financed developing-country operator at 18% pays $1.87 — a $0.29 gap on hardware alone, roughly four times the electricity cost spread across the top twenty countries (Calcaterra et al. 2024). Column (4) of Table 3 reports the cost-recovery ranking with hardware amortized at each country’s income-group WACC (HIC 8%, UMIC 12%, LMIC 15%, LIC 18%). Under this specification, the advantage of cheap-energy developing countries compresses, and the regime classifications shift accordingly."
-  },
-  {
-    "type": "formula",
-    "para_base": 103,
-    "para_edit": 103,
-    "location": "¶103 \"This is the ...\"",
-    "detail": "removed formula: λij",
-    "old_omml": "<m:oMath xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\"><m:sSub><m:sSubPr></m:sSubPr><m:e><m:r><m:rPr><m:sty m:val=\"i\"></m:sty></m:rPr><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t xml:space=\"preserve\">λ</m:t></m:r></m:e><m:sub><m:r><m:rPr><m:sty m:val=\"i\"></m:sty></m:rPr><w:rPr xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\"><w:rFonts w:ascii=\"Cambria Math\" w:hAnsi=\"Cambria Math\"></w:rFonts></w:rPr><m:t xml:space=\"preserve\">ij</m:t></m:r></m:sub></m:sSub></m:oMath>",
-    "new_omml": null,
-    "old_unicode": "λij",
-    "new_unicode": null
-  },
-  {
-    "type": "inserted",
-    "para_base": null,
-    "para_edit": 104,
-    "location": "after ¶103",
-    "detail": "inserted: \"This is the mechanism that links the cos...\"",
-    "old": null,
-    "new": "This is the mechanism that links the cost-recovery and bilateral sovereignty specifications: institutional credibility matters for compute trade through two channels, the sovereignty premium λij and the cost of capital facing any locally financed operator. Hyperscaler-led foreign direct investment partially bypasses the channel — when a multinational owns, finances, and operates the facility outright, it may fund at its home WACC — but partial ownership, local debt, sovereign guarantees, and the pass-through of country risk to operating agreements reintroduce the channel in proportion to the host country’s financial exposure. A pure-hyperscaler case is therefore a boundary, not a baseline. The paper treats spec (4) as the more realistic benchmark for questions about whether a developing country can capture compute-export rents with domestic capital."
-  },
-  {
-    "type": "inserted",
-    "para_base": null,
-    "para_edit": 114,
-    "location": "after ¶112",
-    "detail": "inserted: \"Alvarez, F., Argente, D., Chow, J., and ...\"",
-    "old": null,
-    "new": "Alvarez, F., Argente, D., Chow, J., and D. Van Patten. (2026). “Data Centers and Local Economies in the Age of AI: A Shift-Share Approach.” NBER Working Paper No. 35194."
-  },
-  {
-    "type": "inserted",
-    "para_base": null,
-    "para_edit": 159,
-    "location": "after ¶156",
-    "detail": "inserted: \"Sevilla, J., Heim, L., Ho, A., Besiroglu...\"",
-    "old": null,
-    "new": "Sevilla, J., Heim, L., Ho, A., Besiroglu, T., Hobbhahn, M., and P. Villalobos. (2022). \"Compute Trends across Three Eras of Machine Learning.\" arXiv Working Paper No. 2202.05924. https://doi.org/10.48550/arXiv.2202.05924."
+    "para_base": 109,
+    "para_edit": 109,
+    "location": "¶109 \"The calibrat...\"",
+    "detail": "\"As a result, countries | absol...\" → \"Countries | But | can\"",
+    "old": "The calibration on a sample of 85 countries demonstrates that because hardware is globally priced and dominates unit cost, the cross-country cost spread in compute production is far narrower than in any other tradable sector. As a result, countries with cheap electricity and favorable cooling conditions face a low absolute barrier to cost-competitiveness. At the same time, even modest frictions, such as a sovereignty premium, a governance penalty, or a higher cost of capital, are sufficient to alter a country’s trade regime. Compute is therefore simultaneously the easiest sector for developing countries to enter on cost grounds and the most vulnerable to small policy-induced distortions.",
+    "new": "The calibration on a sample of 85 countries demonstrates that because hardware is globally priced and dominates unit cost, the cross-country cost spread in compute production is far narrower than in any other tradable sector. Countries with cheap electricity and favorable cooling conditions face a low barrier to cost-competitiveness. But even modest frictions, such as a sovereignty premium, a governance penalty, or a higher cost of capital, can alter a country’s trade regime. Compute is therefore simultaneously the easiest sector for developing countries to enter on cost grounds and the most vulnerable to small policy-induced distortions."
   },
   {
     "type": "run_format",
-    "para_base": 163,
+    "para_base": 166,
     "para_edit": 166,
-    "location": "¶163 \"World Bank. ...\"",
+    "location": "¶166 \"World Bank. ...\"",
     "detail": "\".\" underline: None → True",
     "run_index": 3,
     "run_text": ".",
@@ -483,9 +310,9 @@
   },
   {
     "type": "run_format",
-    "para_base": 163,
+    "para_base": 166,
     "para_edit": 166,
-    "location": "¶163 \"World Bank. ...\"",
+    "location": "¶166 \"World Bank. ...\"",
     "detail": "\".\" font_color: None → 1F3864",
     "run_index": 3,
     "run_text": ".",
@@ -495,9 +322,9 @@
   },
   {
     "type": "run_format",
-    "para_base": 184,
+    "para_base": 187,
     "para_edit": 187,
-    "location": "¶184 \"Each country...\"",
+    "location": "¶187 \"Each country...\"",
     "detail": "\". Training d...\" underline: None → True",
     "run_index": 8,
     "run_text": ". Training demand is ",
@@ -507,9 +334,9 @@
   },
   {
     "type": "run_format",
-    "para_base": 184,
+    "para_base": 187,
     "para_edit": 187,
-    "location": "¶184 \"Each country...\"",
+    "location": "¶187 \"Each country...\"",
     "detail": "\". Training d...\" font_color: None → 1F3864",
     "run_index": 8,
     "run_text": ". Training demand is ",
@@ -519,9 +346,9 @@
   },
   {
     "type": "run_format",
-    "para_base": 186,
+    "para_base": 189,
     "para_edit": 189,
-    "location": "¶186 \"Country k im...\"",
+    "location": "¶189 \"Country k im...\"",
     "detail": "\"is defined b...\" underline: None → True",
     "run_index": 7,
     "run_text": " is defined by:",
@@ -531,34 +358,14 @@
   },
   {
     "type": "run_format",
-    "para_base": 186,
+    "para_base": 189,
     "para_edit": 189,
-    "location": "¶186 \"Country k im...\"",
+    "location": "¶189 \"Country k im...\"",
     "detail": "\"is defined b...\" font_color: None → 1F3864",
     "run_index": 7,
     "run_text": " is defined by:",
     "property": "font_color",
     "old_value": "None",
     "new_value": "1F3864"
-  },
-  {
-    "type": "footnote_deleted",
-    "para_base": "fn 5",
-    "para_edit": null,
-    "location": "fn 5",
-    "detail": "footnote deleted: \"At $0.038/kWh electricity, a 40 MW facility houses approxima...\"",
-    "old": "At $0.038/kWh electricity, a 40 MW facility houses approximately 53,000 GPUs with production costs of $453 million per year. A Kyrgyz operator would most likely sell at wholesale or long-term contract rates of roughly $0.80–1.20/GPU-hour, yielding gross revenue of $630–950 million. Hyperscaler retail rates ($2.00–2.50/GPU-hour) represent an upper bound that is unlikely for a new market entrant. Even at the wholesale lower bound, this exceeds 15% of Kyrgyzstan’s $3.8 billion in goods exports (2024).",
-    "new": null,
-    "substantive": true
-  },
-  {
-    "type": "footnote_changed",
-    "para_base": "fn 1",
-    "para_edit": "fn 1",
-    "location": "fn 1",
-    "detail": "footnote text changed",
-    "old": "This paper’s findings, interpretations, and conclusions are entirely those of the author and do not necessarily represent the views of the author’s employer, the World Bank, its Executive Directors, or the countries they represent. Michael Lokshin: mlokshin@worldbank.org",
-    "new": "This paper’s findings, interpretations, and conclusions are entirely those of the author and do not necessarily represent the views of the author’s employer, the World Bank, its Executive Directors, or the countries they represent. Michael Lokshin: mlokshin@worldbank.org. I thank Ivan Torre, Christine Ann McDaniel, and Erhan Artuc for their constructive comments.",
-    "substantive": true
   }
 ]
