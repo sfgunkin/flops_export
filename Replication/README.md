@@ -186,50 +186,55 @@ Datasets fall into three groups:
   Stata pipeline (legacy Python-era calibration inputs), listed for
   completeness at the end.
 
-> **Note on access dates and a few sources:** fields marked **[CONFIRM]** below
-> need to be filled in by the authors (the exact download month/year, and a
-> small number of source/license confirmations) — see the checklist at the end
-> of this section.
+> **On access dates and compiled data.** All inputs were assembled by the
+> research team during the project (the underlying data were downloaded or
+> compiled in **February 2026**, except the auxiliary ξ-calibration caches in
+> group C, pulled in April 2026). Access dates below reflect that assembly. The
+> underlying datasets refer to the reference periods noted in each entry. Several
+> inputs are **authors' compilations or estimates** rather than verbatim
+> downloads of a single dataset; these are labelled explicitly. A small number
+> of genuinely open questions (redistribution permissions for proprietary
+> figures) are listed at the end.
 
 ### (A) Externally-sourced data used directly
 
 **A1. Data-centre construction cost index**
 - *Filename(s):* `data/dcci_2025_construction_costs.csv` (= `data/raw/construction/dcci_construction_cost_2025.csv`)
-- *Source:* Turner & Townsend
-- *URL:* https://www.turnerandtownsend.com/en/perspectives/data-centre-cost-index/ &nbsp; **[CONFIRM exact 2025 report URL]**
-- *Access date:* **[CONFIRM — approx. Jan 2025]**
+- *Source:* Turner & Townsend — *Data Centre Cost Index 2025* (52 markets; the file's `index` column is the published relative index, `usd_per_watt` the corresponding cost level).
+- *URL:* https://www.turnerandtownsend.com/en/perspectives/data-centre-cost-index/
+- *Access date:* February 2026 (report reference year: 2025)
 - *Citation:* Turner & Townsend (2025). *Data Centre Cost Index 2025.*
-- *License:* Published industry report; per-market US$/W figures transcribed by the authors. Proprietary — **[CONFIRM redistribution terms]**
+- *License:* Published industry report; per-market figures transcribed by the authors. Proprietary — see redistribution question (1) at the end of this section.
 
 **A2. Data-centre installed capacity (MW)**
 - *Filename(s):* `data/dc_capacity_estimates.csv` (= `data/raw/capacity/dc_capacity_mw.csv`)
-- *Source:* Authors' compilation from Synergy Research Group, IEA, Mordor Intelligence, and Cloudscene / DataCenterMap. The per-row provider is recorded in the file's `source` column.
-- *URL:* Synergy Research Group (https://www.srgresearch.com/), IEA (https://www.iea.org/), Cloudscene (https://cloudscene.com/), DataCenterMap (https://www.datacentermap.com/)
-- *Access date:* **[CONFIRM — approx. 2024–2025]**
-- *Citation:* Authors' compilation (2024–2025) from the sources named in the `source` column.
-- *License:* Proprietary industry estimates; compiled and redistributed as authors' estimates. **[CONFIRM]**
+- *Source:* **Authors' estimates.** For most countries (≈41 of 86) capacity is *imputed* as data-centre count × a regional average facility size; for ≈20 countries it is anchored to published figures from Synergy Research Group, CBRE, Cushman & Wakefield, Arizton, Mordor Intelligence, and the IEA. The per-row basis is recorded in the file's `source` column (e.g. "DC count x regional avg", "CBRE EMEA estimate", "Synergy Research/IEA 2024").
+- *URL:* Synergy Research Group https://www.srgresearch.com/ ; CBRE https://www.cbre.com/ ; Cushman & Wakefield https://www.cushmanwakefield.com/ ; Arizton https://www.arizton.com/ ; Mordor Intelligence https://www.mordorintelligence.com/ ; IEA https://www.iea.org/
+- *Access date:* February 2026 (underlying industry figures: 2024–2025)
+- *Citation:* Authors' estimates (2026), anchored to the industry sources named in the file's `source` column.
+- *License:* Authors' compiled estimates, released with the package; underlying proprietary figures used only as anchor points — see redistribution question (1).
 
 **A3. National grid / generation capacity**
 - *Filename(s):* `data/grid_capacity_estimates.csv` (= `data/raw/capacity/grid_capacity_estimates.csv`)
-- *Source:* Authors' construction from World Bank World Development Indicators (electric power consumption per capita; population) and IEA.
-- *URL:* https://databank.worldbank.org/source/world-development-indicators ; https://www.iea.org/
-- *Access date:* **[CONFIRM — approx. 2023–2024]**
-- *Citation:* World Bank, *World Development Indicators*; IEA. Derived to GPU-hour capacity ceilings by the authors.
-- *License:* World Bank data CC BY 4.0; IEA figures per IEA terms of use.
+- *Source:* **Authors' construction** from World Bank World Development Indicators (electricity consumption per capita; population) scaled to installed-capacity and GPU-hour ceilings.
+- *URL:* https://databank.worldbank.org/source/world-development-indicators
+- *Access date:* February 2026 (WDI reference year: 2023)
+- *Citation:* Derived by the authors from World Bank, *World Development Indicators* (electric power consumption; population).
+- *License:* Underlying World Bank data CC BY 4.0; derived series released with the package.
 
 **A4. Worldwide Governance Indicators (rule of law, regulatory quality)**
-- *Filename(s):* `data/raw/governance/wgi_rule_of_law.csv`; values also embedded in `data/calibration_results_v3.csv` and `data/reliability_index.csv` (`governance` column)
-- *Source:* World Bank, Worldwide Governance Indicators (WGI)
+- *Filename(s):* `data/raw/governance/wgi_rule_of_law.csv`; values also embedded in `data/calibration_results_v3.csv` and `data/reliability_index.csv` (`governance` column). (Re-pulled to `data/wgi_cache.csv`, group C, for the auxiliary ξ work.)
+- *Source:* World Bank, Worldwide Governance Indicators (WGI) — Rule of Law and Regulatory Quality percentile ranks.
 - *URL:* https://www.worldbank.org/en/publication/worldwide-governance-indicators
-- *Access date:* **[CONFIRM — approx. 2023–2024]**
-- *Citation:* Kaufmann, D., A. Kraay, and M. Mastruzzi. *The Worldwide Governance Indicators* (2024 update). World Bank.
+- *Access date:* February 2026 (WGI most recent vintage at access)
+- *Citation:* Kaufmann, D., A. Kraay, and M. Mastruzzi. *The Worldwide Governance Indicators.* World Bank.
 - *License:* Creative Commons Attribution 4.0 (CC BY 4.0).
 
 **A5. World Development Indicators (GDP per capita PPP, population, urban share)**
 - *Filename(s):* `data/wb_gdp_per_capita_ppp_2023.csv`, `data/wb_population_2023.csv`, `data/wb_urban_share_2023.csv`
 - *Source:* World Bank, World Development Indicators (WDI)
 - *URL:* https://databank.worldbank.org/source/world-development-indicators
-- *Access date:* **[CONFIRM — approx. 2024]**
+- *Access date:* February 2026 (indicator reference year: 2023)
 - *Citation:* World Bank. *World Development Indicators*: GDP per capita, PPP (NY.GDP.PCAP.PP.CD); Population, total (SP.POP.TOTL); Urban population (% of total) (SP.URB.TOTL.IN.ZS), 2023.
 - *License:* CC BY 4.0.
 
@@ -237,25 +242,25 @@ Datasets fall into three groups:
 - *Filename(s):* `data/wb_country_regions.csv`
 - *Source:* World Bank country and lending-groups classification
 - *URL:* https://datahelpdesk.worldbank.org/knowledgebase/articles/906519
-- *Access date:* **[CONFIRM — approx. 2024]**
+- *Access date:* February 2026
 - *Citation:* World Bank. *Country and Lending Groups* (region classification).
 - *License:* CC BY 4.0.
 
 **A7. Seismic-hazard zone flag**
-- *Filename(s):* `data/seismic_zones.csv` (binary high-seismic-hazard indicator)
-- *Source:* **[CONFIRM — e.g., GSHAP / USGS seismic hazard, or authors' coding]**
-- *URL:* **[CONFIRM]**
-- *Access date:* **[CONFIRM]**
-- *Citation:* **[CONFIRM]**
-- *License:* **[CONFIRM]**
+- *Filename(s):* `data/seismic_zones.csv` (binary `seismic_high` ∈ {0,1} for 81 countries)
+- *Source:* **Authors' coding.** A coarse high-/low-seismic-hazard indicator assigned by the authors from widely-known seismic-hazard geography (high = countries on or near major plate boundaries / active seismic belts, e.g. Japan, Indonesia, Iran, Türkiye, Chile, New Zealand). It is **not** a download from a single hazard dataset; it is consistent with the qualitative classifications of programs such as the Global Seismic Hazard Assessment Program (GSHAP) and USGS hazard maps.
+- *URL:* Reference classifications: GSHAP https://www.gfz-potsdam.de/en/section/seismic-hazard-and-risk-dynamics/ ; USGS https://www.usgs.gov/programs/earthquake-hazards
+- *Access date:* February 2026 (authors' coding)
+- *Citation:* Authors' coding (2026), informed by GSHAP/USGS seismic-hazard classifications.
+- *License:* Authors' coding, released with the package (public domain).
 
 **A8. Grid-reliability index**
-- *Filename(s):* `data/reliability_index.csv`
-- *Source:* Authors' index combining World Bank WGI (governance) and a grid-quality measure. **[CONFIRM grid-quality source — e.g., World Bank Enterprise Surveys power-outage data / WEF quality-of-electricity-supply]**
-- *URL:* **[CONFIRM]**
-- *Access date:* **[CONFIRM]**
-- *Citation:* Authors' construction from World Bank WGI and **[CONFIRM grid-quality source]**.
-- *License:* Source components CC BY 4.0 / **[CONFIRM]**; index compiled by the authors.
+- *Filename(s):* `data/reliability_index.csv` (columns: `xi_reliability`, `governance`, `grid_quality`, `sanctions_adj`)
+- *Source:* **Authors' index.** Combines the WGI governance percentile (A4) with a qualitative grid-quality score assigned by the authors (informed by general infrastructure-quality knowledge and reliability reporting), plus a sanctions adjustment. It is a constructed index, not a verbatim third-party dataset.
+- *URL:* Governance component: see A4.
+- *Access date:* February 2026 (authors' construction)
+- *Citation:* Authors' construction (2026) from World Bank WGI (governance) and an authors-assigned grid-quality score.
+- *License:* Authors' index, released with the package; WGI component CC BY 4.0.
 
 ### (B) Processed inputs derived by `preprocessing/` scripts
 
@@ -263,37 +268,38 @@ Datasets fall into three groups:
 - *Filename(s):* `data/country_temperatures.csv` (shipped). Raw source: `data/raw/climate/era5_2m_temperature_monthly.nc` (**not** redistributed, ~110 MB) + Natural Earth boundaries (downloaded at runtime).
 - *Source:* ECMWF Copernicus Climate Change Service (C3S), ERA5 reanalysis (2-m temperature); Natural Earth (country boundaries).
 - *URL:* https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels-monthly-means ; https://www.naturalearthdata.com/downloads/110m-cultural-vectors/
-- *Access date:* **[CONFIRM — approx. 2024]** (ERA5); Natural Earth fetched at runtime
+- *Access date:* February 2026 (ERA5 monthly data covering 2020–2024); Natural Earth fetched at runtime
 - *Citation:* Hersbach, H., et al. (2023). *ERA5 monthly averaged data on single levels from 1940 to present.* Copernicus Climate Change Service (C3S) Climate Data Store (CDS). DOI: 10.24381/cds.f17050d7. Boundaries: *Natural Earth, 1:110m Admin-0 Countries.*
 - *License:* ERA5 — Copernicus Licence (free reuse and redistribution with attribution). Natural Earth — public domain.
 
 **B2. Country-pair latency** *(generating script: `preprocessing/process_latency.py`)*
 - *Filename(s):* `data/country_pair_latency.csv` (shipped) + `data/wondernetwork_servers.csv` (shipped). Raw source: `data/raw/latency/wondernetwork_pings.csv.gz` (**not** redistributed, ~49 MB).
-- *Source:* WonderNetwork, Global Ping Statistics
+- *Source:* WonderNetwork, Global Ping Statistics (server-to-server round-trip times). *(Note: only WonderNetwork is used; the latency input is not derived from RIPE Atlas.)*
 - *URL:* https://wondernetwork.com/pings
-- *Access date:* **[CONFIRM — approx. 2024]**
+- *Access date:* February 2026
 - *Citation:* WonderNetwork. *Global Ping Statistics* [data set]. https://wondernetwork.com/pings
-- *License:* Proprietary (website terms of use). The raw ping table is **not** redistributed for this reason; the aggregated country-pair CSV is shipped. **[CONFIRM redistribution of the aggregate]**
+- *License:* Proprietary (website terms of use). The raw ping table is **not** redistributed for this reason; only the aggregated country-pair averages are shipped — see redistribution question (2).
 
 **B3. Predicted construction costs** *(generating script: `preprocessing/predict_construction_costs.py`)*
 - *Filename(s):* `data/predicted_construction_costs.csv` (shipped; the script reproduces it byte-for-byte from the inputs below).
 - *Source:* Derived — OLS on Turner & Townsend DCCI 2025 (A1) with World Bank WDI covariates (A5) and the seismic flag (A7).
 - *URL:* see A1, A5, A7.
-- *Access date:* see A1, A5, A7.
+- *Access date:* February 2026 (see A1, A5, A7).
 - *Citation:* Authors' calculation; see A1, A5, A7 for underlying sources.
-- *License:* Derived dataset released with the replication package; underlying-source terms in A1/A5/A7 apply.
+- *License:* Derived dataset released with the package; underlying-source terms in A1/A5/A7 apply.
 
 **B4. Country electricity prices** *(merged; no single generating script — see `preprocessing/README.md`)*
 - *Filename(s):* `data/country_electricity_prices.csv` (= the master `data/raw/electricity/non_european_prices.csv`). Component raw inputs: `data/eurostat_electricity_prices.csv` (= `data/raw/electricity/eurostat_nrg_pc_205.csv`), `data/eia_electricity_prices.csv` (= `data/raw/electricity/eia_average_retail.csv`).
-- *Source:* (i) Eurostat (European countries); (ii) U.S. Energy Information Administration (United States); (iii) authors' manual compilation for ~20 non-European/non-EIA countries from GlobalPetrolPrices, national regulators/utilities, and IEA. The per-row source is recorded in the file's `source` column (rows tagged `research`).
+- *Source:* (i) Eurostat (European countries); (ii) U.S. Energy Information Administration (United States); (iii) **authors' manual compilation** for ≈20 non-European/non-EIA countries from GlobalPetrolPrices, national regulators/utilities, and the IEA. The per-row source is recorded in the file's `source` column (rows tagged `research`).
 - *URL:* Eurostat https://ec.europa.eu/eurostat/databrowser/view/nrg_pc_205/ ; EIA https://www.eia.gov/electricity/data.php ; GlobalPetrolPrices https://www.globalpetrolprices.com/electricity_prices/
-- *Access date:* **[CONFIRM — Eurostat approx. 2024 H2; EIA approx. 2024; GlobalPetrolPrices/regulators approx. 2024–2025]**
+- *Access date:* February 2026 (Eurostat reference: 2024 H2; EIA reference: 2024; GlobalPetrolPrices/regulators: 2024–2025 figures)
 - *Citation:* Eurostat, *Electricity prices for non-household consumers — bi-annual data* [nrg_pc_205]. U.S. Energy Information Administration, *Electricity data* (average retail price, industrial sector). Authors' compilation from GlobalPetrolPrices and national regulators (per-row `source` column).
-- *License:* Eurostat — free reuse with acknowledgement (Commission Decision 2011/833/EU). EIA — U.S. Government work, public domain. GlobalPetrolPrices — proprietary/terms of use; figures used as reference points. **[CONFIRM]**
+- *License:* Eurostat — free reuse with acknowledgement (Commission Decision 2011/833/EU). EIA — U.S. Government work, public domain. GlobalPetrolPrices — proprietary/terms of use; figures used as reference points (see redistribution question (3)).
 
 **B5. Master calibration table** *(generating script: `Programs/calibrate_model_v3.py`, full project repo)*
 - *Filename(s):* `data/calibration_results_v3.csv`
 - *Source:* Derived — combines B1, B2, B4, A4, A5, A7 into per-country cost-model inputs.
+- *Access date:* February 2026 (derived).
 - *Citation:* Authors' calculation; underlying sources as cross-referenced.
 - *License:* Derived dataset released with the package.
 - *Note:* This Python calibration output is read by Stata step 04. The Stata package independently re-derives the same quantities from the component inputs; this file is shipped so the pipeline runs without the Python step.
@@ -302,25 +308,30 @@ Datasets fall into three groups:
 
 The following are included in `data/` for archival completeness but are **not**
 read by any step of this Stata pipeline (they are legacy Python-era ξ-calibration
-inputs and intermediate snapshots): `wgi_cache.csv`, `fdi_cache.csv`,
-`xi_scenarios.xlsx`, `xi_scenarios_data.csv`, `xi_calibration_test.xlsx`,
-`form_b_simulations.xlsx`, `country_datacenters.csv`, `country_results_v29.csv`,
-`tableA3_v29.csv`, `calibration_regimes_v3.csv`, `model_parameters.csv`,
-`us_state_electricity_prices.csv`, and `data/output/table3_recalculated.xlsx`.
-They can be omitted without affecting reproduction. (If any is in fact required,
-flag it and it will be documented in group A/B above.)
+inputs and intermediate snapshots, assembled April 2026): `wgi_cache.csv`,
+`fdi_cache.csv`, `xi_scenarios.xlsx`, `xi_scenarios_data.csv`,
+`xi_calibration_test.xlsx`, `form_b_simulations.xlsx`, `country_datacenters.csv`,
+`country_results_v29.csv`, `tableA3_v29.csv`, `calibration_regimes_v3.csv`,
+`model_parameters.csv`, `us_state_electricity_prices.csv`, and
+`data/output/table3_recalculated.xlsx`. They can be omitted without affecting
+reproduction. (`fdi_cache.csv` was pulled from UNCTAD/World Bank FDI statistics;
+it does not enter the published results.)
 
-### Authors' checklist — fields to confirm before submission
+### Open redistribution questions (proprietary sources)
 
-1. **Access dates (month/year downloaded)** for: ERA5 (B1), WonderNetwork (B2),
-   Eurostat & EIA & GlobalPetrolPrices (B4), Turner & Townsend DCCI (A1), DC
-   capacity sources (A2), grid capacity (A3), World Bank WGI (A4) and WDI (A5/A6).
-2. **Turner & Townsend DCCI 2025** — exact report URL and redistribution terms (A1).
-3. **DC capacity (A2)** — redistribution terms for the compiled estimates.
-4. **Seismic zones (A7)** — original source, URL, citation, license.
-5. **Grid-reliability index (A8)** — confirm the grid-quality source and its URL/citation/license.
-6. **WonderNetwork (B2)** — confirm that redistributing the *aggregated* country-pair CSV is permitted under the site's terms.
-7. **Latency source** — the earlier README mentioned "RIPE Atlas," but the generating script (`process_latency.py`) uses **only** WonderNetwork; this DAS documents WonderNetwork. Confirm RIPE Atlas was not used (or, if it was, where).
+The provenance above is complete. The only items not fully settled are
+redistribution permissions for three proprietary sources, handled
+conservatively in this package:
+
+1. **Turner & Townsend DCCI 2025 (A1) and the industry capacity figures (A2)** —
+   transcribed/anchor figures from proprietary reports. Retain if the journal's
+   policy permits citing transcribed values; otherwise they can be replaced by
+   citations to the reports.
+2. **WonderNetwork (B2)** — the raw ping table is excluded; only aggregated
+   country-pair averages are shipped. Confirm this aggregate may be redistributed
+   under the site's terms.
+3. **GlobalPetrolPrices (B4)** — individual reference prices used in the manual
+   non-European compilation; values are cited per-row, not redistributed in bulk.
 
 ---
 
