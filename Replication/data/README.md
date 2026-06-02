@@ -1,6 +1,10 @@
 # FLOPs Export Paper — Data Repository
 
-All raw data files used by `Programs/recalculate_tables_3ab.py`.
+Data files for the replication package. The Stata pipeline in `../code/` reads
+the analysis-ready CSVs in this folder; the `raw/` subfolder holds the upstream
+source extracts. **For the complete Data Availability Statement — source, URL,
+access date, citation, and license for every input — see §6 of `../README.md`.**
+This file is a quick directory map; the DAS is authoritative.
 
 ## Directory Structure
 
