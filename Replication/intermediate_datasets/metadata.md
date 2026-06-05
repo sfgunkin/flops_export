@@ -1,26 +1,26 @@
-# Development Data Hub (DDH) archival metadata
+# Intermediate datasets — metadata and data dictionaries
 
 **Study:** *Cheap Energy Might Not Be Enough: A Trade Model of AI Compute Services* (Lokshin, 2026)
 
-**Purpose of this archive.** These four CSVs are the analysis-ready *processed
-inputs* prepared upstream of the Stata replication pipeline. Archiving them in a
-stable repository gives the pipeline a citable starting point, so reproducibility
-verification can begin from the Stata component. The preprocessing scripts that
-build them from raw sources are included in the replication package
-(`Replication/preprocessing/`) for transparency; full source/URL/access-date/
-license provenance is in the package README's Data Availability Statement (§6).
+**Purpose.** These four CSVs are the analysis-ready *processed inputs* prepared
+upstream of the Stata replication pipeline. They are redistributed directly in
+this replication package (in `intermediate_datasets/` and, byte-identically, in
+`data/` where the pipeline reads them), so the package is self-contained as a
+reproducibility starting point. The preprocessing scripts that build them from
+raw sources are in `Replication/preprocessing/` for transparency; full
+source/URL/access-date/license provenance is in the package README's Data
+Availability Statement (§6).
 
 Two of these files (`country_temperatures.csv`, `country_pair_latency.csv`) are
-the reason this archive is needed: their raw sources are not redistributed in the
-package — ERA5 because of size (~110 MB), and the WonderNetwork ping table
-because it is proprietary (redistribution not permitted). The other two
-(`predicted_construction_costs.csv`, `country_electricity_prices.csv`) are also
-included for completeness; their raw inputs are already shipped in the package
-and they remain reproducible from it.
+provided as intermediates rather than rebuilt from raw because their raw sources
+are not redistributed — ERA5 because of size (~110 MB), and the WonderNetwork
+ping table because it is proprietary (redistribution not permitted). The other
+two (`predicted_construction_costs.csv`, `country_electricity_prices.csv`) are
+also included for completeness; their raw inputs are already shipped in the
+package and they remain reproducible from it.
 
-Suggested DDH collection title: *AI Compute Trade Model — Processed Calibration
-Inputs*. Geographic coverage: global (country level, ISO3). Reference period:
-2023–2025 (see per-dataset notes). License: see each dataset.
+Geographic coverage: global (country level, ISO3). Reference period: 2023–2025
+(see per-dataset notes). License: see each dataset.
 
 ---
 

@@ -18,7 +18,7 @@ The large raw sources (ERA5 NetCDF, WonderNetwork ping table, RIPE Atlas) are
 **not** redistributed — for size (ERA5 ~110 MB) and license (WonderNetwork raw
 pings are proprietary). Their provenance — source, URL, access date, citation,
 and license — is documented in the package README's Data Availability Statement
-(§6) and in `DDH_metadata.md` / `DDH_upload_metadata.md` in this folder.
+(§6) and in `metadata.md` in this folder.
 
 ## Relationship to `../data/`
 
@@ -30,7 +30,8 @@ the copies here from `../data/` so the two stay in sync.
 
 ## Metadata
 
-- `DDH_metadata.md` — per-dataset provenance (source, URL, access date, citation,
-  license) and data dictionaries.
-- `DDH_upload_metadata.md` — the same content laid out as form-ready fields for a
-  Development Data Hub (DDH) deposit, should external archival also be desired.
+- `metadata.md` — per-dataset provenance (source, URL, access date, citation,
+  license) and variable-level data dictionaries.
+
+These datasets are redistributed here as part of the replication package; they
+are not separately deposited in an external data repository.
