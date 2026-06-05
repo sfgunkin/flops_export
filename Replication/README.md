@@ -99,6 +99,10 @@ Replication/
 │   ├── 18_construction_regression.do (Table A7)
 │   └── 19_export_tables.do         (writes all table*.csv)
 ├── data/                all input data (see §5; provenance in the DAS, §6)
+├── intermediate_datasets/  the 4 analysis-ready intermediate datasets that
+│                        bridge raw sources and the pipeline, with full metadata
+│                        and data dictionaries (the self-contained reproducibility
+│                        starting point; byte-identical to the copies in data/)
 ├── preprocessing/       Python scripts that build 3 processed inputs from raw
 │                        sources (transparency; not needed to run the pipeline)
 ├── output/              result files + the 11 exported table*.csv; shipped with
@@ -166,6 +170,14 @@ grid (`*.nc`, ~110 MB), `wondernetwork_pings.csv.gz` (~49 MB), and
 (`country_temperatures.csv`, `country_pair_latency.csv`) ARE included, so the
 Stata pipeline runs fully. The raw files remain available in the full project
 repository if upstream reconstruction is needed.
+
+**Intermediate datasets bundled.** The four analysis-ready intermediate datasets
+(temperature, latency, construction costs, electricity prices) are small, so they
+are redistributed directly in `intermediate_datasets/` with full metadata and
+variable-level data dictionaries. The package is therefore self-contained as a
+reproducibility starting point: verification can begin from these intermediates
+without retrieving the large raw sources. (The same four files are also in
+`data/`, where the pipeline reads them; the copies are byte-identical.)
 
 For complete provenance of every input dataset — source, URL, access date,
 citation, and license — see the **Data Availability Statement** in §6 below.
