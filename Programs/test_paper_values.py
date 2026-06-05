@@ -2626,7 +2626,7 @@ class TestDocumentContent:
     def test_world_bank_divide_parenthesized(self, docx_text):
         # No em-dash per paper style; parenthetical aside
         assert (
-            "divide (high-income countries hold 77% of colocation capacity)"
+            "divide (high-income countries hold 77 percent of colocation capacity)"
             in docx_text
         )
 
@@ -2666,7 +2666,7 @@ class TestDocumentContent:
     # ---------- Fix 2h: uniform 20% premium + country name ----------
 
     def test_uniform_premium_specified(self, docx_text):
-        assert "uniform" in docx_text and "premium to 20%" in docx_text
+        assert "uniform" in docx_text and "premium to 20 percent" in docx_text
 
     def test_20pct_country_named(
         self, docx_text, cost_recovery_costs, demand_weights,
@@ -2700,14 +2700,14 @@ class TestDocumentContent:
         # At least one expected name must appear in the 20% sentence
         import re
         m = re.search(
-            r"Raising the uniform premium to 20%[^.]{0,400}",
+            r"Raising the uniform premium to 20 percent[^.]{0,400}",
             docx_text,
         )
-        assert m, "Could not locate uniform-20% sentence"
+        assert m, "Could not locate uniform-20-percent sentence"
         sentence = m.group()
         found = [n for n in expected_names if n and n in sentence]
         assert found, (
-            f"20% sentence names no expected country; "
+            f"20 percent sentence names no expected country; "
             f"expected one of {sorted(expected_names)}"
         )
 
@@ -2771,9 +2771,9 @@ class TestDocumentContent:
         v33 symmetric LRMC, 'one' under v32); never bare digits."""
         import re
         m = re.search(
-            r"premium to 20% shifts (\w+) additional", docx_text,
+            r"premium to 20 percent shifts (\w+) additional", docx_text,
         )
-        assert m, "Could not locate 20% sentence"
+        assert m, "Could not locate 20 percent sentence"
         word = m.group(1)
         assert not word.isdigit(), (
             f"Expected spelled-out word, got bare digit '{word}'"
@@ -3667,7 +3667,7 @@ class TestWACCPromotedInIntro:
         substantive WACC bridge — 8%/18% bands and the $0.29/GPU-hr
         gap — must still appear)."""
         intro = docx_text.split('2. Related Literature')[0]
-        assert '8%' in intro and '18%' in intro
+        assert '8 percent' in intro and '18 percent' in intro
         assert '0.29' in intro
 
     def test_table3_has_wacc_header(self, docx_text):
