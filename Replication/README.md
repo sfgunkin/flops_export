@@ -62,8 +62,8 @@ that its base case equals the main DCF.
 | Table A3 (hardware-share sensitivity) | step 19 | ✅ exact, all cells |
 | Table A5 (DCF cash flow) | step 14 | ✅ exact (NPV $353M / IRR 17.6% / payback Yr 6) |
 | Table A6 (DCF sensitivity, 11 scenarios) | step 14 | ✅ exact, all cells |
-| Table A7 (construction OLS) | step 18 | ✅ structure matches (small-N coeffs insignificant) |
-| Tables 1, 2, A4, A8 | definitional/static content | ✅ reproduced as content |
+| Table A7 (construction OLS) | step 18 | ✅ exact at the paper's printed precision (3-dp coefficients/SEs) |
+| Tables 1, 2, A4, A8 (static) | step 19 | ✅ exact, all cells (blocks mirror the paper exhibits) |
 
 **Note on steps 15–17:** these remain in the pipeline as readable,
 single-mechanism implementations (symmetric LRMC construction, WACC annuity

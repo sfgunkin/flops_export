@@ -1,0 +1,12 @@
+﻿Scenario,NPV ($M),IRR
+Base case,$353,17.6%
+GPU price −20%,$930,27.6%
+GPU price +20%,$-225,9.7%
+Electricity +50%,$305,16.9%
+Electricity −25%,$377,17.9%
+Revenue +5%,$509,19.8%
+Revenue −5%,$198,15.4%
+Utilization 80%,$957,26.4%
+Utilization 60%,$-253,9.0%
+WACC 10%,$619,17.6%
+WACC 16%,$95,17.6%

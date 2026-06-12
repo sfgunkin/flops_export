@@ -1,4 +1,4 @@
-Workload,Example,Latency tolerance,Offshorable?,Model treatment
+﻿Workload,Example,Latency tolerance,Offshorable?,Model treatment
 Large-scale training,Foundation model pre-training,Days–weeks,Fully,τᴛ = 0
 Fine-tuning,Domain adaptation on proprietary data,Hours,Mostly,Treated as training
 Agentic inference,"Multi-step reasoning, tool use","500–2,000 ms",Regionally,Intermediate (fn. 7)

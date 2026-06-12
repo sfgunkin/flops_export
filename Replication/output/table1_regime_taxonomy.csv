@@ -1,6 +1,5 @@
-code,training,inference
-EE,Exporter,Exporter
-IE,Importer,Exporter (hub)
-ID,Importer,Domestic
-DD,Domestic,Domestic
-II,Importer,Importer
+,,Training domestic production cost →,Training domestic production cost →,Training domestic production cost →
+,,Export,Domestic,Import
+Inference ← domestic production cost,Export,✓  (i) EE T+I exporter Cheapest producers,✗ Prop. 4,✓  (ii) IE Inference hub Regional low-cost hubs
+Inference ← domestic production cost,Domestic,✗ Prop. 4,✓  (iv) DD Domestic High sovereignty,✓  (iii) ID Hybrid Isolated / moderate cost
+Inference ← domestic production cost,Import,✗ Prop. 4,✗ Sovereignty dominates,✓  (v) II Full importer High-cost countries

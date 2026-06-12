@@ -3,7 +3,7 @@
        log:  F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/
 > output/run_all_log.txt
   log type:  text
- opened on:  12 Jun 2026, 22:32:36
+ opened on:  13 Jun 2026, 00:08:38
 
 . 
 . di as txt _n "Replication root: $root"
@@ -288,7 +288,7 @@ STEP 1: 01_prep_electricity
 . tempfile base
 
 . save `base'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000002.tmp saved as .dta
     format
 
 . 
@@ -332,7 +332,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
 . tempfile additional
 
 . save `additional'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000003.tmp saved as .dta
     format
 
 . 
@@ -369,9 +369,6 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
   (435 bytes saved)
 
 . save "$temp/electricity_prices.dta", replace
-(file
-    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/el
-    > ectricity_prices.dta not found)
 file
     F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/el
     > ectricity_prices.dta saved
@@ -417,9 +414,6 @@ STEP 2: 02_prep_temperature
   (0 bytes saved)
 
 . save "$temp/temperatures.dta", replace
-(file
-    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/te
-    > mperatures.dta not found)
 file
     F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/te
     > mperatures.dta saved
@@ -508,9 +502,6 @@ STEP 3: 03_prep_construction
   (197 bytes saved)
 
 . save "$temp/construction_costs.dta", replace
-(file
-    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/co
-    > nstruction_costs.dta not found)
 file
     F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/co
     > nstruction_costs.dta saved
@@ -674,7 +665,7 @@ Validating against Python output...
 . rename c_j_total c_j_python
 
 . save `python_results'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000003.tmp saved as .dta
     format
 
 . 
@@ -733,9 +724,6 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
   (85 bytes saved)
 
 . save "$temp/calibration_results.dta", replace
-(file
-    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/ca
-    > libration_results.dta not found)
 file
     F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/ca
     > libration_results.dta saved
@@ -802,7 +790,7 @@ STEP 5: 05_prep_latency
 . tempfile forward
 
 . save `forward'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000002.tmp saved as .dta
     format
 
 . 
@@ -817,7 +805,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
 . tempfile reverse
 
 . save `reverse'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000003.tmp saved as .dta
     format
 
 . 
@@ -857,9 +845,6 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
   (0 bytes saved)
 
 . save "$temp/latency_symmetric.dta", replace
-(file
-    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/la
-    > tency_symmetric.dta not found)
 file
     F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/la
     > tency_symmetric.dta saved
@@ -912,7 +897,7 @@ Duplicates in terms of all variables
 . tempfile latency_countries
 
 . save `latency_countries'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000003.tmp saved as .dta
     format
 
 . restore
@@ -942,7 +927,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
 . tempfile costs
 
 . save `costs'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000004.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000004.tmp saved as .dta
     format
 
 . 
@@ -969,7 +954,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000004.tmp saved as .dta
 . tempfile latency_all
 
 . save `latency_all'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000007.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000007.tmp saved as .dta
     format
 
 . restore
@@ -1235,9 +1220,6 @@ Top inference sources:
   (4,100 bytes saved)
 
 . save "$temp/regime_assignment.dta", replace
-(file
-    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/re
-    > gime_assignment.dta not found)
 file
     F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/re
     > gime_assignment.dta saved
@@ -1283,7 +1265,7 @@ STEP 7: 07_demand_shares
 . tempfile dc_raw
 
 . save `dc_raw'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000002.tmp saved as .dta
     format
 
 . 
@@ -1391,9 +1373,6 @@ HHI (demand concentration): 0.2591
   (0 bytes saved)
 
 . save "$temp/demand_shares.dta", replace
-(file
-    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/de
-    > mand_shares.dta not found)
 file
     F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/de
     > mand_shares.dta saved
@@ -1446,7 +1425,7 @@ STEP 8: 08_capacity_equilibrium
 . tempfile kbar
 
 . save `kbar'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000002.tmp saved as .dta
     format
 
 . 
@@ -1589,9 +1568,6 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
   (1,190 bytes saved)
 
 . save "$temp/capacity_equilibrium.dta", replace
-(file
-    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/ca
-    > pacity_equilibrium.dta not found)
 file
     F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/ca
     > pacity_equilibrium.dta saved
@@ -1856,9 +1832,6 @@ Top 5 (cost-recovery adjusted):
   (3,230 bytes saved)
 
 . save "$temp/cost_recovery.dta", replace
-(file
-    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/co
-    > st_recovery.dta not found)
 file
     F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/co
     > st_recovery.dta saved
@@ -1928,7 +1901,7 @@ STEP 10: 10_inference_sourcing
 . tempfile latency_all
 
 . save `latency_all'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000003.tmp saved as .dta
     format
 
 . restore
@@ -2054,7 +2027,7 @@ Inference revenue shares (cost-recovery adjusted):
 . tempfile inf_shares
 
 . save `inf_shares'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00068n.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00068n.tmp saved as .dta
     format
 
 . restore
@@ -2112,9 +2085,6 @@ Kyrgyzstan inference clients:
   (1,360 bytes saved)
 
 . save "$temp/inference_sourcing.dta", replace
-(file
-    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/in
-    > ference_sourcing.dta not found)
 file
     F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/in
     > ference_sourcing.dta saved
@@ -2346,9 +2316,6 @@ Lambda* distribution (cost-recovery):
   (0 bytes saved)
 
 . save "$temp/welfare_sovereignty.dta", replace
-(file
-    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/we
-    > lfare_sovereignty.dta not found)
 file
     F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/we
     > lfare_sovereignty.dta saved
@@ -2424,7 +2391,7 @@ STEP 12: 12_sensitivity
 . keep iso3 k_bar_j
 
 . save `kbar'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000002.tmp saved as .dta
     format
 
 . restore
@@ -2783,7 +2750,7 @@ STEP 13: 13_reliability
 . tempfile reliability
 
 . save `reliability'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000002.tmp saved as .dta
     format
 
 . 
@@ -3770,7 +3737,7 @@ STEP 15: 15_symmetric_lrmc
 . tempfile cal
 
 . save `cal'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000002.tmp saved as .dta
     format
 
 . 
@@ -3802,7 +3769,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
 . tempfile v32
 
 . save `v32'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000003.tmp saved as .dta
     format
 
 . 
@@ -3872,7 +3839,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
 . tempfile carbon
 
 . save `carbon'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000004.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000004.tmp saved as .dta
     format
 
 . 
@@ -3900,7 +3867,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000004.tmp saved as .dta
 . tempfile xsub
 
 . save `xsub'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000005.tmp saved as .dta
     format
 
 . 
@@ -4055,7 +4022,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
 . tempfile kbar
 
 . save `kbar'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000007.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000007.tmp saved as .dta
     format
 
 . restore
@@ -4128,9 +4095,6 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000007.tmp saved as .dta
   (85 bytes saved)
 
 . save "$temp/symmetric_lrmc.dta", replace
-(file
-    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/sy
-    > mmetric_lrmc.dta not found)
 file
     F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/sy
     > mmetric_lrmc.dta saved
@@ -4269,7 +4233,7 @@ STEP 16: 16_wacc_channel
 . tempfile incgrp
 
 . save `incgrp'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000002.tmp saved as .dta
     format
 
 . 
@@ -4377,9 +4341,6 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
   (85 bytes saved)
 
 . save "$temp/wacc_channel.dta", replace
-(file
-    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/wa
-    > cc_channel.dta not found)
 file
     F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/wa
     > cc_channel.dta saved
@@ -4476,7 +4437,7 @@ STEP 17: 17_bilateral_lambda
  45. end
 
 . save `blocs'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000002.tmp saved as .dta
     format
 
 . 
@@ -4519,7 +4480,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
 . gen byte eu = 1
 
 . save `eu'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000003.tmp saved as .dta
     format
 
 . 
@@ -4543,7 +4504,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
 . gen byte apec = 1
 
 . save `apec'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000004.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000004.tmp saved as .dta
     format
 
 . 
@@ -4562,7 +4523,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000004.tmp saved as .dta
 . gen byte depa = 1
 
 . save `depa'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000005.tmp saved as .dta
     format
 
 . 
@@ -4651,7 +4612,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
 . tempfile base
 
 . save `base'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000006.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000006.tmp saved as .dta
     format
 
 . 
@@ -4677,7 +4638,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000006.tmp saved as .dta
 . tempfile sellers
 
 . save `sellers'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000007.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000007.tmp saved as .dta
     format
 
 . 
@@ -4805,7 +4766,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000007.tmp saved as .dta
 . tempfile buyers
 
 . save `buyers'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000009.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000009.tmp saved as .dta
     format
 
 . restore
@@ -4907,9 +4868,6 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000009.tmp saved as .dta
 . rename k_iso iso3
 
 . save "$temp/bilateral_lambda.dta", replace
-(file
-    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/bi
-    > lateral_lambda.dta not found)
 file
     F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/bi
     > lateral_lambda.dta saved
@@ -5090,7 +5048,7 @@ STEP 18: 18_construction_regression
 . tempfile dcci
 
 . save `dcci'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000002.tmp saved as .dta
     format
 
 . 
@@ -5107,7 +5065,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
 . tempfile gdp
 
 . save `gdp'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000003.tmp saved as .dta
     format
 
 . 
@@ -5122,7 +5080,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
 . tempfile pop
 
 . save `pop'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000004.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000004.tmp saved as .dta
     format
 
 . 
@@ -5139,7 +5097,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000004.tmp saved as .dta
 . tempfile urb
 
 . save `urb'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000005.tmp saved as .dta
     format
 
 . 
@@ -5152,7 +5110,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
 . tempfile seis
 
 . save `seis'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000006.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000006.tmp saved as .dta
     format
 
 . 
@@ -5165,7 +5123,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000006.tmp saved as .dta
 . tempfile reg
 
 . save `reg'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000007.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000007.tmp saved as .dta
     format
 
 . 
@@ -5669,7 +5627,7 @@ file F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/t
 . tempfile subsidy56
 
 . save `subsidy56'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000002.tmp saved as .dta
     format
 
 . 
@@ -5731,7 +5689,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
 . tempfile dccap
 
 . save `dccap'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000004.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000004.tmp saved as .dta
     format
 
 . restore
@@ -5833,7 +5791,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000004.tmp saved as .dta
 . tempfile countries
 
 . save `countries'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000005.tmp saved as .dta
     format
 
 . 
@@ -5849,7 +5807,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
 . tempfile sellers
 
 . save `sellers'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000006.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000006.tmp saved as .dta
     format
 
 . 
@@ -5921,7 +5879,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000006.tmp saved as .dta
 . tempfile lambda_pairs
 
 . save `lambda_pairs'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000007.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000007.tmp saved as .dta
     format
 
 . 
@@ -5938,7 +5896,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000007.tmp saved as .dta
 . tempfile lammin
 
 . save `lammin'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000008.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000008.tmp saved as .dta
     format
 
 . 
@@ -5955,7 +5913,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000008.tmp saved as .dta
 . tempfile lamusa
 
 . save `lamusa'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000009.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000009.tmp saved as .dta
     format
 
 . 
@@ -5981,7 +5939,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000009.tmp saved as .dta
 (4 missing values generated)
 
 . save `countries', replace
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000005.tmp saved as .dta
     format
 
 . 
@@ -5998,7 +5956,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
 . tempfile lat_fwd
 
 . save `lat_fwd'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000a.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00000a.tmp saved as .dta
     format
 
 . rename (j_iso k_iso) (k_iso j_iso)
@@ -6026,7 +5984,7 @@ Duplicates in terms of j_iso k_iso
 . tempfile lat_sym
 
 . save `lat_sym'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000b.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00000b.tmp saved as .dta
     format
 
 . 
@@ -6116,7 +6074,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000b.tmp saved as .dta
 . tempfile eq_raw
 
 . save `eq_raw'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000c.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00000c.tmp saved as .dta
     format
 
 . 
@@ -6136,7 +6094,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000c.tmp saved as .dta
 . tempfile eq_cr
 
 . save `eq_cr'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000d.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00000d.tmp saved as .dta
     format
 
 . 
@@ -6156,7 +6114,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000d.tmp saved as .dta
 . tempfile eq_bilat
 
 . save `eq_bilat'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000e.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00000e.tmp saved as .dta
     format
 
 . 
@@ -6192,7 +6150,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000e.tmp saved as .dta
     -----------------------------------------
 
 . save `countries', replace
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000005.tmp saved as .dta
     format
 
 . 
@@ -6209,7 +6167,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
 . tempfile inf_sellers
 
 . save `inf_sellers'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000f.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00000f.tmp saved as .dta
     format
 
 . 
@@ -6247,7 +6205,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000f.tmp saved as .dta
 . tempfile inf_pairs
 
 . save `inf_pairs'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000g.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00000g.tmp saved as .dta
     format
 
 . 
@@ -6281,7 +6239,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000g.tmp saved as .dta
 (340 missing values generated)
 (340 missing values generated)
 (7,140 observations deleted)
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000h.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00000h.tmp saved as .dta
     format
 (2,132 missing values generated)
 (7,140 missing values generated)
@@ -6289,7 +6247,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000h.tmp saved as .dta
 (340 missing values generated)
 (340 missing values generated)
 (7,140 observations deleted)
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000i.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00000i.tmp saved as .dta
     format
 
 . 
@@ -6330,7 +6288,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000i.tmp saved as .dta
 . tempfile infsrc_bilat
 
 . save `infsrc_bilat'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000j.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00000j.tmp saved as .dta
     format
 
 . 
@@ -6381,7 +6339,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000j.tmp saved as .dta
 Duplicates in terms of all variables
 
 (26 observations deleted)
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000l.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00000l.tmp saved as .dta
     format
 
     Result                      Number of obs
@@ -6398,7 +6356,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000l.tmp saved as .dta
 Duplicates in terms of all variables
 
 (29 observations deleted)
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000n.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00000n.tmp saved as .dta
     format
 
     Result                      Number of obs
@@ -6415,7 +6373,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000n.tmp saved as .dta
 Duplicates in terms of all variables
 
 (21 observations deleted)
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000p.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00000p.tmp saved as .dta
     format
 
     Result                      Number of obs
@@ -6507,7 +6465,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000p.tmp saved as .dta
 . sort csvorder
 
 . save `countries', replace
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000005.tmp saved as .dta
     format
 
 . 
@@ -6617,7 +6575,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
 . tempfile blk1
 
 . save `blk1'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000r.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00000r.tmp saved as .dta
     format
 
 . restore
@@ -6643,7 +6601,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000r.tmp saved as .dta
 . tempfile blk2
 
 . save `blk2'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000t.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00000t.tmp saved as .dta
     format
 
 . restore
@@ -6672,7 +6630,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000t.tmp saved as .dta
 . tempfile blk3
 
 . save `blk3'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000v.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00000v.tmp saved as .dta
     format
 
 . restore
@@ -6698,7 +6656,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000v.tmp saved as .dta
 . tempfile blk4
 
 . save `blk4'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000x.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_00000x.tmp saved as .dta
     format
 
 . restore
@@ -6927,7 +6885,7 @@ file F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/t
 > //
 >         "%, top5=`top5'"
  40. }
-file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000011.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_4018_000011.tmp saved as .dta
     format
   A3 scenario 1: dev15=11, spread=11.9%, top5=Kyrgyzstan, Ethiopia, Kosovo, Can
 > ada, Tajikistan

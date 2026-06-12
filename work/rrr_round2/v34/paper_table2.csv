@@ -1,4 +1,4 @@
-Parameter,Symbol,Value,Source
+﻿Parameter,Symbol,Value,Source
 GPU thermal design power,γ,0.700 kW,NVIDIA (2024)
 GPU purchase price,PGPU,"$25,000",NVIDIA (2024)
 GPU useful life,L,3 years,Industry standard

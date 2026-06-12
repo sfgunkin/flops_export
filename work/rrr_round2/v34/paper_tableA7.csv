@@ -1,0 +1,12 @@
+﻿Variable,Coefficient,Std. Error
+Intercept,1.753,(1.467)
+ln(GDP per capita),0.056,(0.114)
+ln(Population),-0.020,(0.027)
+Urban population share,0.459,(0.355)
+Seismic zone indicator,-0.053,(0.077)
+East Asia & Pacific,0.054,(0.084)
+Latin America & Caribbean,-0.106,(0.141)
+Middle East,-0.114,(0.122)
+North America,-0.024,(0.151)
+South Asia,-0.070,(0.218)
+Sub-Saharan Africa,0.190,(0.200)
