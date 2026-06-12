@@ -1,7 +1,4 @@
-scenario,label,p_T,n_exporters,hhi_T,rank_corr,top1,top2,top3,top4,top5,top5_unchanged
-1,Baseline calibration,1.592069498603913,2,.933918702483743,1,KGZ,CAN,ETH,XKX,TJK,1
-2,Electricity price +$0.01/kWh,1.599629498603913,2,.933918702483743,.9994918897791675,KGZ,CAN,ETH,XKX,TJK,1
-3,Electricity price -$0.01/kWh,1.584509498603913,2,.933918702483743,.9993550908735587,KGZ,CAN,ETH,XKX,MNE,0
-4,"GPU hardware cost +20% ($30,000)",1.863681679867019,2,.933918702483743,1,KGZ,CAN,ETH,XKX,TJK,1
-5,"GPU hardware cost -20% ($20,000)",1.320457317340808,2,.933918702483743,1,KGZ,CAN,ETH,XKX,TJK,1
-6,Cooling efficiency cap (PUE<=1.20),1.592069498603913,2,.933918702483743,.9920852061754935,KGZ,CAN,ETH,XKX,TJK,1
+scenario,param_change,dev_top15,max_spread,spearman,top5
+Baseline (ρ=$1.36),ρ=$1.36,11,11.9%,1.00,"Kyrgyzstan, Ethiopia, Kosovo, Canada, Tajikistan"
+Low hardware share (ρ=$1.30),ρ=$1.30 (−4.4%),11,12.3%,1.00,"Kyrgyzstan, Ethiopia, Kosovo, Canada, Tajikistan"
+High hardware share (ρ=$1.42),ρ=$1.42 (+4.4%),11,11.4%,1.00,"Kyrgyzstan, Ethiopia, Kosovo, Canada, Tajikistan"

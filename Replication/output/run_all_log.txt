@@ -1,14 +1,14 @@
 -------------------------------------------------------------------------------
       name:  replication
-       log:  F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/
+       log:  F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/
 > output/run_all_log.txt
   log type:  text
- opened on:  29 May 2026, 13:17:55
+ opened on:  12 Jun 2026, 22:32:36
 
 . 
 . di as txt _n "Replication root: $root"
 
-Replication root: F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replica
+Replication root: F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replica
 > tion
 
 . 
@@ -288,7 +288,7 @@ STEP 1: 01_prep_electricity
 . tempfile base
 
 . save `base'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
     format
 
 . 
@@ -332,7 +332,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000002.tmp saved as .dta
 . tempfile additional
 
 . save `additional'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000003.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
     format
 
 . 
@@ -369,8 +369,11 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000003.tmp saved as .dta
   (435 bytes saved)
 
 . save "$temp/electricity_prices.dta", replace
+(file
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/el
+    > ectricity_prices.dta not found)
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/temp/el
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/el
     > ectricity_prices.dta saved
 
 . 
@@ -414,8 +417,11 @@ STEP 2: 02_prep_temperature
   (0 bytes saved)
 
 . save "$temp/temperatures.dta", replace
+(file
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/te
+    > mperatures.dta not found)
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/temp/te
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/te
     > mperatures.dta saved
 
 . 
@@ -502,8 +508,11 @@ STEP 3: 03_prep_construction
   (197 bytes saved)
 
 . save "$temp/construction_costs.dta", replace
+(file
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/co
+    > nstruction_costs.dta not found)
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/temp/co
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/co
     > nstruction_costs.dta saved
 
 . 
@@ -665,7 +674,7 @@ Validating against Python output...
 . rename c_j_total c_j_python
 
 . save `python_results'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000003.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
     format
 
 . 
@@ -724,14 +733,17 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000003.tmp saved as .dta
   (85 bytes saved)
 
 . save "$temp/calibration_results.dta", replace
+(file
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/ca
+    > libration_results.dta not found)
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/temp/ca
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/ca
     > libration_results.dta saved
 
 . 
 . // Also export CSV for reference
 . export delimited "$output/calibration_results_stata.csv", replace
-file F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/c
+file F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/c
 > alibration_results_stata.csv saved
 
 . 
@@ -790,7 +802,7 @@ STEP 5: 05_prep_latency
 . tempfile forward
 
 . save `forward'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
     format
 
 . 
@@ -805,7 +817,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000002.tmp saved as .dta
 . tempfile reverse
 
 . save `reverse'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000003.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
     format
 
 . 
@@ -845,8 +857,11 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000003.tmp saved as .dta
   (0 bytes saved)
 
 . save "$temp/latency_symmetric.dta", replace
+(file
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/la
+    > tency_symmetric.dta not found)
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/temp/la
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/la
     > tency_symmetric.dta saved
 
 . 
@@ -897,7 +912,7 @@ Duplicates in terms of all variables
 . tempfile latency_countries
 
 . save `latency_countries'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000003.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
     format
 
 . restore
@@ -927,7 +942,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000003.tmp saved as .dta
 . tempfile costs
 
 . save `costs'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000004.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000004.tmp saved as .dta
     format
 
 . 
@@ -954,7 +969,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000004.tmp saved as .dta
 . tempfile latency_all
 
 . save `latency_all'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000007.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000007.tmp saved as .dta
     format
 
 . restore
@@ -1220,8 +1235,11 @@ Top inference sources:
   (4,100 bytes saved)
 
 . save "$temp/regime_assignment.dta", replace
+(file
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/re
+    > gime_assignment.dta not found)
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/temp/re
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/re
     > gime_assignment.dta saved
 
 . 
@@ -1265,7 +1283,7 @@ STEP 7: 07_demand_shares
 . tempfile dc_raw
 
 . save `dc_raw'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
     format
 
 . 
@@ -1373,8 +1391,11 @@ HHI (demand concentration): 0.2591
   (0 bytes saved)
 
 . save "$temp/demand_shares.dta", replace
+(file
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/de
+    > mand_shares.dta not found)
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/temp/de
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/de
     > mand_shares.dta saved
 
 . 
@@ -1425,7 +1446,7 @@ STEP 8: 08_capacity_equilibrium
 . tempfile kbar
 
 . save `kbar'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
     format
 
 . 
@@ -1568,8 +1589,11 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000002.tmp saved as .dta
   (1,190 bytes saved)
 
 . save "$temp/capacity_equilibrium.dta", replace
+(file
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/ca
+    > pacity_equilibrium.dta not found)
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/temp/ca
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/ca
     > pacity_equilibrium.dta saved
 
 . 
@@ -1832,8 +1856,11 @@ Top 5 (cost-recovery adjusted):
   (3,230 bytes saved)
 
 . save "$temp/cost_recovery.dta", replace
+(file
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/co
+    > st_recovery.dta not found)
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/temp/co
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/co
     > st_recovery.dta saved
 
 . 
@@ -1901,7 +1928,7 @@ STEP 10: 10_inference_sourcing
 . tempfile latency_all
 
 . save `latency_all'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000003.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
     format
 
 . restore
@@ -2027,7 +2054,7 @@ Inference revenue shares (cost-recovery adjusted):
 . tempfile inf_shares
 
 . save `inf_shares'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_00068n.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00068n.tmp saved as .dta
     format
 
 . restore
@@ -2085,8 +2112,11 @@ Kyrgyzstan inference clients:
   (1,360 bytes saved)
 
 . save "$temp/inference_sourcing.dta", replace
+(file
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/in
+    > ference_sourcing.dta not found)
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/temp/in
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/in
     > ference_sourcing.dta saved
 
 . 
@@ -2316,8 +2346,11 @@ Lambda* distribution (cost-recovery):
   (0 bytes saved)
 
 . save "$temp/welfare_sovereignty.dta", replace
+(file
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/we
+    > lfare_sovereignty.dta not found)
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/temp/we
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/we
     > lfare_sovereignty.dta saved
 
 . 
@@ -2391,7 +2424,7 @@ STEP 12: 12_sensitivity
 . keep iso3 k_bar_j
 
 . save `kbar'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
     format
 
 . restore
@@ -2704,7 +2737,7 @@ Cooling efficiency cap (PUE<=1.20)       $ 1.592    2 0.9339 0.9921 same
 
 . save "$output/sensitivity_results.dta", replace
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/
     > sensitivity_results.dta saved
 
 . 
@@ -2750,7 +2783,7 @@ STEP 13: 13_reliability
 . tempfile reliability
 
 . save `reliability'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
     format
 
 . 
@@ -2944,7 +2977,7 @@ Countries entering xi top-10 from outside baseline top-10: 9
 
 . save "$output/reliability_rankings.dta", replace
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/
     > reliability_rankings.dta saved
 
 . 
@@ -3387,13 +3420,20 @@ Year    CAPEX  Revenue     OPEX   EBITDA      Tax      FCF   Cum CF
 
 . save "$output/kyrgyzstan_dcf.dta", replace
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/
     > kyrgyzstan_dcf.dta saved
 
 . 
+. 
 . // ══════════════════════════════════════════════════════════════════════════
 > ═════
-. // SENSITIVITY SCENARIOS
+. // SENSITIVITY SCENARIOS (Table A6)
+. //
+. // Each scenario re-runs the FULL cash-flow model above (including GPU
+. // depreciation and insurance on the depreciated GPU value) with parameter
+. // adjustments, exactly as the published generator does. The base-case
+. // scenario must therefore reproduce the main NPV/IRR bit-for-bit; this is
+. // asserted below.
 . // ══════════════════════════════════════════════════════════════════════════
 > ═════
 . 
@@ -3402,262 +3442,230 @@ file
 === Sensitivity Analysis ===
 
 . 
-. // Scenario runner: for each scenario, recompute all cash flows and find NPV/
-> IRR
-. // Parameters: wacc_adj, price_adj, elec_adj, gpu_adj, util_adj
+. cap program drop dcf_run
+
+. program define dcf_run, rclass
+  1.     // Rebuilds the full 15-year DCF with adjustments; returns npv and irr
+> .
+.     // NOTE: clears the dataset in memory.
+.     syntax , [gpuadj(real 0) elecadj(real 0) priceadj(real 0) ///
+>               utiladj(real 0) waccadj(real 0)]
+  2. 
+.     local n_gpus = $N_GPUS
+  3.     local constr = $CONSTRUCTION_COST
+  4. 
+.     clear
+  5.     qui set obs 16
+  6.     gen int year = _n - 1
+  7. 
+.     // ── CAPEX: construction (yr 0), 5 GPU generations, networking refresh ─
+> ─
+.     gen double capex = cond(year == 0, `constr', 0)
+  8.     forvalues g = 0/4 {
+  9.         local gy = 1 + `g' * 3
+ 10.         local gp = $GPU_PRICE * (1 - $GPU_PRICE_DECLINE)^`g' * (1 + `gpuad
+> j')
+ 11.         qui replace capex = capex + `n_gpus' * `gp' if year == `gy'
+ 12.     }
+ 13.     qui replace capex = capex + `n_gpus' * $NETWORKING_COST_PER_GPU ///
+>         if inlist(year, 1, 6, 11)
+ 14. 
+.     // ── Utilization ramp (adjustment applies in every operating year) ──
+.     gen double util = 0
+ 15.     qui replace util = 0.40 if year == 1
+ 16.     qui replace util = 0.60 if year == 2
+ 17.     qui replace util = $GPU_UTIL if year >= 3
+ 18.     qui replace util = min(max(util + `utiladj', 0), 0.95) if year >= 1
+ 19. 
+.     // ── Current-generation GPU value (insurance base) and GPU depreciation 
+> ──
+.     gen double gpu_val = 0
+ 20.     gen double depr_gpu = 0
+ 21.     forvalues g = 0/4 {
+ 22.         local gy = 1 + `g' * 3
+ 23.         local gp = $GPU_PRICE * (1 - $GPU_PRICE_DECLINE)^`g' * (1 + `gpuad
+> j')
+ 24.         qui replace gpu_val = `n_gpus' * `gp' * ///
+>             max(0, 1 - (year - `gy') / $GPU_LIFE_YR) ///
+>             if year >= `gy' & year < `gy' + $GPU_LIFE_YR
+ 25.         qui replace depr_gpu = `n_gpus' * `gp' / $GPU_LIFE_YR ///
+>             if year >= `gy' & year < `gy' + $GPU_LIFE_YR
+ 26.     }
+ 27. 
+.     // ── OPEX, revenue, income statement ──
+.     gen double ep = ($P_ELEC_KWH + `elecadj') * ///
+>         (1 + $ELEC_ESCALATION)^(year - 1) if year >= 1
+ 28.     gen double opex = $TOTAL_POWER_MW * 1000 * $H_YR * ep ///
+>         + $STAFF_COST_YR * 1.03^(year - 1) ///
+>         + `constr' * $MAINTENANCE_PCT ///
+>         + (`constr' + gpu_val) * $INSURANCE_PCT ///
+>         + $CONNECTIVITY_COST_YR if year >= 1
+ 29.     qui replace opex = 0 if year == 0
+ 30.     gen double revenue = `n_gpus' * $H_YR * util * ///
+>         ($REVENUE_PER_GPU_HR + `priceadj') if year >= 1
+ 31.     qui replace revenue = 0 if year == 0
+ 32.     gen double depr = `constr' / $DC_LIFE_YR + depr_gpu if year >= 1
+ 33.     qui replace depr = 0 if year == 0
+ 34.     gen double ebitda = revenue - opex
+ 35.     gen double ebt = ebitda - depr
+ 36.     gen double tax = max(0, ebt * $TAX_RATE)
+ 37.     gen double ni = ebt - tax
+ 38.     gen double fcf = ni + depr - capex
+ 39. 
+.     // ── NPV at (WACC + waccadj) ──
+.     local w = $WACC + `waccadj'
+ 40.     tempvar pv
+ 41.     qui gen double `pv' = fcf / (1 + `w')^year
+ 42.     qui sum `pv'
+ 43.     return scalar npv = r(sum)
+ 44. 
+.     // ── IRR via bisection (WACC-independent) ──
+.     local lo = -0.50
+ 45.     local hi = 2.0
+ 46.     forvalues it = 1/200 {
+ 47.         local mid = (`lo' + `hi') / 2
+ 48.         tempvar pvt
+ 49.         qui gen double `pvt' = fcf / (1 + `mid')^year
+ 50.         qui sum `pvt'
+ 51.         if r(sum) > 0 {
+ 52.             local lo = `mid'
+ 53.         }
+ 54.         else {
+ 55.             local hi = `mid'
+ 56.         }
+ 57.         drop `pvt'
+ 58.     }
+ 59.     return scalar irr = `mid'
+ 60. end
+
+. 
+. // Scenario grid (labels use the typographic minus U+2212, as in the paper)
+. local minus = uchar(8722)
+
+. local n_sens = 11
+
+. local slbl1  "Base case"
+
+. local sopt1  ""
+
+. local slbl2  "GPU price `minus'20%"
+
+. local sopt2  "gpuadj(-0.20)"
+
+. local slbl3  "GPU price +20%"
+
+. local sopt3  "gpuadj(0.20)"
+
+. local slbl4  "Electricity +50%"
+
+. local sopt4  "elecadj(0.019)"
+
+. local slbl5  "Electricity `minus'25%"
+
+. local sopt5  "elecadj(-0.0095)"
+
+. local slbl6  "Revenue +5%"
+
+. local sopt6  "priceadj(0.08)"
+
+. local slbl7  "Revenue `minus'5%"
+
+. local sopt7  "priceadj(-0.08)"
+
+. local slbl8  "Utilization 80%"
+
+. local sopt8  "utiladj(0.10)"
+
+. local slbl9  "Utilization 60%"
+
+. local sopt9  "utiladj(-0.10)"
+
+. local slbl10 "WACC 10%"
+
+. local sopt10 "waccadj(-0.026)"
+
+. local slbl11 "WACC 16%"
+
+. local sopt11 "waccadj(0.034)"
+
 . 
 . tempfile sens_results
 
 . postfile senshandle str40 scenario double(npv irr) using `sens_results'
 
 . 
-. // Define scenarios
-. local n_sens = 11
-
-. local slbl1  "Base case"
-
-. local swacc1 = 0
-
-. local sprc1  = 0
-
-. local selec1 = 0
-
-. local sgpu1  = 0
-
-. local sutil1 = 0
-
-. 
-. local slbl2  "GPU price -20%"
-
-. local swacc2 = 0
-
-. local sprc2  = 0
-
-. local selec2 = 0
-
-. local sgpu2  = -0.20
-
-. local sutil2 = 0
-
-. 
-. local slbl3  "GPU price +20%"
-
-. local swacc3 = 0
-
-. local sprc3  = 0
-
-. local selec3 = 0
-
-. local sgpu3  = 0.20
-
-. local sutil3 = 0
-
-. 
-. local slbl4  "Electricity +50%"
-
-. local swacc4 = 0
-
-. local sprc4  = 0
-
-. local selec4 = 0.019
-
-. local sgpu4  = 0
-
-. local sutil4 = 0
-
-. 
-. local slbl5  "Electricity -25%"
-
-. local swacc5 = 0
-
-. local sprc5  = 0
-
-. local selec5 = -0.0095
-
-. local sgpu5  = 0
-
-. local sutil5 = 0
-
-. 
-. local slbl6  "Revenue price +5%"
-
-. local swacc6 = 0
-
-. local sprc6  = 0.08
-
-. local selec6 = 0
-
-. local sgpu6  = 0
-
-. local sutil6 = 0
-
-. 
-. local slbl7  "Revenue price -5%"
-
-. local swacc7 = 0
-
-. local sprc7  = -0.08
-
-. local selec7 = 0
-
-. local sgpu7  = 0
-
-. local sutil7 = 0
-
-. 
-. local slbl8  "Utilization 80%"
-
-. local swacc8 = 0
-
-. local sprc8  = 0
-
-. local selec8 = 0
-
-. local sgpu8  = 0
-
-. local sutil8 = 0.10
-
-. 
-. local slbl9  "Utilization 60%"
-
-. local swacc9 = 0
-
-. local sprc9  = 0
-
-. local selec9 = 0
-
-. local sgpu9  = 0
-
-. local sutil9 = -0.10
-
-. 
-. local slbl10  "WACC 10%"
-
-. local swacc10 = -0.026
-
-. local sprc10  = 0
-
-. local selec10 = 0
-
-. local sgpu10  = 0
-
-. local sutil10 = 0
-
-. 
-. local slbl11  "WACC 16%"
-
-. local swacc11 = 0.034
-
-. local sprc11  = 0
-
-. local selec11 = 0
-
-. local sgpu11  = 0
-
-. local sutil11 = 0
-
-. 
 . forvalues sc = 1/`n_sens' {
-  2.     local w = $WACC + `swacc`sc''
-  3. 
-.     // Compute FCF stream
-.     local npv_s = 0
-  4.     local irr_cfs ""
-  5. 
-.     forvalues yr = 0/15 {
-  6.         // CAPEX
-.         local cx = 0
-  7.         if `yr' == 0 local cx = `constr_cost'
-  8. 
-.         // GPU
-.         forvalues gen = 0/4 {
-  9.             local gpu_yr = 1 + `gen' * 3
- 10.             if `yr' == `gpu_yr' {
- 11.                 local gp = $GPU_PRICE * (1 - $GPU_PRICE_DECLINE)^`gen' * (
-> 1 + `sgpu`sc'')
- 12.                 local cx = `cx' + `n_gpus' * `gp'
- 13.             }
- 14.         }
- 15. 
-.         // Networking
-.         if inlist(`yr', 1, 6, 11) {
- 16.             local cx = `cx' + `n_gpus' * $NETWORKING_COST_PER_GPU
- 17.         }
- 18. 
-.         // OPEX
-.         local ox = 0
- 19.         if `yr' >= 1 {
- 20.             local ep = ($P_ELEC_KWH + `selec`sc'') * (1 + $ELEC_ESCALATION
-> )^(`yr' - 1)
- 21.             local ox = `total_power' * 1000 * $H_YR * `ep' ///
->                      + `staff_cost' * 1.03^(`yr' - 1) ///
->                      + `constr_cost' * $MAINTENANCE_PCT ///
->                      + `constr_cost' * $INSURANCE_PCT ///
->                      + $CONNECTIVITY_COST_YR
- 22.         }
- 23. 
-.         // Revenue
-.         local rev = 0
- 24.         if `yr' >= 1 {
- 25.             local u = cond(`yr' == 1, 0.40, cond(`yr' == 2, 0.60, $GPU_UTI
-> L))
- 26.             local u = `u' + `sutil`sc''
- 27.             local u = min(max(`u', 0), 0.95)
- 28.             local rev = `n_gpus' * $H_YR * `u' * ($REVENUE_PER_GPU_HR + `s
-> prc`sc'')
- 29.         }
- 30. 
-.         // Income
-.         local ebitda_s = `rev' - `ox'
- 31.         local depr_s = cond(`yr' >= 1, `constr_cost' / $DC_LIFE_YR, 0)
- 32.         local ebt_s = `ebitda_s' - `depr_s'
- 33.         local tax_s = max(0, `ebt_s' * $TAX_RATE)
- 34.         local ni_s = `ebt_s' - `tax_s'
- 35.         local cf_s = `ni_s' + `depr_s' - `cx'
- 36. 
-.         // Accumulate NPV
-.         local npv_s = `npv_s' + `cf_s' / (1 + `w')^`yr'
- 37. 
-.         // Store CF for IRR
-.         local irr_cfs "`irr_cfs' `cf_s'"
- 38.     }
- 39. 
-.     // IRR via bisection
-.     local lo = -0.50
- 40.     local hi = 2.0
- 41.     forvalues iter = 1/200 {
- 42.         local mid = (`lo' + `hi') / 2
- 43.         local test_npv = 0
- 44.         local yr_idx = 0
- 45.         foreach cf of local irr_cfs {
- 46.             local test_npv = `test_npv' + `cf' / (1 + `mid')^`yr_idx'
- 47.             local yr_idx = `yr_idx' + 1
- 48.         }
- 49.         if `test_npv' > 0 {
- 50.             local lo = `mid'
- 51.         }
- 52.         else {
- 53.             local hi = `mid'
- 54.         }
- 55.     }
- 56.     local irr_s = `mid'
- 57. 
-.     post senshandle ("`slbl`sc''") (`npv_s') (`irr_s')
- 58. 
-.     di as txt "  `slbl`sc'': NPV=$" %9.0fc `npv_s' " IRR=" %5.1f `irr_s'*100 
-> "%"
- 59. }
-  Base case: NPV=$114795980 IRR= 14.2%
-  GPU price -20%: NPV=$732987622 IRR= 24.3%
-  GPU price +20%: NPV=$-5.03e+08 IRR=  6.2%
-  Electricity +50%: NPV=$ 67569665 IRR= 13.5%
-  Electricity -25%: NPV=$138409137 IRR= 14.5%
-  Revenue price +5%: NPV=$268918945 IRR= 16.3%
-  Revenue price -5%: NPV=$-39326985 IRR= 12.0%
-  Utilization 80%: NPV=$709711614 IRR= 22.7%
-  Utilization 60%: NPV=$-4.80e+08 IRR=  5.8%
-  WACC 10%: NPV=$346107906 IRR= 14.2%
-  WACC 16%: NPV=$-1.08e+08 IRR= 14.2%
+  2.     dcf_run, `sopt`sc''
+  3.     local npv_s = r(npv)
+  4.     local irr_s = r(irr)
+  5.     post senshandle ("`slbl`sc''") (`npv_s') (`irr_s')
+  6.     di as txt "  `slbl`sc'': NPV=$" %12.0fc `npv_s' "  IRR=" %5.1f `irr_s'
+> *100 "%"
+  7.     if `sc' == 1 {
+  8.         // The base scenario must replicate the main DCF above exactly
+.         if abs(`npv_s' - `npv') > 1 {
+  9.             di as error "ERROR: sensitivity base case NPV (`npv_s') does n
+> ot" ///
+>                 " match main DCF NPV (`npv')"
+ 10.             exit 9
+ 11.         }
+ 12.     }
+ 13. }
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+  Base case: NPV=$ 353,362,628  IRR= 17.6%
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+  GPU price −20%: NPV=$ 930,139,789  IRR= 27.6%
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+  GPU price +20%: NPV=$-225,185,380  IRR=  9.7%
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+  Electricity +50%: NPV=$ 305,497,314  IRR= 16.9%
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+  Electricity −25%: NPV=$ 377,295,286  IRR= 17.9%
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+  Revenue +5%: NPV=$ 508,909,129  IRR= 19.8%
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+  Revenue −5%: NPV=$ 197,816,127  IRR= 15.4%
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+  Utilization 80%: NPV=$ 957,175,363  IRR= 26.4%
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+  Utilization 60%: NPV=$-252,535,836  IRR=  9.0%
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+  WACC 10%: NPV=$ 619,256,003  IRR= 17.6%
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+  WACC 16%: NPV=$  95,399,756  IRR= 17.6%
 
 . 
 . postclose senshandle
@@ -3683,26 +3691,26 @@ Scenario                             NPV ()      IRR
   2.     di as txt %-30s scenario[`i'] " $" %10.0f npv[`i']/1e6 " " %7.1f irr[`
 > i']*100 "%"
   3. }
-Base case                      $       115    14.2%
-GPU price -20%                 $       733    24.3%
-GPU price +20%                 $      -503     6.2%
-Electricity +50%               $        68    13.5%
-Electricity -25%               $       138    14.5%
-Revenue price +5%              $       269    16.3%
-Revenue price -5%              $       -39    12.0%
-Utilization 80%                $       710    22.7%
-Utilization 60%                $      -480     5.8%
-WACC 10%                       $       346    14.2%
-WACC 16%                       $      -108    14.2%
+Base case                      $       353    17.6%
+GPU price −20%                 $       930    27.6%
+GPU price +20%                 $      -225     9.7%
+Electricity +50%               $       305    16.9%
+Electricity −25%               $       377    17.9%
+Revenue +5%                    $       509    19.8%
+Revenue −5%                    $       198    15.4%
+Utilization 80%                $       957    26.4%
+Utilization 60%                $      -253     9.0%
+WACC 10%                       $       619    17.6%
+WACC 16%                       $        95    17.6%
 
 . 
 . compress
-  variable scenario was str40 now str17
-  (253 bytes saved)
+  variable scenario was str40 now str18
+  (242 bytes saved)
 
 . save "$output/kyrgyzstan_dcf_sensitivity.dta", replace
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/
     > kyrgyzstan_dcf_sensitivity.dta saved
 
 . 
@@ -3762,7 +3770,7 @@ STEP 15: 15_symmetric_lrmc
 . tempfile cal
 
 . save `cal'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
     format
 
 . 
@@ -3794,7 +3802,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000002.tmp saved as .dta
 . tempfile v32
 
 . save `v32'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000003.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
     format
 
 . 
@@ -3864,7 +3872,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000003.tmp saved as .dta
 . tempfile carbon
 
 . save `carbon'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000004.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000004.tmp saved as .dta
     format
 
 . 
@@ -3892,7 +3900,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000004.tmp saved as .dta
 . tempfile xsub
 
 . save `xsub'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000005.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
     format
 
 . 
@@ -4047,7 +4055,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000005.tmp saved as .dta
 . tempfile kbar
 
 . save `kbar'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000007.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000007.tmp saved as .dta
     format
 
 . restore
@@ -4120,8 +4128,11 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000007.tmp saved as .dta
   (85 bytes saved)
 
 . save "$temp/symmetric_lrmc.dta", replace
+(file
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/sy
+    > mmetric_lrmc.dta not found)
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/temp/sy
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/sy
     > mmetric_lrmc.dta saved
 
 . di as txt "  Saved: symmetric_lrmc.dta"
@@ -4258,7 +4269,7 @@ STEP 16: 16_wacc_channel
 . tempfile incgrp
 
 . save `incgrp'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
     format
 
 . 
@@ -4366,8 +4377,11 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000002.tmp saved as .dta
   (85 bytes saved)
 
 . save "$temp/wacc_channel.dta", replace
+(file
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/wa
+    > cc_channel.dta not found)
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/temp/wa
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/wa
     > cc_channel.dta saved
 
 . di as txt "  Saved: wacc_channel.dta"
@@ -4462,7 +4476,7 @@ STEP 17: 17_bilateral_lambda
  45. end
 
 . save `blocs'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
     format
 
 . 
@@ -4505,7 +4519,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000002.tmp saved as .dta
 . gen byte eu = 1
 
 . save `eu'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000003.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
     format
 
 . 
@@ -4529,7 +4543,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000003.tmp saved as .dta
 . gen byte apec = 1
 
 . save `apec'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000004.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000004.tmp saved as .dta
     format
 
 . 
@@ -4548,7 +4562,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000004.tmp saved as .dta
 . gen byte depa = 1
 
 . save `depa'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000005.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
     format
 
 . 
@@ -4637,7 +4651,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000005.tmp saved as .dta
 . tempfile base
 
 . save `base'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000006.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000006.tmp saved as .dta
     format
 
 . 
@@ -4663,7 +4677,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000006.tmp saved as .dta
 . tempfile sellers
 
 . save `sellers'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000007.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000007.tmp saved as .dta
     format
 
 . 
@@ -4791,7 +4805,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000007.tmp saved as .dta
 . tempfile buyers
 
 . save `buyers'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000009.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000009.tmp saved as .dta
     format
 
 . restore
@@ -4894,10 +4908,10 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000009.tmp saved as .dta
 
 . save "$temp/bilateral_lambda.dta", replace
 (file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/temp/bi
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/bi
     > lateral_lambda.dta not found)
 file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/temp/bi
+    F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/temp/bi
     > lateral_lambda.dta saved
 
 . di as txt _n "  Saved: bilateral_lambda.dta"
@@ -5076,7 +5090,7 @@ STEP 18: 18_construction_regression
 . tempfile dcci
 
 . save `dcci'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000002.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
     format
 
 . 
@@ -5093,7 +5107,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000002.tmp saved as .dta
 . tempfile gdp
 
 . save `gdp'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000003.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000003.tmp saved as .dta
     format
 
 . 
@@ -5108,7 +5122,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000003.tmp saved as .dta
 . tempfile pop
 
 . save `pop'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000004.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000004.tmp saved as .dta
     format
 
 . 
@@ -5125,7 +5139,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000004.tmp saved as .dta
 . tempfile urb
 
 . save `urb'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000005.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
     format
 
 . 
@@ -5138,7 +5152,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000005.tmp saved as .dta
 . tempfile seis
 
 . save `seis'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000006.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000006.tmp saved as .dta
     format
 
 . 
@@ -5151,7 +5165,7 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000006.tmp saved as .dta
 . tempfile reg
 
 . save `reg'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000007.tmp saved as .dta
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000007.tmp saved as .dta
     format
 
 . 
@@ -5308,10 +5322,7 @@ Number of observations (_N) was 0, now 12.
 (1 missing value generated)
 
 . export delimited using "$output/tableA7_construction_regression.csv", replace
-(file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/
-    > tableA7_construction_regression.csv not found)
-file F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/t
+file F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/t
 > ableA7_construction_regression.csv saved
 
 . restore
@@ -5332,22 +5343,31 @@ STEP 19: 19_export_tables
 > ===
 >   19_export_tables.do — Export every paper table to output/ as CSV
 > 
->   Assembles the paper's tables from the pipeline's intermediate datasets:
+>   Assembles the paper's tables from the pipeline's intermediate datasets and,
+>   for the ranking tables, from a paper-exact recomputation that transcribes
+>   the published generator (add_calibration_v33.py) constant-for-constant:
 >     Table 1  regime taxonomy            (static/definitional)
 >     Table 2  model parameters           (from run_all.do globals)
->     Table 3  rankings, key specs        (raw / symmetric-LRMC / bilateral / W
-> ACC)
+>     Table 3  rankings, key specs        (raw / cost-recovery / bilateral / WA
+> CC)
 >     Table A1 calibration parameters     (all 85 countries)
 >     Table A2 rankings, all countries
->     Table A3 sensitivity                (step 12)
+>     Table A3 sensitivity of cost-recovery rankings (rho variation)
 >     Table A4 facility specification     (static DCF inputs)
 >     Table A5 DCF cash flow              (step 14)
 >     Table A6 DCF return sensitivity     (step 14)
 >     Table A7 construction regression    (step 18, exported there)
 >     Table A8 workload classification    (static)
 > 
->   Files: output/table{1,2,3,A1,A2,A4,A8}_*.csv  plus the .dta-derived A3/A5/A
-> 6.
+>   Tables 3, A1, A2 and A3 print the exact cell strings of the published paper
+>   (same sorting, same units, same number formats, same regime-type letters),
+>   so each CSV can be compared against the corresponding paper exhibit 1:1.
+> 
+>   Sources for the transcribed constants (all from add_calibration_v33.py):
+>     SUBSIDY_ADJ (56 cost-recovery prices), INCOME_GROUP + WACC bands,
+>     SANCTIONED, DEVELOPING, geopolitical blocs, EU/APEC-CBPR/DEPA sets,
+>     bloc-distance matrix, ALPHA_GEO/ALPHA_REG, latency rule, and the
+>     capacity-constrained equilibrium algorithm.
 > =============================================================================
 > =*/
 . 
@@ -5373,10 +5393,7 @@ STEP 19: 19_export_tables
   6. end
 
 . export delimited using "$output/table1_regime_taxonomy.csv", replace
-(file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/
-    > table1_regime_taxonomy.csv not found)
-file F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/t
+file F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/t
 > able1_regime_taxonomy.csv saved
 
 . 
@@ -5410,10 +5427,7 @@ file F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/t
  16. end
 
 . export delimited using "$output/table2_model_parameters.csv", replace
-(file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/
-    > table2_model_parameters.csv not found)
-file F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/t
+file F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/t
 > able2_model_parameters.csv saved
 
 . 
@@ -5494,10 +5508,7 @@ Number of observations (_N) was 0, now 10.
 (1 real change made)
 
 . export delimited using "$output/tableA4_facility_spec.csv", replace
-(file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/
-    > tableA4_facility_spec.csv not found)
-file F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/t
+file F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/t
 > ableA4_facility_spec.csv saved
 
 . 
@@ -5528,56 +5539,804 @@ file F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/t
   7. end
 
 . export delimited using "$output/tableA8_workload_classification.csv", replace
-(file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/
-    > tableA8_workload_classification.csv not found)
-file F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/t
+file F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/t
 > ableA8_workload_classification.csv saved
 
 . 
 . // ══════════════════════════════════════════════════════════════════════════
 > ════
-. // Table A1 — Country-specific calibration parameters (all 85)
+. // PAPER-EXACT RANKING TABLES (3, A1, A2, A3)
+. //
+. // Everything below mirrors add_calibration_v33.py. Cost formulas keep the sa
+> me
+. // term order as the Python source so that floating-point results (and hence
+. // near-tie rankings) are bit-identical.
 . // ══════════════════════════════════════════════════════════════════════════
 > ════
+. 
+. // ─── Transcribed constant sets (membership tested via padded strpos) ──────
+> ───
+. // Sanctioned (6): comprehensive sanctions, excluded from export supply
+. local sanctioned6 "IRN RUS BLR PRK SYR TKM"
+
+. // Developing set (43): used for the dagger flag and Table A3 dev-top-15
+. local developing "CHN KGZ XKX MNE ETH VNM IND KEN ARE EGY DZA UZB TJK TKM ALB
+>  MKD GEO ARM MDA UKR BIH SRB IDN MYS PHL THA COL MEX BRA ARG CHL PER NGA ZAF 
+> MAR TUN SEN BGD PAK LKA MMR LAO KHM"
+
+. // Geopolitical blocs (UNGA voting, Bailey-Strezhnev-Voeten 2017)
+. local bloc_w "USA CAN GBR FRA DEU ITA ESP PRT NLD BEL LUX AUT CHE IRL DNK NOR
+>  SWE FIN ISL GRC CZE POL HUN SVK SVN EST LVA LTU HRV BGR ROU CYP MLT JPN KOR 
+> AUS NZL ISR TWN"
+
+. local bloc_c "CHN RUS BLR PRK SYR IRN VEN CUB NIC MMR"
+
+. // Regulatory-compatibility memberships
+. local eu27 "AUT BEL BGR HRV CYP CZE DNK EST FIN FRA DEU GRC HUN IRL ITA LVA L
+> TU LUX MLT NLD POL PRT ROU SVK SVN ESP SWE"
+
+. local apec_cbpr "AUS CAN JPN KOR MEX PHL SGP TWN USA"
+
+. local depa "SGP CHL NZL"
+
+. // Income groups for the WACC channel (WB FY2025); unmapped -> HIC
+. local g_umic "ALB ARG ARM AZE BGR BIH BLR BRA CHN COL DZA GEO IDN IRN KAZ MDA
+>  MEX MKD MNE MYS RUS SRB THA TKM TUR UKR XKX ZAF"
+
+. local g_lmic "EGY GHA IND KEN KGZ MAR NGA PAK PHL SEN TJK UZB VNM"
+
+. local g_lic  "ETH"
+
+. 
+. // Bilateral lambda weights
+. local ALPHA_GEO = 0.05
+
+. local ALPHA_REG = 0.025
+
+. // Latency / inference parameters
+. local TAU_  = 0.0008
+
+. local LBAR  = 200.0
+
+. local DOM_LAT = 5.0
+
+. 
+. // ─── SUBSIDY_ADJ: 56 cost-recovery electricity prices ($/kWh) ─────────────
+> ────
+. clear
+
+. input str3 iso3 double cr_pe
+
+          iso3       cr_pe
+  1. "IRN" 0.085
+  2. "TKM" 0.070
+  3. "DZA" 0.065
+  4. "EGY" 0.080
+  5. "UZB" 0.090
+  6. "QAT" 0.100
+  7. "SAU" 0.100
+  8. "ARE" 0.095
+  9. "RUS" 0.065
+ 10. "KAZ" 0.085
+ 11. "NGA" 0.080
+ 12. "ZAF" 0.095
+ 13. "ETH" 0.050
+ 14. "AUS" 0.09000
+ 15. "AUT" 0.16659
+ 16. "BEL" 0.14655
+ 17. "BGR" 0.18156
+ 18. "CAN" 0.05260
+ 19. "CHE" 0.16284
+ 20. "CHL" 0.13000
+ 21. "COL" 0.07500
+ 22. "CYP" 0.22756
+ 23. "CZE" 0.20280
+ 24. "DEU" 0.22016
+ 25. "DNK" 0.13888
+ 26. "ESP" 0.13445
+ 27. "EST" 0.16853
+ 28. "FIN" 0.06171
+ 29. "FRA" 0.12095
+ 30. "GBR" 0.10656
+ 31. "GRC" 0.19145
+ 32. "HRV" 0.21776
+ 33. "HUN" 0.19222
+ 34. "IRL" 0.24928
+ 35. "ISL" 0.09198
+ 36. "ISR" 0.10800
+ 37. "ITA" 0.19044
+ 38. "JPN" 0.13500
+ 39. "KOR" 0.14500
+ 40. "LTU" 0.14464
+ 41. "LUX" 0.13267
+ 42. "LVA" 0.12409
+ 43. "MEX" 0.09500
+ 44. "MLT" 0.13746
+ 45. "NLD" 0.16372
+ 46. "NOR" 0.05552
+ 47. "NZL" 0.09935
+ 48. "POL" 0.16562
+ 49. "PRT" 0.11741
+ 50. "ROU" 0.17414
+ 51. "SGP" 0.15244
+ 52. "SVK" 0.17291
+ 53. "SVN" 0.16119
+ 54. "SWE" 0.07104
+ 55. "TUR" 0.08600
+ 56. "USA" 0.09771
+ 57. end
+
+. tempfile subsidy56
+
+. save `subsidy56'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000002.tmp saved as .dta
+    format
+
+. 
+. // ─── Country-level base data ──────────────────────────────────────────────
+> ────
 . import delimited "$data/calibration_results_v3.csv", varnames(1) encoding("ut
 > f-8") clear
 (12 vars, 85 obs)
 
-. keep iso3 country p_e_usd_kwh theta_summer_c pue c_j_construction c_j_total
+. keep iso3 country p_e_usd_kwh theta_summer_c pue p_l_usd_per_w c_j_total
 
 . rename p_e_usd_kwh p_E
 
 . rename theta_summer_c theta
 
-. rename c_j_construction c_construction
+. rename p_l_usd_per_w p_L
 
-. merge 1:1 iso3 using "$temp/demand_shares.dta", keepusing(omega) keep(master 
+. gen long csvorder = _n   // stable tie-break, mirrors Python dict/list order
+
+. 
+. merge 1:1 iso3 using `subsidy56', keep(master match) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            29
+        from master                        29  
+        from using                          0  
+
+    Matched                                56  
+    -----------------------------------------
+
+. replace cr_pe = p_E if missing(cr_pe)
+(29 real changes made)
+
+. gen byte is_adjusted = !missing(cr_pe) & abs(cr_pe - p_E) > 1e-12
+
+. // Re-derive the adjusted flag the way Python does (membership, not value)
+. gen byte in_subsidy56 = 0
+
+. foreach iso in IRN TKM DZA EGY UZB QAT SAU ARE RUS KAZ NGA ZAF ETH AUS AUT BE
+> L BGR CAN CHE CHL COL CYP CZE DEU DNK ESP EST FIN FRA GBR GRC HRV HUN IRL ISL
+>  ISR ITA JPN KOR LTU LUX LVA MEX MLT NLD NOR NZL POL PRT ROU SGP SVK SVN SWE 
+> TUR USA {
+  2.     qui replace in_subsidy56 = 1 if iso3 == "`iso'"
+  3. }
+
+. drop is_adjusted
+
+. 
+. // DC capacity (MW) -> demand shares omega and capacity ceilings k_bar
+. preserve
+
+. import delimited "$data/dc_capacity_estimates.csv", varnames(1) encoding("utf
+> -8") clear
+(7 vars, 86 obs)
+
+. keep iso3 capacity_mw
+
+. tempfile dccap
+
+. save `dccap'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000004.tmp saved as .dta
+    format
+
+. restore
+
+. merge 1:1 iso3 using `dccap', keep(master match) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                85  
+    -----------------------------------------
+
+. replace capacity_mw = 5.0 if missing(capacity_mw)   // minimum 5 MW if no dat
+> a
+(0 real changes made)
+
+. qui sum capacity_mw
+
+. gen double omega = capacity_mw / r(sum)
+
+. // MW -> GPU-hours/yr: cap_mw * (1000/GAMMA) * H_YR * GPU_UTIL
+. gen double k_bar_j = capacity_mw * (1000 / 0.700) * (365.25 * 24) * 0.70
+
+. 
+. // Membership flags
+. gen byte is_sanct = strpos(" `sanctioned6' ", " " + iso3 + " ") > 0
+
+. gen byte is_dev   = strpos(" `developing' ",  " " + iso3 + " ") > 0
+
+. gen str1 bloc = "N"
+
+. replace bloc = "W" if strpos(" `bloc_w' ", " " + iso3 + " ") > 0
+(38 real changes made)
+
+. replace bloc = "C" if strpos(" `bloc_c' ", " " + iso3 + " ") > 0
+(4 real changes made)
+
+. gen byte in_eu   = strpos(" `eu27' ",      " " + iso3 + " ") > 0
+
+. gen byte in_apec = strpos(" `apec_cbpr' ", " " + iso3 + " ") > 0
+
+. gen byte in_depa = strpos(" `depa' ",      " " + iso3 + " ") > 0
+
+. gen str4 income_group = "HIC"
+
+. replace income_group = "UMIC" if strpos(" `g_umic' ", " " + iso3 + " ") > 0
+(28 real changes made)
+
+. replace income_group = "LMIC" if strpos(" `g_lmic' ", " " + iso3 + " ") > 0
+(13 real changes made)
+
+. replace income_group = "LIC"  if strpos(" `g_lic' ",  " " + iso3 + " ") > 0
+(1 real change made)
+
+. 
+. // ─── Cost specifications (same term order as the Python source) ───────────
+> ───
+. // rho = GPU_PRICE / (GPU_LIFE * H_YR * GPU_UTIL)
+. local rho = 25000 / (3 * (365.25 * 24) * 0.70)
+
+. local eta = 0.15
+
+. gen double constr_cost = (p_L * 0.700 * 1000) / (15 * (365.25 * 24))
+
+. gen double elec_raw = 0.700 * p_E * pue
+
+. gen double elec_cr  = 0.700 * cr_pe * pue
+
+. gen double cj_raw  = elec_raw + `rho' + constr_cost + `eta'
+
+. gen double cj_cr   = elec_cr  + `rho' + constr_cost + `eta'
+
+. // WACC channel: rho_hw(WACC_j) via capital-recovery factor CRF(r,3)
+. gen double wacc_j = 0.08
+
+. replace wacc_j = 0.12 if income_group == "UMIC"
+(28 real changes made)
+
+. replace wacc_j = 0.15 if income_group == "LMIC"
+(13 real changes made)
+
+. replace wacc_j = 0.18 if income_group == "LIC"
+(1 real change made)
+
+. gen double crf = wacc_j / (1 - (1 + wacc_j)^(-3))
+
+. gen double rho_wacc = 25000 * crf / (8766 * 0.70)
+
+. gen double cj_wacc = elec_cr + rho_wacc + constr_cost + `eta'
+
+. 
+. // Equilibrium cost vectors (Python uses CSV c_j_total + ETA, not the
+. // recomputed components, for the market-clearing passes)
+. gen double c_eq_raw = c_j_total + `eta'
+
+. gen double c_eq_cr  = c_j_total + `eta' + pue * 0.700 * (cr_pe - p_E)
+
+. 
+. tempfile countries
+
+. save `countries'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
+    format
+
+. 
+. // ─── Bilateral lambda matrix (85 x 85) ────────────────────────────────────
+> ────
+. use `countries', clear
+
+. keep iso3 bloc in_eu in_apec in_depa is_sanct csvorder
+
+. rename (iso3 bloc in_eu in_apec in_depa is_sanct csvorder) ///
+>        (j_iso j_bloc j_eu j_apec j_depa j_sanct j_order)
+
+. tempfile sellers
+
+. save `sellers'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000006.tmp saved as .dta
+    format
+
+. 
+. use `countries', clear
+
+. keep iso3 bloc in_eu in_apec in_depa is_sanct
+
+. rename (iso3 bloc in_eu in_apec in_depa is_sanct) ///
+>        (k_iso k_bloc k_eu k_apec k_depa k_sanct)
+
+. cross using `sellers'
+
+. 
+. // G_ij from the bloc-distance matrix
+. gen double G_ij = .
+(7,225 missing values generated)
+
+. replace G_ij = 0.00 if k_bloc == j_bloc
+(3,309 real changes made)
+
+. replace G_ij = 0.95 if (k_bloc == "W" & j_bloc == "C") | (k_bloc == "C" & j_b
+> loc == "W")
+(304 real changes made)
+
+. replace G_ij = 0.40 if (k_bloc == "W" & j_bloc == "N") | (k_bloc == "N" & j_b
+> loc == "W")
+(3,268 real changes made)
+
+. replace G_ij = 0.55 if (k_bloc == "C" & j_bloc == "N") | (k_bloc == "N" & j_b
+> loc == "C")
+(344 real changes made)
+
+. replace G_ij = 0.20 if k_bloc == "N" & j_bloc == "N"
+(1,849 real changes made)
+
+. replace G_ij = 0.00 if k_iso == j_iso
+(43 real changes made)
+
+. // R_ij regulatory compatibility
+. gen byte R_ij = 0
+
+. replace R_ij = 1 if k_eu & j_eu
+(729 real changes made)
+
+. replace R_ij = 1 if k_apec & j_apec
+(64 real changes made)
+
+. replace R_ij = 1 if k_depa & j_depa
+(8 real changes made)
+
+. replace R_ij = 1 if k_iso == j_iso
+(48 real changes made)
+
+. // lambda_kj (missing = infinity)
+. gen double lambda_kj = `ALPHA_GEO' * G_ij + `ALPHA_REG' * (1 - R_ij)
+
+. replace lambda_kj = 0 if k_iso == j_iso
+(0 real changes made)
+
+. // Sanctions: either side sanctioned -> inf, EXCEPT same-bloc sanctioned pair
+> s
+. replace lambda_kj = . if (k_sanct | j_sanct) & k_iso != j_iso
+(660 real changes made, 660 to missing)
+
+. replace lambda_kj = `ALPHA_REG' if k_sanct & j_sanct & k_bloc == j_bloc & k_i
+> so != j_iso
+(6 real changes made)
+
+. tempfile lambda_pairs
+
+. save `lambda_pairs'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000007.tmp saved as .dta
+    format
+
+. 
+. // lambda_min per buyer (min over foreign sellers; all-missing -> . = inf)
+. use `lambda_pairs', clear
+
+. drop if k_iso == j_iso
+(85 observations deleted)
+
+. collapse (min) lam_min = lambda_kj, by(k_iso)
+
+. rename k_iso iso3
+
+. tempfile lammin
+
+. save `lammin'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000008.tmp saved as .dta
+    format
+
+. 
+. // lambda(j, USA) per seller (lambda is symmetric in its arguments)
+. use `lambda_pairs', clear
+
+. keep if k_iso == "USA"
+(7,140 observations deleted)
+
+. keep j_iso lambda_kj
+
+. rename (j_iso lambda_kj) (iso3 lambda_usa)
+
+. tempfile lamusa
+
+. save `lamusa'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000009.tmp saved as .dta
+    format
+
+. 
+. use `countries', clear
+
+. merge 1:1 iso3 using `lammin', keep(master match) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                85  
+    -----------------------------------------
+
+. merge 1:1 iso3 using `lamusa', keep(master match) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                85  
+    -----------------------------------------
+
+. gen double p_bilat_usa = cj_cr * (1 + lambda_usa)   // missing if lambda inf
+(4 missing values generated)
+
+. save `countries', replace
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
+    format
+
+. 
+. // ─── Symmetric latency lookup (forward rows + missing reverse pairs) ──────
+> ───
+. import delimited "$data/country_pair_latency.csv", varnames(1) encoding("utf-
+> 8") clear
+(10 vars, 7,749 obs)
+
+. keep iso3_from iso3_to avg_ms
+
+. rename (iso3_from iso3_to avg_ms) (j_iso k_iso lat_ms)
+
+. tempfile lat_fwd
+
+. save `lat_fwd'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000a.tmp saved as .dta
+    format
+
+. rename (j_iso k_iso) (k_iso j_iso)
+
+. merge 1:1 j_iso k_iso using `lat_fwd', keep(master) nogen   // reverse not in
+>  fwd
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             3
+        from master                         3  
+        from using                          0  
+
+    Matched                                 0  
+    -----------------------------------------
+
+. append using `lat_fwd'
+
+. duplicates drop j_iso k_iso, force
+
+Duplicates in terms of j_iso k_iso
+
+(0 observations are duplicates)
+
+. tempfile lat_sym
+
+. save `lat_sym'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000b.tmp saved as .dta
+    format
+
+. 
+. // ─── Capacity-constrained equilibrium (mirrors solve_capacity_equilibrium) 
+> ───
+. cap program drop paper_equilibrium
+
+. program define paper_equilibrium, rclass
+  1.     // expects in memory: c_eq k_bar_j omega is_sanct csvorder [lam_min]
+.     // demand: bilateral -> import if lam_min<inf & c_k > (1+lam_min)p_T
+.     //         uniform   -> import if c_k > (1+lambda)p_T
+.     syntax , [lambda(real 0)] [bilateral]
+  2.     sort c_eq csvorder
+  3.     qui count
+  4.     local N = _N
+  5.     local p_T = .
+  6.     forvalues i = 1/`N' {
+  7.         if is_sanct[`i'] == 0 {
+  8.             local p_T = c_eq[`i']
+  9.             continue, break
+ 10.         }
+ 11.     }
+ 12.     local Q_TX = 0
+ 13.     forvalues iter = 1/30 {
+ 14.         tempvar imp
+ 15.         if "`bilateral'" != "" {
+ 16.             qui gen double `imp' = ($ALPHA * omega * $Q_TOTAL) * ///
+>                 (lam_min < . & c_eq > (1 + lam_min) * `p_T')
+ 17.         }
+ 18.         else {
+ 19.             qui gen double `imp' = ($ALPHA * omega * $Q_TOTAL) * ///
+>                 (c_eq > (1 + `lambda') * `p_T')
+ 20.         }
+ 21.         qui sum `imp'
+ 22.         local Q_TX = r(sum)
+ 23.         drop `imp'
+ 24.         local cum = 0
+ 25.         local found = 0
+ 26.         local p_T_new = `p_T'
+ 27.         forvalues i = 1/`N' {
+ 28.             if is_sanct[`i'] == 1 continue
+ 29.             local cum = `cum' + k_bar_j[`i']
+ 30.             if `cum' >= `Q_TX' & `Q_TX' > 0 {
+ 31.                 local p_T_new = c_eq[`i']
+ 32.                 local found = 1
+ 33.                 continue, break
+ 34.             }
+ 35.         }
+ 36.         if `found' & abs(`p_T_new' - `p_T') < 0.0001 {
+ 37.             local p_T = `p_T_new'
+ 38.             continue, break
+ 39.         }
+ 40.         if `found' local p_T = `p_T_new'
+ 41.     }
+ 42.     // capacity allocation (exporters = alloc > 0)
+.     cap drop alloc
+ 43.     qui gen double alloc = 0
+ 44.     local remaining = `Q_TX'
+ 45.     forvalues i = 1/`N' {
+ 46.         if is_sanct[`i'] == 1 continue
+ 47.         if c_eq[`i'] > `p_T' continue, break
+ 48.         local ca = min(k_bar_j[`i'], `remaining')
+ 49.         if `ca' > 0 {
+ 50.             qui replace alloc = `ca' in `i'
+ 51.             local remaining = `remaining' - `ca'
+ 52.         }
+ 53.         if `remaining' <= 0 continue, break
+ 54.     }
+ 55.     return scalar p_T = `p_T'
+ 56.     return scalar Q_TX = `Q_TX'
+ 57. end
+
+. 
+. // Spec (1) raw equilibrium (lambda = 0)
+. use `countries', clear
+
+. gen double c_eq = c_eq_raw
+
+. paper_equilibrium, lambda(0)
+
+. local p_T_raw = r(p_T)
+
+. rename alloc alloc_raw
+
+. keep iso3 alloc_raw
+
+. tempfile eq_raw
+
+. save `eq_raw'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000c.tmp saved as .dta
+    format
+
+. 
+. // Spec (2) cost-recovery equilibrium (lambda = 0)
+. use `countries', clear
+
+. gen double c_eq = c_eq_cr
+
+. paper_equilibrium, lambda(0)
+
+. local p_T_cr = r(p_T)
+
+. rename alloc alloc_cr
+
+. keep iso3 alloc_cr
+
+. tempfile eq_cr
+
+. save `eq_cr'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000d.tmp saved as .dta
+    format
+
+. 
+. // Spec (3) bilateral equilibrium on cost-recovery costs
+. use `countries', clear
+
+. gen double c_eq = c_eq_cr
+
+. paper_equilibrium, bilateral
+
+. local p_T_bilat = r(p_T)
+
+. rename alloc alloc_bilat
+
+. keep iso3 alloc_bilat
+
+. tempfile eq_bilat
+
+. save `eq_bilat'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000e.tmp saved as .dta
+    format
+
+. 
+. di as txt "  Equilibria: p_T raw = $" %6.4f `p_T_raw' ///
+>     ", CR = $" %6.4f `p_T_cr' ", bilateral CR = $" %6.4f `p_T_bilat'
+  Equilibria: p_T raw = $1.5921, CR = $1.5978, bilateral CR = $1.5978
+
+. 
+. use `countries', clear
+
+. merge 1:1 iso3 using `eq_raw',   keep(master match) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                85  
+    -----------------------------------------
+
+. merge 1:1 iso3 using `eq_cr',    keep(master match) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                85  
+    -----------------------------------------
+
+. merge 1:1 iso3 using `eq_bilat', keep(master match) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                85  
+    -----------------------------------------
+
+. save `countries', replace
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
+    format
+
+. 
+. // ─── Inference sourcing ───────────────────────────────────────────────────
+> ────
+. // Pair frame with latency + seller costs + lambda
+. use `countries', clear
+
+. keep iso3 c_eq_raw c_eq_cr is_sanct csvorder
+
+. rename (iso3 c_eq_raw c_eq_cr is_sanct csvorder) ///
+>        (j_iso j_c_raw j_c_cr j_sanct j_order)
+
+. tempfile inf_sellers
+
+. save `inf_sellers'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000f.tmp saved as .dta
+    format
+
+. 
+. use `countries', clear
+
+. keep iso3 c_eq_raw c_eq_cr
+
+. rename (iso3 c_eq_raw c_eq_cr) (k_iso k_c_raw k_c_cr)
+
+. cross using `inf_sellers'
+
+. merge 1:1 k_iso j_iso using `lat_sym', keep(master match) nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         2,139
+        from master                     2,139  
+        from using                          0  
+
+    Matched                             5,086  
+    -----------------------------------------
+
+. merge 1:1 k_iso j_iso using `lambda_pairs', keepusing(lambda_kj) keep(master 
 > match) nogen
 
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                                85  
+    Matched                             7,225  
     -----------------------------------------
 
-. preserve
+. replace lat_ms = `DOM_LAT' if k_iso == j_iso & missing(lat_ms)
+(7 real changes made)
 
-. import delimited "$data/grid_capacity_estimates.csv", varnames(1) encoding("u
-> tf-8") clear
-(7 vars, 86 obs)
+. tempfile inf_pairs
 
-. keep iso3 k_bar_gpu_hours
-
-. tempfile kb
-
-. save `kb'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000003.tmp saved as .dta
+. save `inf_pairs'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000g.tmp saved as .dta
     format
 
-. restore
+. 
+. // Simple (free-trade) inference: foreign needs lat<=LBAR, non-sanctioned sel
+> ler;
+. // foreign wins only if delivered cost is STRICTLY below the domestic option.
+. foreach spec in raw cr {
+  2.     use `inf_pairs', clear
+  3.     gen double deliv = (1 + `TAU_' * lat_ms) * j_c_`spec'
+  4.     gen double dom_cost = (1 + `TAU_' * lat_ms) * k_c_`spec' if k_iso == j
+> _iso
+  5.     gen byte eligible_f = k_iso != j_iso & j_sanct == 0 & ///
+>         !missing(lat_ms) & lat_ms <= `LBAR'
+  6.     gen double deliv_f = deliv if eligible_f
+  7.     // first-in-csv-order tie-break among equal foreign delivered costs
+.     sort k_iso deliv_f j_order
+  8.     by k_iso: gen double best_f = deliv_f[1]
+  9.     by k_iso: gen str3 best_f_src = j_iso[1] if !missing(deliv_f[1])
+ 10.     keep if k_iso == j_iso
+ 11.     gen str3 inf_src_`spec' = cond(!missing(best_f) & best_f < dom_cost, /
+> //
+>         best_f_src, k_iso)
+ 12.     keep k_iso inf_src_`spec'
+ 13.     rename k_iso iso3
+ 14.     tempfile infsrc_`spec'
+ 15.     save `infsrc_`spec''
+ 16. }
+(2,132 missing values generated)
+(7,140 missing values generated)
+(4,105 missing values generated)
+(340 missing values generated)
+(340 missing values generated)
+(7,140 observations deleted)
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000h.tmp saved as .dta
+    format
+(2,132 missing values generated)
+(7,140 missing values generated)
+(4,105 missing values generated)
+(340 missing values generated)
+(340 missing values generated)
+(7,140 observations deleted)
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000i.tmp saved as .dta
+    format
 
-. merge 1:1 iso3 using `kb', keep(master match) nogen
+. 
+. // Bilateral inference: sovereignty premium in delivered cost, no latency con
+> e,
+. // eligibility = lambda finite and latency observed
+. use `inf_pairs', clear
+
+. gen double deliv = (1 + lambda_kj) * (1 + `TAU_' * lat_ms) * j_c_cr
+(2,334 missing values generated)
+
+. gen double dom_cost = (1 + `TAU_' * lat_ms) * k_c_cr if k_iso == j_iso
+(7,140 missing values generated)
+
+. gen byte eligible_f = k_iso != j_iso & !missing(lambda_kj) & !missing(lat_ms)
+
+. gen double deliv_f = deliv if eligible_f
+(2,419 missing values generated)
+
+. sort k_iso deliv_f j_order
+
+. by k_iso: gen double best_f = deliv_f[1]
+(425 missing values generated)
+
+. by k_iso: gen str3 best_f_src = j_iso[1] if !missing(deliv_f[1])
+(425 missing values generated)
+
+. keep if k_iso == j_iso
+(7,140 observations deleted)
+
+. gen str3 inf_src_bilat = cond(!missing(best_f) & best_f < dom_cost, ///
+>     best_f_src, k_iso)
+
+. keep k_iso inf_src_bilat
+
+. rename k_iso iso3
+
+. tempfile infsrc_bilat
+
+. save `infsrc_bilat'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000j.tmp saved as .dta
+    format
+
+. 
+. use `countries', clear
+
+. merge 1:1 iso3 using `infsrc_raw',   keep(master match) nogen
 
     Result                      Number of obs
     -----------------------------------------
@@ -5585,170 +6344,645 @@ file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000003.tmp saved as .dta
     Matched                                85  
     -----------------------------------------
 
-. gen double omega_pct = omega * 100
+. merge 1:1 iso3 using `infsrc_cr',    keep(master match) nogen
 
-. gsort c_j_total
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                85  
+    -----------------------------------------
 
-. order iso3 country p_E theta pue c_construction k_bar_gpu_hours omega_pct c_j
-> _total
+. merge 1:1 iso3 using `infsrc_bilat', keep(master match) nogen
 
-. export delimited using "$output/tableA1_calibration_parameters.csv", replace
-(file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/
-    > tableA1_calibration_parameters.csv not found)
-file F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/t
-> ableA1_calibration_parameters.csv saved
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                85  
+    -----------------------------------------
+
+. 
+. // Inference-exporter sets (countries that serve at least one foreign buyer)
+. foreach spec in raw cr bilat {
+  2.     preserve
+  3.     keep iso3 inf_src_`spec'
+  4.     keep if inf_src_`spec' != iso3
+  5.     keep inf_src_`spec'
+  6.     duplicates drop
+  7.     rename inf_src_`spec' iso3
+  8.     gen byte inf_exp_`spec' = 1
+  9.     tempfile iexp
+ 10.     save `iexp'
+ 11.     restore
+ 12.     merge 1:1 iso3 using `iexp', keep(master match) nogen
+ 13.     replace inf_exp_`spec' = 0 if missing(inf_exp_`spec')
+ 14. }
+(49 observations deleted)
+
+Duplicates in terms of all variables
+
+(26 observations deleted)
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000l.tmp saved as .dta
+    format
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            75
+        from master                        75  
+        from using                          0  
+
+    Matched                                10  
+    -----------------------------------------
+(75 real changes made)
+(47 observations deleted)
+
+Duplicates in terms of all variables
+
+(29 observations deleted)
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000n.tmp saved as .dta
+    format
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            76
+        from master                        76  
+        from using                          0  
+
+    Matched                                 9  
+    -----------------------------------------
+(76 real changes made)
+(58 observations deleted)
+
+Duplicates in terms of all variables
+
+(21 observations deleted)
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000p.tmp saved as .dta
+    format
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            79
+        from master                        79  
+        from using                          0  
+
+    Matched                                 6  
+    -----------------------------------------
+(79 real changes made)
+
+. 
+. // ─── Regime-type classification (EE / IE / DD / II) ───────────────────────
+> ────
+. // Specs (1)-(2): sanctioned -> DD; EE if allocated training capacity;
+. // IE if inference exporter and not domestic-training; DD if domestic both.
+. foreach spec in raw cr {
+  2.     local pt = cond("`spec'" == "raw", `p_T_raw', `p_T_cr')
+  3.     gen byte dom_train_`spec' = c_eq_`spec' <= `pt'
+  4.     gen byte dom_inf_`spec'   = inf_src_`spec' == iso3
+  5.     gen str2 type_`spec' = "II"
+  6.     replace type_`spec' = "DD" if dom_train_`spec' & dom_inf_`spec'
+  7.     replace type_`spec' = "IE" if inf_exp_`spec' & !dom_train_`spec'
+  8.     replace type_`spec' = "EE" if alloc_`spec' > 0 & !missing(alloc_`spec'
+> )
+  9.     replace type_`spec' = "DD" if is_sanct
+ 10. }
+(7 real changes made)
+(7 real changes made)
+(5 real changes made)
+(2 real changes made)
+(4 real changes made)
+(6 real changes made)
+(4 real changes made)
+(4 real changes made)
+
+. 
+. // Spec (3) bilateral 5-type regime -> table letters
+. gen double lam_star_bilat = c_eq_cr / `p_T_bilat' - 1
+
+. gen byte dom_train_bilat = (lam_min >= lam_star_bilat) | (c_eq_cr <= `p_T_bil
+> at')
+
+. // (missing lam_min = infinite premium -> never imports -> domestic training)
+. gen byte dom_inf_bilat = inf_src_bilat == iso3
+
+. gen str16 regime_5 = "full importer"
+
+. replace regime_5 = "domestic"      if dom_train_bilat & dom_inf_bilat
+(31 real changes made)
+
+. replace regime_5 = "hybrid"        if !dom_train_bilat & dom_inf_bilat
+(27 real changes made)
+
+. replace regime_5 = "inference hub" if inf_exp_bilat & !dom_train_bilat
+(2 real changes made)
+
+. replace regime_5 = "T+I exporter"  if alloc_bilat > 0 & !missing(alloc_bilat)
+(4 real changes made)
+
+. replace regime_5 = "domestic"      if is_sanct
+(1 real change made)
+
+. gen str2 type_bilat = "II"
+
+. replace type_bilat = "IE" if regime_5 == "inference hub"
+(2 real changes made)
+
+. replace type_bilat = "DD" if regime_5 == "domestic"
+(28 real changes made)
+
+. replace type_bilat = "EE" if alloc_bilat > 0 & !missing(alloc_bilat)
+(4 real changes made)
+
+. replace type_bilat = "DD" if is_sanct
+(0 real changes made)
+
+. gen str2 type_bilat_usa = cond(iso3 == "USA", "DD", type_bilat)
+
+. 
+. // ─── Ranks (stable sort, CSV order breaks ties — mirrors Python sorted()) ─
+> ───
+. foreach spec in raw cr wacc {
+  2.     sort cj_`spec' csvorder
+  3.     gen int rank_`spec' = _n
+  4. }
+
+. sort csvorder
+
+. save `countries', replace
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000005.tmp saved as .dta
+    format
+
+. 
+. // ─── Display-name and flag helpers ────────────────────────────────────────
+> ────
+. cap program drop _shortname
+
+. program define _shortname
+  1.     // args: newvar style
+.     //   mapped3  (Table 3):  map incl. "United States of America"; >19 -> [:
+> 18]+'.'
+.     //   mappeda2 (Table A2): same map but WITHOUT the long-form US key
+.     //                        (the paper's A2 builder lacks it, so A2 prints
+.     //                        the truncation "United States of A.")
+.     //   plain    (Table A1): no map; >20 -> [:19]+'.'
+.     args newvar style
+  2.     gen str40 `newvar' = country
+  3.     if inlist("`style'", "mapped3", "mappeda2") {
+  4.         replace `newvar' = "UAE"            if country == "United Arab Emi
+> rates"
+  5.         replace `newvar' = "UK"             if country == "United Kingdom"
+  6.         replace `newvar' = "USA"            if country == "United States"
+  7.         replace `newvar' = "USA"            if country == "United States o
+> f America" ///
+>             & "`style'" == "mapped3"
+  8.         replace `newvar' = "Bosnia & Herz." if country == "Bosnia and Herz
+> egovina"
+  9.         replace `newvar' = "N. Macedonia"   if country == "North Macedonia
+> "
+ 10.         replace `newvar' = "Czechia"        if country == "Czech Republic"
+ 11.         replace `newvar' = substr(country, 1, 18) + "." ///
+>             if `newvar' == country & ustrlen(country) > 19
+ 12.     }
+ 13.     else {
+ 14.         replace `newvar' = substr(country, 1, 19) + "." if ustrlen(country
+> ) > 20
+ 15.     }
+ 16. end
+
+. 
+. // Type flags: '*' sanctioned, dagger for developing EE/IE
+. cap program drop _flagtype
+
+. program define _flagtype
+  1.     args newvar typevar
+  2.     gen str6 `newvar' = `typevar'
+  3.     replace `newvar' = `newvar' + "*" if is_sanct
+  4.     replace `newvar' = `newvar' + uchar(8224) if is_dev & inlist(`typevar'
+> , "EE", "IE")
+  5. end
 
 . 
 . // ══════════════════════════════════════════════════════════════════════════
 > ════
-. // Table 3 / A2 — Country rankings under alternative specs
-. //   (1) Raw electricity | (2) Symmetric LRMC | (3) Bilateral | (4) CR+WACC
+. // Table 3 — four independently sorted top-25 blocks, paper cell strings
 . // ══════════════════════════════════════════════════════════════════════════
 > ════
-. // Raw (observed-price) ranking from calibration
-. import delimited "$data/calibration_results_v3.csv", varnames(1) encoding("ut
-> f-8") clear
-(12 vars, 85 obs)
+. use `countries', clear
 
-. keep iso3 country c_j_total
+. _shortname sname mapped3
+(1 real change made)
+(1 real change made)
+(0 real changes made)
+(1 real change made)
+(0 real changes made)
+(1 real change made)
+(0 real changes made)
+(0 real changes made)
 
-. rename c_j_total c_j_raw
+. _flagtype ftype_raw  type_raw
+(4 real changes made)
+(8 real changes made)
 
-. gsort c_j_raw
+. _flagtype ftype_cr   type_cr
+(4 real changes made)
+(6 real changes made)
 
-. gen int rank_raw = _n
+. _flagtype ftype_busa type_bilat_usa
+(4 real changes made)
+(3 real changes made)
 
-. tempfile raw
-
-. save `raw'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000004.tmp saved as .dta
-    format
-
-. 
-. use "$temp/symmetric_lrmc.dta", clear
-
-. keep iso3 c_j rank_symmetric
-
-. rename c_j c_j_symmetric
-
-. tempfile sym
-
-. save `sym'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000005.tmp saved as .dta
-    format
+. _flagtype ftype_wacc type_cr    // spec (4) reuses the CR regime type
+(4 real changes made)
+(6 real changes made)
 
 . 
-. use "$temp/wacc_channel.dta", clear
-
-. keep iso3 c_j_wacc rank_wacc income_group
-
-. tempfile wacc
-
-. save `wacc'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000006.tmp saved as .dta
-    format
-
-. 
-. use "$temp/bilateral_lambda.dta", clear
-
-. keep iso3 regime_bilat best_train_src imports_train
-
-. tempfile bilat
-
-. save `bilat'
-file C:\Users\Ezhik\AppData\Local\Temp\ST_7978_000007.tmp saved as .dta
-    format
-
-. 
-. use `raw', clear
-
-. merge 1:1 iso3 using `sym',   keep(master match) nogen
-
-    Result                      Number of obs
-    -----------------------------------------
-    Not matched                             0
-    Matched                                85  
-    -----------------------------------------
-
-. merge 1:1 iso3 using `wacc',  keep(master match) nogen
-
-    Result                      Number of obs
-    -----------------------------------------
-    Not matched                             0
-    Matched                                85  
-    -----------------------------------------
-
-. merge 1:1 iso3 using `bilat', keep(master match) nogen
-
-    Result                      Number of obs
-    -----------------------------------------
-    Not matched                             0
-    Matched                                85  
-    -----------------------------------------
-
-. gsort rank_symmetric
-
-. order iso3 country c_j_raw rank_raw c_j_symmetric rank_symmetric ///
->       c_j_wacc rank_wacc income_group regime_bilat best_train_src
-
-. 
-. // Table A2: all countries
-. export delimited using "$output/tableA2_rankings_all.csv", replace
-(file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/
-    > tableA2_rankings_all.csv not found)
-file F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/t
-> ableA2_rankings_all.csv saved
-
-. // Table 3: top 25 (paper shows a 25-country excerpt)
+. // (1) Raw
 . preserve
 
-. keep if rank_symmetric <= 25
+. sort cj_raw csvorder
+
+. keep in 1/25
 (60 observations deleted)
 
-. export delimited using "$output/table3_rankings_top25.csv", replace
-(file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/
-    > table3_rankings_top25.csv not found)
-file F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/t
-> able3_rankings_top25.csv saved
+. gen int row = _n
+
+. keep row sname cj_raw ftype_raw
+
+. gen str20 c1_country = sname
+
+. gen str10 c1_P = "$" + strtrim(string(cj_raw, "%9.2f"))
+
+. gen str8  c1_T = ftype_raw
+
+. keep row c1_*
+
+. tempfile blk1
+
+. save `blk1'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000r.tmp saved as .dta
+    format
+
+. restore
+
+. // (2) Cost-recovery
+. preserve
+
+. sort cj_cr csvorder
+
+. keep in 1/25
+(60 observations deleted)
+
+. gen int row = _n
+
+. gen str20 c2_country = sname
+
+. gen str10 c2_P = "$" + strtrim(string(cj_cr, "%9.2f"))
+
+. gen str8  c2_T = ftype_cr
+
+. keep row c2_*
+
+. tempfile blk2
+
+. save `blk2'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000t.tmp saved as .dta
+    format
+
+. restore
+
+. // (3) Bilateral delivered price to the US buyer (finite only)
+. preserve
+
+. drop if missing(p_bilat_usa)
+(4 observations deleted)
+
+. sort p_bilat_usa csvorder
+
+. keep in 1/25
+(56 observations deleted)
+
+. gen int row = _n
+
+. gen str20 c3_country = sname
+
+. gen str10 c3_P = "$" + strtrim(string(p_bilat_usa, "%9.2f"))
+
+. gen str8  c3_T = ftype_busa
+
+. keep row c3_*
+
+. tempfile blk3
+
+. save `blk3'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000v.tmp saved as .dta
+    format
+
+. restore
+
+. // (4) CR + host-country WACC
+. preserve
+
+. sort cj_wacc csvorder
+
+. keep in 1/25
+(60 observations deleted)
+
+. gen int row = _n
+
+. gen str20 c4_country = sname
+
+. gen str10 c4_P = "$" + strtrim(string(cj_wacc, "%9.2f"))
+
+. gen str8  c4_T = ftype_wacc
+
+. keep row c4_*
+
+. tempfile blk4
+
+. save `blk4'
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_00000x.tmp saved as .dta
+    format
 
 . restore
 
 . 
-. // ══════════════════════════════════════════════════════════════════════════
-> ════
-. // Tables A3 / A5 / A6 — from saved .dta results
-. // ══════════════════════════════════════════════════════════════════════════
-> ════
-. use "$output/sensitivity_results.dta", clear
+. use `blk1', clear
 
-. export delimited using "$output/tableA3_sensitivity.csv", replace
-(file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/
-    > tableA3_sensitivity.csv not found)
-file F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/t
-> ableA3_sensitivity.csv saved
+. merge 1:1 row using `blk2', nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                25  
+    -----------------------------------------
+
+. merge 1:1 row using `blk3', nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                25  
+    -----------------------------------------
+
+. merge 1:1 row using `blk4', nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                25  
+    -----------------------------------------
+
+. sort row
+
+. drop row
+
+. order c1_country c1_P c1_T c2_country c2_P c2_T c3_country c3_P c3_T ///
+>       c4_country c4_P c4_T
+
+. export delimited using "$output/table3_rankings_top25.csv", replace
+file F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/t
+> able3_rankings_top25.csv saved
+
+. di as txt "  Table 3 exported (4 spec blocks x top 25)"
+  Table 3 exported (4 spec blocks x top 25)
 
 . 
+. // ══════════════════════════════════════════════════════════════════════════
+> ════
+. // Table A1 — country calibration parameters, sorted by cost-recovery rank
+. // ══════════════════════════════════════════════════════════════════════════
+> ════
+. use `countries', clear
+
+. _shortname a1name plain
+(1 real change made)
+
+. sort rank_cr
+
+. gen str24 col_country  = a1name
+
+. gen str10 col_pE       = "$" + strtrim(string(p_E, "%9.3f"))
+
+. gen str8  col_theta    = strtrim(string(theta, "%9.1f"))
+
+. gen str8  col_pue      = strtrim(string(pue, "%9.2f"))
+
+. gen str10 col_constr   = "$" + strtrim(string(p_L, "%9.2f"))
+
+. gen str12 col_kbar     = cond(capacity_mw >= 10, ///
+>     strtrim(string(capacity_mw, "%15.0fc")), strtrim(string(capacity_mw, "%9.
+> 0f")))
+
+. gen str8  col_omega    = strtrim(string(omega * 100, "%9.1f"))
+
+. gen str10 col_cj       = "$" + strtrim(string(c_j_total, "%9.2f"))
+
+. gen str10 col_crpE     = "$" + strtrim(string(cr_pe, "%9.3f"))
+
+. keep col_*
+
+. order col_country col_pE col_theta col_pue col_constr col_kbar col_omega ///
+>       col_cj col_crpE
+
+. export delimited using "$output/tableA1_calibration_parameters.csv", replace
+file F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/t
+> ableA1_calibration_parameters.csv saved
+
+. di as txt "  Table A1 exported (85 countries, CR-rank order)"
+  Table A1 exported (85 countries, CR-rank order)
+
+. 
+. // ══════════════════════════════════════════════════════════════════════════
+> ════
+. // Table A2 — all countries, raw + cost-recovery + bilateral type
+. // ══════════════════════════════════════════════════════════════════════════
+> ════
+. use `countries', clear
+
+. _shortname sname mappeda2
+(1 real change made)
+(1 real change made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(1 real change made)
+(0 real changes made)
+(1 real change made)
+
+. sort rank_cr
+
+. gen str20 col_country = sname
+
+. gen str10 col1_cj   = "$" + strtrim(string(cj_raw, "%9.2f"))
+
+. gen str6  col1_rank = strtrim(string(rank_raw, "%9.0f"))
+
+. gen str4  col1_type = type_raw
+
+. gen str10 col2_cj   = "$" + strtrim(string(cj_cr, "%9.2f"))
+
+. gen str6  col2_rank = strtrim(string(rank_cr, "%9.0f"))
+
+. gen str4  col2_type = type_cr
+
+. gen str4  col3_type = type_bilat
+
+. keep col_country col1_* col2_* col3_type
+
+. order col_country col1_cj col1_rank col1_type col2_cj col2_rank col2_type col
+> 3_type
+
+. export delimited using "$output/tableA2_rankings_all.csv", replace
+file F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/t
+> ableA2_rankings_all.csv saved
+
+. di as txt "  Table A2 exported (85 countries)"
+  Table A2 exported (85 countries)
+
+. 
+. // ══════════════════════════════════════════════════════════════════════════
+> ════
+. // Table A3 — sensitivity of cost-recovery rankings to hardware share (rho)
+. // ══════════════════════════════════════════════════════════════════════════
+> ════
+. use `countries', clear
+
+. keep iso3 country cr_pe pue constr_cost is_dev csvorder
+
+. local rho_base = 25000 / (3 * (365.25 * 24) * 0.70)
+
+. local scen1_rho = `rho_base'
+
+. local scen2_rho = 1.30
+
+. local scen3_rho = 1.42
+
+. local scen1_lab "Baseline (`=uchar(961)'=$1.36)"
+
+. local scen2_lab "Low hardware share (`=uchar(961)'=$1.30)"
+
+. local scen3_lab "High hardware share (`=uchar(961)'=$1.42)"
+
+. local scen1_par "`=uchar(961)'=$1.36"
+
+. local scen2_par "`=uchar(961)'=$1.30 (`=uchar(8722)'4.4%)"
+
+. local scen3_par "`=uchar(961)'=$1.42 (+4.4%)"
+
+. 
+. tempname memhold
+
+. tempfile a3rows
+
+. postfile `memhold' str60 scenario str40 param_change int dev_top15 ///
+>     str10 max_spread str8 spearman str120 top5 using `a3rows'
+
+. 
+. forvalues s = 1/3 {
+  2.     // c_cr = GAMMA*cr_pe*pue + rho_s + ETA + constr_cost  (Python term or
+> der)
+.     cap drop c_s rank_s
+  3.     gen double c_s = 0.700 * cr_pe * pue + `scen`s'_rho' + 0.15 + constr_c
+> ost
+  4.     sort c_s csvorder
+  5.     gen int rank_s = _n
+  6.     if `s' == 1 {
+  7.         cap drop rank_base
+  8.         gen int rank_base = rank_s
+  9.         tempfile base_ranks
+ 10.         preserve
+ 11.         keep iso3 rank_base
+ 12.         save `base_ranks'
+ 13.         restore
+ 14.     }
+ 15.     else {
+ 16.         cap drop rank_base
+ 17.         merge 1:1 iso3 using `base_ranks', keep(master match) nogen
+ 18.         sort c_s csvorder
+ 19.     }
+ 20.     // dev in top 15
+.     qui count if rank_s <= 15 & is_dev
+ 21.     local dev15 = r(N)
+ 22.     // max spread (max - min) / min * 100
+.     qui sum c_s
+ 23.     local spread = (r(max) - r(min)) / r(min) * 100
+ 24.     // Spearman vs baseline (rank-difference formula, no ties by construct
+> ion)
+.     tempvar dsq
+ 25.     qui gen double `dsq' = (rank_s - rank_base)^2
+ 26.     qui sum `dsq'
+ 27.     qui count
+ 28.     local n = r(N)
+ 29.     qui sum `dsq'
+ 30.     local rho_corr = 1 - 6 * r(sum) / (`n' * (`n'^2 - 1))
+ 31.     // top-5 full country names
+.     sort rank_s
+ 32.     local top5 = country[1]
+ 33.     forvalues i = 2/5 {
+ 34.         local top5 "`top5', `=country[`i']'"
+ 35.     }
+ 36.     local spread_str = strtrim(string(`spread', "%9.1f")) + "%"
+ 37.     local rho_str = strtrim(string(`rho_corr', "%9.2f"))
+ 38.     post `memhold' ("`scen`s'_lab'") ("`scen`s'_par'") (`dev15') ///
+>         ("`spread_str'") ("`rho_str'") ("`top5'")
+ 39.     di as txt "  A3 scenario `s': dev15=`dev15', spread=" %4.1f `spread' /
+> //
+>         "%, top5=`top5'"
+ 40. }
+file C:\Users\Ezhik\AppData\Local\Temp\ST_5c14_000011.tmp saved as .dta
+    format
+  A3 scenario 1: dev15=11, spread=11.9%, top5=Kyrgyzstan, Ethiopia, Kosovo, Can
+> ada, Tajikistan
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                85  
+    -----------------------------------------
+  A3 scenario 2: dev15=11, spread=12.3%, top5=Kyrgyzstan, Ethiopia, Kosovo, Can
+> ada, Tajikistan
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                85  
+    -----------------------------------------
+  A3 scenario 3: dev15=11, spread=11.4%, top5=Kyrgyzstan, Ethiopia, Kosovo, Can
+> ada, Tajikistan
+
+. postclose `memhold'
+
+. use `a3rows', clear
+
+. export delimited using "$output/tableA3_sensitivity.csv", replace
+file F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/t
+> ableA3_sensitivity.csv saved
+
+. di as txt "  Table A3 exported (3 rho scenarios)"
+  Table A3 exported (3 rho scenarios)
+
+. 
+. // ══════════════════════════════════════════════════════════════════════════
+> ════
+. // Tables A5 / A6 — from step 14 results
+. // ══════════════════════════════════════════════════════════════════════════
+> ════
 . use "$output/kyrgyzstan_dcf.dta", clear
 
 . export delimited using "$output/tableA5_dcf_cashflow.csv", replace
-(file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/
-    > tableA5_dcf_cashflow.csv not found)
-file F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/t
+file F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/t
 > ableA5_dcf_cashflow.csv saved
 
 . 
 . use "$output/kyrgyzstan_dcf_sensitivity.dta", clear
 
+. // Paper cell strings: NPV in $ millions (sign after $), IRR at 1 decimal
+. gen str12 npv_m  = "$" + strtrim(string(npv / 1e6, "%12.0f"))
+
+. gen str8  irr_pc = strtrim(string(irr * 100, "%9.1f")) + "%"
+
+. keep scenario npv_m irr_pc
+
 . export delimited using "$output/tableA6_dcf_sensitivity.csv", replace
-(file
-    F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/
-    > tableA6_dcf_sensitivity.csv not found)
-file F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/t
+file F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication/output/t
 > ableA6_dcf_sensitivity.csv saved
 
 . 
@@ -5757,7 +6991,7 @@ file F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication/output/t
 ----------------------------------------------------------------------
 
 . di as txt "Exported paper tables to: $output"
-Exported paper tables to: F:\onedrive\__documents\papers\_Submitted\FLOPsExport
+Exported paper tables to: F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport
 > \Replication/output
 
 . di as txt "  table1_regime_taxonomy.csv         (Table 1)"
@@ -5811,11 +7045,11 @@ ALL STEPS COMPLETE
 ----------------------------------------------------------------------
 
 . di as txt "Temp files:   $temp"
-Temp files:   F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication
+Temp files:   F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication
 > /temp
 
 . di as txt "Output files: $output"
-Output files: F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Replication
+Output files: F:\OneDrive\__Documents\Papers\_Submitted\FLOPsExport\Replication
 > /output
 
 . 
