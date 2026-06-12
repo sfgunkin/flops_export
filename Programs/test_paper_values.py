@@ -529,7 +529,7 @@ def docx_body_xml():
     """
     import zipfile
     docx_path = (
-        DATA.parent / "Documents" / "flop_trade_model_v33.docx"
+        DATA.parent / "Documents" / "flop_trade_model_v34.docx"
     )
     with zipfile.ZipFile(docx_path) as z:
         with z.open("word/document.xml") as f:
@@ -541,7 +541,7 @@ def docx_footnotes_xml():
     """Raw word/footnotes.xml from the current v31.docx."""
     import zipfile
     docx_path = (
-        DATA.parent / "Documents" / "flop_trade_model_v33.docx"
+        DATA.parent / "Documents" / "flop_trade_model_v34.docx"
     )
     with zipfile.ZipFile(docx_path) as z:
         try:
@@ -2336,7 +2336,7 @@ class TestRegimeCounts:
 class TestDocumentContent:
     """Verify key text, equations, and fixes in the generated v31.docx.
 
-    These tests read the latest ``flop_trade_model_v33.docx`` and check
+    These tests read the latest ``flop_trade_model_v34.docx`` and check
     that paper content is present and that known reviewer fixes from
     sessions 1-3 have not regressed.
     """
@@ -2350,8 +2350,8 @@ class TestDocumentContent:
     def test_author_lokshin(self, docx_text):
         assert "Michael Lokshin" in docx_text
 
-    def test_version_stamp_v33(self, docx_text):
-        assert "v33" in docx_text
+    def test_version_stamp_v34(self, docx_text):
+        assert "v34" in docx_text
 
     def test_abstract_present(self, docx_text):
         assert "Abstract" in docx_text
@@ -4060,7 +4060,7 @@ def docx_tables_v33():
     cell-by-cell data checks; prose goes through ``docx_para_texts``."""
     from docx import Document
     return Document(
-        str(DATA.parent / "Documents" / "flop_trade_model_v33.docx")
+        str(DATA.parent / "Documents" / "flop_trade_model_v34.docx")
     ).tables
 
 
