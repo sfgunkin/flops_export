@@ -219,181 +219,152 @@ forvalues i = 1/16 {
 compress
 save "$output/kyrgyzstan_dcf.dta", replace
 
+
 // ═══════════════════════════════════════════════════════════════════════════════
-// SENSITIVITY SCENARIOS
+// SENSITIVITY SCENARIOS (Table A6)
+//
+// Each scenario re-runs the FULL cash-flow model above (including GPU
+// depreciation and insurance on the depreciated GPU value) with parameter
+// adjustments, exactly as the published generator does. The base-case
+// scenario must therefore reproduce the main NPV/IRR bit-for-bit; this is
+// asserted below.
 // ═══════════════════════════════════════════════════════════════════════════════
 
 di as txt _n "=== Sensitivity Analysis ==="
 
-// Scenario runner: for each scenario, recompute all cash flows and find NPV/IRR
-// Parameters: wacc_adj, price_adj, elec_adj, gpu_adj, util_adj
+cap program drop dcf_run
+program define dcf_run, rclass
+    // Rebuilds the full 15-year DCF with adjustments; returns npv and irr.
+    // NOTE: clears the dataset in memory.
+    syntax , [gpuadj(real 0) elecadj(real 0) priceadj(real 0) ///
+              utiladj(real 0) waccadj(real 0)]
 
-tempfile sens_results
-postfile senshandle str40 scenario double(npv irr) using `sens_results'
+    local n_gpus = $N_GPUS
+    local constr = $CONSTRUCTION_COST
 
-// Define scenarios
-local n_sens = 11
-local slbl1  "Base case"
-local swacc1 = 0
-local sprc1  = 0
-local selec1 = 0
-local sgpu1  = 0
-local sutil1 = 0
+    clear
+    qui set obs 16
+    gen int year = _n - 1
 
-local slbl2  "GPU price -20%"
-local swacc2 = 0
-local sprc2  = 0
-local selec2 = 0
-local sgpu2  = -0.20
-local sutil2 = 0
+    // ── CAPEX: construction (yr 0), 5 GPU generations, networking refresh ──
+    gen double capex = cond(year == 0, `constr', 0)
+    forvalues g = 0/4 {
+        local gy = 1 + `g' * 3
+        local gp = $GPU_PRICE * (1 - $GPU_PRICE_DECLINE)^`g' * (1 + `gpuadj')
+        qui replace capex = capex + `n_gpus' * `gp' if year == `gy'
+    }
+    qui replace capex = capex + `n_gpus' * $NETWORKING_COST_PER_GPU ///
+        if inlist(year, 1, 6, 11)
 
-local slbl3  "GPU price +20%"
-local swacc3 = 0
-local sprc3  = 0
-local selec3 = 0
-local sgpu3  = 0.20
-local sutil3 = 0
+    // ── Utilization ramp (adjustment applies in every operating year) ──
+    gen double util = 0
+    qui replace util = 0.40 if year == 1
+    qui replace util = 0.60 if year == 2
+    qui replace util = $GPU_UTIL if year >= 3
+    qui replace util = min(max(util + `utiladj', 0), 0.95) if year >= 1
 
-local slbl4  "Electricity +50%"
-local swacc4 = 0
-local sprc4  = 0
-local selec4 = 0.019
-local sgpu4  = 0
-local sutil4 = 0
-
-local slbl5  "Electricity -25%"
-local swacc5 = 0
-local sprc5  = 0
-local selec5 = -0.0095
-local sgpu5  = 0
-local sutil5 = 0
-
-local slbl6  "Revenue price +5%"
-local swacc6 = 0
-local sprc6  = 0.08
-local selec6 = 0
-local sgpu6  = 0
-local sutil6 = 0
-
-local slbl7  "Revenue price -5%"
-local swacc7 = 0
-local sprc7  = -0.08
-local selec7 = 0
-local sgpu7  = 0
-local sutil7 = 0
-
-local slbl8  "Utilization 80%"
-local swacc8 = 0
-local sprc8  = 0
-local selec8 = 0
-local sgpu8  = 0
-local sutil8 = 0.10
-
-local slbl9  "Utilization 60%"
-local swacc9 = 0
-local sprc9  = 0
-local selec9 = 0
-local sgpu9  = 0
-local sutil9 = -0.10
-
-local slbl10  "WACC 10%"
-local swacc10 = -0.026
-local sprc10  = 0
-local selec10 = 0
-local sgpu10  = 0
-local sutil10 = 0
-
-local slbl11  "WACC 16%"
-local swacc11 = 0.034
-local sprc11  = 0
-local selec11 = 0
-local sgpu11  = 0
-local sutil11 = 0
-
-forvalues sc = 1/`n_sens' {
-    local w = $WACC + `swacc`sc''
-
-    // Compute FCF stream
-    local npv_s = 0
-    local irr_cfs ""
-
-    forvalues yr = 0/15 {
-        // CAPEX
-        local cx = 0
-        if `yr' == 0 local cx = `constr_cost'
-
-        // GPU
-        forvalues gen = 0/4 {
-            local gpu_yr = 1 + `gen' * 3
-            if `yr' == `gpu_yr' {
-                local gp = $GPU_PRICE * (1 - $GPU_PRICE_DECLINE)^`gen' * (1 + `sgpu`sc'')
-                local cx = `cx' + `n_gpus' * `gp'
-            }
-        }
-
-        // Networking
-        if inlist(`yr', 1, 6, 11) {
-            local cx = `cx' + `n_gpus' * $NETWORKING_COST_PER_GPU
-        }
-
-        // OPEX
-        local ox = 0
-        if `yr' >= 1 {
-            local ep = ($P_ELEC_KWH + `selec`sc'') * (1 + $ELEC_ESCALATION)^(`yr' - 1)
-            local ox = `total_power' * 1000 * $H_YR * `ep' ///
-                     + `staff_cost' * 1.03^(`yr' - 1) ///
-                     + `constr_cost' * $MAINTENANCE_PCT ///
-                     + `constr_cost' * $INSURANCE_PCT ///
-                     + $CONNECTIVITY_COST_YR
-        }
-
-        // Revenue
-        local rev = 0
-        if `yr' >= 1 {
-            local u = cond(`yr' == 1, 0.40, cond(`yr' == 2, 0.60, $GPU_UTIL))
-            local u = `u' + `sutil`sc''
-            local u = min(max(`u', 0), 0.95)
-            local rev = `n_gpus' * $H_YR * `u' * ($REVENUE_PER_GPU_HR + `sprc`sc'')
-        }
-
-        // Income
-        local ebitda_s = `rev' - `ox'
-        local depr_s = cond(`yr' >= 1, `constr_cost' / $DC_LIFE_YR, 0)
-        local ebt_s = `ebitda_s' - `depr_s'
-        local tax_s = max(0, `ebt_s' * $TAX_RATE)
-        local ni_s = `ebt_s' - `tax_s'
-        local cf_s = `ni_s' + `depr_s' - `cx'
-
-        // Accumulate NPV
-        local npv_s = `npv_s' + `cf_s' / (1 + `w')^`yr'
-
-        // Store CF for IRR
-        local irr_cfs "`irr_cfs' `cf_s'"
+    // ── Current-generation GPU value (insurance base) and GPU depreciation ──
+    gen double gpu_val = 0
+    gen double depr_gpu = 0
+    forvalues g = 0/4 {
+        local gy = 1 + `g' * 3
+        local gp = $GPU_PRICE * (1 - $GPU_PRICE_DECLINE)^`g' * (1 + `gpuadj')
+        qui replace gpu_val = `n_gpus' * `gp' * ///
+            max(0, 1 - (year - `gy') / $GPU_LIFE_YR) ///
+            if year >= `gy' & year < `gy' + $GPU_LIFE_YR
+        qui replace depr_gpu = `n_gpus' * `gp' / $GPU_LIFE_YR ///
+            if year >= `gy' & year < `gy' + $GPU_LIFE_YR
     }
 
-    // IRR via bisection
+    // ── OPEX, revenue, income statement ──
+    gen double ep = ($P_ELEC_KWH + `elecadj') * ///
+        (1 + $ELEC_ESCALATION)^(year - 1) if year >= 1
+    gen double opex = $TOTAL_POWER_MW * 1000 * $H_YR * ep ///
+        + $STAFF_COST_YR * 1.03^(year - 1) ///
+        + `constr' * $MAINTENANCE_PCT ///
+        + (`constr' + gpu_val) * $INSURANCE_PCT ///
+        + $CONNECTIVITY_COST_YR if year >= 1
+    qui replace opex = 0 if year == 0
+    gen double revenue = `n_gpus' * $H_YR * util * ///
+        ($REVENUE_PER_GPU_HR + `priceadj') if year >= 1
+    qui replace revenue = 0 if year == 0
+    gen double depr = `constr' / $DC_LIFE_YR + depr_gpu if year >= 1
+    qui replace depr = 0 if year == 0
+    gen double ebitda = revenue - opex
+    gen double ebt = ebitda - depr
+    gen double tax = max(0, ebt * $TAX_RATE)
+    gen double ni = ebt - tax
+    gen double fcf = ni + depr - capex
+
+    // ── NPV at (WACC + waccadj) ──
+    local w = $WACC + `waccadj'
+    tempvar pv
+    qui gen double `pv' = fcf / (1 + `w')^year
+    qui sum `pv'
+    return scalar npv = r(sum)
+
+    // ── IRR via bisection (WACC-independent) ──
     local lo = -0.50
     local hi = 2.0
-    forvalues iter = 1/200 {
+    forvalues it = 1/200 {
         local mid = (`lo' + `hi') / 2
-        local test_npv = 0
-        local yr_idx = 0
-        foreach cf of local irr_cfs {
-            local test_npv = `test_npv' + `cf' / (1 + `mid')^`yr_idx'
-            local yr_idx = `yr_idx' + 1
-        }
-        if `test_npv' > 0 {
+        tempvar pvt
+        qui gen double `pvt' = fcf / (1 + `mid')^year
+        qui sum `pvt'
+        if r(sum) > 0 {
             local lo = `mid'
         }
         else {
             local hi = `mid'
         }
+        drop `pvt'
     }
-    local irr_s = `mid'
+    return scalar irr = `mid'
+end
 
+// Scenario grid (labels use the typographic minus U+2212, as in the paper)
+local minus = uchar(8722)
+local n_sens = 11
+local slbl1  "Base case"
+local sopt1  ""
+local slbl2  "GPU price `minus'20%"
+local sopt2  "gpuadj(-0.20)"
+local slbl3  "GPU price +20%"
+local sopt3  "gpuadj(0.20)"
+local slbl4  "Electricity +50%"
+local sopt4  "elecadj(0.019)"
+local slbl5  "Electricity `minus'25%"
+local sopt5  "elecadj(-0.0095)"
+local slbl6  "Revenue +5%"
+local sopt6  "priceadj(0.08)"
+local slbl7  "Revenue `minus'5%"
+local sopt7  "priceadj(-0.08)"
+local slbl8  "Utilization 80%"
+local sopt8  "utiladj(0.10)"
+local slbl9  "Utilization 60%"
+local sopt9  "utiladj(-0.10)"
+local slbl10 "WACC 10%"
+local sopt10 "waccadj(-0.026)"
+local slbl11 "WACC 16%"
+local sopt11 "waccadj(0.034)"
+
+tempfile sens_results
+postfile senshandle str40 scenario double(npv irr) using `sens_results'
+
+forvalues sc = 1/`n_sens' {
+    dcf_run, `sopt`sc''
+    local npv_s = r(npv)
+    local irr_s = r(irr)
     post senshandle ("`slbl`sc''") (`npv_s') (`irr_s')
-
-    di as txt "  `slbl`sc'': NPV=$" %9.0fc `npv_s' " IRR=" %5.1f `irr_s'*100 "%"
+    di as txt "  `slbl`sc'': NPV=$" %12.0fc `npv_s' "  IRR=" %5.1f `irr_s'*100 "%"
+    if `sc' == 1 {
+        // The base scenario must replicate the main DCF above exactly
+        if abs(`npv_s' - `npv') > 1 {
+            di as error "ERROR: sensitivity base case NPV (`npv_s') does not" ///
+                " match main DCF NPV (`npv')"
+            exit 9
+        }
+    }
 }
 
 postclose senshandle
