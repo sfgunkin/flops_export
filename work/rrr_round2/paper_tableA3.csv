@@ -1,0 +1,4 @@
+﻿Scenario,Parameter change,Dev top 15,Max spread,Spearman ρ vs baseline,Top 5
+Baseline (ρ=$1.36),ρ=$1.36,11,11.9%,1.00,"Kyrgyzstan, Ethiopia, Kosovo, Canada, Tajikistan"
+Low hardware share (ρ=$1.30),ρ=$1.30 (−4.4%),11,12.3%,1.00,"Kyrgyzstan, Ethiopia, Kosovo, Canada, Tajikistan"
+High hardware share (ρ=$1.42),ρ=$1.42 (+4.4%),11,11.4%,1.00,"Kyrgyzstan, Ethiopia, Kosovo, Canada, Tajikistan"

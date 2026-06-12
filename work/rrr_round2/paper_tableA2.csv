@@ -1,0 +1,87 @@
+﻿,(1) Raw Electricity,(1) Raw Electricity,(1) Raw Electricity,(2) Cost-Recovery,(2) Cost-Recovery,(2) Cost-Recovery,(3) Bilateral
+Country,cⱼ,Rank,Type,cⱼ,Rank,Type,Type
+Kyrgyzstan,$1.58,4,EE,$1.58,1,EE,EE
+Ethiopia,$1.58,3,EE,$1.59,2,EE,EE
+Kosovo,$1.60,10,IE,$1.60,3,EE,EE
+Canada,$1.59,7,EE,$1.60,4,EE,EE
+Tajikistan,$1.60,12,II,$1.60,5,II,DD
+Montenegro,$1.60,13,IE,$1.60,6,IE,DD
+China,$1.61,14,II,$1.61,7,II,II
+Ukraine,$1.61,16,IE,$1.61,8,IE,DD
+Argentina,$1.61,17,II,$1.61,9,II,DD
+Colombia,$1.61,18,II,$1.61,10,II,DD
+Azerbaijan,$1.61,19,IE,$1.61,11,IE,DD
+Russia,$1.59,8,DD,$1.61,12,DD,DD
+Norway,$1.62,20,IE,$1.62,13,IE,DD
+Algeria,$1.59,6,EE,$1.62,14,II,DD
+Vietnam,$1.62,24,II,$1.62,15,II,DD
+Finland,$1.62,23,IE,$1.62,16,IE,IE
+Brazil,$1.62,26,II,$1.62,17,II,DD
+Turkmenistan,$1.57,2,DD,$1.62,18,DD,DD
+Egypt,$1.58,5,EE,$1.62,19,II,DD
+India,$1.63,29,II,$1.63,20,II,DD
+Indonesia,$1.63,30,IE,$1.63,21,IE,DD
+Sweden,$1.63,28,II,$1.63,22,II,IE
+Kazakhstan,$1.62,21,II,$1.63,23,II,DD
+Iran,$1.56,1,DD,$1.63,24,DD,DD
+Georgia,$1.63,31,II,$1.63,25,II,DD
+Uzbekistan,$1.62,22,II,$1.63,26,II,DD
+Kenya,$1.64,33,II,$1.64,27,II,DD
+Turkey,$1.64,34,II,$1.64,28,II,DD
+Bosnia and Herz.,$1.64,35,II,$1.64,29,II,DD
+Nigeria,$1.60,11,II,$1.64,30,II,DD
+South Africa,$1.60,9,II,$1.64,31,II,DD
+Iceland,$1.64,36,II,$1.64,32,II,II
+Belarus,$1.65,38,DD,$1.65,33,DD,DD
+Australia,$1.65,39,II,$1.65,34,II,II
+Morocco,$1.65,41,II,$1.65,35,II,DD
+Mexico,$1.65,42,II,$1.65,36,II,II
+United States of A.,$1.63,32,II,$1.65,37,II,II
+Armenia,$1.65,44,II,$1.65,38,II,DD
+New Zealand,$1.65,40,II,$1.65,39,II,II
+UAE,$1.62,27,II,$1.65,40,II,DD
+Chile,$1.65,45,II,$1.65,41,II,II
+UK,$1.65,37,II,$1.65,42,II,II
+Malaysia,$1.66,50,II,$1.66,43,II,II
+Philippines,$1.66,51,II,$1.66,44,II,II
+Israel,$1.66,52,II,$1.66,45,II,II
+Thailand,$1.66,54,II,$1.66,46,II,II
+Portugal,$1.65,48,II,$1.66,47,II,II
+France,$1.65,43,II,$1.66,48,II,II
+Serbia,$1.66,56,II,$1.66,49,II,II
+Latvia,$1.65,47,II,$1.66,50,II,II
+Pakistan,$1.67,57,II,$1.67,51,II,II
+Saudi Arabia,$1.62,25,II,$1.67,52,II,II
+Qatar,$1.61,15,II,$1.67,53,II,II
+Luxembourg,$1.67,58,II,$1.67,54,II,II
+Moldova,$1.67,62,II,$1.67,55,II,II
+N. Macedonia,$1.68,65,II,$1.68,56,II,II
+Ghana,$1.68,66,II,$1.68,57,II,II
+Spain,$1.66,53,II,$1.68,58,II,II
+Belgium,$1.66,55,II,$1.68,59,II,II
+Malta,$1.66,49,II,$1.68,60,II,II
+Denmark,$1.67,63,II,$1.68,61,II,II
+Lithuania,$1.67,64,II,$1.68,62,II,II
+Albania,$1.68,68,II,$1.68,63,II,II
+South Korea,$1.67,61,II,$1.69,64,II,II
+Poland,$1.65,46,II,$1.69,65,II,II
+Slovenia,$1.68,67,II,$1.70,66,II,II
+Netherlands,$1.67,59,II,$1.70,67,II,II
+Estonia,$1.67,60,II,$1.70,68,II,II
+Romania,$1.69,69,II,$1.70,69,II,II
+Japan,$1.70,76,II,$1.70,70,II,II
+Slovakia,$1.70,73,II,$1.70,71,II,II
+Austria,$1.70,74,II,$1.70,72,II,II
+Switzerland,$1.71,78,II,$1.71,73,II,II
+Greece,$1.69,71,II,$1.72,74,II,II
+Bulgaria,$1.69,72,II,$1.72,75,II,II
+Italy,$1.70,75,II,$1.72,76,II,II
+Singapore,$1.72,80,II,$1.72,77,II,II
+Hungary,$1.71,79,II,$1.73,78,II,II
+Czechia,$1.70,77,II,$1.73,79,II,II
+Senegal,$1.73,82,II,$1.73,80,II,II
+Croatia,$1.73,83,II,$1.74,81,II,II
+Germany,$1.69,70,II,$1.75,82,II,II
+Ireland,$1.73,84,II,$1.75,83,II,II
+Cyprus,$1.73,81,II,$1.77,84,II,II
+Greenland,$1.77,85,II,$1.77,85,II,II

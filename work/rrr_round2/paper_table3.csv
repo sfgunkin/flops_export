@@ -1,0 +1,27 @@
+﻿(1) Raw Electricity,(1) Raw Electricity,(1) Raw Electricity,(2) Cost-Recovery,(2) Cost-Recovery,(2) Cost-Recovery,(3) Bilateral,(3) Bilateral,(3) Bilateral,(4) CR + host WACC,(4) CR + host WACC,(4) CR + host WACC
+Country,Pⱼ,Type,Country,Pⱼ,Type,Country,Pⱼₖ,Type,Country,Pⱼ,Type
+Iran,$1.56,DD*,Kyrgyzstan,$1.58,EE†,Canada,$1.60,EE,Canada,$1.82,EE
+Turkmenistan,$1.57,DD*,Ethiopia,$1.59,EE†,Australia,$1.65,II,Norway,$1.84,IE
+Ethiopia,$1.58,EE†,Kosovo,$1.60,EE†,USA,$1.65,DD,Finland,$1.84,IE
+Kyrgyzstan,$1.58,EE†,Canada,$1.60,EE,Kyrgyzstan,$1.65,EE†,Sweden,$1.85,II
+Egypt,$1.58,EE†,Tajikistan,$1.60,II,Norway,$1.66,DD,Iceland,$1.87,II
+Algeria,$1.59,EE†,Montenegro,$1.60,IE†,Finland,$1.66,IE,Australia,$1.87,II
+Canada,$1.59,EE,China,$1.61,II,Ethiopia,$1.67,EE†,USA,$1.87,II
+Russia,$1.59,DD*,Ukraine,$1.61,IE†,Sweden,$1.67,IE,New Zealand,$1.87,II
+South Africa,$1.60,II,Argentina,$1.61,II,Kosovo,$1.67,EE†,UAE,$1.87,II
+Kosovo,$1.60,IE†,Colombia,$1.61,II,Tajikistan,$1.68,DD,Chile,$1.88,II
+Nigeria,$1.60,II,Azerbaijan,$1.61,IE,Montenegro,$1.68,DD,UK,$1.88,II
+Tajikistan,$1.60,II,Russia,$1.61,DD*,Mexico,$1.68,II,Israel,$1.88,II
+Montenegro,$1.60,IE†,Norway,$1.62,IE,Ukraine,$1.68,DD,Portugal,$1.88,II
+China,$1.61,II,Algeria,$1.62,II,Argentina,$1.68,DD,France,$1.89,II
+Qatar,$1.61,II,Vietnam,$1.62,II,Iceland,$1.69,II,Latvia,$1.89,II
+Ukraine,$1.61,IE†,Finland,$1.62,IE,Colombia,$1.69,DD,Saudi Arabia,$1.89,II
+Argentina,$1.61,II,Brazil,$1.62,II,Azerbaijan,$1.69,DD,Qatar,$1.89,II
+Colombia,$1.61,II,Turkmenistan,$1.62,DD*,South Korea,$1.69,II,Luxembourg,$1.89,II
+Azerbaijan,$1.61,IE,Egypt,$1.62,II,Algeria,$1.69,DD,Spain,$1.90,II
+Norway,$1.62,IE,India,$1.63,II,Philippines,$1.69,II,Belgium,$1.90,II
+Kazakhstan,$1.62,II,Indonesia,$1.63,IE†,New Zealand,$1.69,II,Malta,$1.90,II
+Uzbekistan,$1.62,II,Sweden,$1.63,II,Vietnam,$1.69,DD,Denmark,$1.90,II
+Finland,$1.62,IE,Kazakhstan,$1.63,II,Brazil,$1.69,DD,Lithuania,$1.90,II
+Vietnam,$1.62,II,Iran,$1.63,DD*,UK,$1.69,II,South Korea,$1.91,II
+Saudi Arabia,$1.62,II,Georgia,$1.63,II,Egypt,$1.70,DD,Poland,$1.91,II
