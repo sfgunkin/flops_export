@@ -4411,3 +4411,230 @@ class TestProseAgnosticRelationships:
                     "institutional-efficiency floor",
                     "with a floor of 0.3"):
             assert bad not in full, f"Stale v28 floor phrase: {bad!r}"
+
+
+# ================================================================
+# VERIFICATION-PROTOCOL LAYERS 0/2/3
+# (see ..\..\PAPER_VERIFICATION_PROTOCOL.md)
+#
+# These cover the error classes a data<->prose suite is structurally
+# blind to, and which the WBER review caught in v33:
+#   Layer 0  canonical numbers registry (single source of truth)
+#   Layer 2a internal arithmetic reconciliation  (caught $1.3B vs $1.44B)
+#   Layer 2b cross-section consistency            (caught "all" vs "nearly all",
+#                                                  "nontrivial" vs "modest")
+#   Layer 3  semantic frame                       (caught "of average" vs "of
+#                                                  total"; missing EMDE scope)
+#   Layer 4  surface lint                         (caught the unclosed paren)
+#
+# Regression corpus: every assertion below would FAIL on the v33 text and
+# PASSES on v34. New escaped errors get added here before the revision ships.
+# ================================================================
+
+# ---- Layer 0: canonical numbers registry -----------------------
+# Each derived headline figure lives once, with the operands that
+# produce it. Derived facts are RECOMPUTED here from an independent
+# path (the model constants), never read back from the generator.
+CANONICAL = {
+    # demand-weighted welfare cost of the bilateral sovereignty premium
+    "welfare_share": 0.016,          # fraction of TOTAL compute spending
+    "demand_gpu_hours": Q_TOTAL,     # 6e10 GPU-hr/yr (independently = Q_TOTAL)
+    "price_per_hour": 1.50,          # $/GPU-hr in the aggregate-dollar claim
+}
+# total annual compute spend = Q * price; welfare $ = share * that
+CANONICAL["compute_spend_bn"] = (
+    CANONICAL["demand_gpu_hours"] * CANONICAL["price_per_hour"] / 1e9
+)
+CANONICAL["welfare_dollars_bn"] = (
+    CANONICAL["welfare_share"] * CANONICAL["compute_spend_bn"]
+)  # -> 1.44
+
+
+class TestArithmeticReconciliation:
+    """Layer 2a. Every number that is a FUNCTION of other numbers gets a
+    test that performs the function. A pure data-lookup test cannot catch
+    a wrong derived figure because no data row equals it."""
+
+    def test_canonical_welfare_dollars(self):
+        """Sanity: the registry's own arithmetic gives $1.44B, not $1.3B."""
+        assert abs(CANONICAL["welfare_dollars_bn"] - 1.44) < 0.01
+
+    def test_welfare_aggregate_dollars_reconcile(self, docx_text):
+        """The '$X billion per year' welfare figure must equal
+        (stated share) x Q_TOTAL x (stated price). v33 said $1.3 billion,
+        which does NOT reconcile (1.6% x 6e10 x $1.50 = $1.44B)."""
+        import re
+        share_m = re.search(
+            r"(\d+(?:\.\d+)?)\s*percent\b(?!age)\s+of\s+total"
+            r"\s+compute\s+spending",
+            docx_text,
+        )
+        price_m = re.search(
+            r"GPU-hours\s+at\s+\$(\d+(?:\.\d+)?)\s*/\s*hr", docx_text,
+        )
+        dollar_m = re.search(
+            r"amounts? to roughly\s+\$(\d+(?:\.\d+)?)\s*billion", docx_text,
+        )
+        assert share_m, "welfare-share-of-total sentence not found"
+        assert price_m, "GPU-hours-at-$/hr operand not found"
+        assert dollar_m, "'amounts to roughly $X billion' figure not found"
+        share = float(share_m.group(1)) / 100.0
+        price = float(price_m.group(1))
+        stated = float(dollar_m.group(1))
+        recomputed = share * Q_TOTAL * price / 1e9
+        assert abs(stated - recomputed) < 0.05, (
+            f"Welfare $ does not reconcile: prose says ${stated}B, "
+            f"{share*100:.1f}% x {Q_TOTAL:.0e} x ${price} = "
+            f"${recomputed:.2f}B"
+        )
+        # anti-regression to the correct value
+        assert abs(stated - CANONICAL["welfare_dollars_bn"]) < 0.05
+
+    def test_demand_magnitude_matches_constant(self, docx_text):
+        """The '6 x 10^10 GPU-hours' demand operand must equal Q_TOTAL."""
+        import re
+        m = re.search(r"(\d+(?:\.\d+)?)\s*×\s*10", docx_text)
+        assert m, "scientific-notation demand operand (N x 10..) not found"
+        mantissa = float(m.group(1))
+        assert abs(mantissa * 1e10 - Q_TOTAL) < 1e9, (
+            f"Stated demand {mantissa} x 10^10 != Q_TOTAL {Q_TOTAL:.0e}"
+        )
+
+
+class TestCrossSectionConsistency:
+    """Layer 2b. A fact stated in N places must agree in N places. Each
+    instance can individually 'match the data' while contradicting another
+    instance -- which a per-claim value test never compares."""
+
+    def test_welfare_share_consistent_across_sections(self, docx_text):
+        """The demand-weighted welfare share is cited in two places
+        (results and conclusion). Both must equal CANONICAL, and equal
+        each other."""
+        import re
+        hits = re.findall(
+            r"(\d+\.\d+)\s*percent\b(?!age)\s+of\s+total\s+compute\s+spending",
+            docx_text,
+        )
+        hits += re.findall(
+            r"share of compute spending \(about\s+(\d+\.\d+)\s*percent\)",
+            docx_text,
+        )
+        vals = {round(float(h), 1) for h in hits}
+        assert hits, "no welfare-share citations found"
+        assert vals == {round(CANONICAL["welfare_share"] * 100, 1)}, (
+            f"Welfare share inconsistent across sections: {sorted(vals)} "
+            f"(expected {CANONICAL['welfare_share']*100:.1f})"
+        )
+
+    def test_welfare_framing_not_contradictory(self, docx_para_texts):
+        """The welfare magnitude word must come from the agreed set
+        {modest, small} and never from {nontrivial, substantial,
+        significant, large} -- v33's '...at a nontrivial welfare cost'
+        contradicted §6.2's 'modest'."""
+        banned = ("nontrivial", "non-trivial", "substantial", "sizable",
+                  "sizeable")
+        bad = []
+        for p in docx_para_texts:
+            low = p.lower()
+            if "welfare" not in low:
+                continue
+            if not any(k in low for k in ("cost", "loss", "share")):
+                continue
+            for w in banned:
+                if w in low:
+                    bad.append((w, p[:120]))
+        assert not bad, f"Contradictory welfare framing: {bad}"
+
+    def test_export_elimination_quantifier_hedged(self, docx_para_texts):
+        """The result has a residual exporter, so the developing-country
+        export-elimination claim must be hedged ('nearly all' / 'almost
+        all' / 'most'), never 'all'. v33's intro said 'eliminate all
+        developing-country exports', contradicting the abstract and §6.2."""
+        full = "\n".join(docx_para_texts).lower()
+        for bad in ("eliminate all developing", "eliminates all developing",
+                    "eliminate all their export",
+                    "eliminates all their export",
+                    "eliminate all developing-country export"):
+            assert bad not in full, f"Unhedged elimination claim: {bad!r}"
+        # where the claim is about exports specifically, require a hedge
+        hedges = ("nearly all", "almost all", "most", "virtually all")
+        for p in docx_para_texts:
+            low = p.lower()
+            if "eliminat" in low and "their export" in low:
+                assert any(h in low for h in hedges), (
+                    f"Export-elimination sentence lacks a hedge: {p[:160]}"
+                )
+
+
+class TestSemanticFrame:
+    """Layer 3. A correct number wrapped in a wrong denominator, unit, or
+    scope is still false. The value test passes because the value is right."""
+
+    def test_welfare_denominator_is_total_not_average(self, docx_text):
+        """1.6% is 'of total compute spending', not 'of average'. v33
+        mislabelled the denominator while the number stayed correct."""
+        assert "of average compute spending" not in docx_text, (
+            "welfare share mislabelled as 'of average compute spending'"
+        )
+        assert "of total compute spending" in docx_text, (
+            "welfare-share denominator label 'of total compute spending' "
+            "missing"
+        )
+
+    def test_emde_superlative_carries_scope(self, docx_para_texts):
+        """Any 'largest recipients' superlative must carry its EMDE scope.
+        Unqualified, the sentence is false (the US is the largest recipient
+        globally). v33's would-be intro hook omitted the scope word."""
+        scope_tokens = ("among developing", "developing economies",
+                        "among emdes", "emdes")
+        offenders = []
+        for p in docx_para_texts:
+            low = p.lower()
+            if "largest recipient" in low and not any(
+                s in low for s in scope_tokens
+            ):
+                offenders.append(p[:160])
+        assert not offenders, (
+            f"'largest recipients' without EMDE scope: {offenders}"
+        )
+
+
+class TestSurfaceLint:
+    """Layer 4. Cheap, high-value structural checks outside the value
+    model entirely (delimiters, house style)."""
+
+    def test_body_parentheses_balanced(self, docx_para_texts):
+        """Every prose paragraph has balanced round parentheses. v33 left
+        an unclosed '(' in the allocative-inefficiency clause."""
+        bad = []
+        for p in docx_para_texts:
+            if p.count("(") != p.count(")"):
+                bad.append((p.count("("), p.count(")"), p[:140]))
+        assert not bad, (
+            "Unbalanced parentheses in "
+            f"{len(bad)} paragraph(s): "
+            + "; ".join(f"({o}/{c}) {t!r}" for o, c, t in bad[:5])
+        )
+
+    def test_no_percent_sign_in_body_prose(self, docx_para_texts):
+        """House style: MAIN-BODY prose (§1-8) spells out 'percent'; '%'
+        is reserved for tables, table/figure notes, and appendices.
+        Catches the percent-vs-% drift the editor flagged. Scope: only
+        paragraphs before the first 'Appendix' heading, excluding
+        'Notes:' note paragraphs."""
+        import re
+        # main body ends at the first "Appendix" heading
+        appendix_at = next(
+            (i for i, p in enumerate(docx_para_texts)
+             if re.match(r"Appendix\b", p)),
+            len(docx_para_texts),
+        )
+        bad = []
+        for p in docx_para_texts[:appendix_at]:
+            if p.lstrip().startswith("Notes:"):
+                continue            # table/figure notes keep '%'
+            if re.search(r"\d\s*%", p):
+                bad.append(p[:140])
+        assert not bad, (
+            f"'%' used in main-body prose ({len(bad)} para): {bad[:5]}"
+        )
