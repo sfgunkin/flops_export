@@ -2389,16 +2389,20 @@ class TestDocumentContent:
             assert h in docx_text, f"Missing §7 subsection: {h}"
 
     def test_katz_moved_to_section_6(self, docx_text):
-        """The Katz et al. (2025) policy-readiness paragraph should now
-        sit in §6.2, introduced by 'Cross-country evidence on policy
-        readiness corroborates this pattern' (not 'reinforces this
-        conclusion'), and it should NOT appear under §7.2 or §7.3."""
-        assert "Cross-country evidence on policy readiness corroborates" in (
+        """The Katz et al. (2025) policy-readiness paragraph should sit in
+        §6.2, introduced by 'Evidence on policy readiness points in the same
+        direction', and should NOT use the older §7.2 framings."""
+        assert "Evidence on policy readiness points in the same direction" in (
             docx_text
         )
-        # The old §7.2 framing should be gone
+        assert "Katz et al. 2025" in docx_text
+        # The old §7.2 framings should be gone
         assert (
             "Cross-country evidence on policy readiness reinforces"
+            not in docx_text
+        )
+        assert (
+            "Cross-country evidence on policy readiness corroborates"
             not in docx_text
         )
 
