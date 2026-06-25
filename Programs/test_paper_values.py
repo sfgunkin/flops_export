@@ -2619,7 +2619,10 @@ class TestDocumentContent:
         assert "Heckscher\u2013Ohlin" in docx_text
 
     def test_ricardian_vs_ho_hybrid_acknowledged(self, docx_text):
-        assert "cost structure above is Ricardian" in docx_text
+        # Cost structure framed as Ricardian, with the resource-rich
+        # comparative-advantage intuition acknowledged as Heckscher-Ohlin.
+        assert "cost structure is Ricardian" in docx_text
+        assert "Heckscher–Ohlin" in docx_text
 
     # ---------- Fix 2c: World Bank sentence rephrased ----------
 
@@ -3699,12 +3702,13 @@ class TestWACCPromotedInIntro:
             not in docx_text, "§7.2 still contains the defusing language"
 
     def test_s72_pure_hyperscaler_is_boundary_not_baseline(self, docx_text):
-        """The rewrite reframes hyperscaler-home WACC as a boundary case,
-        not the baseline — spec (4) is now the benchmark."""
+        """The rewrite reframes a fully hyperscaler-financed project as a
+        limiting case, not the baseline — Column (4) is now the benchmark."""
         idx = docx_text.find('Cost of capital.')
         window = docx_text[idx:idx + 2000] if idx != -1 else ''
-        assert 'boundary' in window.lower(), (
-            "§7.2 should describe pure-hyperscaler financing as a boundary case"
+        assert 'limiting case rather than the baseline' in window, (
+            "§7.2 should describe a fully hyperscaler-financed project as a "
+            "limiting case, not the baseline"
         )
 
 

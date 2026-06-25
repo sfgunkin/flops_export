@@ -1498,7 +1498,7 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
         'enter on cost grounds and the most sensitive to small policy frictions: the binding '
         'export constraint is institutional credibility, not the price of power. '
         'Credibility is priced twice, once in the sovereignty premium buyers charge '
-        'and once in the cost of capital locally financed operators pay. The levers '
+        'and once in the cost of capital that locally financed operators pay. The levers '
         'that move these prices are financial and regulatory.'
     )
     el = p._element
@@ -1548,8 +1548,8 @@ def write_introduction(doc, body, hmap):
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'The expansion of artificial intelligence drives the demand for computational '
-        'resources. The compute used to train the machine learning '
-        'models (ML) has been doubling every six months since 2010 '
+        'resources. The compute used to train machine-learning '
+        'models (ML) has doubled every six months since 2010 '
         '(Sevilla et al. 2022). In 2024, data centers accounted for approximately '
         '1.5 percent of global electricity demand, and that share is projected to exceed 3 percent '
         'by 2030 (IEA 2025).'
@@ -1578,7 +1578,7 @@ def write_introduction(doc, body, hmap):
     # Para 6: Real data center plans + profit estimate (v28: Task 4 compressed)
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Several megaprojects confirm that FLOP exporting is technically and commercially '
+        'Several megaprojects suggest that FLOP exporting is technically and commercially '
         'feasible. Armenia is deploying 50,000 GPUs as a part of a $4 billion '
         'investment (Firebird 2026). Kenya, Saudi Arabia, and Malaysia have attracted '
         'billion-dollar investments in data centers. '
@@ -1593,7 +1593,7 @@ def write_introduction(doc, body, hmap):
     # calibration resolves, posed up front
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Yet cost advantage and investment do not line up. The cheapest potential '
+        'Yet cost advantage and investment remain weakly aligned. The cheapest potential '
         'producer in our calibration, Kyrgyzstan, has 5 MW of installed capacity '
         'and virtually no data-center FDI, while the largest recipients among '
         'developing economies (Malaysia, India, Brazil) sit in the middle of the '
@@ -1621,19 +1621,20 @@ def write_introduction(doc, body, hmap):
     # named channels + forward pointer to the policy section)
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Cheap power and good cooling are not enough. Hardware amortization is '
+        'Cheap power and favorable cooling conditions are not sufficient to '
+        'generate compute exports. Hardware amortization is '
         'about 90 percent of unit cost and priced globally, so the cross-country '
         'cost spread is only 12\u201320 percent, narrow enough for institutional '
         'frictions to overturn. Several developing countries rank among the '
-        'cheapest producers under cost-recovery pricing, yet in the bilateral '
-        'sovereignty specification trust deficits with OECD buyers eliminate '
-        'nearly all their exports. The cost of capital does the rest. '
+        'cheapest producers under cost-recovery pricing. But once bilateral '
+        'sovereignty frictions are added, trust deficits with OECD buyers '
+        'eliminate nearly all of their exports. The cost of capital does the rest. '
         'A 10-percentage-point WACC gap between OECD hyperscalers (8 percent) and '
         'locally financed developing-country operators (18 percent) adds about '
         '$0.29/GPU-hour to unit cost. That is roughly four times the '
         'electricity-cost spread across the top twenty producers '
-        '(Calcaterra et al. 2024). Both frictions price the same shortfall, '
-        'institutional credibility. Section 8 sets out the policy levers.'
+        '(Calcaterra et al. 2024). Both frictions reflect the same underlying '
+        'constraint: institutional credibility.'
     )
 
 
@@ -1659,10 +1660,10 @@ def write_literature(doc, body, hmap):
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'The closest precedent to our model is IT services offshoring, which is '
-        'labor-intensive and skill-biased (Blinder 2006), while FLOP exporting is '
-        'capital- and energy-intensive, so the set of potential exporters is '
-        'fundamentally different \u2014 energy-rich countries rather than '
-        'labor-abundant ones. A bigger difference is structural: because the key '
+        'labor-intensive and skill-biased (Blinder 2006). FLOP exporting is '
+        'capital- and energy-intensive, so the likely exporters are energy-rich '
+        'rather than labor-abundant countries. A more important difference is '
+        'structural. Because the key '
         'traded input (GPUs) is globally priced, cross-country cost variation '
         'comes entirely from energy and facilities, which together account for a '
         'small share of unit cost. Comparative advantage in compute is therefore '
@@ -1859,11 +1860,11 @@ def write_production_technology(doc, body, hmap):
     # Endowment paragraph
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'The cost structure above is Ricardian '
-        '(country-specific production costs driven by technology and input prices), '
-        'but the justification for resource-rich comparative advantage is closer to '
-        'the Heckscher\u2013Ohlin: countries export goods intensive in their '
-        'abundant factors (Heckscher 1919, Ohlin 1933). '
+        'The cost structure is Ricardian: countries differ in production costs '
+        'because they differ in technology and input prices. '
+        'The intuition for resource-rich comparative advantage, however, is '
+        'closer to Heckscher\u2013Ohlin with countries exporting goods intensive '
+        'in their abundant factors (Heckscher 1919, Ohlin 1933). '
         'For compute production, the relevant endowment is not electricity, '
         'but the natural resources that generate it, such as hydropower '
         '(Kyrgyzstan, Ethiopia, Georgia), oil and gas (Iran, Turkmenistan, Qatar), solar '
@@ -2686,9 +2687,9 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     omath(p, [_msub('HHI', 'T')])
     p.add_run(
         ' is strictly decreasing in the number of capacity-constrained infra-marginal '
-        'exporters. Intuitively, when cheap producers reach capacity '
-        'limits, residual demand spills over to more expensive suppliers, spreading market shares '
-        'more evenly.'
+        'exporters. When low-cost producers reach capacity '
+        'limits, residual demand shifts to higher-cost suppliers, reducing '
+        'market concentration.'
     )
 
     # Proposition 3: Sovereignty threshold
@@ -2697,8 +2698,8 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     r.bold = True
     r.italic = True
     p.add_run(
-        'A country will bear the additional cost of domestic AI training only if its sovereignty '
-        'premium is large enough to justify the price premium over cheaper foreign producers. '
+        'A country produces AI training domestically only when the sovereignty '
+        'premium is large enough to offset the higher domestic cost. '
         'Formally, country '
     )
     omath(p, [_v('k')])
@@ -2810,8 +2811,8 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         'construction cost penalties that exclude it from the training market.'
     )
     p.add_run(
-        ' The set of training exporters is therefore a subset of the inference '
-        'exporters for demand centers within the latency threshold '
+        ' Training exporters therefore also export inference to nearby demand '
+        'centers, provided that latency remains below the threshold '
     )
     omath(p, [_mbar('l')])
     p.add_run(
@@ -3194,7 +3195,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     _kgz_rank = _t3_cr_sorted[0]["rank_cr"]
     _kgz_cap = int(_dc_k.get("KGZ", 5))
     p.add_run(
-        f'Cost advantage and actual investment diverge sharply. '
+        f'The cost ranking diverges sharply from observed investment patterns. '
         f'{_num_word(len(_small_cap)).capitalize()} of the twenty cheapest producers have '
         f'under 100\u2009MW of installed capacity '
         f'(e.g., Kyrgyzstan: rank\u2009{_kgz_rank}, {_kgz_cap}\u2009MW), '
@@ -3233,11 +3234,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'as Singapore, Australia, Japan, and South Korea\u2014record '
         'estimated economic impacts from AI and cloud investment of '
         '3\u20134 percent of GDP, compared with less than 1 percent in '
-        'Indonesia and Viet Nam (Katz et al. 2025). The '
-        'model\u2019s institutional quality parameter captures, in reduced '
-        'form, the complementary investments in digital skills, regulatory '
-        'predictability, and grid modernization that separate these two '
-        'groups. Countries that align digital ambitions with energy-sector '
+        'Indonesia and Viet Nam (Katz et al. 2025). In the '
+        'model, institutional quality stands in for the complementary '
+        'investments that separate these groups: digital skills, regulatory '
+        'predictability, and grid modernization. Countries that align '
+        'digital ambitions with energy-sector '
         'planning\u2014Malaysia through its National Energy Transition '
         'Roadmap, Brazil with an electricity mix over 80 percent renewable, '
         'the UAE with nuclear- and solar-powered AI hubs\u2014are emerging '
@@ -3264,10 +3265,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_hyperlink('Table3', 'Table 3'))
     p.add_run(
         ' reports the bilateral specification. '
-        'The bilateral sovereignty premium is particularly powerful for inference, '
-        'since the latency markup within Europe is moderate (10\u201340\u2009ms, '
-        'adding 1\u20133 percent), and even a small domestic preference can tip the decision '
-        'away from importing.'
+        'The bilateral sovereignty premium matters especially for inference. '
+        'Within Europe, latency adds only 1\u20133 percent to costs, so even a '
+        'small domestic preference can shift sourcing away from imports.'
     )
 
     # ── A4. Trade flows under capacity constraints (KEEP P78) ──
@@ -3439,7 +3439,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'virtually all capacity is built and financed by domestic '
         'technology firms and state-owned operators such as Alibaba Cloud, Tencent, '
         'Baidu, and China Telecom, with negligible foreign FDI (Aykut et al. 2026). '
-        'The model predicts exactly this outcome: China\u2019s sovereignty premium is '
+        'The model is consistent with this outcome: China\u2019s sovereignty premium is '
         'effectively infinite for most Western buyers, yet its large domestic demand '
         'and moderate production costs make domestic production of both training and '
         'inference the equilibrium strategy. Government initiatives such as the Eastern '
@@ -3526,8 +3526,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     # ── A5. Sovereignty policy discussion (v28: Task 26 compressed) ──
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'The welfare implications of the sovereignty premium depend on whether '
-        'it reflects genuine security externalities or regulatory overreach. '
+        'The welfare implications depend on whether the sovereignty premium '
+        'reflects real security concerns or overly broad regulatory '
+        'restrictions. '
         'Some domestic processing preference is justified for confidential '
         'data, but much of the current policy push extends the sovereignty '
         'logic to routine commercial computation. The welfare cost is '
@@ -3678,7 +3679,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'markups can raise effective GPU prices by 5\u201315 percent in developing '
         'countries that are not subject to export bans, eroding the thin '
         'cost advantages. These omitted constraints all work against '
-        'developing-country competitiveness; the calibration results should '
+        'developing-country competitiveness. The calibration results should '
         'therefore be read as upper bounds.'
     )
 
@@ -3686,13 +3687,13 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Endogenous electricity prices. ')
     p.add_run(
-        'The model treats electricity prices as exogenous. For small, '
-        'cheap-energy countries, a hyperscale facility can be large relative '
+        'The model treats electricity prices as fixed. In small countries '
+        'with low-cost power, a hyperscale facility can be large relative '
         'to the host grid \u2014 a 100\u2009MW data center would consume '
         'roughly 3 percent of Kyrgyzstan\u2019s 3,800\u2009MW national output. At '
         'the multi-facility scale, data centers would compete with '
-        'residential heating, likely triggering regulatory intervention. '
-        'The capacity ceiling '
+        'residential and industrial electricity demand, making regulatory '
+        'intervention likely. The capacity ceiling '
     )
     omath(p, [_mbar_sub('K', 'j')])
     p.add_run(
@@ -3701,33 +3702,36 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     )
     p._element.append(make_hyperlink('TableA1', 'Table A1'))
     p.add_run(
-        ' are upper bounds. An extension with upward-sloping supply curves '
-        'would compress these advantages. Recent estimates suggest that AI '
-        'workloads, combined with broader electrification, could raise U.S. '
+        ' are upper bounds. Allowing electricity supply curves to slope '
+        'upward would narrow these apparent advantages. Evidence from the US '
+        'suggests the AI '
+        'workloads, combined with broader electrification, could raise '
         'wholesale electricity prices by roughly 19 percent between 2025 '
         'and 2028 (Chandramowli et al. 2024), and AI data-center expansion '
         'alone could increase retail prices by 8\u20139 percent by 2030 '
         '(IMF 2025). Alvarez et al. (2026) find that in the US, a '
         'one-unit increase in log cumulative data-center revenue raises '
-        'local electricity prices by roughly 0.9 percent, significant at '
-        'the 1 percent level across all horizons; counties that have ever hosted a '
-        'data center exhibit a 3.9 percent effect on retail prices. '
+        'local electricity prices by roughly 0.9 percent. Counties that have '
+        'ever hosted a '
+        'data center have retail prices about 3.9 percent higher. '
         'For small grids such as Kyrgyzstan\u2019s, the '
-        'proportional impact would be substantially larger, further eroding '
+        'proportional impact is likely to be larger, further eroding '
         'the cost advantages documented above.'
     )
 
-    # GPU upgrades
+    # GPU upgrades (italic lead-in removed per user edit; Option B replaces the
+    # "older hardware must discount" sentence with a financing/vintage mechanism)
     p, cur = mkp(doc, body, cur, space_before=6)
-    add_italic(p, 'GPU upgrades. ')
     p.add_run(
-        'Successor GPUs (B200, shipping 2025) deliver roughly four times '
-        'the training throughput at about 1\u2009kW. Higher power draw '
-        'widens the absolute electricity cost gap across countries, '
-        'modestly strengthening developing-country comparative advantage. '
-        'Countries operating older hardware must discount to compete, '
-        'eroding their cost advantage. Qualitative findings are robust to '
-        'GPU generation choices.'
+        'Newer GPUs, such as NVIDIA\u2019s B200, increase training throughput '
+        'substantially but also raise power draw to roughly 1\u2009kW. Higher '
+        'power draw makes electricity prices more important, which modestly '
+        'strengthens the advantage of low-cost power producers. Because higher '
+        'capital costs lead developing economies to refresh GPUs less '
+        'frequently, they are more likely to operate older, less efficient '
+        'hardware, raising their cost per effective FLOP and partly offsetting '
+        'their electricity-cost advantage. The qualitative ranking is not driven '
+        'by the choice of GPU generation.'
     )
 
     # Form of the sovereignty wedge — referee 5.x polish
@@ -3736,13 +3740,12 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     omath(p, [_msub('λ', 'jk')])
     p.add_run(
         ' is modeled as an ad valorem markup on the cost of compute. '
-        'While standard in services trade, this functional form is a '
-        'simplification. Government cloud security certifications '
-        '(e.g., SecNumCloud, IRAP), sanctions and export-control '
-        'screening, and bilateral digital-services agreements impose '
-        'mostly fixed costs that add an entry margin on top of the '
-        'cost-comparison margin, thereby raising the entry threshold '
-        'for developing-country exporters. Our model also treats '
+        'This is standard in services trade, but it simplifies how '
+        'sovereignty frictions operate. Many sovereignty frictions are '
+        'closer to fixed entry costs than variable markups. Cloud-security '
+        'certifications, sanctions screening, export-control compliance, '
+        'and bilateral digital-services agreements all raise the cost of '
+        'entering a market. Our model also treats '
     )
     omath(p, [_msub('λ', 'jk')])
     p.add_run(
@@ -3753,36 +3756,34 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     )
     omath(p, [_msub('λ', 'jk')])
     p.add_run(
-        ' and fixed costs. We expect our main finding to hold '
-        '— both modifications run counter to developing-country entrants '
-        '— and leave the formal version to future work.'
+        ' and fixed costs. Both changes would likely make entry harder for '
+        'developing-country exporters, so they should strengthen rather than '
+        'weaken the main result.'
     )
 
     # Cost of capital — v33: promoted from caveat to headline (referee 3.1)
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Cost of capital. ')
     p.add_run(
-        'Because hardware dominates the compute cost stack, the '
-        'largest determinant of the ranking is the cost of financing '
-        'capital. An OECD hyperscaler at an 8 percent weighted average '
-        'cost of capital faces hardware costs of $1.58/GPU-hour; a '
-        'locally financed developing-country operator at 18 percent pays $1.87 '
-        '\u2014 a $0.29 gap on hardware alone, roughly four times the '
-        'electricity cost spread across the top twenty countries '
-        '(Calcaterra et al. 2024). Column (4) of '
+        'Because hardware dominates the cost stack, financing terms can '
+        'determine the ranking. At an 8 percent WACC, an OECD hyperscaler '
+        'pays about $1.58 per GPU-hour in hardware costs. At an 18 percent '
+        'WACC, a locally financed developing-country operator pays $1.87, '
+        'a $0.29 gap on hardware alone (Calcaterra et al. 2024). '
+        'Column (4) of '
     )
     p._element.append(make_hyperlink('Table3', 'Table 3'))
     p.add_run(
         ' reports the cost-recovery ranking with hardware amortized at '
-        'each country\u2019s income-group WACC (HIC 8 percent, UMIC 12 percent, LMIC 15 percent, '
-        'LIC 18 percent). Under this specification, the advantage of cheap-energy '
-        'developing countries diminishes, and the regime '
-        'classifications shift accordingly.'
+        'each country\u2019s income-group WACC, using 8 percent for HICs, '
+        '12 percent for UMICs, 15 percent for LMICs, and 18 percent for '
+        'LICs. Once financing costs enter, cheap electricity explains less '
+        'of the ranking, and several regime classifications shift.'
     )
 
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'This is the mechanism that links the cost-recovery and bilateral '
+        'This mechanism links the cost-recovery and bilateral '
         'sovereignty specifications: institutional credibility matters for '
         'compute trade through two channels, the sovereignty premium '
     )
@@ -3790,15 +3791,16 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p.add_run(
         ' and the cost of capital facing any locally '
         'financed operator. Hyperscaler-led foreign direct investment '
-        'partially bypasses the channel \u2014 when a multinational owns, '
+        'partially bypasses the channel. If a multinational owns, '
         'finances, and operates the facility outright, it may fund at its '
         'home WACC \u2014 but partial ownership, local debt, sovereign '
         'guarantees, and the pass-through of country risk to operating '
         'agreements reintroduce the channel in proportion to the host '
-        'country’s financial exposure. A pure-hyperscaler case is therefore '
-        'a boundary, not a baseline. The paper treats spec (4) as the '
-        'more realistic benchmark for questions about whether a developing '
-        'country can capture compute-export rents with domestic capital.'
+        'country’s financial exposure. A fully hyperscaler-financed project '
+        'is therefore best treated as a limiting case rather than the '
+        'baseline. Column (4) is therefore the more realistic benchmark for '
+        'assessing whether developing countries can capture compute-export '
+        'rents with domestic capital.'
     )
 
     # ────────────────────────────────────────────────────────────────────
@@ -3811,22 +3813,21 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Edge computing. ')
     p.add_run(
-        'A further extension concerns the emerging shift from centralized '
-        'inference to edge computing. As AI moves from heavy training '
-        'workloads toward real-time inference on lightweight models '
-        'deployed on local devices, the effective capacity ceiling for '
-        'inference relaxes: inference need not be concentrated in large '
+        'Edge computing could weaken one of the model\u2019s central '
+        'constraints. As more AI demand comes from real-time inference on '
+        'lightweight models '
+        'deployed on local devices, the capacity constraint for '
+        'inference becomes less binding: inference need not be concentrated in large '
         'data centers but can be distributed across many small nodes '
         'connected via existing mobile networks. If this trend accelerates, '
-        'the inference market\u2019s HHI could fall further, and the set of '
-        'countries capable of serving inference demand would expand. For '
+        'inference exports would become less concentrated, and more '
+        'countries could serve regional demand. For '
         'EMDEs with weak grid infrastructure but adequate mobile '
         'connectivity, edge computing may offer a leapfrogging path that '
         'bypasses the grid bottlenecks central to the model '
-        '(Aykut et al. 2026). Incorporating heterogeneous compute '
-        'architectures\u2014centralized GPU clusters for training, '
-        'distributed edge nodes for inference\u2014into the trade framework '
-        'is a natural direction for future work.'
+        '(Aykut et al. 2026). A fuller trade model would distinguish '
+        'centralized GPU clusters for training from '
+        'distributed edge nodes for inference.'
     )
 
 
@@ -3844,94 +3845,101 @@ def write_conclusion(doc, body, hmap, demand_data):
     # subordinate position
     p, cur_concl = mkp(doc, body, sec8)
     p.add_run(
-        'Energy-rich developing countries can produce compute cheaply, but '
-        'producing cheaply does not make them exporters. A capacity-constrained '
-        'Ricardian model that separates latency-insensitive training from '
-        'latency-sensitive inference and prices bilateral sovereignty frictions '
-        'shows why. Hardware is globally priced, so the remaining cost advantage '
-        'is thin, and the institutional frictions facing developing-country '
-        'suppliers are wider than that advantage.'
+        'Energy-rich developing countries can produce compute at low cost, but '
+        'low cost alone does not make them exporters. The model explains why. '
+        'Training can be traded globally, inference is constrained by latency, '
+        'and both are affected by bilateral sovereignty frictions. Because '
+        'hardware is globally priced, electricity and cooling create only a '
+        'thin cost advantage, while the institutional frictions facing '
+        'developing-country suppliers are often wider than that advantage.'
     )
 
     p, cur_concl = mkp(doc, body, cur_concl)
     p.add_run(
-        'The calibration on a sample of 85 countries demonstrates that because hardware '
-        'is globally priced and dominates unit cost, the cross-country cost spread in '
-        'compute production is far narrower than in any other tradable sector. '
-        'Countries with cheap electricity and favorable cooling conditions '
-        'face a low barrier to cost-competitiveness. But '
-        'even modest frictions, such as a sovereignty premium, a '
-        'governance penalty, or a higher cost of capital, can alter a '
-        'country\u2019s trade regime. Compute is therefore simultaneously the easiest sector '
-        'for developing countries to enter on cost grounds and the most vulnerable to '
-        'small policy-induced distortions.'
+        'The 85-country calibration shows that hardware dominance compresses '
+        'cross-country production-cost differences. Cheap electricity and '
+        'favorable cooling can make countries cost-competitive quickly, but '
+        'modest frictions, including a sovereignty premium, weak governance, or '
+        'a higher cost of capital, can erase that advantage. Compute may '
+        'therefore be unusually accessible on engineering grounds, yet unusually '
+        'exposed to policy and financing frictions because the production-cost '
+        'spread is narrow.'
     )
 
     p, cur_concl = mkp(doc, body, cur_concl)
     p.add_run(
-        'Under the bilateral sovereignty specification, trust deficits eliminate the cost '
-        'advantage that developing countries hold under pure cost-recovery pricing. '
-        'Compute exporting is constrained not by electricity prices but by '
-        'institutional credibility, including non-sanctioned status, credible long-term '
-        'power contracts, stable network connectivity, and a regulatory environment '
-        'conducive to capital-intensive investment. '
-        'The absence of these conditions shifts most countries '
-        'toward domestic production. The resulting welfare loss is high in '
-        'aggregate dollars but modest as a share of compute spending '
-        f'(about {demand_data["welfare_pct"]:.1f} percent), small enough that '
+        'Under the bilateral sovereignty specification, weak institutional '
+        'credibility eliminates much of the cost '
+        'advantage that developing countries hold under pure cost-recovery '
+        'pricing. The binding constraint is often not the electricity price '
+        'itself but rather non-sanctioned status, credible long-term '
+        'power contracts, stable network connectivity, enforceable data '
+        'governance rules, and a regulatory environment '
+        'that supports capital-intensive investment. '
+        'Where those conditions are absent, buyers shift '
+        'toward domestic production despite higher production costs. '
+        'The resulting welfare loss is large in dollars but modest relative '
+        f'to total compute spending, at about {demand_data["welfare_pct"]:.1f} percent, so '
         'governments with legitimate '
-        'data-sovereignty objectives may prefer domestic supply. '
+        'data-sovereignty objectives may rationally choose domestic supply. '
     )
 
     # v34 (Edit B): the policy-lever paragraph — financing, regulatory
     # credibility, rent capture (mechanisms from §7.1, §6.2/§7.2, Appendix D)
     p, cur_concl = mkp(doc, body, cur_concl)
     p.add_run(
-        'For a developing country weighing a compute-export strategy, the binding '
-        'levers have little to do with electricity. Financing comes first. '
+        'For a developing country pursuing compute exports, the binding policy '
+        'levers are mostly outside the power tariff. Financing is the first '
+        'constraint. '
         'Hardware dominates the cost stack, and the WACC gap exceeds the energy '
-        'advantage several times over. Partial sovereign guarantees, blended '
-        'finance, multilateral risk insurance, and co-investment that lets the '
-        'project borrow against a hyperscaler’s balance sheet all narrow that '
-        'gap, and they do more for competitiveness than any feasible reduction in '
-        'electricity tariffs. Regulatory credibility is the second lever, and it '
-        'works on the sovereignty premium directly. The premium falls where '
-        'enforceable data-protection and mutual-recognition agreements exist. '
-        'Pursuing data-adequacy status and recognized cloud-security '
-        'certification (France’s SecNumCloud, Australia’s IRAP) lowers what '
-        'foreign buyers charge for trust; blanket data-localization mandates '
-        'raise it and put export access at risk. Then there is the question of '
-        'who keeps the surplus. The Kyrgyzstan facility in Appendix D is '
-        'NPV-positive, yet with outright foreign-hyperscaler ownership the host '
-        'keeps little beyond the electricity bill and construction-phase jobs. '
-        'Taxation, equity participation, and royalty terms decide how much of '
-        'the operating surplus stays onshore. Cheap energy buys a country into '
-        'the cost-competitive set; whether it captures the rents depends on '
-        'financing, governance, and ownership.'
+        'advantage several times over. Sovereign guarantees, blended '
+        'finance, multilateral risk insurance, and hyperscaler co-investment '
+        'can all narrow that '
+        'gap more than any feasible reduction in '
+        'electricity tariffs. Regulatory credibility is the second lever. '
+        'Data-adequacy status, mutual-recognition agreements, and recognized '
+        'cloud-security certifications lower the trust premium foreign buyers '
+        'apply, while broad data-localization mandates '
+        'raise it and can foreclose export opportunities.'
     )
 
     p, cur_concl = mkp(doc, body, cur_concl)
     p.add_run(
-        'The policy implications differ by workload type. Restricting training imports '
-        'raises costs without offsetting proximity gains, while domestic inference '
-        'production can be justified by the genuine quality-of-service advantage that '
-        'low latency confers, though this rationale weakens for countries located near '
-        'low-cost neighbors.'
+        'The final policy question is surplus capture. The Kyrgyzstan facility '
+        'in Appendix D is NPV-positive, but under outright foreign-hyperscaler '
+        'ownership, the host country retains little beyond electricity payments '
+        'and construction-phase jobs. Taxation, equity participation, and '
+        'royalty terms determine how much operating surplus stays onshore. '
+        'Cheap energy can place a country in the cost-competitive set, but '
+        'rent capture depends on financing, governance, and ownership.'
     )
 
+    p, cur_concl = mkp(doc, body, cur_concl)
+    p.add_run(
+        'The policy implications differ for training and inference. Restricting '
+        'training imports raises costs without improving service quality, '
+        'because training has no meaningful proximity advantage. Domestic '
+        'inference production is easier to justify, since low latency can '
+        'provide a genuine quality-of-service benefit, although that rationale '
+        'weakens for countries located near low-cost regional hubs.'
+    )
+
+    # v34 user edit: new closing paragraph — capital-intensive resource
+    # processing framing + resource-curse caveat + gravity-estimation outlook
     p, _ = mkp(doc, body, cur_concl)
     p.add_run(
-        'FLOP exporting resembles capital-intensive resource processing, in which imported '
-        'equipment transforms local energy into an exportable product with minimal '
-        'domestic labor. But unlike extractive commodities, the underlying energy can be '
-        'renewable, and compute demand is growing faster than demand for any physical '
-        'commodity. The resource-curse literature warns that concentrated export revenues '
-        'can lead to exchange-rate appreciation, institutional degradation, and exposure '
-        'to demand cycles; whether compute-exporting countries face these risks depends '
-        'on the ownership and fiscal structures they adopt. As bilateral trade-flow data '
-        'emerge, the framework we developed here can be extended to gravity-style '
-        'estimation, enabling more precise '
-        'quantification of the welfare costs of sovereignty.'
+        'FLOP exporting is best understood as capital-intensive resource '
+        'processing, in which imported equipment converts local energy into an '
+        'exportable digital service with limited domestic labor input. Unlike '
+        'extractive commodities, however, the input energy can be renewable, and '
+        'demand for compute is growing faster than demand for most physical '
+        'commodities. The resource-curse literature still matters because '
+        'concentrated export revenues can generate exchange-rate pressure, '
+        'institutional risks, and exposure to demand cycles. Whether '
+        'compute-exporting countries face those risks will depend on the '
+        'ownership and fiscal structures they adopt. As bilateral compute-trade '
+        'data become available, this framework can be estimated directly using '
+        'gravity-style methods.'
     )
 
 
