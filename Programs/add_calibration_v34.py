@@ -1599,9 +1599,9 @@ def write_introduction(doc, body, hmap):
         'First, we develop a capacity-constrained Ricardian model of compute trade. '
         'The model treats latency as an iceberg trade cost and geopolitical distrust '
         'as a bilateral sovereignty premium. '
-        'Second, it calibrates the model across 85 countries, correcting for energy '
+        'Second, we calibrate the model across 85 countries, correcting for energy '
         'subsidies that distort headline cost rankings. '
-        'Third, it characterizes the resulting trade regimes and quantifies the welfare '
+        'Third, we characterize the resulting trade regimes and quantify the welfare '
         'cost of sovereignty premia.'
     )
 
@@ -1619,7 +1619,7 @@ def write_introduction(doc, body, hmap):
         'eliminate nearly all of their exports. The cost of capital does the rest. '
         'A 10-percentage-point WACC gap between OECD hyperscalers (8 percent) and '
         'locally financed developing-country operators (18 percent) adds about '
-        '$0.29/GPU-hour to unit cost. That is roughly four times the '
+        '$0.29 per GPU-hour to unit cost. That is roughly four times the '
         'electricity-cost spread across the top twenty producers '
         '(Calcaterra et al. 2024). Both frictions reflect the same underlying '
         'constraint: institutional credibility.'
@@ -3116,7 +3116,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'The cost-recovery prices are defined as the long-run marginal '
         'cost (LRMC) of the dominant '
         'generation technology at opportunity-cost fuel prices (IMF 2025, Lazard 2025). '
-        f'We apply this adjustment to {demand_data["n_adjusted"]} countries '
+        'We apply this adjustment to 13 countries '
         'whose retail electricity prices fall below the estimated LRMC.'
     )
     make_footnote(
@@ -5077,7 +5077,7 @@ def write_workload_appendix(doc, body, last_el):
         ' summarizes the latency sensitivity and offshorability of major AI workload '
         'types. The model collapses these into two categories \u2014 training '
         '(\u03C4 = 0) and inference (\u03C4 > 0) \u2014 but the intermediate workloads '
-        'noted in footnote 7 occupy a middle ground that may narrow the effective '
+        'noted in footnote 6 occupy a middle ground that may narrow the effective '
         'offshorable share.'
     )
 
@@ -5113,7 +5113,7 @@ def write_workload_appendix(doc, body, last_el):
         '\u201COffshorable\u201D refers to whether the workload can be processed in a '
         'different country from the end user without significant quality degradation. '
         'The model treats fine-tuning and agentic inference as part of the training '
-        'share \u03B1; footnote 7 notes this simplification.'
+        'share \u03B1; footnote 6 notes this simplification.'
     )
     rn.font.size = Pt(10)
     p.alignment = WD_ALIGN_PARAGRAPH.LEFT
