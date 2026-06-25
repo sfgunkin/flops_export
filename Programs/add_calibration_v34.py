@@ -1586,7 +1586,9 @@ def write_introduction(doc, body, hmap):
         'and virtually no data-center FDI, while the largest recipients among '
         'developing economies (Malaysia, India, Brazil) sit in the middle of the '
         'cost ranking (Aykut et al. 2026). Cheap electricity is not creating '
-        'compute exports. We ask why, and what would have to change.'
+        'compute exports. The central question, then, is why low-cost countries '
+        'fail to attract compute investment and what conditions would allow '
+        'them to convert cheap power into export capacity.'
     )
 
     # Para 9: First paper + contributions
@@ -1609,20 +1611,20 @@ def write_introduction(doc, body, hmap):
     # named channels + forward pointer to the policy section)
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Cheap power and favorable cooling conditions are not sufficient to '
-        'generate compute exports. Hardware amortization is '
-        'about 90 percent of unit cost and priced globally, so the cross-country '
-        'cost spread is only 12\u201320 percent, narrow enough for institutional '
-        'frictions to overturn. Several developing countries rank among the '
-        'cheapest producers under cost-recovery pricing. But once bilateral '
-        'sovereignty frictions are added, trust deficits with OECD buyers '
-        'eliminate nearly all of their exports. The cost of capital does the rest. '
-        'A 10-percentage-point WACC gap between OECD hyperscalers (8 percent) and '
-        'locally financed developing-country operators (18 percent) adds about '
+        'Cheap power and favorable cooling conditions are not enough to '
+        'generate compute exports. Hardware amortization accounts for roughly '
+        '90 percent of unit cost and is priced globally, leaving a cross-country '
+        'cost spread of only 12\u201320 percent\u2014narrow enough for institutional '
+        'frictions to dominate. Under cost-recovery pricing, several developing '
+        'countries rank among the lowest-cost producers. But once bilateral '
+        'sovereignty frictions are included, trust deficits with OECD buyers '
+        'eliminate nearly all of their export potential. The cost of capital '
+        'further erodes competitiveness: a '
+        '10-percentage-point WACC gap between OECD hyperscalers at 8 percent and '
+        'locally financed developing-country operators at 18 percent adds about '
         '$0.29 per GPU-hour to unit cost. That is roughly four times the '
-        'electricity-cost spread across the top twenty producers '
-        '(Calcaterra et al. 2024). Both frictions reflect the same underlying '
-        'constraint: institutional credibility.'
+        'electricity-cost spread among the top twenty producers '
+        '(Calcaterra et al. 2024). '
     )
 
 
@@ -2968,7 +2970,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'The calibration uses the NVIDIA H100 SXM GPU as the reference '
         'hardware platform, with a list price of $25,000, a power of 700W, an '
         'economic lifetime of 3 years, and a utilization rate of 70 percent '
-        '(Barroso et al. 2018). This yields an amortized hardware cost '
+        '(Barroso et al. 2018). The calibration implies an amortized hardware cost '
     )
     omath(p, [_v('\u03C1'), _t(f' = ${RHO:.3f}')])
     p.add_run(
@@ -3616,7 +3618,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p, cur = mkp(doc, body, cur, space_before=6)
     add_italic(p, 'Sovereignty tiers. ')
     p.add_run(
-        'The model segments each country\u2019s demand into three tiers: '
+        'Each country\u2019s demand is divided into three tiers: '
         'sovereign workloads (10 percent, domestic only), regulated workloads '
         '(20 percent, higher regulatory compatibility weight), and commercial '
         'workloads (70 percent, geopolitical alignment only). Under calibrated '
@@ -3771,9 +3773,8 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
 
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'This mechanism links the cost-recovery and bilateral '
-        'sovereignty specifications: institutional credibility matters for '
-        'compute trade through two channels, the sovereignty premium '
+        'Institutional credibility enters the compute trade through two '
+        'channels: the sovereignty premium '
     )
     omath(p, [_msub('\u03BB', 'ij')])
     p.add_run(
@@ -3887,7 +3888,7 @@ def write_conclusion(doc, body, hmap, demand_data):
         'electricity tariffs. Regulatory credibility is the second lever. '
         'Data-adequacy status, mutual-recognition agreements, and recognized '
         'cloud-security certifications lower the trust premium foreign buyers '
-        'apply, while broad data-localization mandates '
+        'apply. Broad data-localization mandates '
         'raise it and can foreclose export opportunities.'
     )
 
@@ -3897,7 +3898,8 @@ def write_conclusion(doc, body, hmap, demand_data):
         'in Appendix D is NPV-positive, but under outright foreign-hyperscaler '
         'ownership, the host country retains little beyond electricity payments '
         'and construction-phase jobs. Taxation, equity participation, and '
-        'royalty terms determine how much operating surplus stays onshore. '
+        'royalty terms determine the share of operating surplus retained '
+        'domestically. '
         'Cheap energy can place a country in the cost-competitive set, but '
         'rent capture depends on financing, governance, and ownership.'
     )
@@ -5226,13 +5228,13 @@ def write_lrmc_appendix(doc, body, last_el):
     # 6. Effect on headline ranking
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Under the symmetric LRMC specification, the five cheapest producers '
+        'Under the symmetric LRMC specification, the five lowest-cost producers '
         'are Kyrgyzstan, Ethiopia, Kosovo, Canada, and Tajikistan. Canada '
-        'drops from rank 2 to rank 4 on a small $0.008 per kilowatt-hour '
-        'carbon adder. Poland falls 21 positions, Germany 10, the United '
-        'States 10, and France 12. Nordic low-carbon grids and Switzerland '
-        'move by two positions or fewer. The qualitative conclusion is '
-        'strengthened, not overturned: countries with cheap, clean '
+        'falls from second to fourth after a modest carbon adder of $0.008 per '
+        'kilowatt-hour. Poland drops 21 positions, Germany 10, the United '
+        'States 10, and France 12, while Nordic low-carbon grids and Switzerland '
+        'move by two positions or fewer. The qualitative conclusion is therefore '
+        'reinforced rather than overturned: countries with cheap, clean '
         'electricity retain their cost advantage once both sides of the '
         'distortion are corrected.'
     )
