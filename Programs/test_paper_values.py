@@ -2390,9 +2390,10 @@ class TestDocumentContent:
 
     def test_katz_moved_to_section_6(self, docx_text):
         """The Katz et al. (2025) policy-readiness paragraph should sit in
-        §6.2, introduced by 'Evidence on policy readiness points in the same
-        direction', and should NOT use the older §7.2 framings."""
-        assert "Evidence on policy readiness points in the same direction" in (
+        §6.2, introduced by 'Policy-readiness indicators reinforce this
+        interpretation' (v34 rewording), and should NOT use the older §7.2
+        framings."""
+        assert "Policy-readiness indicators reinforce this interpretation" in (
             docx_text
         )
         assert "Katz et al. 2025" in docx_text
@@ -2787,10 +2788,12 @@ class TestDocumentContent:
         )
 
     def test_welfare_cost_qualified(self, docx_text):
-        """Welfare cost sentence includes aggregate/modest qualifier."""
+        """Welfare cost sentence includes an aggregate-dollars / small-share
+        qualifier (v34 user rewording: 'large in dollar terms but small
+        relative to total compute spending')."""
         assert (
-            "high in aggregate dollars but modest as a share "
-            "of compute spending"
+            "large in dollar terms but small relative to total "
+            "compute spending"
         ) in docx_text
 
     def test_no_section3_linking_paragraph(self, docx_text):
@@ -3669,12 +3672,12 @@ class TestWACCPromotedInIntro:
         assert 'Calcaterra' in intro
 
     def test_intro_cites_wacc_channel(self, docx_text):
-        """The intro must describe the WACC channel quantitatively
-        (user removed the explicit Table 3 col-4 pointer in v33; the
-        substantive WACC bridge — 8%/18% bands and the $0.29/GPU-hr
-        gap — must still appear)."""
+        """The intro must describe the WACC channel quantitatively. In v34 the
+        user tightened the sentence: the explicit 8%/18% bands moved out of the
+        intro, but the substantive bridge — the 10-percentage-point WACC gap and
+        the $0.29/GPU-hr hardware-cost gap — must still appear."""
         intro = docx_text.split('2. Related Literature')[0]
-        assert '8 percent' in intro and '18 percent' in intro
+        assert 'WACC gap' in intro and '10-percentage-point' in intro
         assert '0.29' in intro
 
     def test_table3_has_wacc_header(self, docx_text):
