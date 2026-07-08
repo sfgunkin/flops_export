@@ -151,10 +151,18 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 # written to *_anon.docx and NOT auto-committed. Canonical output is unchanged
 # when the flag is absent (every guard below is a no-op for ANON == False).
 ANON = '--anon' in sys.argv
+# Author-details submission mode (T&F "Manuscript - with author details"): keeps
+# the author name + acknowledgement footnote, adds an affiliation line and the
+# required "Statements and Declarations" block (funding / disclosure / AI use /
+# data availability / CRediT), drops the internal version stamp, and writes to
+# *_authordetails.docx (not committed). Canonical output is unchanged when the
+# flag is absent.
+AUTHOR_DETAILS = '--author-details' in sys.argv
 # Suppress the git auto-commit (used during the integrate-edits rebuild loop so
 # each iteration does not create an Auto-save commit / trigger the pre-commit
-# test hook). Implied by --anon (a derived artifact must never be committed).
-NO_COMMIT = ANON or '--no-commit' in sys.argv
+# test hook). Implied by --anon / --author-details (derived artifacts must never
+# be committed).
+NO_COMMIT = ANON or AUTHOR_DETAILS or '--no-commit' in sys.argv
 
 DOCS = pathlib.Path(r"F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Documents")
 DATA = pathlib.Path(r"F:\onedrive\__documents\papers\_Submitted\FLOPsExport\Data")
@@ -1481,7 +1489,8 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
     ver_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     ver_p.paragraph_format.space_after = Pt(12)
     r_ver = ver_p.add_run(
-        '' if ANON else f'v34  \u2014  {datetime.now().strftime("%B %d, %Y  %H:%M")}')
+        '' if (ANON or AUTHOR_DETAILS)
+        else f'v34  \u2014  {datetime.now().strftime("%B %d, %Y  %H:%M")}')
     r_ver.font.size = Pt(9)
     r_ver.font.color.rgb = RGBColor(128, 128, 128)
     r_ver.font.name = TIMES_NEW_ROMAN
@@ -1551,6 +1560,52 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
         'compute trade, FLOPs, artificial intelligence, data centers, '
         'comparative advantage, developing countries'
     )
+
+    # Author-details submission: affiliation + required Statements block. Runs
+    # only under --author-details, so canonical / --anon output is unchanged.
+    if AUTHOR_DETAILS:
+        def _stmt(label, text, prev, before=6, bold_only=False):
+            p_s, s_el = mkp(doc, body, prev, space_before=before)
+            p_s.paragraph_format.left_indent = Inches(0.5)
+            p_s.paragraph_format.right_indent = Inches(0.5)
+            p_s.paragraph_format.line_spacing = 1.0
+            r_l = p_s.add_run(label)
+            r_l.bold = True
+            if text and not bold_only:
+                p_s.add_run(text)
+            return s_el
+
+        prev_el = _stmt(
+            'Affiliation: ',
+            'World Bank, Washington, DC, USA. Corresponding author: '
+            'mlokshin@worldbank.org. ORCiD: [TODO – insert ORCiD iD].',
+            kw_el, before=12)
+        prev_el = _stmt('Statements and Declarations', '', prev_el,
+                        before=10, bold_only=True)
+        prev_el = _stmt(
+            'Funding. ',
+            'This work received no external funding. It was prepared as part of '
+            'the author’s research at the World Bank.', prev_el)
+        prev_el = _stmt(
+            'Disclosure of interest. ',
+            'The author reports there are no competing interests to declare.',
+            prev_el)
+        prev_el = _stmt(
+            'Declaration of generative AI use. ',
+            'The author used generative AI tools to assist with text editing. '
+            'The model, the analysis, and all conclusions are the author’s '
+            'own.', prev_el)
+        prev_el = _stmt(
+            'Data availability. ',
+            'The data and code that support the findings of this study are '
+            'available in the World Bank Reproducible Research Repository '
+            '(reproducibility report RR_EUR_2026_669). '
+            '[TODO – insert the RRR DOI/URL once assigned.]', prev_el)
+        prev_el = _stmt(
+            'CRediT author statement. ',
+            'Michael Lokshin: Conceptualization; Methodology; Formal analysis; '
+            'Software; Data curation; Writing – original draft; Writing '
+            '– review & editing.', prev_el)
 
     return title_el, author_el, ver_el, abs_text_el, kw_el, blank_els
 
@@ -7779,6 +7834,7 @@ def main():
     flush_footnotes()
     doc.core_properties.author = '' if ANON else 'Michael Lokshin'
     out = DOCS / ("flop_trade_model_v34_anon.docx" if ANON
+                  else "flop_trade_model_v34_authordetails.docx" if AUTHOR_DETAILS
                   else "flop_trade_model_v34.docx")
     for _attempt in range(30):
         try:
