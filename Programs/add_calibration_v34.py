@@ -3726,7 +3726,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'ever hosted a '
         'data center have retail prices about 3.9 percent higher. '
         'For small grids such as Kyrgyzstan\u2019s, the '
-        'proportional impact would likely to be larger, further eroding '
+        'proportional impact would likely be larger, further eroding '
         'the cost advantages documented above.'
     )
 
