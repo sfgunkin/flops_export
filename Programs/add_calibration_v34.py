@@ -1157,6 +1157,8 @@ CITATIONS = [
     # v24: Bailey et al. for UN General Assembly ideal-point data
     ('Bailey, Strezhnev, and Voeten', '2017', 'BaileyEtAl2017', 'Bailey, M.'),
     ('Benz and Jaax', '2020', 'BenzJaax2020', 'Benz, S.'),
+    ('Borenstein', '2012', 'Borenstein2012', 'Borenstein, S.'),
+    ('Davis and Hausman', '2016', 'DavisHausman2016', 'Davis, L.'),
     # v31: new references
     ('Alvarez et al.', '2026', 'AlvarezEtAl2026', 'Alvarez, F.'),
     ('Caoui and Steck', '2025', 'CaouiSteck2025', 'Caoui, E.'),
@@ -1278,14 +1280,16 @@ ITALIC_IN_REFS = {
     'Arkolakis': 'American Economic Review',
     'Bailey': 'Journal of Conflict Resolution',
 
-    'Barroso': 'The Datacenter as a Computer',
+    'Barroso': 'The Datacenter as a Computer: Designing Warehouse-Scale Machines',
     'Heckscher': 'Ekonomisk Tidskrift',
     'Ohlin': 'Interregional and International Trade',
     'Biglaiser': 'Toulouse School of Economics Working Paper',
     'Blinder': 'Foreign Affairs',
     'Stojkoski': 'Nature Communications',
-    'World Bank. (2025). Digital': 'Digital Progress and Trends Report 2025',
+    'World Bank. (2025). Digital': 'Digital Progress and Trends Report 2025: Strengthening AI Foundations',
     'Benz': 'OECD Trade Policy Papers',
+    'Borenstein': 'American Economic Journal: Economic Policy',
+    'Davis': 'American Economic Journal: Applied Economics',
     # v33: theoretical-scaffolding citations
     'Anderson, J. and E. van Wincoop': 'American Economic Review',
     'Anderson, J. and D. Marcouiller': 'Review of Economics and Statistics',
@@ -2583,7 +2587,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
         'Countries that import training but produce inference domestically, '
         'because the bilateral sovereignty premium '
     )
-    omath(p, [_msub('\u03BB', 'ij')])
+    omath(p, [_msub('\u03BB', 'jk')])
     p.add_run(
         ' or geographic isolation makes all foreign inference sources '
         'more expensive than domestic production.'
@@ -5223,6 +5227,12 @@ def write_lrmc_appendix(doc, body, last_el):
         '$0.020/kWh reflecting KEPCO industrial tariffs below cost-of-service '
         '(OECD Energy Policy Review). All other countries receive zero.'
     )
+    make_footnote(
+        p,
+        'Data sources for the carbon-price and cross-subsidy adjustments: '
+        'EMBER, Yearly Electricity Data (2025 release); Agora Energiewende '
+        'and BDEW industrial electricity-price analyses; and OECD, Energy '
+        'Policy Reviews: Korea.', 90)
 
     # 5. Methodological choices
     p, cur = mkp(doc, body, cur)
@@ -6056,8 +6066,7 @@ def write_references(doc, body, refs):
         'Trade-off.\u201D American Economic Review, 87(4): 520\u2013544.',
 
         'Calcaterra, M., Reis, L., Fragkos, P., Briera, T., Boer, H., Egli, F., '
-        'Emmerling, J., Iyer, G., Mittal, S., Polzin, F., Sanders, M., Schmidt, T., '
-        'Serebriakova, A., and B. Steffen. (2024). \u201CReducing the Cost of Capital '
+        'et al. (2024). \u201CReducing the Cost of Capital '
         'to Finance the Energy Transition in Developing Countries.\u201D '
         'Nature Energy, 9(10): 1241\u20131251.',
 
@@ -6069,6 +6078,14 @@ def write_references(doc, body, refs):
         '(2024). Power Surge: Navigating US Electricity Demand Growth. ICF.',
 
         'Cloudscene. (2025). Global Data Center Directory. cloudscene.com.',
+
+        'Borenstein, S. (2012). \u201CThe Redistributional Impact of Nonlinear '
+        'Electricity Pricing.\u201D American Economic Journal: Economic Policy, '
+        '4(3): 56\u201390.',
+
+        'Davis, L., and C. Hausman. (2016). \u201CMarket Impacts of a Nuclear '
+        'Power Plant Closure.\u201D American Economic Journal: Applied Economics, '
+        '8(2): 92\u2013122.',
 
         'Deloitte. (2025). \u201CTechnology, Media, and Telecommunications '
         'Predictions 2026.\u201D Deloitte Insights.',
@@ -6154,8 +6171,7 @@ def write_references(doc, body, refs):
         'Exponential Growth. Santa Monica, CA: RAND Corporation, RR-A3572-1.',
 
         'Sastry, G., Heim, L., Belfield, H., Anderljung, M., Brundage, M., Hazell, J., '
-        'O\u2019Keefe, C., Hadfield, G. K., Ngo, R., Pilz, K., Gor, G., Bluemke, E., Shoker, S., '
-        'Egan, J., Trager, R. F., Avin, S., Weller, A., Bengio, Y., and D. Coyle. (2024). '
+        'et al. (2024). '
         '\u201CComputing Power and the Governance of '
         'Artificial Intelligence.\u201D arXiv:2402.08797.',
 
@@ -6186,7 +6202,7 @@ def write_references(doc, body, refs):
         'Machine Learning.\u201D arXiv Working Paper No. 2202.05924. '
         'https://doi.org/10.48550/arXiv.2202.05924.',
 
-        'Stojkoski, V., Koch, P., Coll, E., and C. A. Hidalgo. (2024). '
+        'Stojkoski, V., Koch, P., Coll, E., and C. Hidalgo. (2024). '
         '\u201CEstimating Digital Product Trade through Corporate Revenue Data.\u201D '
         'Nature Communications, 15: 5262.',
 
@@ -6198,13 +6214,13 @@ def write_references(doc, body, refs):
         'Development Bank.',
 
         'Straub, S., He, H., Li, Y., Lyu, X., Steinbuks, J., Vergara Cobos, E., '
-        'Dann, C., García-Santana, M., and H. Selod. (2026). Infrastructure '
+        'et al. (2026). Infrastructure '
         'Foundations: From Current Assets to Future Growth. Sustainable '
         'Infrastructure Series. Washington, DC: World Bank.',
 
     ]
 
-    ref_txts = sorted(new_refs, key=lambda x: x.lower())
+    ref_txts = sorted(new_refs, key=lambda x: x.lower().replace(' ', '\uffff'))
     for el in ref_els:
         body.remove(el)
 
