@@ -1545,7 +1545,7 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
     r_kw_label.bold = True
     p_kw.add_run(
         'compute trade, FLOPs, artificial intelligence, data centers, '
-        'comparative advantage, electricity costs, developing countries'
+        'comparative advantage, developing countries'
     )
 
     return title_el, author_el, ver_el, abs_text_el, kw_el, blank_els
