@@ -1897,7 +1897,8 @@ def write_production_technology(doc, body, hmap):
     omath(p, [_msub('c', 'j')])
     p.add_run(
         ' is therefore driven by electricity prices, climate, '
-        'and construction costs. The PUE function captures '
+        'and construction costs; the construction-cost estimates are '
+        'described in Appendix E. The PUE function captures '
         'temperature-dependent cooling overhead:'
     )
     p.paragraph_format.space_after = Pt(2)
@@ -3136,7 +3137,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     p._element.append(make_bookmark(100, 'TableA1txt'))
     p._element.append(make_hyperlink('TableA1', 'Table A1'))
     p._element.append(make_bookmark_end(100))
-    p.add_run('.')
+    p.add_run(' (Appendix A).')
 
     # 6.2 Cost Rankings and Trade Patterns
     cur = mkh(doc, body, cur, '6.2 Cost Rankings and Trade Patterns', level=2)
@@ -3209,7 +3210,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         16,
     )
     p.add_run(
-        ' The subsidy gap ranges from '
+        ' Appendix G develops a symmetric specification that additionally '
+        'corrects OECD and high-income tariff distortions—carbon '
+        'externalities and industrial cross-subsidies—and confirms that '
+        'the qualitative ranking is reinforced rather than overturned. '
+        'The subsidy gap ranges from '
         f'${demand_data["min_gap_mwh"] / 1000:.3f} to '
         f'${demand_data["max_gap_mwh_val"] / 1000:.3f}/kWh. '
         f'For {max_gap_country}, a 100\u2009MW IT-load data center would receive '
@@ -3642,7 +3647,7 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         p._element.append(make_hyperlink('TableA3', 'Table A3'))
         p._element.append(make_bookmark_end(143))
         p.add_run(
-            ' reports results across three robustness specifications that vary '
+            ' (Appendix C) reports results across three robustness specifications that vary '
             'the share of hardware costs. A rise in global hardware costs increases '
             'the globally priced cost share, compressing the locally penalized '
             'component and muting governance penalties for developing-country '
