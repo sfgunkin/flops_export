@@ -18,6 +18,10 @@ import math
 import pathlib
 
 import pytest
+from docxkit import text_of
+from docxkit.find import body_elements
+from docxkit.tables import read_all
+from docxkit.testing import FOOTNOTES, latest_version, load_xml
 
 # ================================================================
 # CONSTANTS (must match model_parameters.csv / add_calibration_v30)
@@ -520,35 +524,36 @@ def demand_weights(calibration_data, dc_capacity_data):
 
 
 @pytest.fixture(scope="session")
-def docx_body_xml():
-    """Raw word/document.xml from the current v31.docx.
+def paper_docx():
+    """The current manuscript, resolved by version instead of named.
 
-    Used for structural checks (e.g., OMML equation presence, paragraph
-    ordering). Requires that add_calibration_v31.py has been run at least
-    once in the current session.
+    A hardcoded filename keeps passing against a stale file the day the
+    paper forks to v35; ``latest_version`` picks the highest
+    ``flop_trade_model_vN.docx`` in Documents/ (the ``_anon`` and
+    ``_authordetails`` derivatives do not match the pattern, so a
+    submission build can never be mistaken for the paper).
     """
-    import zipfile
-    docx_path = (
-        DATA.parent / "Documents" / "flop_trade_model_v34.docx"
-    )
-    with zipfile.ZipFile(docx_path) as z:
-        with z.open("word/document.xml") as f:
-            return f.read().decode("utf-8")
+    return latest_version(DATA.parent / "Documents", "flop_trade_model")
 
 
 @pytest.fixture(scope="session")
-def docx_footnotes_xml():
-    """Raw word/footnotes.xml from the current v31.docx."""
-    import zipfile
-    docx_path = (
-        DATA.parent / "Documents" / "flop_trade_model_v34.docx"
-    )
-    with zipfile.ZipFile(docx_path) as z:
-        try:
-            with z.open("word/footnotes.xml") as f:
-                return f.read().decode("utf-8")
-        except KeyError:
-            return ""
+def docx_body_xml(paper_docx):
+    """Raw word/document.xml from the current manuscript.
+
+    Used for structural checks (e.g., OMML equation presence, paragraph
+    ordering). Reads through a TEMP copy, so the suite still runs while
+    the author has the paper open in Word.
+    """
+    return load_xml(paper_docx)
+
+
+@pytest.fixture(scope="session")
+def docx_footnotes_xml(paper_docx):
+    """Raw word/footnotes.xml from the current manuscript."""
+    try:
+        return load_xml(paper_docx, FOOTNOTES)
+    except KeyError:
+        return ""
 
 
 @pytest.fixture(scope="session")
@@ -4036,23 +4041,16 @@ class TestDerivedRelationships:
 def docx_para_texts(docx_body_xml):
     """Per-paragraph prose text (tables stripped). Use for prose-level
     regex — the existing ``docx_text`` concatenates run text across
-    tables and causes false matches when cell values abut numeric text."""
-    import re
-    body_no_tables = re.sub(
-        r"<w:tbl\b[^>]*>.*?</w:tbl>", "", docx_body_xml, flags=re.DOTALL,
-    )
-    paras = re.findall(
-        r"<w:p\b[^>]*>(.*?)</w:p>", body_no_tables, re.DOTALL,
-    )
-    out = []
-    for p in paras:
-        runs = re.findall(
-            r"<(?:w:t|m:t)[^>]*>([^<]*)</(?:w:t|m:t)>", p,
-        )
-        t = "".join(runs).strip()
-        if t:
-            out.append(t)
-    return out
+    tables and causes false matches when cell values abut numeric text.
+
+    ``body_elements`` is the toolkit's linear body walk: paragraphs
+    OUTSIDE tables individually, each table as a single unit. The regex
+    this replaced dropped a table by matching ``<w:tbl>…</w:tbl>``
+    non-greedily, which closes on the INNER end tag of a nested table and
+    leaves half a table's cells behind as prose."""
+    return [t for kind, start, end in body_elements(docx_body_xml)
+            if kind == "p"
+            and (t := text_of(docx_body_xml[start:end]).strip())]
 
 
 @pytest.fixture(scope="session")
@@ -4066,13 +4064,14 @@ def name_to_iso(iso_to_name):
 
 
 @pytest.fixture(scope="session")
-def docx_tables_v33():
-    """python-docx ``Document.tables`` handle on v33. Used only for
-    cell-by-cell data checks; prose goes through ``docx_para_texts``."""
-    from docx import Document
-    return Document(
-        str(DATA.parent / "Documents" / "flop_trade_model_v34.docx")
-    ).tables
+def docx_tables(docx_body_xml):
+    """Every table in the manuscript, cells as text, in body order.
+
+    Read through docxkit rather than python-docx, which walks only runs
+    that are direct children of a paragraph: a cell holding an equation
+    (``m:t``) or a tracked insertion reads back EMPTY there, so a cell
+    check could pass against nothing. ``rows[r][c]`` is plain text."""
+    return read_all(docx_body_xml)
 
 
 class TestProseAgnosticRelationships:
@@ -4132,27 +4131,27 @@ class TestProseAgnosticRelationships:
 
     # ─── 4g / 4o: numbering density ──────────────────────────────────
 
-    def test_main_equations_1_to_6_all_numbered(self, docx_tables_v33):
+    def test_main_equations_1_to_6_all_numbered(self, docx_tables):
         """The six main numbered display equations are emitted as 1×2
         tables (eq | right-aligned number). Verify that numbers (1)..(6)
         each appear in such a caption cell with no gaps."""
         found = set()
-        for tbl in docx_tables_v33:
-            if len(tbl.rows) != 1 or len(tbl.rows[0].cells) != 2:
+        for tbl in docx_tables:
+            if len(tbl.rows) != 1 or len(tbl.rows[0]) != 2:
                 continue
-            rhs = tbl.rows[0].cells[1].text.strip()
+            rhs = tbl.rows[0][1].strip()
             if rhs in ("(1)", "(2)", "(3)", "(4)", "(5)", "(6)"):
                 found.add(int(rhs.strip("()")))
         missing = [n for n in range(1, 7) if n not in found]
         assert not missing, f"Main equations missing numbers: {missing}"
 
-    def test_appendix_b_equations_b1_to_b5_all_numbered(self, docx_tables_v33):
+    def test_appendix_b_equations_b1_to_b5_all_numbered(self, docx_tables):
         """Appendix B display equations (B.1)..(B.5) — no gaps."""
         found = set()
-        for tbl in docx_tables_v33:
-            if len(tbl.rows) != 1 or len(tbl.rows[0].cells) != 2:
+        for tbl in docx_tables:
+            if len(tbl.rows) != 1 or len(tbl.rows[0]) != 2:
                 continue
-            rhs = tbl.rows[0].cells[1].text.strip()
+            rhs = tbl.rows[0][1].strip()
             m = rhs.strip("()").strip()
             if m.startswith("B."):
                 try:
@@ -4179,16 +4178,16 @@ class TestProseAgnosticRelationships:
     # ─── 4g: Table cells match source data ───────────────────────────
 
     def test_table_a2_cr_cj_cells_match_cost_recovery_costs(
-        self, cost_recovery_costs, name_to_iso, docx_tables_v33,
+        self, cost_recovery_costs, name_to_iso, docx_tables,
     ):
         """Table A2 col (2) 'c_j' cells equal cost_recovery_costs at
         the displayed 2-decimal precision. Catches renderer drift."""
-        tbl = docx_tables_v33[10]  # Table A2, 87 rows × 8 cols
+        tbl = docx_tables[10]  # Table A2, 87 rows × 8 cols
         mismatches = []
         checked = 0
         for row in tbl.rows[2:]:  # skip 2 header rows
-            country = row.cells[0].text.strip()
-            cr_cell = row.cells[4].text.strip()  # CR c_j
+            country = row[0].strip()
+            cr_cell = row[4].strip()  # CR c_j
             iso = name_to_iso.get(country)
             if iso is None or not cr_cell.startswith("$"):
                 continue
@@ -4209,24 +4208,24 @@ class TestProseAgnosticRelationships:
         )
 
     def test_table_a1_pue_cells_match_data(
-        self, calibration_data, name_to_iso, docx_tables_v33,
+        self, calibration_data, name_to_iso, docx_tables,
     ):
         """Table A1 PUE column values match PUE(θ_j) per the data."""
-        tbl = docx_tables_v33[9]  # Table A1
+        tbl = docx_tables[9]  # Table A1
         by_iso = {r["iso3"]: float(r["pue"]) for r in calibration_data}
         mismatches = []
         checked = 0
         # Locate PUE column by header
-        header = [c.text.strip() for c in tbl.rows[0].cells]
+        header = [c.strip() for c in tbl.rows[0]]
         pue_idx = next((i for i, h in enumerate(header) if "PUE" in h), None)
         if pue_idx is None:
             pytest.skip("PUE column not located by header")
         for row in tbl.rows[1:]:
-            country = row.cells[0].text.strip()
+            country = row[0].strip()
             iso = name_to_iso.get(country)
             if iso not in by_iso:
                 continue
-            raw = row.cells[pue_idx].text.strip()
+            raw = row[pue_idx].strip()
             try:
                 cell = float(raw)
             except ValueError:

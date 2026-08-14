@@ -12,9 +12,17 @@ This script rebuilds both derived manuscripts from the current generator,
 verifies that their paper body (everything from "1. Introduction" onward) is
 IDENTICAL to the current main docx, and copies them into
 ``Documents/JITED_submission/`` only when their content actually changed.  A
-.docx is a zip, and python-docx repacks the container on every save, so raw
-bytes differ run-to-run even when nothing changed; comparison is therefore on
+.docx is a zip, and the container is repacked on every save, so raw bytes
+differ run-to-run even when nothing changed; comparison is therefore on
 extracted paragraph text, never on file hashes.
+
+Reading goes through docxkit rather than python-docx, which is not merely a
+style choice: ``Document.paragraphs`` yields BODY-level paragraphs only, so
+every table cell in the paper -- Table 3, the country rankings, all eleven
+exhibits -- was outside the parity check.  ``find.paragraphs`` walks every
+``<w:p>`` in the part, table cells included, and ``text_of`` reads what a
+reader sees (a tracked insertion included, which python-docx returns as an
+empty paragraph).
 
 Usage
 -----
@@ -27,18 +35,21 @@ can gate a commit or CI step.
 """
 from __future__ import annotations
 
+import difflib
+import shutil
 import subprocess
 import sys
 from pathlib import Path
 
-import docx
+from docxkit import read_parts, text_of, utf8_stdout
+from docxkit.find import paragraphs
+from docxkit.package import changed_parts
+from docxkit.testing import load_xml
 
 # UTF-8 stdout so the Kyrgyzstan characters / subscripts in the paper print on
-# a cp1252 Windows console instead of crashing.
-try:
-    sys.stdout.reconfigure(encoding="utf-8")
-except Exception:  # pragma: no cover - older interpreters
-    pass
+# a cp1252 Windows console instead of crashing.  Guarded, unlike a bare
+# sys.stdout.reconfigure, which raises when there is no console at all.
+utf8_stdout()
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "Documents"
@@ -59,9 +70,10 @@ BODY_ANCHOR = "1. Introduction"
 
 
 def paras(path: Path) -> list[str]:
-    """Non-empty stripped paragraph texts, in document order."""
-    return [p.text.strip() for p in docx.Document(str(path)).paragraphs
-            if p.text.strip()]
+    """Non-empty visible paragraph texts, in document order, table cells included."""
+    xml = load_xml(path)
+    out = [text_of(m.group(0)).strip() for m in paragraphs(xml)]
+    return [t for t in out if t]
 
 
 def body(ps: list[str]) -> list[str]:
@@ -70,6 +82,8 @@ def body(ps: list[str]) -> list[str]:
     Front matter (title, author line, version stamp, abstract/JEL/keywords, and
     -- in the author-details build -- the Statements & Declarations block) lives
     ABOVE the anchor and is intentionally allowed to differ between manuscripts.
+    The abstract is front matter, so an abstract edit is NOT covered here;
+    verify_paper.py checks it across all three manuscripts.
     """
     for i, t in enumerate(ps):
         if t == BODY_ANCHOR:
@@ -114,7 +128,6 @@ def main() -> int:
         if body(fresh) != main_body:
             drift = True
             print("  ** BODY DRIFT vs main -- derived paper text differs! **")
-            import difflib
             sm = difflib.SequenceMatcher(a=main_body, b=body(fresh), autojunk=False)
             for tag, i1, i2, j1, j2 in sm.get_opcodes():
                 if tag == "equal":
@@ -126,18 +139,29 @@ def main() -> int:
             continue
         print("  body parity vs main: OK")
 
-        # 2) content-compare fresh derived vs the file currently in JITED_submission
-        current = paras(dest) if dest.exists() else None
-        if current == fresh:
+        # 2) is the file in JITED_submission still what the generator makes?
+        # Compare what the PARTS MEAN, not their bytes and not only their
+        # text. Bytes differ on every save (the container is repacked,
+        # rsids re-minted), so a hash always says "stale"; paragraph text
+        # says "current" for a change that never touched a word -- and a
+        # structural repair is exactly that, so a text test would leave the
+        # journal's copies carrying markup the paper no longer has.
+        delta = (changed_parts(read_parts(dest), read_parts(out))
+                 if dest.exists() else None)
+        if delta is not None and not (delta["changed"] or delta["added"]
+                                      or delta["removed"]):
             print("  JITED copy already current: no change\n")
             continue
+        if delta:
+            for key in ("changed", "added", "removed"):
+                for name in delta[key]:
+                    print(f"    {key}: {name}")
 
         if check_only:
             drift = True  # out of sync, and we were told not to fix it
             print("  JITED copy is STALE (would be updated without --check)\n")
             continue
 
-        import shutil
         shutil.copyfile(out, dest)
         updated.append(dest.name)
         print("  JITED copy UPDATED\n")

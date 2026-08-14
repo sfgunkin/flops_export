@@ -141,6 +141,8 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, RGBColor
+from docxkit import edit_in_place, preserve_space
+from docxkit.package import text_parts
 from lxml import etree
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -870,6 +872,22 @@ def mkh(doc, body, cursor, text, level=1):
     return el
 
 
+def _protect_edge_space(parts):
+    """Mark every bare <w:t> with an edge space xml:space="preserve".
+
+    Applied to every text-bearing part, not just the body: the footnotes
+    carry as much prose as a section does, and an eaten space there ships
+    just the same. Returns the number of runs protected.
+    """
+    total = 0
+    for name, xml in text_parts(parts):
+        fixed_xml, n = preserve_space(xml)
+        if n:
+            parts[name] = fixed_xml.encode("utf-8")
+            total += n
+    return total
+
+
 def add_italic(p, text):
     """Add an italic run to paragraph p."""
     r = p.add_run(text)
@@ -942,6 +960,21 @@ def _rPr_pt(pt_size):
 # TABLE CELL HELPERS (shared across Table 3, A2)
 # ═══════════════════════════════════════════════════════════════════════
 
+def _set_once(parent, tag, el):
+    """Append `el`, replacing any existing child with the same tag.
+
+    A merged cell is ONE <w:tc>, and python-docx hands the same one back
+    for every grid position it covers — so `for row in tbl.rows: for cell
+    in row.cells:` visits it two or three times, and a bare append leaves
+    two or three identical <w:spacing> or <w:tcBorders> children where the
+    schema allows one. Word renders it regardless, which is how it reached
+    a submitted manuscript; `docxkit lint` is what sees it.
+    """
+    for old in parent.findall(qn(tag)):
+        parent.remove(old)
+    parent.append(el)
+
+
 def _tbl_border(tc, sides, sz='4', style='single'):
     """Add borders to a table cell element."""
     tcPr = tc.get_or_add_tcPr()
@@ -953,7 +986,7 @@ def _tbl_border(tc, sides, sz='4', style='single'):
         b.set(qn('w:space'), '0')
         b.set(qn('w:color'), 'auto')
         tcB.append(b)
-    tcPr.append(tcB)
+    _set_once(tcPr, 'w:tcBorders', tcB)
 
 
 def _tbl_set(tbl, row_i, col_j, text, bold=False, align='center', font_size=9):
@@ -1034,7 +1067,7 @@ def _tbl_cell_spacing(tbl, before='10', after='10'):
                 sp = OxmlElement('w:spacing')
                 sp.set(qn('w:before'), before)
                 sp.set(qn('w:after'), after)
-                pPr.append(sp)
+                _set_once(pPr, 'w:spacing', sp)
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -1438,7 +1471,7 @@ def add_table(doc, body, after_el, headers, rows, col_widths=None, title=None,
                 sp = OxmlElement('w:spacing')
                 sp.set(qn('w:before'), '10')
                 sp.set(qn('w:after'), '10')
-                pPr.append(sp)
+                _set_once(pPr, 'w:spacing', sp)
     tbl_el = table._tbl
     body.remove(tbl_el)
     after_el.addnext(tbl_el)
@@ -5590,7 +5623,7 @@ def write_table1(doc, body, after_el):
                 sp = OxmlElement('w:spacing')
                 sp.set(qn('w:before'), '20')
                 sp.set(qn('w:after'), '20')
-                pPr.append(sp)
+                _set_once(pPr, 'w:spacing', sp)
 
     # Position table after title
     tax_tbl_el = tax_tbl._tbl
@@ -5793,7 +5826,7 @@ def write_table2(doc, body, after_el, demand_data):
                 sp = OxmlElement('w:spacing')
                 sp.set(qn('w:before'), '10')
                 sp.set(qn('w:after'), '10')
-                pPr.append(sp)
+                _set_once(pPr, 'w:spacing', sp)
 
     param_tbl_el = param_tbl._tbl
     body.remove(param_tbl_el)
@@ -7859,6 +7892,18 @@ def main():
     else:
         raise PermissionError(f"Could not save {out} after 60 seconds. Close Word and retry.")
     print(f"\nSaved {out}")
+
+    # ═══════════════════════════════════════════════════════════════════════
+    # POST-PROCESSING: protect edge whitespace — the LAST step of the build
+    #
+    # A leading or trailing space in a bare <w:t> is eaten by Word on every
+    # open+save, so "work. Only" ships as "work.Only" and the space comes
+    # back as a phantom author edit on the next round-trip. This must run
+    # after everything else has written its runs, and it works on the saved
+    # package (python-docx has no say in it).
+    # ═══════════════════════════════════════════════════════════════════════
+    fixed = edit_in_place(out, _protect_edge_space)
+    print(f"Protected {fixed} edge space(s) (xml:space=\"preserve\")")
 
     # ═══════════════════════════════════════════════════════════════════════
     # POST-PROCESSING: Word comments removed per author request

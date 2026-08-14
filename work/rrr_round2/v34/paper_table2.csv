@@ -8,9 +8,9 @@ Amortized hardware cost per GPU-hour,ρ,$1.36/hr,Derived
 Amortized networking cost per GPU-hour,η,$0.15/hr,Liu et al. (2023)
 PUE baseline (best-practice free-air cooling),φ,1.08,Google (2024)
 PUE temperature sensitivity per degree C,δ,0.015 per C,Flucker et al. (2013)
-Free-cooling temperature threshold,,15 C,Industry standard
+Free-cooling temperature threshold,θ,15 C,Industry standard
 Data center facility lifetime,D,15 years,Turner and Townsend (2025)
 Latency degradation per ms of RTT,τ,0.0008 per ms,Calibrated
-Bilateral sovereignty premium,,Eq. (2),Bailey et al. (2017)
+Bilateral sovereignty premium,λij,Eq. (2),Bailey et al. (2017)
 Training share of compute demand,α,0.50,Deloitte (2025)
 Total global compute demand,Q,6×10¹⁰ GPU-hr/yr,Epoch AI (2024)
