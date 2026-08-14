@@ -7,3 +7,10 @@ __pycache__/
 .claude/files.zip
 FLOPsExport_Replication.zip
 Replication/temp/
+
+# Regenerable derived manuscripts (rebuilt by sync_jited_submission.py); the
+# tracked copies live in Documents/JITED_submission/
+Documents/flop_trade_model_v34_anon.docx
+Documents/flop_trade_model_v34_authordetails.docx
+# Local pre-regeneration safety backups (BACKUP-BEFORE-REGENERATE rule)
+Documents/_backup_*.docx

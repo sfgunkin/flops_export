@@ -2789,10 +2789,10 @@ class TestDocumentContent:
 
     def test_welfare_cost_qualified(self, docx_text):
         """Welfare cost sentence includes an aggregate-dollars / small-share
-        qualifier (v34 user rewording: 'large in dollar terms but small
+        qualifier (v34 user rewording: 'large in dollar terms but modest
         relative to total compute spending')."""
         assert (
-            "large in dollar terms but small relative to total "
+            "large in dollar terms but modest relative to total "
             "compute spending"
         ) in docx_text
 

@@ -1512,16 +1512,18 @@ def write_title_and_abstract(doc, body, all_el, hmap, demand_data=None):
     r_abs_label = p.add_run('Abstract')
     r_abs_label.bold = True
     p.add_run(
-        ': Can energy-rich developing countries turn cheap electricity into '
-        'AI compute exports? We develop a capacity-constrained trade model of '
+        ': Can energy-rich developing countries convert cheap electricity into '
+        'AI compute exports? This paper develops a capacity-constrained trade '
+        'model of '
         'AI compute services with bilateral frictions in delivery, regulation, '
         'and trust. Calibrating the model across 85 countries shows that several '
         'developing economies can produce compute at low cost, but this advantage '
-        'rarely becomes export competitiveness. Hardware dominates unit costs and '
-        'is globally priced, leaving only a 12\u201320 percent cross-country '
-        'production-cost spread. Modest regulatory, financing, and trust frictions '
+        'rarely becomes export competitiveness. Because hardware dominates unit '
+        'costs and is globally priced, cross-country production costs differ by '
+        'only 12\u201320 percent. Modest regulatory, financing, and trust frictions '
         'can therefore erase the gains from cheap power. The binding constraint is '
-        'institutional credibility rather than electricity prices: enforceable data '
+        'institutional credibility rather than electricity prices, including '
+        'enforceable data '
         'governance, stable regulation, credible power contracts, access to finance, '
         'and geopolitical alignment with buyers.'
     )
@@ -1652,12 +1654,12 @@ def write_introduction(doc, body, hmap):
     # calibration resolves, posed up front
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'Yet the cheapest locations are not the places attracting the most '
+        'Yet the cheapest locations are not the ones attracting the most '
         'investment. The cheapest potential '
         'producer in our calibration, Kyrgyzstan, has 5 MW of installed capacity '
         'and virtually no data-center FDI, while the largest recipients among '
         'developing economies (Malaysia, India, Brazil) sit in the middle of the '
-        'cost ranking (Aykut et al. 2026). Cheap electricity is not creating '
+        'cost ranking (Aykut et al. 2026). Cheap electricity alone is not creating '
         'compute exports. The central question, then, is why low-cost countries '
         'fail to attract compute investment and what conditions would allow '
         'them to convert cheap power into export capacity.'
@@ -1672,7 +1674,7 @@ def write_introduction(doc, body, hmap):
         'This paper offers the first such model and makes three contributions. '
         'First, we develop a capacity-constrained Ricardian model of compute trade. '
         'The model treats latency as an iceberg trade cost and geopolitical distrust '
-        'as a bilateral sovereignty premium. '
+        'as a bilateral sovereignty premium that raises delivered costs. '
         'Second, we calibrate the model across 85 countries, correcting for energy '
         'subsidies that distort headline cost rankings. '
         'Third, we characterize the resulting trade regimes and quantify the welfare '
@@ -1684,7 +1686,7 @@ def write_introduction(doc, body, hmap):
     p, cur = mkp(doc, body, cur)
     p.add_run(
         'Cheap power and favorable cooling conditions do not automatically '
-        'translate into compute exports. Hardware amortization accounts for '
+        'translate into export competitiveness. Hardware amortization accounts for '
         'roughly 90 percent of the unit cost and is priced globally, so '
         'cross-country production cost differences are limited to 12\u201320 '
         'percent. This narrow spread leaves little room for institutional '
@@ -2682,7 +2684,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     # Ruling out the remaining four
     p, cur = mkp(doc, body, cur)
     p.add_run(
-        'The model rules out the remaining four combinations. '
+        'The model rules out the remaining four regime combinations. '
         'A training exporter cannot simultaneously produce inference domestically '
         'or import inference. A country cheap enough to win a global training competition ('
     )
@@ -2800,7 +2802,7 @@ def write_equilibrium_properties(doc, body, hmap, demand_data):
     p.add_run(
         ', so the threshold is lower than in the unconstrained model. Capacity '
         'constraints reduce the sovereignty premium required for domestic '
-        'production because higher world prices make imports more expensive.'
+        'production because they raise world prices, making imports more expensive.'
     )
     make_footnote(
         p,
@@ -3262,7 +3264,9 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
     _kgz_rank = _t3_cr_sorted[0]["rank_cr"]
     _kgz_cap = int(_dc_k.get("KGZ", 5))
     p.add_run(
-        f'The cost ranking diverges sharply from observed investment patterns. '
+        f'The cost ranking diverges sharply from observed investment patterns, '
+        f'indicating that low production cost alone is not sufficient to '
+        f'attract investment. '
         f'{_num_word(len(_small_cap)).capitalize()} of the twenty cheapest producers have '
         f'under 100\u2009MW of installed capacity '
         f'(e.g., Kyrgyzstan: rank\u2009{_kgz_rank}, {_kgz_cap}\u2009MW), '
@@ -3598,11 +3602,11 @@ def write_calibration(doc, body, hmap, cal, reg, n_eca, n_total, demand_data):
         'The welfare implications depend on whether the sovereignty premium '
         'reflects genuine security concerns or overly broad regulation. '
         'Domestic processing may be justified for confidential '
-        'data, but current policy often extends sovereignty '
-        'logic to routine commercial computation. In the model, the bilateral '
+        'data, but current policy often extends the logic of sovereignty '
+        'to routine commercial computation. In the model, the bilateral '
         'premium shifts most countries toward '
         'domestic production, reducing the gains from specialization. '
-        'The welfare cost is large in dollar terms but small relative to total '
+        'The welfare cost is large in dollar terms but modest relative to total '
         'compute spending. Because part of the premium reflects weak '
         'international data governance, enforceable data-protection '
         'agreements, such as those within the EU, reduce it. In their absence, '
@@ -6535,7 +6539,11 @@ def apply_formatting(doc, body, refs, title_el, author_el, ver_el,
                 fli = p.paragraph_format.first_line_indent
                 if fli is None or fli > 0:
                     p.paragraph_format.first_line_indent = Inches(0)
-            # Subtitle runs: italic first run ending with "." → 12 pt, TNR
+            # Subtitle runs: italic first run ending with "." stays italic and
+            # unbolded.  Do NOT write an explicit size/font here: Normal is
+            # already 12 pt Times New Roman, and Word strips run properties
+            # equal to the inherited value on save, so writing them produced a
+            # phantom formatting diff on every round-trip through Word.
             runs = [r for r in p.runs if r.text.strip()]
             if (
                 runs
@@ -6543,8 +6551,6 @@ def apply_formatting(doc, body, refs, title_el, author_el, ver_el,
                 and not runs[0].bold
                 and runs[0].text.rstrip().endswith('.')
             ):
-                runs[0].font.size = Pt(12)
-                runs[0].font.name = TIMES_NEW_ROMAN
                 runs[0].bold = False
             # Preserve reference formatting (hanging indent + 4pt spacing)
             if p._element in ref_elements:
