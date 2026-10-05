@@ -1232,8 +1232,23 @@ CITE_MAP['Sastry et al. 2024'] = 'Sastry2024'
 REF_KEY_MAP = {_key: _anchor for _, _, _key, _anchor in CITATIONS}
 
 
-def link_citations_pass(body, cite_map, bm_id):
-    """Single pass: replace citation text with bookmark+hyperlink; returns count."""
+def link_citations_pass(body, cite_map, bm_id, marked=None):
+    """Single pass: replace citation text with bookmark+hyperlink; returns count.
+
+    `marked` carries the keys that already have their `<key>txt` bookmark,
+    across passes.  A bookmark NAME may be defined once: Word keeps
+    whichever copy it meets first, so every link to a repeated name lands
+    on a coin flip, and Word's Compare discards the extras outright — a
+    one-word Compare round on v34 came back 20 bookmarks lighter and
+    failed its structure gate (2026-08-21).  Before this, the pass wrote
+    `{key}txt` at EVERY mention: 12 names repeated, `AykutEtAl2026txt`
+    six times, in v34 and in both files sent to the journal.
+
+    One bookmark on the FIRST mention, a forward hyperlink on all of
+    them, is the house convention and what the entry's back-link expects
+    to land on.  `docxkit lint` now refuses the alternative.
+    """
+    marked = set() if marked is None else marked
     count = 0
     # Sort by length descending so longer citations match first
     sorted_cites = sorted(cite_map.items(), key=lambda x: -len(x[0]))
@@ -1256,18 +1271,22 @@ def link_citations_pass(body, cite_map, bm_id):
                 t_el.text = before
                 t_el.set(XML_SPACE, SPACE_PRESERVE)
                 ins = child
-                # bookmarkStart
-                bm_start = make_bookmark(bm_id[0], f'{key}txt')
-                ins.addnext(bm_start)
-                ins = bm_start
-                # hyperlink (blue underline)
+                first = key not in marked
+                # bookmarkStart — the FIRST mention only; see the docstring
+                if first:
+                    bm_start = make_bookmark(bm_id[0], f'{key}txt')
+                    ins.addnext(bm_start)
+                    ins = bm_start
+                # hyperlink (blue underline) — every mention
                 hyperlink = make_hyperlink(key, cite_text, rPr_orig)
                 ins.addnext(hyperlink)
                 ins = hyperlink
                 # bookmarkEnd
-                bm_end = make_bookmark_end(bm_id[0])
-                ins.addnext(bm_end)
-                ins = bm_end
+                if first:
+                    bm_end = make_bookmark_end(bm_id[0])
+                    ins.addnext(bm_end)
+                    ins = bm_end
+                    marked.add(key)
                 bm_id[0] += 1
                 # after text
                 if after:
@@ -6369,9 +6388,10 @@ def write_references(doc, body, refs):
 def link_citations(body):
     print("Linking citations...")
     bm_id_cite = [200]
+    marked: set = set()      # keys already carrying their <key>txt bookmark
     passes = 0
     while True:
-        n = link_citations_pass(body, CITE_MAP, bm_id_cite)
+        n = link_citations_pass(body, CITE_MAP, bm_id_cite, marked)
         passes += 1
         if n == 0 or passes > 10:
             break

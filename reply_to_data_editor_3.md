@@ -46,6 +46,9 @@ fidelity section; the exhibits that already reproduced are unaffected, and the
 reference outputs in `output/` were refreshed from a clean end-to-end run.
 Runtime and setup are unchanged (one working-directory edit in `run_all.do`).
 
+The current version of the manuscript (v34) is attached; the package
+reproduces every table exhibit in it cell-for-cell.
+
 Please let us know if anything else stands in the way of completing the
 verification.
 
