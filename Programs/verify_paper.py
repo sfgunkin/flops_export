@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 
 from docxkit import read_parts, text_of, utf8_stdout
-from docxkit.citations import audit_links
+from docxkit.citations import IGNORED_LEADS, audit_links
 from docxkit.crossrefs import audit as crossref_audit
 from docxkit.find import paragraphs
 from docxkit.lint import lint_parts
@@ -37,6 +37,14 @@ JITED = DOCS / "JITED_submission"
 # working paper and the two files the journal received.
 DERIVED = [JITED / "JITED_manuscript_anonymous.docx",
            JITED / "JITED_manuscript_with_author_details.docx"]
+
+
+# The data-capacity footnote names four industry data products by title
+# and edition -- "Global Data Center Market Share (Q4 2024)", "...Market
+# Comparison (2024)", "...Trends (2025)", "...Market Forecast (2025)" --
+# which read as author-year citations. They are data sources, not works in
+# the reference list, so there is nothing to link them to.
+CITE_IGNORE = IGNORED_LEADS | {"Q4", "Comparison", "Trends", "Forecast"}
 
 
 def abstract_of(path: Path) -> str:
@@ -59,7 +67,7 @@ def main() -> int:
     failures: list[str] = []
 
     # ---- gate: the citation apparatus resolves --------------------------
-    issues, stats = audit_links(parts)
+    issues, stats = audit_links(parts, ignore=CITE_IGNORE)
     print(f"citations   {stats['bookmarks']} bookmarks, {stats['links']} links, "
           f"{stats['broken']} broken, {stats['unlinked']} unlinked mentions")
     for issue in issues[:10]:

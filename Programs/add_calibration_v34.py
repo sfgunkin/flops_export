@@ -947,6 +947,18 @@ def make_hyperlink(anchor, text, rPr_orig=None, color=LINK_COLOR):
     return hl
 
 
+def append_marked_link(p_el, bm_id, anchor, text):
+    """Append a first-mention link with its `<anchor>txt` marker round it.
+
+    The exhibit's back-link lands on the marker, so the marker must hold
+    the link: Appendices D and E used to open with their markers and cite
+    the tables 187-278 characters later (docxkit MARKER OFF LINK).
+    """
+    p_el.append(make_bookmark(bm_id, f'{anchor}txt'))
+    p_el.append(make_hyperlink(anchor, text))
+    p_el.append(make_bookmark_end(bm_id))
+
+
 def _rPr_pt(pt_size):
     """Return a w:rPr element with the given font size (in points)."""
     rPr = OxmlElement('w:rPr')
@@ -4851,22 +4863,16 @@ def write_kyrgyzstan_appendix(doc, body, last_el):
 
     # ── Intro paragraph ───────────────────────────────────────────────────
     p, cur = mkp(doc, body, cur)
-    p._element.append(make_bookmark(145, 'TableA4txt'))
-    p._element.append(make_bookmark_end(145))
-    p._element.append(make_bookmark(147, 'TableA5txt'))
-    p._element.append(make_bookmark_end(147))
-    p._element.append(make_bookmark(149, 'TableA6txt'))
-    p._element.append(make_bookmark_end(149))
     p.add_run(
         'This appendix presents a 15-year discounted cash flow (DCF) analysis for a '
         'hypothetical 40\u2009MW data center in Kyrgyzstan, the lowest-cost seller in the '
         'cost-recovery-adjusted calibration. '
     )
-    p._element.append(make_hyperlink('TableA4', 'Table\u2009A4'))
+    append_marked_link(p._element, 145, 'TableA4', 'Table\u2009A4')
     p.add_run(' summarizes facility parameters, ')
-    p._element.append(make_hyperlink('TableA5', 'Table\u2009A5'))
+    append_marked_link(p._element, 147, 'TableA5', 'Table\u2009A5')
     p.add_run(' presents the year-by-year cash flow, and ')
-    p._element.append(make_hyperlink('TableA6', 'Table\u2009A6'))
+    append_marked_link(p._element, 149, 'TableA6', 'Table\u2009A6')
     p.add_run(' reports sensitivity to parameter variation.')
 
     # ── Table A4: Facility specification ──────────────────────────────────
@@ -5026,15 +5032,13 @@ def write_construction_regression_appendix(doc, body, last_el):
     cur = mkh(doc, body, pb, 'Appendix E: Construction Cost Regression', level=1)
 
     p, cur = mkp(doc, body, cur)
-    p._element.append(make_bookmark(151, 'TableA7txt'))
-    p._element.append(make_bookmark_end(151))
     p.add_run(
         'Data center construction costs per watt of IT capacity are observed for 37 countries '
         'from the Turner & Townsend Data Centre Construction Cost Index 2025 (52 markets). '
         'For the remaining countries, construction costs are predicted using the log-linear '
         'regression reported in '
     )
-    p._element.append(make_hyperlink('TableA7', 'Table\u2009A7'))
+    append_marked_link(p._element, 151, 'TableA7', 'Table\u2009A7')
     p.add_run(
         '. The dependent variable is ln($/W). '
         'Since construction accounts for only 3\u20136% of total per-GPU-hour costs, '
@@ -6447,6 +6451,30 @@ def link_equations(body):
                 ins.addnext(ra)
             count += 1
     print(f"  {count} equation links created")
+
+
+def mark_link_only_citations(body):
+    """Give a work cited only through a ready-made link its `<key>txt` marker.
+
+    `link_citations` marks the first PROSE mention. Epoch AI (2024) and
+    NVIDIA (2024) are cited only in Table 2's Source column, a link built
+    with the table, so nothing marked them, and `fix_orphan_backlinks`
+    then stripped their entries' links home (docxkit REF WITHOUT
+    BACKLINK). The marker goes round the work's first link in document
+    order, the same place a prose mention's would.
+    """
+    starts = list(body.iter(qn('w:bookmarkStart')))
+    names = {bm.get(qn('w:name')) for bm in starts}
+    next_id = max(int(bm.get(qn('w:id'))) for bm in starts) + 1
+    ref_keys = set(REF_KEY_MAP)          # bookmark keys, not entry text
+    for hl in list(body.iter(qn('w:hyperlink'))):
+        key = hl.get(qn('w:anchor'), '')
+        if key not in ref_keys or f'{key}txt' in names:
+            continue
+        hl.addprevious(make_bookmark(next_id, f'{key}txt'))
+        hl.addnext(make_bookmark_end(next_id))
+        names.add(f'{key}txt')
+        next_id += 1
 
 
 def fix_orphan_backlinks(body, refs):
@@ -7887,6 +7915,7 @@ def main():
     write_lrmc_appendix(doc, body, last_work_app)
     link_citations(body)
     link_equations(body)
+    mark_link_only_citations(body)
     fix_orphan_backlinks(body, refs)
     apply_formatting(doc, body, refs, title_el, author_el, ver_el,
                      abs_text_el, blank_els)
